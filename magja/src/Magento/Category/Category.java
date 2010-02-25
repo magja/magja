@@ -264,11 +264,11 @@ public class Category extends Connection {
 		Category c = new Category();
 
 		// example, get category tree info
-		String categoryTree = c.getTree(3);
+		String categoryTree = c.getTree(2);
 		System.out.println("*** DEBUG *** getTree:" + categoryTree);
 
 		// example, get category info
-		String categoryInfo = c.getInfo(3);
+		String categoryInfo = c.getInfo(2);
 		System.out.println("*** DEBUG *** getInfo:" + categoryInfo);
 
 		// example, create category
@@ -280,7 +280,7 @@ public class Category extends Connection {
 		cp.setAvailable_sort_by("position");
 		cp.setDefault_sort_by("position");
 		cp.setIs_active(1);
-		int categoryId = c.create(3, cp);
+		int categoryId = c.create(2, cp);
 		System.out.println("*** DEBUG *** newCategoryId:" + categoryId);
 
 		// example, delete category
