@@ -27,6 +27,10 @@ public class Connection {
 	/*
 	 * constructor
 	 */
+	public Connection() {
+		this("soap", "test123", "http://192.168.1.88/magento/index.php/api/");
+	}
+
 	public Connection(String user, String pass, String url) {
 		// init connection
 		config = new SoapConfig(user, pass, url);

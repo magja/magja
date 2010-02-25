@@ -26,6 +26,10 @@ public class ProductAttribute extends Connection {
 	/*
 	 * constructor
 	 */
+	public ProductAttribute() {
+		super();
+	}
+	
 	public ProductAttribute(String user, String pass, String url) {
 		super(user, pass, url);
 	}
@@ -166,7 +170,7 @@ public class ProductAttribute extends Connection {
 	 */
 	public static void main(String[] args) {
 		// login
-		ProductAttribute pa = new ProductAttribute("soap", "test123", "http://192.168.1.88/magento/index.php/api/");
+		ProductAttribute pa = new ProductAttribute();
 
 		// get atribute list
 		String[][] attributeList = pa.getList(9); // 9 = Default

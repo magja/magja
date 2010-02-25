@@ -25,6 +25,10 @@ public class ProductAttributeSet extends Connection {
 	/*
 	 * constructor
 	 */
+	public ProductAttributeSet() {
+		super();
+	}
+	
 	public ProductAttributeSet(String user, String pass, String url) {
 		super(user, pass, url);
 	}
@@ -51,7 +55,7 @@ public class ProductAttributeSet extends Connection {
 	 */
 	public static void main(String[] args) {
 		// login
-		ProductAttributeSet pas = new ProductAttributeSet("soap", "test123", "http://192.168.1.88/magento/index.php/api/");
+		ProductAttributeSet pas = new ProductAttributeSet();
 
 		// test procuckt atribute list
 		String[][] attributeSetList = pas.getList();

@@ -26,6 +26,10 @@ public class ProductMedia extends Connection {
 	/*
 	 * constructor
 	 */
+	public ProductMedia() {
+		super();
+	}
+	
 	public ProductMedia(String user, String pass, String url) {
 		super(user, pass, url);
 	}
@@ -102,7 +106,7 @@ public class ProductMedia extends Connection {
 	 */
 	public static void main(String[] args) {
 		// login
-		ProductMedia pm = new ProductMedia("soap", "test123", "http://192.168.1.88/magento/index.php/api/");
+		ProductMedia pm = new ProductMedia();
 
 		// test, create images
 		String newMedia = pm.create("n2610", "/tmp/3.jpg");

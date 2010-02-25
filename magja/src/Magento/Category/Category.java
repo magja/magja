@@ -27,6 +27,10 @@ public class Category extends Connection {
 	/*
 	 * constructor
 	 */
+	public Category() {
+		super();
+	}
+	
 	public Category(String user, String pass, String url) {
 		super(user, pass, url);
 	}
@@ -257,7 +261,7 @@ public class Category extends Connection {
 	 */
 	public static void main(String[] args) {
 		// login
-		Category c = new Category("soap", "test123", "http://192.168.1.88/magento/index.php/api/");
+		Category c = new Category();
 
 		// example, get category tree info
 		String categoryTree = c.getTree(3);

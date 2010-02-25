@@ -27,6 +27,10 @@ public class Product extends Connection {
 	/*
 	 * constructor
 	 */
+	public Product() {
+		super();
+	}
+	
 	public Product(String user, String pass, String url) {
 		super(user, pass, url);
 	}
@@ -197,7 +201,7 @@ public class Product extends Connection {
 	 */
 	public static void main(String[] args) {
 		// login
-		Product p = new Product("soap", "test123", "http://192.168.1.88/magento/index.php/api/");
+		Product p = new Product();
 
 		// test procuckt list
 		String productList = p.getList();
