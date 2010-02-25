@@ -100,7 +100,7 @@ public class SoapReturnParser {
 		case FloatType:
 			return Double.parseDouble(value.getText());
 		case BooleanType:
-			return Boolean.parseBoolean(value.getText());
+			return getBoolean(value);
 		case ArrayType:
 			return getList(value);
 		case MapType:
@@ -151,7 +151,8 @@ public class SoapReturnParser {
 		String foundType = "";
 		for (Iterator<OMAttribute> iAttr = elem.getAllAttributes(); iAttr.hasNext();) {
 			OMAttribute test = iAttr.next();
-			if (test.getLocalName().equals("type")) {
+			String localName = test.getLocalName();
+			if (localName.equals("type")) {
 				if (test.getAttributeValue().equals(xsd.getPrefix() + XSD_STRING)) {
 					return Type.StringType;
 				} else if (test.getAttributeValue().equals(xsd.getPrefix() + XSD_INTEGER)) {
@@ -165,9 +166,32 @@ public class SoapReturnParser {
 				} else if (test.getAttributeValue().endsWith(soapEnc.getPrefix() + SOAPENC_ARRAY)) {
 					return Type.ArrayType;
 				}
-				foundType = test.getAttributeValue();
+				// <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				// xsi:nil="true" />
+			} else if (localName.equals("nil")) {
+				if (test.getAttributeValue().equals("true") || test.getAttributeValue().equals("false")) {
+					return Type.BooleanType;
+				}
 			}
+			foundType = test.getLocalName();
 		}
 		throw new RuntimeException("Unknown type '" + foundType + "' (if empty does not contain type attribute) for tag :" + elem.getLocalName());
+	}
+
+	// <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	// xsi:nil="true" />
+	private boolean getBoolean(OMElement items) {
+		for (Iterator<OMAttribute> iAttr = items.getAllAttributes(); iAttr.hasNext();) {
+			OMAttribute test = iAttr.next();
+			String localName = test.getLocalName();
+			if (localName.equals("nil")) {
+				if (test.getAttributeValue().equals("true")) {
+					return true;
+				} else if (test.getAttributeValue().equals("false")) {
+					return false;
+				}
+			}
+		}
+		return false;
 	}
 }
