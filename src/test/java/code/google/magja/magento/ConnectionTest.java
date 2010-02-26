@@ -17,11 +17,6 @@ import code.google.magja.soap.SoapClient;
 public class ConnectionTest extends TestCase {
 
 	@Test
-	public void testDummy() {
-		assertTrue(true);
-	}
-
-	@Test
 	public void testConnectionLogin() {
 
 		ConnectionMock conn = new ConnectionMock();
