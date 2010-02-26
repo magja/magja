@@ -195,27 +195,4 @@ public class Product extends Connection {
 
 		return -1;
 	}
-
-	/*
-	 * main
-	 */
-	public static void main(String[] args) {
-		// login
-		Product p = new Product();
-
-		// test procuckt list
-		String productList = p.getList();
-		System.out.println("*** DEBUG *** productList:" + productList);
-
-		// get product info
-		String productInfo = p.getInfo("n2610");
-		System.out.println("*** DEBUG *** productInfo:" + productInfo);
-
-		// create product
-		int productId = p.create("test_item_2");
-		System.out.println("*** DEBUG *** createProduct:" + productId);
-
-		// logout
-		p.logout();
-	}
 }

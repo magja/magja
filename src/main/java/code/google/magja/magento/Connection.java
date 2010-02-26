@@ -63,7 +63,7 @@ public class Connection {
 	/*
 	 * login
 	 */
-	protected void login() {
+	public void login() {
 		try {
 			client.login();
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class Connection {
 	/*
 	 * logout
 	 */
-	protected void logout() {
+	public void logout() {
 		try {
 			client.logout();
 		} catch (Exception e) {
