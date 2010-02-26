@@ -14,7 +14,7 @@ import org.junit.Test;
 public class ProductTest extends TestCase {
 
 	@Test
-	public void testProduct() {
+	public void testAllProduct() {
 
 		// login
 		Product p = new Product();
