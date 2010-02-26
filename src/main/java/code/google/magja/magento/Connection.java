@@ -18,25 +18,45 @@ import code.google.magja.soap.SoapCallFactory;
 import code.google.magja.soap.SoapClient;
 import code.google.magja.soap.SoapConfig;
 import code.google.magja.soap.SoapReturnParser;
+import code.google.magja.utils.PropertyLoader;
 
 public class Connection {
 
+	private static final String MAGENTO_API_PASSWORD = "magento-api-password";
+
+	private static final String MAGENTO_API_URL = "magento-api-url";
+
+	private static final String MAGENTO_API_USERNAME = "magento-api-username";
+
 	protected SoapConfig config = null;
+
 	protected SoapClient client = null;
 
 	/*
 	 * constructor
 	 */
 	public Connection() {
-		this("soap", "test123", "http://192.168.1.88/magento/index.php/api/");
+
+		java.util.Properties magentoapi = PropertyLoader
+				.loadProperties("magento-api");
+
+		config = new SoapConfig(magentoapi.getProperty(MAGENTO_API_USERNAME),
+				magentoapi.getProperty(MAGENTO_API_PASSWORD), magentoapi
+						.getProperty(MAGENTO_API_URL));
+
+		client = new MagentoSoapClient(new SoapCallFactory(),
+				new SoapReturnParser(), config);
+
+		login();
 	}
 
 	public Connection(String user, String pass, String url) {
-		// init connection
-		config = new SoapConfig(user, pass, url);
-		client = new MagentoSoapClient(new SoapCallFactory(), new SoapReturnParser(), config);
 
-		// login
+		config = new SoapConfig(user, pass, url);
+
+		client = new MagentoSoapClient(new SoapCallFactory(),
+				new SoapReturnParser(), config);
+
 		login();
 	}
 

@@ -9,6 +9,19 @@
 	<description>Magja is a java connector for Magento API (http://www.magentocommerce.com/support/magento_core_api)</description>
 	<url>http://code.google.com/p/magja/</url>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 
 		<dependency>
