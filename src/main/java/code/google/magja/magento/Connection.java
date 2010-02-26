@@ -61,7 +61,7 @@ public class Connection {
 	}
 
 	/*
-	 * logout
+	 * login
 	 */
 	protected void login() {
 		try {
