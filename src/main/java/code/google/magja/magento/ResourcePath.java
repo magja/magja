@@ -39,7 +39,12 @@ public enum ResourcePath {
 	CustomerCreate("customer.create"),
 	CustomerInfo("customer.info"),
 	CustomerUpdate("customer.update"),
-	CustomerDelete("customer.delete");
+	CustomerDelete("customer.delete"),
+	CustomerAddressList("customer_address.list"),
+	CustomerAddressCreate("customer_address.create"),
+	CustomerAddressInfo("customer_address.info"),
+	CustomerAddressUpdate("customer_address.update"),
+	CustomerAddressDelete("customer_address.delete");
 	private String path;
 
 	ResourcePath(String path) {
