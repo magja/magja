@@ -34,7 +34,12 @@ public enum ResourcePath {
 	ProductAttributeOptions("catalog_product_attribute.options"),
 	ProductAttributeAddOptions("catalog_product_attribute.addoptions"),
 	ProductAttributeMediaCreate("catalog_product_attribute_media.create"),
-	ProductAttributeMediaInfo("catalog_product_attribute_media.info");
+	ProductAttributeMediaInfo("catalog_product_attribute_media.info"),
+	CustomerList("customer.list"),
+	CustomerCreate("customer.create"),
+	CustomerInfo("customer.info"),
+	CustomerUpdate("customer.update"),
+	CustomerDelete("customer.delete");
 	private String path;
 
 	ResourcePath(String path) {
