@@ -11,6 +11,9 @@ package code.google.magja.magento;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +70,20 @@ public class Utils {
 			builder.append(key + " -> " + dataMap.get(key)).append("\n");
 		}
 		return builder.toString();
+	}
+
+	public static String getMd5Hash(String s) {
+		try {
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			md5.update(s.getBytes(), 0, s.length());
+			String signature = new BigInteger(1, md5.digest()).toString(16);
+
+			return signature;
+		} catch (final NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		return "";
 	}
 
 	public static byte[] readFile(String imageName) {

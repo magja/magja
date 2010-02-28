@@ -77,12 +77,12 @@ public class Customer extends Connection {
 	 *            password_hash
 	 * @return the created customer id or -1 on error
 	 */
-	public int create(String firstname, String lastname, String email, String password_hash) {
+	public int create(String firstname, String lastname, String email, String password) {
 		CustomerProperties cp = new CustomerProperties();
 		cp.setFirstname(firstname);
 		cp.setLastname(lastname);
 		cp.setEmail(email);
-		cp.setPassword_hash(password_hash); // ToDo: create md5 hash
+		cp.setPassword_hash(Utils.getMd5Hash(password));
 		cp.setWebsite_id(1);
 
 		return create(cp);
