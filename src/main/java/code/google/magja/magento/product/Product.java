@@ -92,17 +92,6 @@ public class Product extends Connection {
 	}
 
 	/**
-	 * Create new product and return product id
-	 *
-	 * @param sku
-	 *            product SKU
-	 * @return the created product id or -1 on error
-	 */
-	public int create(String sku) {
-		return create(sku, new ProductProperties());
-	}
-
-	/**
 	 * Create a new Product
 	 *
 	 * @param sku
@@ -120,9 +109,7 @@ public class Product extends Connection {
 
 		// examining whether product already exists,
 		// TODO: update product in place of delete
-		if (getId(sku) > -1) {
-			delete(sku);
-		}
+		if (getId(sku) > -1) delete(sku);
 
 		List<Object> newProduct = new LinkedList<Object>();
 		newProduct.add(type.getType());
@@ -138,6 +125,17 @@ public class Product extends Connection {
 		}
 
 		return -1;
+	}
+
+	/**
+	 * Create new product and return product id
+	 *
+	 * @param sku
+	 *            product SKU
+	 * @return the created product id or -1 on error
+	 */
+	public int create(String sku) {
+		return create(sku, new ProductProperties());
 	}
 
 	/**
