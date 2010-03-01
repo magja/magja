@@ -40,7 +40,8 @@ public class Product extends Connection {
 	 */
 	public String getList() {
 		try {
-			List<Map<String, Object>> productList = (List<Map<String, Object>>) client.call(ResourcePath.ProductList, "");
+			List<Map<String, Object>> productList = (List<Map<String, Object>>) client
+					.call(ResourcePath.ProductList, "");
 
 			return Utils.dump(productList);
 		} catch (Exception e) {
@@ -59,7 +60,8 @@ public class Product extends Connection {
 	 */
 	public String getInfo(String sku) {
 		try {
-			Map<String, Object> product = (Map<String, Object>) client.call(ResourcePath.ProductInfo, sku);
+			Map<String, Object> product = (Map<String, Object>) client.call(
+					ResourcePath.ProductInfo, sku);
 
 			return Utils.dump(product);
 		} catch (Exception e) {
@@ -78,7 +80,8 @@ public class Product extends Connection {
 	 */
 	public String getInfo(int productId) {
 		try {
-			Map<String, Object> product = (Map<String, Object>) client.call(ResourcePath.ProductInfo, productId);
+			Map<String, Object> product = (Map<String, Object>) client.call(
+					ResourcePath.ProductInfo, productId);
 
 			return Utils.dump(product);
 		} catch (Exception e) {
@@ -100,7 +103,46 @@ public class Product extends Connection {
 	}
 
 	/**
-	 * Create new product and return product id
+	 * Create a new Product
+	 *
+	 * @param sku
+	 *            product SKU
+	 * @param type
+	 *            product type (simple, configurable, etc)
+	 * @param mpp
+	 *            product properties
+	 * @param attributeSet
+	 *            attribute set of that product
+	 * @return the created product id or -1 on error
+	 */
+	public Integer create(String sku, ProductType type, ProductProperties mpp,
+			int attributeSet) {
+
+		// examining whether product already exists,
+		// TODO: update product in place of delete
+		if (getId(sku) > -1) {
+			delete(sku);
+		}
+
+		List<Object> newProduct = new LinkedList<Object>();
+		newProduct.add(type.getType());
+		newProduct.add(attributeSet);
+		newProduct.add(sku);
+		newProduct.add(mpp.getProperties());
+
+		try {
+			return Integer.parseInt((String) client.call(
+					ResourcePath.ProductCreate, newProduct));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Create new <b>SIMPLE</b> product with atributte set default (9) and
+	 * return product id
 	 *
 	 * @param sku
 	 *            product SKU
@@ -108,12 +150,12 @@ public class Product extends Connection {
 	 *            product properties
 	 * @return the created product id or -1 on error
 	 */
-	public int create(String sku, ProductProperties properties) {
+	public Integer create(String sku, ProductProperties properties) {
 		return create(sku, properties, 9); // 9 = attribute set (default)
 	}
 
 	/**
-	 * Create new product and return product id
+	 * Create new <b>SIMPLE</b> product and return product id
 	 *
 	 * @param sku
 	 *            product SKU
@@ -123,28 +165,8 @@ public class Product extends Connection {
 	 *            attribute set
 	 * @return the created product id or -1 on error
 	 */
-	public int create(String sku, ProductProperties mpp, int attributeSet) {
-		// examining whether product already exists
-		// ToDo: update product in place of delete
-		if (getId(sku) > -1) {
-			delete(sku);
-		}
-
-		// create product
-		List<Object> newProduct = new LinkedList<Object>();
-		newProduct.add("simple");
-		newProduct.add(attributeSet);
-		newProduct.add(sku);
-		newProduct.add(mpp.getProperties());
-
-		// create product
-		try {
-			return Integer.parseInt((String) client.call(ResourcePath.ProductCreate, newProduct));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		return -1;
+	public Integer create(String sku, ProductProperties mpp, int attributeSet) {
+		return this.create(sku, ProductType.SIMPLE, mpp, attributeSet);
 	}
 
 	/**
@@ -156,7 +178,8 @@ public class Product extends Connection {
 	 */
 	public boolean delete(String productSku) {
 		try {
-			return (Boolean) client.call(ResourcePath.ProductDelete, productSku);
+			return (Boolean) client
+					.call(ResourcePath.ProductDelete, productSku);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -186,9 +209,11 @@ public class Product extends Connection {
 	 */
 	public int getId(String productSku) {
 		try {
-			Map<String, Object> productAtributes = (HashMap) client.call(ResourcePath.ProductInfo, productSku);
+			Map<String, Object> productAtributes = (HashMap) client.call(
+					ResourcePath.ProductInfo, productSku);
 
-			return Integer.parseInt((String) productAtributes.get("product_id"));
+			return Integer
+					.parseInt((String) productAtributes.get("product_id"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

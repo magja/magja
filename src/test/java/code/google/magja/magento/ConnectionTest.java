@@ -30,4 +30,24 @@ public class ConnectionTest extends TestCase {
 		}
 	}
 
+	@Test
+	public void testListProductTypes() {
+
+		ConnectionMock conn = new ConnectionMock();
+
+		SoapClient client = conn.getClient();
+
+		try {
+			assertTrue(client.login());
+
+			Object obj = client.call(ResourcePath.ProductTypeList, "");
+
+			System.out.println(obj);
+
+
+		} catch (AxisFault e) {
+			fail(e.getMessage());
+		}
+	}
+
 }
