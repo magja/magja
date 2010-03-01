@@ -44,7 +44,14 @@ public enum ResourcePath {
 	CustomerAddressCreate("customer_address.create"),
 	CustomerAddressInfo("customer_address.info"),
 	CustomerAddressUpdate("customer_address.update"),
-	CustomerAddressDelete("customer_address.delete");
+	CustomerAddressDelete("customer_address.delete"),
+	SalesOrderList("sales_order.list"),
+	SalesOrderInfo("sales_order.info"),
+	SalesOrderAddComment("sales_order.addComment"),
+	SalesOrderHold("sales_order.hold"),
+	SalesOrderUnhold("sales_order.unhold"),
+	SalesOrderCancel("sales_order.cancel");
+
 	private String path;
 
 	ResourcePath(String path) {
