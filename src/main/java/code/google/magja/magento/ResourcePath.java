@@ -50,7 +50,14 @@ public enum ResourcePath {
 	SalesOrderAddComment("sales_order.addComment"),
 	SalesOrderHold("sales_order.hold"),
 	SalesOrderUnhold("sales_order.unhold"),
-	SalesOrderCancel("sales_order.cancel");
+	SalesOrderCancel("sales_order.cancel"),
+	SalesOrderShipmentList("sales_order_shipment.list"),
+	SalesOrderShipmentInfo("sales_order_shipment.info"),
+	SalesOrderShipmentCreate("sales_order_shipment.create"),
+	SalesOrderShipmentAddComment("sales_order_shipment.addComment"),
+	SalesOrderShipmentAddTrack("sales_order_shipment.addTrack"),
+	SalesOrderShipmentRemoveTrack("sales_order_shipment.removeTrack"),
+	SalesOrderShipmentGetCarriers("sales_order_shipment.getCarriers");
 
 	private String path;
 
