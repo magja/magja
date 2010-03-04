@@ -38,6 +38,7 @@ public class Product extends Connection {
 	/*
 	 * get product list
 	 */
+	@SuppressWarnings("unchecked")
 	public String getList() {
 		try {
 			List<Map<String, Object>> productList = (List<Map<String, Object>>) client
@@ -94,10 +95,14 @@ public class Product extends Connection {
 	/**
 	 * Create a new Product
 	 *
-	 * @param sku - product SKU
-	 * @param type - product type (simple, configurable, etc)
-	 * @param mpp - product properties
-	 * @param attributeSet - attribute set of that product
+	 * @param sku
+	 *            - product SKU
+	 * @param type
+	 *            - product type (simple, configurable, etc)
+	 * @param mpp
+	 *            - product properties
+	 * @param attributeSet
+	 *            - attribute set of that product
 	 * @return the created product id or -1 on error
 	 */
 	public Integer create(String sku, ProductType type, ProductProperties mpp,
@@ -105,7 +110,8 @@ public class Product extends Connection {
 
 		// examining whether product already exists,
 		// TODO: update product in place of delete
-		if (getId(sku) > -1) delete(sku);
+		if (getId(sku) > -1)
+			delete(sku);
 
 		List<Object> newProduct = new LinkedList<Object>();
 		newProduct.add(type.getType());
