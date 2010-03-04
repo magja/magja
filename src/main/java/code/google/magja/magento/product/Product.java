@@ -94,14 +94,10 @@ public class Product extends Connection {
 	/**
 	 * Create a new Product
 	 *
-	 * @param sku
-	 *            product SKU
-	 * @param type
-	 *            product type (simple, configurable, etc)
-	 * @param mpp
-	 *            product properties
-	 * @param attributeSet
-	 *            attribute set of that product
+	 * @param sku - product SKU
+	 * @param type - product type (simple, configurable, etc)
+	 * @param mpp - product properties
+	 * @param attributeSet - attribute set of that product
 	 * @return the created product id or -1 on error
 	 */
 	public Integer create(String sku, ProductType type, ProductProperties mpp,

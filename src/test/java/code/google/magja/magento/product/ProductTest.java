@@ -13,31 +13,9 @@ import org.junit.Test;
  */
 public class ProductTest extends TestCase {
 
-	/**
-	 * Test method for {@link code.google.magja.magento.product.Product}.
-	 */
-	@Test
-	public void testAllProduct() {
+	private static final String SKU_PRODUCT = "PRDAUTOTEST";
 
-		// login
-		Product p = new Product();
-
-		// test procuckt list
-		//String productList = p.getList();
-		//System.out.println("*** DEBUG *** productList:" + productList);
-
-		// get product info
-		//String productInfo = p.getInfo("n2610");
-		//System.out.println("*** DEBUG *** productInfo:" + productInfo);
-
-		// create product
-		//int productId = p.create("test_item_2");
-		//System.out.println("*** DEBUG *** createProduct:" + productId);
-
-		// logout
-		p.logout();
-
-	}
+	private Integer productId;
 
 	/**
 	 * Test method for {@link code.google.magja.magento.product.Product#getList()}.
@@ -47,30 +25,51 @@ public class ProductTest extends TestCase {
 		Product p = new Product();
 		String productList = p.getList();
 		System.out.println("*** DEBUG *** productList:" + productList);
-	}
-
-	/**
-	 * Test method for {@link code.google.magja.magento.product.Product#getInfo(java.lang.String)}.
-	 */
-	@Test
-	public void testGetInfoString() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link code.google.magja.magento.product.Product#getInfo(int)}.
-	 */
-	@Test
-	public void testGetInfoInt() {
-		fail("Not yet implemented"); // TODO
+		p.logout();
 	}
 
 	/**
 	 * Test method for {@link code.google.magja.magento.product.Product#create(java.lang.String)}.
 	 */
 	@Test
-	public void testCreateString() {
-		fail("Not yet implemented"); // TODO
+	public void testCreateProduct() {
+		Product p = new Product();
+		productId = p.create(SKU_PRODUCT);
+		assertFalse((new Integer(-1)).equals(productId));
+		p.logout();
+	}
+
+	/**
+	 * Test method for {@link code.google.magja.magento.product.Product#getInfo(java.lang.String)}.
+	 */
+	@Test
+	public void testGetInfoProductBySku() {
+		Product p = new Product();
+		String productInfo = p.getInfo(SKU_PRODUCT);
+		System.out.println("*** DEBUG *** productInfo:" + productInfo);
+		p.logout();
+	}
+
+	/**
+	 * Test method for {@link code.google.magja.magento.product.Product#getInfo(int)}.
+	 */
+	@Test
+	public void testGetInfoById() {
+		Product p = new Product();
+		String productInfo = p.getInfo(productId);
+		System.out.println("*** DEBUG *** productInfo:" + productInfo);
+		p.logout();
+	}
+
+	/**
+	 * Test method for {@link code.google.magja.magento.product.Product#getId(java.lang.String)}.
+	 */
+	@Test
+	public void testGetProductIdBySku() {
+		Product p = new Product();
+		productId = p.getId(SKU_PRODUCT);
+		assertFalse((new Integer(-1)).equals(productId));
+		p.logout();
 	}
 
 	/**
@@ -78,23 +77,24 @@ public class ProductTest extends TestCase {
 	 */
 	@Test
 	public void testCreateStringProductTypeProductPropertiesInt() {
-		fail("Not yet implemented"); // TODO
-	}
+		Product p = new Product();
+		ProductProperties mpp = new ProductProperties();
+		mpp.setName("Remote Testing Inserting Product");
+		mpp.setDescription("This is a remote testing to insert a new Product");
+		mpp.setShort_description("This is a remote testing to insert a new Product");
 
-	/**
-	 * Test method for {@link code.google.magja.magento.product.Product#create(java.lang.String, code.google.magja.magento.product.ProductProperties)}.
-	 */
-	@Test
-	public void testCreateStringProductProperties() {
-		fail("Not yet implemented"); // TODO
-	}
+		mpp.setPrice(new Double(120.34));
+		mpp.set("cost", new Double(64.68));
 
-	/**
-	 * Test method for {@link code.google.magja.magento.product.Product#create(java.lang.String, code.google.magja.magento.product.ProductProperties, int)}.
-	 */
-	@Test
-	public void testCreateStringProductPropertiesInt() {
-		fail("Not yet implemented"); // TODO
+		mpp.setStatus(1);
+		mpp.setWeight(new Double(0.300));
+		int[] websites = {1};
+		mpp.setWebsites(websites);
+		mpp.setTax_class_id(1);
+
+		productId = p.create(SKU_PRODUCT, ProductType.SIMPLE, mpp, 1);
+		assertFalse((new Integer(-1)).equals(productId));
+		p.logout();
 	}
 
 	/**
@@ -102,7 +102,9 @@ public class ProductTest extends TestCase {
 	 */
 	@Test
 	public void testDeleteString() {
-		fail("Not yet implemented"); // TODO
+		Product p = new Product();
+		assertTrue(p.delete(SKU_PRODUCT));
+		p.logout();
 	}
 
 	/**
@@ -110,15 +112,10 @@ public class ProductTest extends TestCase {
 	 */
 	@Test
 	public void testDeleteInt() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link code.google.magja.magento.product.Product#getId(java.lang.String)}.
-	 */
-	@Test
-	public void testGetId() {
-		fail("Not yet implemented"); // TODO
+		testCreateStringProductTypeProductPropertiesInt();
+		Product p = new Product();
+		assertTrue(p.delete(productId));
+		p.logout();
 	}
 
 }
