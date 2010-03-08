@@ -63,6 +63,14 @@ public class Utils {
 
 		return s;
 	}
+	
+	public static String viewTable(List<String> list) {
+		StringBuilder builder = new StringBuilder();
+		for (String s : list) {
+			builder.append(s + "\n");
+		}
+		return builder.toString();
+	}
 
 	public static String dump(Map<String, Object> dataMap) {
 		StringBuilder builder = new StringBuilder();
