@@ -5,6 +5,7 @@ package code.google.magja.model.product;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import code.google.magja.model.BaseMagentoModel;
@@ -30,6 +31,8 @@ public class Product extends BaseMagentoModel {
 
 	private Double price;
 
+	private Double cost;
+
 	private String shortDescription;
 
 	private String description;
@@ -38,7 +41,7 @@ public class Product extends BaseMagentoModel {
 
 	private Double weight;
 
-	private Integer taxClassId;
+	private Integer taxClassId = 0;
 
 	private Integer[] websites;
 
@@ -217,6 +220,20 @@ public class Product extends BaseMagentoModel {
 		this.categories = categories;
 	}
 
+	/**
+	 * @return the cost
+	 */
+	public Double getCost() {
+		return cost;
+	}
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -228,6 +245,7 @@ public class Product extends BaseMagentoModel {
 				+ ((attributeSet == null) ? 0 : attributeSet.hashCode());
 		result = prime * result
 				+ ((categories == null) ? 0 : categories.hashCode());
+		result = prime * result + ((cost == null) ? 0 : cost.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
@@ -266,6 +284,11 @@ public class Product extends BaseMagentoModel {
 			if (other.categories != null)
 				return false;
 		} else if (!categories.equals(other.categories))
+			return false;
+		if (cost == null) {
+			if (other.cost != null)
+				return false;
+		} else if (!cost.equals(other.cost))
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -323,11 +346,35 @@ public class Product extends BaseMagentoModel {
 	@Override
 	public String toString() {
 		return "Product [attributeSet=" + attributeSet + ", categories="
-				+ categories + ", description=" + description + ", enabled="
-				+ enabled + ", name=" + name + ", price=" + price
-				+ ", shortDescription=" + shortDescription + ", sku=" + sku
-				+ ", taxClassId=" + taxClassId + ", type=" + type
-				+ ", websites=" + Arrays.toString(websites) + ", weight="
-				+ weight + ", id=" + id + ", properties=" + properties + "]";
+				+ categories + ", cost=" + cost + ", description="
+				+ description + ", enabled=" + enabled + ", name=" + name
+				+ ", price=" + price + ", shortDescription=" + shortDescription
+				+ ", sku=" + sku + ", taxClassId=" + taxClassId + ", type="
+				+ type + ", websites=" + Arrays.toString(websites)
+				+ ", weight=" + weight + ", id=" + id + ", properties="
+				+ properties + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 */
+	@Override
+	public Object serializeToApi() {
+
+		// set the attributSet
+		Integer attributeId = ProductAttributeSet.getDefaultProductAttributeSet().getId();
+		if(attributeSet != null) {
+			if(attributeSet.getId() != null) {
+				attributeId = attributeSet.getId();
+			}
+		}
+
+		List<Object> newProduct = new LinkedList<Object>();
+		newProduct.add(type.getType());
+		newProduct.add(attributeId);
+		newProduct.add(sku);
+		newProduct.add(getAllProperties());
+
+		return newProduct;
 	}
 }

@@ -157,6 +157,49 @@ public abstract class BaseMagentoModel implements Serializable {
 		}
 	}
 
+	/**
+	 * @return all the properties in a Map to interchange with Magento API
+	 */
+	protected Map<String, Object> getAllProperties() {
+		Map<String, Object> props = new HashMap<String, Object>();
+
+		// put the basic properties
+		for (Map.Entry<String, Object> prop : properties.entrySet()) {
+			if(prop.getValue() != null) props.put(prop.getKey(), prop.getValue());
+		}
+
+		// put the mapped attributes
+		for(Object obj : mapping.keySet() ) {
+			String key = (String) obj;
+			try {
+
+				Object value = invokeGetOrSetMethod(mapping.getProperty(key), "get", null);
+				Object finalValue = null;
+
+				// special approach for Boolean types
+				if(value instanceof Boolean) {
+					Boolean flag = (Boolean) value;
+					if(flag) finalValue = new Integer(1);
+					else finalValue = new Integer(0);
+				} else {
+					finalValue = value;
+				}
+
+				if(value != null) props.put(key, finalValue);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return props;
+	}
+
+	/**
+	 * @return serialize the object to interchange with Magento API
+	 */
+	public abstract Object serializeToApi();
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

@@ -17,12 +17,36 @@ import code.google.magja.service.category.CategoryRemoteService;
 public interface ProductRemoteService extends GeneralService<Product> {
 
 	/**
-	 * List all products from Magento, ATENTION: that list haven't all attributes of each product
-	 * @return
+	 * Get the product from Magento with the specified sku
+	 * @param sku
+	 * @return Product
+	 * @throws ServiceException
+	 */
+	public abstract Product getBySku(String sku) throws ServiceException;
+
+	/**
+	 * Get the product from Magento with the specified id
+	 * @param id
+	 * @return Product
+	 * @throws ServiceException
+	 */
+	public abstract Product getById(Integer id) throws ServiceException;
+
+	/**
+	 * List all products from Magento, that list haven't all attributes
+	 * of each product, just the basics (for performance purposes)
+	 * @return list of all products
 	 * @throws ServiceException
 	 */
 	public abstract List<Product> listAll() throws ServiceException;
 
+	/**
+	 * Save a product to the Magento, if the id attribute is null, then will create
+	 * a new product, otherwise will update the product with that id
+	 * @param product
+	 * @return the product inserted or updated
+	 * @throws ServiceException
+	 */
 	public abstract Product save(Product product) throws ServiceException;
 
 	/**

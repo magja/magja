@@ -135,4 +135,13 @@ public class ProductAttribute extends BaseMagentoModel {
 				+ ", scope=" + scope + ", type=" + type + ", id=" + id + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 */
+	@Override
+	public Object serializeToApi() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

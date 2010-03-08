@@ -3,7 +3,11 @@
  */
 package code.google.magja.model.product;
 
+import java.util.Properties;
+
 import code.google.magja.model.BaseMagentoModel;
+import code.google.magja.soap.MagentoSoapClient;
+import code.google.magja.soap.SoapConfig;
 import code.google.magja.utils.PropertyLoader;
 
 /**
@@ -20,6 +24,18 @@ public class ProductAttributeSet extends BaseMagentoModel {
 	public ProductAttributeSet() {
 		super();
 		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
+	}
+
+	public ProductAttributeSet(Integer id, String name) {
+		super();
+		this.name = name;
+		this.id = id;
+	}
+
+	public static ProductAttributeSet getDefaultProductAttributeSet() {
+		Properties magentoapi = PropertyLoader.loadProperties(MagentoSoapClient.CONFIG_PROPERTIES_FILE);
+		Integer defaultId = Integer.parseInt(magentoapi.getProperty(SoapConfig.DEFAULT_ATTRIBUTE_SET_ID));
+		return new ProductAttributeSet(defaultId, "Default");
 	}
 
 	/**
@@ -73,6 +89,15 @@ public class ProductAttributeSet extends BaseMagentoModel {
 	@Override
 	public String toString() {
 		return "ProductAttributeSet [name=" + name + ", id=" + id + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 */
+	@Override
+	public Object serializeToApi() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

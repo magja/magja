@@ -303,4 +303,13 @@ public class Category extends BaseMagentoModel {
 				+ position + ", id=" + id + ", properties=" + properties + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 */
+	@Override
+	public Object serializeToApi() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

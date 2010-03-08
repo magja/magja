@@ -10,7 +10,7 @@ public class SoapConfig {
 
 	private static final String MAGENTO_API_USERNAME = "magento-api-username";
 
-	private static final String DEFAULT_ATTRIBUTE_SET_ID = "default-attribute-set-id";
+	public static final String DEFAULT_ATTRIBUTE_SET_ID = "default-attribute-set-id";
 
 	private String apiUser;
 

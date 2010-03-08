@@ -23,4 +23,14 @@ public enum ProductType {
 		else if(this.equals(DOWNLOADABLE)) return "downloadable";
 		else return "";
 	}
+
+	public static ProductType getTypeOf(String type) {
+		if(type.equals(SIMPLE.getType())) return SIMPLE;
+		else if(type.equals(GROUPED.getType())) return GROUPED;
+		else if(type.equals(CONFIGURABLE.getType())) return CONFIGURABLE;
+		else if(type.equals(VIRTUAL.getType())) return VIRTUAL;
+		else if(type.equals(BUNDLE.getType())) return BUNDLE;
+		else if(type.equals(DOWNLOADABLE.getType())) return DOWNLOADABLE;
+		return null;
+	}
 }

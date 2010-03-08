@@ -19,6 +19,8 @@ import code.google.magja.utils.PropertyLoader;
 
 public class MagentoSoapClient implements SoapClient {
 
+	public static final String CONFIG_PROPERTIES_FILE = "magento-api";
+
 	private static final QName LOGIN_RETURN = new QName("loginReturn");
 
 	private static final QName LOGOUT_RETURN = new QName("endSessionReturn");
@@ -45,7 +47,7 @@ public class MagentoSoapClient implements SoapClient {
 	private MagentoSoapClient() {
 
 		java.util.Properties magentoapi = PropertyLoader
-				.loadProperties("magento-api");
+				.loadProperties(CONFIG_PROPERTIES_FILE);
 
 		callFactory = new SoapCallFactory();
 		returnParser = new SoapReturnParser();
