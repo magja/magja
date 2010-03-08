@@ -5,7 +5,7 @@ import org.junit.Test;
 
 /**
  * @author andre
- * 
+ *
  */
 public class CustomerAddressTest {
 
@@ -18,7 +18,7 @@ public class CustomerAddressTest {
 		CustomerAddress ca = new CustomerAddress();
 		String addressList = ca.getList(10);
 		System.out.println("*** DEBUG *** getList:" + addressList);
-		ca.logout();
+
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class CustomerAddressTest {
 		CustomerAddress ca = new CustomerAddress();
 		String addressInfo = ca.getInfo(1);
 		System.out.println("*** DEBUG *** getInfo:" + addressInfo);
-		ca.logout();
+
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class CustomerAddressTest {
 				{ "Street Line 1", "Street Line 2" }, "New York", "US", 43, "10021",
 				"555-555");
 		System.out.println("*** DEBUG *** create:" + addressId);
-		ca.logout();
+
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class CustomerAddressTest {
 		cp.setTelephone("555-555-6");
 		boolean state = ca.update(1, cp);
 		System.out.println("*** DEBUG *** update:" + state);
-		ca.logout();
+
 	}
 
 	/**
@@ -70,6 +70,6 @@ public class CustomerAddressTest {
 		CustomerAddress ca = new CustomerAddress();
 		boolean state = ca.delete(1);
 		System.out.println("*** DEBUG *** delete:" + state);
-		ca.logout();
+
 	}
 }

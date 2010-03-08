@@ -18,6 +18,6 @@ public class ProductTypeTest {
 		ProductType pt = new ProductType();
 		String list = pt.getList();
 		System.out.println("*** DEBUG *** getList:" + list);
-		pt.logout();
+
 	}
 }

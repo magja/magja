@@ -18,9 +18,9 @@ public class CategoryAttributeTest {
 		CategoryAttribute ca = new CategoryAttribute();
 		int list = ca.currentStore("de");
 		System.out.println("*** DEBUG *** currentStore:" + list);
-		ca.logout();
+
 	}
-	
+
 	/**
 	 * Test method for
 	 * {@link code.google.magja.magento.product.CategoryAttribute#getList()}.
@@ -30,9 +30,9 @@ public class CategoryAttributeTest {
 		CategoryAttribute ca = new CategoryAttribute();
 		String list = ca.getList();
 		System.out.println("*** DEBUG *** getList:" + list);
-		ca.logout();
+
 	}
-	
+
 	/**
 	 * Test method for
 	 * {@link code.google.magja.magento.product.CategoryAttribute#getOptions()}.
@@ -42,6 +42,6 @@ public class CategoryAttributeTest {
 		CategoryAttribute ca = new CategoryAttribute();
 		String list = ca.getOptions("default_sort_by", "de");
 		System.out.println("*** DEBUG *** getOptions:" + list);
-		ca.logout();
+
 	}
 }
