@@ -21,7 +21,6 @@ public class ProductTest extends ProductAbstractTest {
 		Product p = new Product();
 		productId = p.create(SKU_PRODUCT);
 		assertFalse((new Integer(-1)).equals(productId));
-		p.logout();
 	}
 
 	/**
@@ -34,9 +33,8 @@ public class ProductTest extends ProductAbstractTest {
 		Product p = new Product();
 		ProductProperties mpp = generateProductProperties();
 
-		productId = p.create(SKU_PRODUCT, ProductType.SIMPLE, mpp, 1);
+		productId = p.create(SKU_PRODUCT, ProductType.SIMPLE, mpp, 4);
 		assertFalse((new Integer(-1)).equals(productId));
-		p.logout();
 	}
 
 	/**
@@ -48,7 +46,7 @@ public class ProductTest extends ProductAbstractTest {
 		Product p = new Product();
 		String productList = p.getList();
 		System.out.println("*** DEBUG *** productList:" + productList);
-		p.logout();
+
 	}
 
 	/**
@@ -61,7 +59,7 @@ public class ProductTest extends ProductAbstractTest {
 		Product p = new Product();
 		String productInfo = p.getInfo(SKU_PRODUCT);
 		System.out.println("*** DEBUG *** productInfo:" + productInfo);
-		p.logout();
+
 	}
 
 	/**
@@ -78,7 +76,7 @@ public class ProductTest extends ProductAbstractTest {
 		String productInfo = p.getInfo(productId);
 		System.out.println("*** DEBUG *** productInfo:" + productInfo);
 
-		p.logout();
+
 	}
 
 	/**
@@ -96,7 +94,7 @@ public class ProductTest extends ProductAbstractTest {
 
 		// then delete created
 		assertTrue(p.delete(SKU_PRODUCT));
-		p.logout();
+
 	}
 
 	/**
@@ -113,7 +111,7 @@ public class ProductTest extends ProductAbstractTest {
 
 		// then delete created
 		assertTrue(p.delete(productId));
-		p.logout();
+
 	}
 
 }
