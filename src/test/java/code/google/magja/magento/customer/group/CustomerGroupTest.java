@@ -18,6 +18,5 @@ public class CustomerGroupTest {
 		CustomerGroup cg = new CustomerGroup();
 		String list = cg.getList();
 		System.out.println("*** DEBUG *** getList:" + list);
-		cg.logout();
 	}
 }
