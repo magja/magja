@@ -18,6 +18,5 @@ public class RegionTest {
 		Region r = new Region();
 		String list = r.getList("US");
 		System.out.println("*** DEBUG *** getList:" + list);
-		r.logout();
 	}
 }
