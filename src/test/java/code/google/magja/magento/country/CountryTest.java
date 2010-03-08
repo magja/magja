@@ -18,6 +18,5 @@ public class CountryTest {
 		Country c = new Country();
 		String list = c.getList();
 		System.out.println("*** DEBUG *** getList:" + list);
-		c.logout();
 	}
 }
