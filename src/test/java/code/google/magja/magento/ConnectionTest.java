@@ -16,24 +16,6 @@ import code.google.magja.soap.SoapClient;
  */
 public class ConnectionTest extends TestCase {
 
-
-	@Test
-	public void testConnectionLogin() {
-
-		ConnectionMock conn = new ConnectionMock();
-
-		SoapClient client = conn.getClient();
-
-		try {
-			assertTrue(client.login());
-
-			assertTrue(client.logout());
-
-		} catch (AxisFault e) {
-			fail(e.getMessage());
-		}
-	}
-
 	@Test
 	public void testConnectionRepeatCallsInSameSession() {
 
@@ -42,7 +24,6 @@ public class ConnectionTest extends TestCase {
 		SoapClient client = conn.getClient();
 
 		try {
-			assertTrue(client.login());
 
 			System.out.println("*** DEBUG *** Perform test 1");
 			Object res1 = client.call(ResourcePath.ProductList, "");
@@ -60,7 +41,6 @@ public class ConnectionTest extends TestCase {
 			Object res4 = client.call(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 4: " + res4.toString());
 
-			assertTrue(client.logout());
 
 		} catch (AxisFault e) {
 			fail(e.getMessage());
@@ -75,44 +55,6 @@ public class ConnectionTest extends TestCase {
 		SoapClient client = conn.getClient();
 
 		try {
-			assertTrue(client.login());
-
-			System.out.println("*** DEBUG *** Perform test 1");
-			Object res1 = client.call(ResourcePath.ProductList, "");
-			System.out.println("*** DEBUG *** result 1: " + res1.toString());
-
-			assertTrue(client.logout());
-
-			assertTrue(client.login());
-
-			System.out.println("*** DEBUG *** Perform test 2");
-			Object res2 = client.call(ResourcePath.ProductList, "");
-			System.out.println("*** DEBUG *** result 2: " + res2.toString());
-
-			assertTrue(client.logout());
-
-			assertTrue(client.login());
-
-			System.out.println("*** DEBUG *** Perform test 3");
-			Object res3 = client.call(ResourcePath.ProductList, "");
-			System.out.println("*** DEBUG *** result 3: " + res3.toString());
-
-			assertTrue(client.logout());
-
-			assertTrue(client.login());
-
-			System.out.println("*** DEBUG *** Perform test 4");
-			Object res4 = client.call(ResourcePath.ProductList, "");
-			System.out.println("*** DEBUG *** result 4: " + res4.toString());
-
-			assertTrue(client.logout());
-
-		} catch (AxisFault e) {
-			fail(e.getMessage());
-		}
-
-		try {
-			assertTrue(client.login());
 
 			System.out.println("*** DEBUG *** Perform test 1");
 			Object res1 = client.call(ResourcePath.ProductList, "");
@@ -130,11 +72,11 @@ public class ConnectionTest extends TestCase {
 			Object res4 = client.call(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 4: " + res4.toString());
 
-			assertTrue(client.logout());
-
 		} catch (AxisFault e) {
 			fail(e.getMessage());
 		}
+
+
 	}
 
 }
