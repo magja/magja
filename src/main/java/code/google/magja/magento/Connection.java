@@ -13,8 +13,6 @@
  */
 package code.google.magja.magento;
 
-import org.apache.axis2.AxisFault;
-
 import code.google.magja.soap.MagentoSoapClient;
 import code.google.magja.soap.SoapClient;
 
@@ -24,24 +22,6 @@ public class Connection {
 
 	public Connection() {
 		client = MagentoSoapClient.getInstance();
-		login();
 	}
 
-	public Boolean login() {
-		try {
-			return client.login();
-		} catch (AxisFault e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public Boolean logout() {
-		try {
-			return client.logout();
-		} catch (AxisFault e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
 }
