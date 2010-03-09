@@ -25,7 +25,7 @@ public class Product extends BaseMagentoModel {
 
 	private ProductAttributeSet attributeSet;
 
-	private ProductTypeEnum type = ProductTypeEnum.SIMPLE;
+	private ProductType type = ProductTypeEnum.SIMPLE.getProductType();
 
 	private String name;
 
@@ -83,14 +83,14 @@ public class Product extends BaseMagentoModel {
 	/**
 	 * @return the type
 	 */
-	public ProductTypeEnum getType() {
+	public ProductType getType() {
 		return type;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(ProductTypeEnum type) {
+	public void setType(ProductType type) {
 		this.type = type;
 	}
 

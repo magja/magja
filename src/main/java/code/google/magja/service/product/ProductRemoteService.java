@@ -6,6 +6,7 @@ package code.google.magja.service.product;
 import java.util.List;
 
 import code.google.magja.model.product.Product;
+import code.google.magja.model.product.ProductType;
 import code.google.magja.service.GeneralService;
 import code.google.magja.service.ServiceException;
 import code.google.magja.service.category.CategoryRemoteService;
@@ -15,6 +16,11 @@ import code.google.magja.service.category.CategoryRemoteService;
  *
  */
 public interface ProductRemoteService extends GeneralService<Product> {
+
+	/**
+	 * @param categoryRemoteService the categoryRemoteService to set
+	 */
+	public void setCategoryRemoteService(CategoryRemoteService categoryRemoteService);
 
 	/**
 	 * Get the product from Magento with the specified sku
@@ -50,8 +56,10 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	public abstract Product save(Product product) throws ServiceException;
 
 	/**
-	 * @param categoryRemoteService the categoryRemoteService to set
+	 * @return List of all ProductTypes from magento api
+	 * @throws ServiceException
 	 */
-	public void setCategoryRemoteService(CategoryRemoteService categoryRemoteService);
+	public abstract List<ProductType> listAllProductTypes() throws ServiceException;
+
 
 }

@@ -9,8 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import code.google.magja.model.product.Product;
+import code.google.magja.model.product.ProductType;
 import code.google.magja.service.RemoteServiceFactory;
 import code.google.magja.service.ServiceException;
+import code.google.magja.utils.MagjaStringUtils;
 
 /**
  * @author andre
@@ -36,7 +38,7 @@ public class ProductRemoteServiceTest {
 
 		Product product = new Product();
 
-		product.setSku("ABC123");
+		product.setSku(MagjaStringUtils.randomString(3, 10));
 		product.setName("Testing save One");
 		product.setShortDescription("this is a short description");
 		product.setDescription("this is a description");
@@ -84,6 +86,17 @@ public class ProductRemoteServiceTest {
 
 		for (Product product : products)
 			System.out.println(product.toString());
+	}
+
+	/**
+	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#listAllProductTypes()}.
+	 */
+	@Test
+	public void testListAllProductTypes() throws ServiceException {
+		List<ProductType> types  = service.listAllProductTypes();
+
+		for (ProductType type : types)
+			System.out.println(type.toString());
 	}
 
 
