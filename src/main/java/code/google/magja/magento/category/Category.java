@@ -284,7 +284,5 @@ public class Category extends Connection {
 		boolean state = c.delete(4, "Phones");
 		System.out.println("*** DEBUG *** deleteCategory:" + state);
 
-		// logout
-		c.logout();
 	}
 }
