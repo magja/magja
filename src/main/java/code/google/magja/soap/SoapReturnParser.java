@@ -27,36 +27,42 @@ public class SoapReturnParser {
 	private static final QName KEY_NAME = new QName("key");
 	private static final QName ITEM_NAME = new QName("item");
 
-	enum Type {
+	private static final String NAMESPACE_URI_XSI = "http://www.w3.org/2001/XMLSchema-instance";
+	private static final String NAMESPACE_URI_XSD = "http://www.w3.org/2001/XMLSchema";
+	private static final String NAMESPACE_URI_SOAPXML = "http://xml.apache.org/xml-soap";
+	private static final String NAMESPACE_URI_SOAPENC = "http://schemas.xmlsoap.org/soap/encoding/";
 
-		StringType,
-		IntegerType,
-		FloatType,
-		BooleanType,
-		ArrayType,
-		MapType
+	private enum Type {
+		StringType, IntegerType, FloatType, BooleanType, ArrayType, MapType
 	}
 
-	OMNamespace xsi;
-	OMNamespace xsd;
-	OMNamespace soapXml;
-	OMNamespace soapEnc;
+	private OMNamespace xsi;
+	private OMNamespace xsd;
+	private OMNamespace soapXml;
+	private OMNamespace soapEnc;
 
 	@SuppressWarnings("unchecked")
 	private void initNamespaces(SOAPEnvelope env) {
 		int nsFound = 0;
-		for (Iterator<OMNamespace> iNamespaces = env.getAllDeclaredNamespaces(); iNamespaces.hasNext();) {
+		for (Iterator<OMNamespace> iNamespaces = env.getAllDeclaredNamespaces(); iNamespaces
+				.hasNext();) {
 			OMNamespace ns = iNamespaces.next();
-			if (this.xsi == null && ns.getNamespaceURI().equalsIgnoreCase("http://www.w3.org/2001/XMLSchema-instance")) {
+			if (this.xsi == null
+					&& ns.getNamespaceURI().equalsIgnoreCase(NAMESPACE_URI_XSI)) {
 				this.xsi = ns;
 				nsFound++;
-			} else if (this.xsd == null && ns.getNamespaceURI().equalsIgnoreCase("http://www.w3.org/2001/XMLSchema")) {
+			} else if (this.xsd == null
+					&& ns.getNamespaceURI().equalsIgnoreCase(NAMESPACE_URI_XSD)) {
 				this.xsd = ns;
 				nsFound++;
-			} else if (this.soapXml == null && ns.getNamespaceURI().equalsIgnoreCase("http://xml.apache.org/xml-soap")) {
+			} else if (this.soapXml == null
+					&& ns.getNamespaceURI().equalsIgnoreCase(
+							NAMESPACE_URI_SOAPXML)) {
 				this.soapXml = ns;
 				nsFound++;
-			} else if (this.soapEnc == null && ns.getNamespaceURI().equalsIgnoreCase("http://schemas.xmlsoap.org/soap/encoding/")) {
+			} else if (this.soapEnc == null
+					&& ns.getNamespaceURI().equalsIgnoreCase(
+							NAMESPACE_URI_SOAPENC)) {
 				this.soapEnc = ns;
 				nsFound++;
 			}
@@ -66,7 +72,7 @@ public class SoapReturnParser {
 		}
 	}
 
-	Object parse(OMElement result) throws AxisFault {
+	public Object parse(OMElement result) throws AxisFault {
 		OMContainer parent = result.getParent();
 		// find SoapEnvelope in results parents
 		while (parent instanceof OMElement && !(parent instanceof SOAPEnvelope)) {
@@ -91,7 +97,7 @@ public class SoapReturnParser {
 		return value;
 	}
 
-	Object getValue(OMElement value) {
+	private Object getValue(OMElement value) {
 		switch (getType(value)) {
 		case StringType:
 			return value.getText();
@@ -106,7 +112,8 @@ public class SoapReturnParser {
 		case MapType:
 			return getMap(value);
 		default:
-			throw new RuntimeException("Unsupported type for element: " + value.getLocalName());
+			throw new RuntimeException("Unsupported type for element: "
+					+ value.getLocalName());
 		}
 	}
 
@@ -120,7 +127,8 @@ public class SoapReturnParser {
 	@SuppressWarnings("unchecked")
 	private List<Object> getList(OMElement stringArray) {
 		List<Object> list = new LinkedList<Object>();
-		for (Iterator<OMElement> iElem = stringArray.getChildren(); iElem.hasNext();) {
+		for (Iterator<OMElement> iElem = stringArray.getChildren(); iElem
+				.hasNext();) {
 			list.add(getValue(iElem.next()));
 		}
 
@@ -128,10 +136,11 @@ public class SoapReturnParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	Map<String, Object> getMap(OMElement items) {
+	private Map<String, Object> getMap(OMElement items) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		for (Iterator<OMElement> iElem = items.getChildrenWithName(ITEM_NAME); iElem.hasNext();) {
+		for (Iterator<OMElement> iElem = items.getChildrenWithName(ITEM_NAME); iElem
+				.hasNext();) {
 			OMElement elem = iElem.next();
 			String key = elem.getFirstChildWithName(KEY_NAME).getText();
 			map.put(key, getValue(elem.getFirstChildWithName(VALUE_NAME)));
@@ -149,39 +158,51 @@ public class SoapReturnParser {
 	@SuppressWarnings("unchecked")
 	private Type getType(OMElement elem) {
 		String foundType = "";
-		for (Iterator<OMAttribute> iAttr = elem.getAllAttributes(); iAttr.hasNext();) {
+		for (Iterator<OMAttribute> iAttr = elem.getAllAttributes(); iAttr
+				.hasNext();) {
 			OMAttribute test = iAttr.next();
 			String localName = test.getLocalName();
 			if (localName.equals("type")) {
-				if (test.getAttributeValue().equals(xsd.getPrefix() + XSD_STRING)) {
+				if (test.getAttributeValue().equals(
+						xsd.getPrefix() + XSD_STRING)) {
 					return Type.StringType;
-				} else if (test.getAttributeValue().equals(xsd.getPrefix() + XSD_INTEGER)) {
+				} else if (test.getAttributeValue().equals(
+						xsd.getPrefix() + XSD_INTEGER)) {
 					return Type.IntegerType;
-				} else if (test.getAttributeValue().equals(xsd.getPrefix() + XSD_FLOAT)) {
+				} else if (test.getAttributeValue().equals(
+						xsd.getPrefix() + XSD_FLOAT)) {
 					return Type.FloatType;
-				} else if (test.getAttributeValue().equals(xsd.getPrefix() + XSD_BOOLEAN)) {
+				} else if (test.getAttributeValue().equals(
+						xsd.getPrefix() + XSD_BOOLEAN)) {
 					return Type.BooleanType;
-				} else if (soapXml != null && test.getAttributeValue().endsWith(soapXml.getPrefix() + SOAPXML_MAP)) {
+				} else if (soapXml != null
+						&& test.getAttributeValue().endsWith(
+								soapXml.getPrefix() + SOAPXML_MAP)) {
 					return Type.MapType;
-				} else if (test.getAttributeValue().endsWith(soapEnc.getPrefix() + SOAPENC_ARRAY)) {
+				} else if (test.getAttributeValue().endsWith(
+						soapEnc.getPrefix() + SOAPENC_ARRAY)) {
 					return Type.ArrayType;
 				}
 				// <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				// xsi:nil="true" />
 			} else if (localName.equals("nil")) {
-				if (test.getAttributeValue().equals("true") || test.getAttributeValue().equals("false")) {
+				if (test.getAttributeValue().equals("true")
+						|| test.getAttributeValue().equals("false")) {
 					return Type.BooleanType;
 				}
 			}
 			foundType = test.getLocalName();
 		}
-		throw new RuntimeException("Unknown type '" + foundType + "' (if empty does not contain type attribute) for tag :" + elem.getLocalName());
+		throw new RuntimeException("Unknown type '" + foundType
+				+ "' (if empty does not contain type attribute) for tag :"
+				+ elem.getLocalName());
 	}
 
 	// <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	// xsi:nil="true" />
 	private boolean getBoolean(OMElement items) {
-		for (Iterator<OMAttribute> iAttr = items.getAllAttributes(); iAttr.hasNext();) {
+		for (Iterator<OMAttribute> iAttr = items.getAllAttributes(); iAttr
+				.hasNext();) {
 			OMAttribute test = iAttr.next();
 			String localName = test.getLocalName();
 			if (localName.equals("nil")) {
