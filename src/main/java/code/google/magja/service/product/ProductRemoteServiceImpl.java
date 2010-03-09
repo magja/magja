@@ -304,4 +304,41 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		return resultList;
 	}
 
+	/* (non-Javadoc)
+	 * @see code.google.magja.service.product.ProductRemoteService#listAllProductAttributeSet()
+	 */
+	@Override
+	public List<ProductAttributeSet> listAllProductAttributeSet()
+			throws ServiceException {
+
+		List<ProductAttributeSet> resultList = new ArrayList<ProductAttributeSet>();
+
+		List<Map<String, Object>> attSetList;
+		try {
+			attSetList = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductAttributeSetList, "");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		// first, we have to put the default attributeSet to list because it isnt listed by the api
+		ProductAttributeSet setDefault = new ProductAttributeSet();
+		setDefault.setId(soapClient.getConfig().getDefaultAttributeSetId());
+		setDefault.setName("Default");
+		resultList.add(setDefault);
+
+		if(attSetList == null) return resultList;
+
+		for (Map<String, Object> att : attSetList) {
+			ProductAttributeSet set = new ProductAttributeSet();
+			for (Map.Entry<String, Object> attribute : att.entrySet())
+				set.set(attribute.getKey(), attribute.getValue());
+			resultList.add(set);
+		}
+
+		return resultList;
+	}
+
+
+
 }

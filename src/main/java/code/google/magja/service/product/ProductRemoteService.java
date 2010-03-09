@@ -6,6 +6,7 @@ package code.google.magja.service.product;
 import java.util.List;
 
 import code.google.magja.model.product.Product;
+import code.google.magja.model.product.ProductAttributeSet;
 import code.google.magja.model.product.ProductType;
 import code.google.magja.service.GeneralService;
 import code.google.magja.service.ServiceException;
@@ -60,6 +61,12 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract List<ProductType> listAllProductTypes() throws ServiceException;
+
+	/**
+	 * @return List of all ProductAttributeSet from magento api
+	 * @throws ServiceException
+	 */
+	public abstract List<ProductAttributeSet> listAllProductAttributeSet() throws ServiceException;
 
 
 }

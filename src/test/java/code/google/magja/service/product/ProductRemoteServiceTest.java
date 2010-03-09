@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import code.google.magja.model.product.Product;
+import code.google.magja.model.product.ProductAttributeSet;
 import code.google.magja.model.product.ProductType;
 import code.google.magja.service.RemoteServiceFactory;
 import code.google.magja.service.ServiceException;
@@ -97,6 +98,17 @@ public class ProductRemoteServiceTest {
 
 		for (ProductType type : types)
 			System.out.println(type.toString());
+	}
+
+	/**
+	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#listAllProductAttributeSet()}.
+	 */
+	@Test
+	public void testListAllProductAttributeSet() throws ServiceException {
+		List<ProductAttributeSet> sets  = service.listAllProductAttributeSet();
+
+		for (ProductAttributeSet set : sets)
+			System.out.println(set.toString());
 	}
 
 

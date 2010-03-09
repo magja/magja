@@ -92,11 +92,11 @@ public class ProductAttributeSet extends BaseMagentoModel {
 	}
 
 	/* (non-Javadoc)
+	 * Its ready only, we never will save a attributeSet to magento
 	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
