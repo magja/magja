@@ -322,10 +322,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		}
 
 		// first, we have to put the default attributeSet to list because it isnt listed by the api
-		ProductAttributeSet setDefault = new ProductAttributeSet();
-		setDefault.setId(soapClient.getConfig().getDefaultAttributeSetId());
-		setDefault.setName("Default");
-		resultList.add(setDefault);
+		//ProductAttributeSet setDefault = new ProductAttributeSet();
+		//setDefault.setId(soapClient.getConfig().getDefaultAttributeSetId());
+		//setDefault.setName("Default");
+		//resultList.add(setDefault);
 
 		if(attSetList == null) return resultList;
 
