@@ -43,7 +43,6 @@ public class SoapReturnParser {
 
 	@SuppressWarnings("unchecked")
 	private void initNamespaces(SOAPEnvelope env) {
-		//test
 		int nsFound = 0;
 		for (Iterator<OMNamespace> iNamespaces = env.getAllDeclaredNamespaces(); iNamespaces
 				.hasNext();) {
