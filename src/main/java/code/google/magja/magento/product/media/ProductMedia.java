@@ -112,7 +112,5 @@ public class ProductMedia extends Connection {
 		String mediaInfo = pm.getInfo("GROM2665", newMedia);
 		System.out.println("*** DEBUG *** getMediaInfo:" + mediaInfo);
 
-		// logout
-		pm.logout();
 	}
 }

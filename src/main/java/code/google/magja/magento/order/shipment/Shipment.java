@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import code.google.magja.magento.Connection;
-import code.google.magja.magento.Properties;
 import code.google.magja.magento.ResourcePath;
 import code.google.magja.magento.Utils;
 
@@ -249,7 +248,5 @@ public class Shipment extends Connection {
 		String carriers = s.getCarriers(100000001);
 		System.out.println("*** DEBUG *** getCarriers:" + carriers);
 
-		// logout
-		s.logout();
 	}
 }

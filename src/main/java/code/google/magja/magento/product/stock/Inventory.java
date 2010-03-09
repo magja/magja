@@ -113,7 +113,5 @@ public class Inventory extends Connection {
 		boolean state = i.update("1000", 5, 1);
 		System.out.println("*** DEBUG *** update:" + state);
 
-		// logout
-		i.logout();
 	}
 }

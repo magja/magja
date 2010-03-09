@@ -189,7 +189,5 @@ public class ProductAttribute extends Connection {
 		int materialAttributeId = pa.create("test_material", pap);
 		pa.addOptions(materialAttributeId, new String[] { "Titanium", "Silver", "Gold" });
 
-		// logout
-		pa.logout();
 	}
 }
