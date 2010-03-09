@@ -51,24 +51,17 @@ public class ProductTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.magento.product.Product#getInfo(int)}.
-	 */
-	@Test
-	public void testGetInfoById() {
-		Product p = new Product();
-		String productInfo = p.getInfo(productId);
-		System.out.println("*** DEBUG *** productInfo:" + productInfo);
-		p.logout();
-	}
-
-	/**
 	 * Test method for {@link code.google.magja.magento.product.Product#getId(java.lang.String)}.
 	 */
 	@Test
-	public void testGetProductIdBySku() {
+	public void testGetProductIdBySkuAndInfoById() {
 		Product p = new Product();
 		productId = p.getId(SKU_PRODUCT);
 		assertFalse((new Integer(-1)).equals(productId));
+
+		String productInfo = p.getInfo(productId);
+		System.out.println("*** DEBUG *** productInfo:" + productInfo);
+
 		p.logout();
 	}
 

@@ -30,10 +30,6 @@ public class Customer extends Connection {
 		super();
 	}
 
-	public Customer(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/*
 	 * get customer list
 	 */
@@ -66,7 +62,7 @@ public class Customer extends Connection {
 
 	/**
 	 * Create new customer and return customer id
-	 * 
+	 *
 	 * @param firstname
 	 *            firstname
 	 * @param lastname
@@ -90,7 +86,7 @@ public class Customer extends Connection {
 
 	/**
 	 * Create new customer and return customer id
-	 * 
+	 *
 	 * @param CustomerProperties
 	 *            CustomerProperties array
 	 * @return the created customer id or -1 on error
@@ -113,7 +109,7 @@ public class Customer extends Connection {
 
 	/**
 	 * Delete customer
-	 * 
+	 *
 	 * @param customerId
 	 *            customer ID
 	 * @return true on successful delete or false on error

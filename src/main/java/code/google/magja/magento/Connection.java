@@ -13,74 +13,35 @@
  */
 package code.google.magja.magento;
 
+import org.apache.axis2.AxisFault;
+
 import code.google.magja.soap.MagentoSoapClient;
-import code.google.magja.soap.SoapCallFactory;
 import code.google.magja.soap.SoapClient;
-import code.google.magja.soap.SoapConfig;
-import code.google.magja.soap.SoapReturnParser;
-import code.google.magja.utils.PropertyLoader;
 
 public class Connection {
 
-	private static final String MAGENTO_API_PASSWORD = "magento-api-password";
-
-	private static final String MAGENTO_API_URL = "magento-api-url";
-
-	private static final String MAGENTO_API_USERNAME = "magento-api-username";
-
-	protected SoapConfig config = null;
-
 	protected SoapClient client = null;
 
-	/*
-	 * constructor
-	 */
 	public Connection() {
-
-		java.util.Properties magentoapi = PropertyLoader
-				.loadProperties("magento-api");
-
-		config = new SoapConfig(magentoapi.getProperty(MAGENTO_API_USERNAME),
-				magentoapi.getProperty(MAGENTO_API_PASSWORD), magentoapi
-						.getProperty(MAGENTO_API_URL));
-
-		client = new MagentoSoapClient(new SoapCallFactory(),
-				new SoapReturnParser(), config);
-
+		client = MagentoSoapClient.getInstance();
 		login();
 	}
 
-	public Connection(String user, String pass, String url) {
-
-		config = new SoapConfig(user, pass, url);
-
-		client = new MagentoSoapClient(new SoapCallFactory(),
-				new SoapReturnParser(), config);
-
-		login();
-	}
-
-	/*
-	 * login
-	 */
-	public void login() {
+	public Boolean login() {
 		try {
-			client.login();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.exit(1);
+			return client.login();
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 
-	/*
-	 * logout
-	 */
-	public void logout() {
+	public Boolean logout() {
 		try {
-			client.logout();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.exit(1);
+			return client.logout();
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 }

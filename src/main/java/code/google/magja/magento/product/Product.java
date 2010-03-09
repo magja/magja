@@ -31,10 +31,6 @@ public class Product extends Connection {
 		super();
 	}
 
-	public Product(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/*
 	 * get product list
 	 */

@@ -16,17 +16,11 @@ import code.google.magja.soap.SoapClient;
  */
 public class ConnectionTest extends TestCase {
 
-	private static final String MAGENTO_API_PASSWORD = "test123";
-
-	private static final String MAGENTO_API_URL = "http://localhost.blackhawk/magento/index.php/api/soap/";
-
-	private static final String MAGENTO_API_USERNAME = "soap";
-
 
 	@Test
 	public void testConnectionLogin() {
 
-		ConnectionMock conn = new ConnectionMock(MAGENTO_API_USERNAME, MAGENTO_API_PASSWORD, MAGENTO_API_URL);
+		ConnectionMock conn = new ConnectionMock();
 
 		SoapClient client = conn.getClient();
 
@@ -43,7 +37,7 @@ public class ConnectionTest extends TestCase {
 	@Test
 	public void testConnectionRepeatCallsInSameSession() {
 
-		ConnectionMock conn = new ConnectionMock(MAGENTO_API_USERNAME, MAGENTO_API_PASSWORD, MAGENTO_API_URL);
+		ConnectionMock conn = new ConnectionMock();
 
 		SoapClient client = conn.getClient();
 
@@ -76,7 +70,7 @@ public class ConnectionTest extends TestCase {
 	@Test
 	public void testConnectionRepeatCallsWithLoginAndLogout() {
 
-		ConnectionMock conn = new ConnectionMock(MAGENTO_API_USERNAME, MAGENTO_API_PASSWORD, MAGENTO_API_URL);
+		ConnectionMock conn = new ConnectionMock();
 
 		SoapClient client = conn.getClient();
 

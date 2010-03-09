@@ -32,10 +32,6 @@ public class Category extends Connection {
 		super();
 	}
 
-	public Category(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/*
 	 * create category
 	 */

@@ -31,10 +31,6 @@ public class ProductAttributeSet extends Connection {
 		super();
 	}
 
-	public ProductAttributeSet(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/**
 	 * Retrieve product attribute sets
 	 *

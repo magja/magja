@@ -31,13 +31,9 @@ public class Shipment extends Connection {
 		super();
 	}
 
-	public Shipment(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/**
 	 * Retrieve list of shipments by filters
-	 * 
+	 *
 	 * @return list of shipments by filters
 	 */
 	public String getList() {
@@ -46,7 +42,7 @@ public class Shipment extends Connection {
 
 	/**
 	 * Retrieve list of shipments by filters
-	 * 
+	 *
 	 * @param filters
 	 *            filters for shipments list
 	 * @return list of shipments by filters
@@ -65,7 +61,7 @@ public class Shipment extends Connection {
 
 	/**
 	 * Retrieve shipment information
-	 * 
+	 *
 	 * @param orderId
 	 *            order shipment increment id
 	 * @return shipment information
@@ -84,7 +80,7 @@ public class Shipment extends Connection {
 
 	/**
 	 * Create new shipment for order
-	 * 
+	 *
 	 * @param orderId
 	 *            order increment id
 	 * @param itemsQty
@@ -116,7 +112,7 @@ public class Shipment extends Connection {
 
 	/**
 	 * Add new comment to shipment
-	 * 
+	 *
 	 * @param shipmentId
 	 *            shipment increment id
 	 * @param comment
@@ -147,7 +143,7 @@ public class Shipment extends Connection {
 
 	/**
 	 * Add new tracking number
-	 * 
+	 *
 	 * @param shipmentId
 	 *            shipment increment id
 	 * @param carrier
@@ -176,7 +172,7 @@ public class Shipment extends Connection {
 
 	/**
 	 * Remove tracking number
-	 * 
+	 *
 	 * @param shipmentId
 	 *            shipment increment id
 	 * @param trackId
@@ -201,7 +197,7 @@ public class Shipment extends Connection {
 
 	/**
 	 * Retrieve list of allowed carriers for order
-	 * 
+	 *
 	 * @param orderId
 	 *            order increment id
 	 * @return list of allowed carriers for order

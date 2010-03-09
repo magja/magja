@@ -32,10 +32,6 @@ public class ProductAttribute extends Connection {
 		super();
 	}
 
-	public ProductAttribute(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/**
 	 * Retrieve attribute list
 	 *

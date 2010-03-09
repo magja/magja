@@ -30,13 +30,9 @@ public class Address extends Connection {
 		super();
 	}
 
-	public Address(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/**
 	 * Retrieve customer addresses
-	 * 
+	 *
 	 * @param customerId
 	 *            Customer Id
 	 * @return customer addresses
@@ -55,7 +51,7 @@ public class Address extends Connection {
 
 	/**
 	 * Retrieve customer address data
-	 * 
+	 *
 	 * @param customerAddressId
 	 *            customer address ID
 	 * @return customer address data
@@ -74,7 +70,7 @@ public class Address extends Connection {
 
 	/**
 	 * Create new customer and return customer id
-	 * 
+	 *
 	 * @param firstname
 	 *            firstname
 	 * @param lastname
@@ -101,7 +97,7 @@ public class Address extends Connection {
 
 	/**
 	 * Create new customer and return customer id
-	 * 
+	 *
 	 * @param CustomerAddressProperties
 	 *            CustomerProperties array
 	 * @return the created customer id or -1 on error
@@ -143,7 +139,7 @@ public class Address extends Connection {
 
 	/**
 	 * Delete customer
-	 * 
+	 *
 	 * @param customerId
 	 *            customer ID
 	 * @return true on successful delete or false on error

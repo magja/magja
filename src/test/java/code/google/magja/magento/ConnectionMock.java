@@ -15,10 +15,6 @@ public class ConnectionMock extends Connection {
 		super();
 	}
 
-	public ConnectionMock(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	public SoapClient getClient() {
 		return client;
 	}

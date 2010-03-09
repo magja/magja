@@ -30,13 +30,9 @@ public class Order extends Connection {
 		super();
 	}
 
-	public Order(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/**
 	 * Retrieve list of orders by filters
-	 * 
+	 *
 	 * @return list of orders by filters
 	 */
 	public String getList() {
@@ -45,7 +41,7 @@ public class Order extends Connection {
 
 	/**
 	 * Retrieve list of orders by filters
-	 * 
+	 *
 	 * @param filters
 	 *            filters for order list (optional)
 	 * @return list of orders by filters
@@ -64,7 +60,7 @@ public class Order extends Connection {
 
 	/**
 	 * Retrieve order information
-	 * 
+	 *
 	 * @param orderId
 	 *            order increment id
 	 * @return order information
@@ -83,7 +79,7 @@ public class Order extends Connection {
 
 	/**
 	 * Add comment to order
-	 * 
+	 *
 	 * @param orderId
 	 *            order increment id
 	 * @param status
@@ -114,7 +110,7 @@ public class Order extends Connection {
 
 	/**
 	 * Hold order
-	 * 
+	 *
 	 * @param orderId
 	 *            order increment id
 	 * @return boolean
@@ -133,7 +129,7 @@ public class Order extends Connection {
 
 	/**
 	 * Unhold order
-	 * 
+	 *
 	 * @param orderId
 	 *            order increment id
 	 * @return boolean
@@ -152,7 +148,7 @@ public class Order extends Connection {
 
 	/**
 	 * Cancel order
-	 * 
+	 *
 	 * @param orderId
 	 *            order increment id
 	 * @return boolean

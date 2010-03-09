@@ -9,8 +9,8 @@
 
 /**
  * Inventory API
- * Allows export/import catalog inventory. 
- * 
+ * Allows export/import catalog inventory.
+ *
  * http://www.magentocommerce.com/wiki/doc/webservices-api/api/cataloginventory_stock_item
  */
 package code.google.magja.magento.product.stock;
@@ -32,13 +32,9 @@ public class Inventory extends Connection {
 		super();
 	}
 
-	public Inventory(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	/**
 	 * Retrieve stock data by product ids
-	 * 
+	 *
 	 * @param productId
 	 *            list of products IDs or SKUs
 	 * @return stock data by product ids
@@ -60,7 +56,7 @@ public class Inventory extends Connection {
 
 	/**
 	 * Update product stock data
-	 * 
+	 *
 	 * @param productId
 	 *            product ID or SKU
 	 * @param qty
@@ -73,7 +69,7 @@ public class Inventory extends Connection {
 
 	/**
 	 * Update product stock data
-	 * 
+	 *
 	 * @param productId
 	 *            product ID or SKU
 	 * @param qty

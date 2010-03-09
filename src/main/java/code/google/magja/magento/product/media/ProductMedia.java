@@ -30,10 +30,6 @@ public class ProductMedia extends Connection {
 		super();
 	}
 
-	public ProductMedia(String user, String pass, String url) {
-		super(user, pass, url);
-	}
-
 	public String create(String productSku, String pathToImage) {
 		return create(productSku, pathToImage, 0);
 	}
