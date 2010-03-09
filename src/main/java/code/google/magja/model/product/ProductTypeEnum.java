@@ -1,6 +1,6 @@
 package code.google.magja.model.product;
 
-public enum ProductType {
+public enum ProductTypeEnum {
 
 	SIMPLE, GROUPED, CONFIGURABLE, VIRTUAL, BUNDLE, DOWNLOADABLE;
 
@@ -24,7 +24,7 @@ public enum ProductType {
 		else return "";
 	}
 
-	public static ProductType getTypeOf(String type) {
+	public static ProductTypeEnum getTypeOf(String type) {
 		if(type.equals(SIMPLE.getType())) return SIMPLE;
 		else if(type.equals(GROUPED.getType())) return GROUPED;
 		else if(type.equals(CONFIGURABLE.getType())) return CONFIGURABLE;

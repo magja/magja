@@ -3,7 +3,10 @@
  */
 package code.google.magja.magento;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.fail;
+
+import java.util.List;
+import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 import org.junit.Test;
@@ -14,7 +17,19 @@ import code.google.magja.soap.SoapClient;
  * @author andre
  *
  */
-public class ConnectionTest extends TestCase {
+public class ConnectionTest {
+
+	@Test
+	public void testProductType() throws Exception {
+		ConnectionMock conn = new ConnectionMock();
+		SoapClient client = conn.getClient();
+		List<Map<String, Object>> productList = (List<Map<String, Object>>) client.call(ResourcePath.ProductTypeList, "");
+
+		for (Map<String, Object> map : productList) {
+			System.out.println(map.toString());
+		}
+	}
+
 
 	@Test
 	public void testConnectionRepeatCallsInSameSession() {

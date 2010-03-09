@@ -14,7 +14,7 @@ import code.google.magja.magento.ResourcePath;
 import code.google.magja.model.category.Category;
 import code.google.magja.model.product.Product;
 import code.google.magja.model.product.ProductAttributeSet;
-import code.google.magja.model.product.ProductType;
+import code.google.magja.model.product.ProductTypeEnum;
 import code.google.magja.service.GeneralServiceImpl;
 import code.google.magja.service.ServiceException;
 import code.google.magja.service.category.CategoryRemoteService;
@@ -142,7 +142,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
 		// set product type
 		if(mpp.get("type") != null)
-			product.setType(ProductType.getTypeOf((String) mpp.get("type")));
+			product.setType(ProductTypeEnum.getTypeOf((String) mpp.get("type")));
 
 		// set the attributeSet
 		if(mpp.get("set") != null)
