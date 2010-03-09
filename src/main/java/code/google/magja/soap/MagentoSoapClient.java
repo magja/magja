@@ -105,10 +105,6 @@ public class MagentoSoapClient implements SoapClient {
 		OMElement method = callFactory.createLoginCall(
 				this.config.getApiUser(), this.config.getApiKey());
 
-		if (sender == null) {
-			sender = new ServiceClient();
-			sender.setOptions(connectOptions);
-		}
 		OMElement result = sender.sendReceive(method);
 
 		String session = result.getFirstChildWithName(LOGIN_RETURN).getText();
@@ -121,10 +117,6 @@ public class MagentoSoapClient implements SoapClient {
 	public Boolean logout() throws AxisFault {
 		OMElement method = callFactory.createLogoutCall(sessionId);
 
-		if (sender == null) {
-			sender = new ServiceClient();
-			sender.setOptions(connectOptions);
-		}
 		OMElement result = sender.sendReceive(method);
 
 		return Boolean.parseBoolean(result.getFirstChildWithName(LOGOUT_RETURN)
@@ -136,10 +128,6 @@ public class MagentoSoapClient implements SoapClient {
 		OMElement method = callFactory.createCall(sessionId, path.getPath(),
 				args);
 
-		if (sender == null) {
-			sender = new ServiceClient();
-			sender.setOptions(connectOptions);
-		}
 		OMElement result = sender.sendReceive(method);
 
 		return returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
