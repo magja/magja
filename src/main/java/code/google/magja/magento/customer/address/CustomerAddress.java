@@ -21,12 +21,12 @@ import code.google.magja.magento.Connection;
 import code.google.magja.magento.ResourcePath;
 import code.google.magja.magento.Utils;
 
-public class Address extends Connection {
+public class CustomerAddress extends Connection {
 
 	/*
 	 * constructor
 	 */
-	public Address() {
+	public CustomerAddress() {
 		super();
 	}
 
@@ -154,40 +154,5 @@ public class Address extends Connection {
 		}
 
 		return false;
-	}
-
-	/*
-	 * main
-	 */
-	public static void main(String[] args) {
-		// login
-		Address ca = new Address();
-
-		// get customer address list
-		String addressList = ca.getList(10);
-		System.out.println("*** DEBUG *** getList:" + addressList);
-
-		// get customer address info
-		String addressInfo = ca.getInfo(1);
-		System.out.println("*** DEBUG *** getInfo:" + addressInfo);
-
-		// create customer address
-		int addressId = ca.create(10, "FirstName", "LastName", new String[]
-				{ "Street Line 1", "Street Line 2" }, "New York", "US", 43, "10021",
-				"555-555");
-		System.out.println("*** DEBUG *** create:" + addressId);
-
-		// update customer address
-		CustomerAddressProperties cp = new CustomerAddressProperties();
-		cp.setTelephone("555-555-6");
-		boolean state = ca.update(1, cp);
-		System.out.println("*** DEBUG *** update:" + state);
-
-		// delete customer address
-		state = ca.delete(1);
-		System.out.println("*** DEBUG *** delete:" + state);
-
-		// logout
-		ca.logout();
 	}
 }
