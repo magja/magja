@@ -200,14 +200,14 @@ public class SoapReturnParser {
 
 	// <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	// xsi:nil="true" />
-	private boolean getBoolean(OMElement items) {
+	private Boolean getBoolean(OMElement items) {
 		for (Iterator<OMAttribute> iAttr = items.getAllAttributes(); iAttr
 				.hasNext();) {
 			OMAttribute test = iAttr.next();
 			String localName = test.getLocalName();
 			if (localName.equals("nil")) {
 				if (test.getAttributeValue().equals("true")) {
-					return true;
+					return null;
 				} else if (test.getAttributeValue().equals("false")) {
 					return false;
 				}

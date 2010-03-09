@@ -25,12 +25,6 @@ public class MagentoSoapClient implements SoapClient {
 
 	private static final QName CALL_RETURN = new QName("callReturn");
 
-	private static final String MAGENTO_API_PASSWORD = "magento-api-password";
-
-	private static final String MAGENTO_API_URL = "magento-api-url";
-
-	private static final String MAGENTO_API_USERNAME = "magento-api-username";
-
 	private SoapCallFactory callFactory;
 
 	private SoapReturnParser returnParser;
@@ -43,99 +37,146 @@ public class MagentoSoapClient implements SoapClient {
 
 	private ServiceClient sender;
 
+	/**
+	 * On the constructor, we will perform the login to magento API, to keep the
+	 * same session for all operations, if the user want to change the login
+	 * parameters just have to use the appropriate method
+	 */
 	private MagentoSoapClient() {
+
+		java.util.Properties magentoapi = PropertyLoader
+				.loadProperties("magento-api");
+
+		callFactory = new SoapCallFactory();
+		returnParser = new SoapReturnParser();
+		config = new SoapConfig(magentoapi);
+
+		connectOptions = new Options();
+		connectOptions.setTo(new EndpointReference(config.getRemoteHost()));
+		connectOptions.setTransportInProtocol(Constants.TRANSPORT_HTTP);
+
+		// to use the same tcp connection for multiple calls
+		// workaround:
+		// http://amilachinthaka.blogspot.com/2009/05/improving-axis2-client-http-transport.html
+		MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
+		HttpClient httpClient = new HttpClient(httpConnectionManager);
+		connectOptions.setProperty(HTTPConstants.REUSE_HTTP_CLIENT,
+				Constants.VALUE_TRUE);
+		connectOptions
+				.setProperty(HTTPConstants.CACHED_HTTP_CLIENT, httpClient);
+
+		// perform the login
+		try {
+			sender = new ServiceClient();
+			sender.setOptions(connectOptions);
+
+			OMElement method = callFactory.createLoginCall(this.config
+					.getApiUser(), this.config.getApiKey());
+
+			OMElement loginResult = sender.sendReceive(method);
+
+			String session = loginResult.getFirstChildWithName(LOGIN_RETURN)
+					.getText();
+			this.sessionId = session;
+
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	/**
-	 * SingletonHolder is loaded on the first execution of
-	 * Singleton.getInstance() or the first access to SingletonHolder.INSTANCE,
-	 * not before.
+	 * MagentoSoapClientHolder is loaded on the first execution of
+	 * MagentoSoapClient.getInstance() or the first access to
+	 * MagentoSoapClientHolder.INSTANCE, not before.
 	 */
 	private static class MagentoSoapClientHolder {
 		private static final MagentoSoapClient INSTANCE = new MagentoSoapClient();
 	}
 
 	public static MagentoSoapClient getInstance() {
+		return MagentoSoapClientHolder.INSTANCE;
+	}
 
-		MagentoSoapClient instance = MagentoSoapClientHolder.INSTANCE;
+	/**
+	 * @return the config
+	 */
+	public SoapConfig getConfig() {
+		return config;
+	}
 
-		if (instance.sender == null) {
+	/**
+	 * Use to change the connection parameters to API (url, username, password)
+	 *
+	 * @param config
+	 *            the config to set
+	 */
+	public void setConfig(SoapConfig config) {
+		try {
 
-			java.util.Properties magentoapi = PropertyLoader
-					.loadProperties("magento-api");
+			// first, we need to logout the previous session
+			OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
+			OMElement logoutResult = sender.sendReceive(logoutMethod);
+			Boolean logoutSuccess = Boolean.parseBoolean(logoutResult.getFirstChildWithName(
+					LOGOUT_RETURN).getText());
 
-			instance.callFactory = new SoapCallFactory();
-			instance.returnParser = new SoapReturnParser();
-			instance.config = new SoapConfig(magentoapi
-					.getProperty(MAGENTO_API_USERNAME), magentoapi
-					.getProperty(MAGENTO_API_PASSWORD), magentoapi
-					.getProperty(MAGENTO_API_URL));
+			// now, we restart another session with appropriate config
+			this.config = config;
 
-			try {
-				instance.sender = new ServiceClient();
-			} catch (AxisFault e) {
-				e.printStackTrace();
-				throw new RuntimeException(e.getMessage());
-			}
-
-			instance.connectOptions = new Options();
-			instance.connectOptions.setTo(new EndpointReference(instance.config
-					.getRemoteHost()));
-			instance.connectOptions
-					.setTransportInProtocol(Constants.TRANSPORT_HTTP);
+			connectOptions = new Options();
+			connectOptions.setTo(new EndpointReference(config.getRemoteHost()));
+			connectOptions.setTransportInProtocol(Constants.TRANSPORT_HTTP);
 
 			// to use the same tcp connection for multiple calls
 			// workaround:
 			// http://amilachinthaka.blogspot.com/2009/05/improving-axis2-client-http-transport.html
-
 			MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
 			HttpClient httpClient = new HttpClient(httpConnectionManager);
-			instance.connectOptions.setProperty(
-					HTTPConstants.REUSE_HTTP_CLIENT, Constants.VALUE_TRUE);
-			instance.connectOptions.setProperty(
-					HTTPConstants.CACHED_HTTP_CLIENT, httpClient);
-			instance.sender.setOptions(instance.connectOptions);
+			connectOptions.setProperty(HTTPConstants.REUSE_HTTP_CLIENT,
+					Constants.VALUE_TRUE);
+			connectOptions.setProperty(HTTPConstants.CACHED_HTTP_CLIENT,
+					httpClient);
+
+			sender = new ServiceClient();
+			sender.setOptions(connectOptions);
+
+			OMElement loginMethod = callFactory.createLoginCall(this.config
+					.getApiUser(), this.config.getApiKey());
+			OMElement loginResult = sender.sendReceive(loginMethod);
+
+			String session = loginResult.getFirstChildWithName(LOGIN_RETURN)
+					.getText();
+			this.sessionId = session;
+
+		} catch (AxisFault e) {
+			e.printStackTrace();
 		}
-
-		return MagentoSoapClientHolder.INSTANCE;
 	}
 
-	@Override
-	public Boolean login() throws AxisFault {
-		OMElement method = callFactory.createLoginCall(
-				this.config.getApiUser(), this.config.getApiKey());
-
-		OMElement result = sender.sendReceive(method);
-
-		String session = result.getFirstChildWithName(LOGIN_RETURN).getText();
-		this.sessionId = session;
-
-		return true;
-	}
-
-	@Override
-	public Boolean logout() throws AxisFault {
-		OMElement method = callFactory.createLogoutCall(sessionId);
-
-		OMElement result = sender.sendReceive(method);
-
-		return Boolean.parseBoolean(result.getFirstChildWithName(LOGOUT_RETURN)
-				.getText());
-	}
-
-	@Override
 	public Object call(ResourcePath path, Object args) throws AxisFault {
 		OMElement method = callFactory.createCall(sessionId, path.getPath(),
 				args);
-
 		OMElement result = sender.sendReceive(method);
-
 		return returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
 	}
 
-	@Override
 	public Object multiCall(List<ResourcePath> path, List<Object> args)
 			throws AxisFault {
 		throw new UnsupportedOperationException("not implemented");
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
+	@Override
+	protected void finalize() throws Throwable {
+		// close the connection to magento api
+		// first, we need to logout the previous session
+		OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
+		OMElement logoutResult = sender.sendReceive(logoutMethod);
+		Boolean logoutSuccess = Boolean.parseBoolean(logoutResult.getFirstChildWithName(
+				LOGOUT_RETURN).getText());
+
+		super.finalize();
 	}
 }
