@@ -47,19 +47,4 @@ public class ProductAttributeSet extends Connection {
 
 		return new String[0][0];
 	}
-
-	/*
-	 * main
-	 */
-	public static void main(String[] args) {
-		// login
-		ProductAttributeSet pas = new ProductAttributeSet();
-
-		// test procuckt atribute list
-		String[][] attributeSetList = pas.getList();
-		System.out.println("*** DEBUG *** getList:\n" + Utils.viewTable(attributeSetList));
-
-		// logout
-		pas.logout();
-	}
 }
