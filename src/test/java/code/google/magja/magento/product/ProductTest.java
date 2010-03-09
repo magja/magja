@@ -20,18 +20,6 @@ public class ProductTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.magento.product.Product#getList()}.
-	 */
-	@Test
-	public void testGetList() {
-		Product p = new Product();
-		String productList = p.getList();
-		System.out.println("*** DEBUG *** productList:" + productList);
-		p.logout();
-	}
-
-	/**
-	 * Test method for
 	 * {@link code.google.magja.magento.product.Product#create(java.lang.String)}
 	 * .
 	 */
@@ -40,6 +28,18 @@ public class ProductTest {
 		Product p = new Product();
 		productId = p.create(SKU_PRODUCT);
 		assertFalse((new Integer(-1)).equals(productId));
+		p.logout();
+	}
+
+	/**
+	 * Test method for
+	 * {@link code.google.magja.magento.product.Product#getList()}.
+	 */
+	@Test
+	public void testGetList() {
+		Product p = new Product();
+		String productList = p.getList();
+		System.out.println("*** DEBUG *** productList:" + productList);
 		p.logout();
 	}
 
@@ -119,21 +119,17 @@ public class ProductTest {
 				generateProductProperties(), 1);
 
 		// then delete created
-		Boolean result = p.delete(productId);
-
-		System.out.println(result);
-
-		assertTrue(result);
+		assertTrue(p.delete(productId));
 		p.logout();
 	}
-
 
 	private ProductProperties generateProductProperties() {
 		ProductProperties mpp = new ProductProperties();
 		mpp.setName("Remote Testing Inserting Product");
-		mpp.setDescription("This is a remote testing to insert a new Product");
-		mpp
-				.setShort_description("This is a remote testing to insert a new Product");
+		mpp.setDescription("This is a Description of remote " +
+				"testing to insert a new Product");
+		mpp.setShort_description("This is a Short Description of " +
+				"remote testing to insert a new Product");
 
 		mpp.setPrice(new Double(120.34));
 		mpp.set("cost", new Double(64.68));

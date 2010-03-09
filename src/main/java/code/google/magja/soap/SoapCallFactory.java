@@ -10,13 +10,13 @@ import org.apache.axiom.om.OMNamespace;
 
 public class SoapCallFactory {
 
-	OMFactory fac;
-	OMNamespace noNs;
-	OMNamespace mag;
-	OMNamespace soapEnc;
-	OMNamespace soapXml;
-	OMNamespace xsi;
-	OMNamespace xsd;
+	private OMFactory fac;
+	private OMNamespace noNs;
+	private OMNamespace mag;
+	private OMNamespace soapEnc;
+	private OMNamespace soapXml;
+	private OMNamespace xsi;
+	private OMNamespace xsd;
 	private static final String CORE_LOGIN = "login";
 	private static final String CORE_CALL = "call";
 	private static final String CORE_MULTI_CALL = "multiCall";
@@ -52,7 +52,7 @@ public class SoapCallFactory {
 	 * @param password
 	 * @return the created method as axiom element
 	 */
-	OMElement createLoginCall(String user, String password) {
+	public OMElement createLoginCall(String user, String password) {
 		OMElement method = fac.createOMElement(CORE_LOGIN, mag);
 
 		OMElement paramUser = fac.createOMElement("username", mag);
@@ -71,7 +71,7 @@ public class SoapCallFactory {
 	 * @param sessionId
 	 * @return the created method as axiom element
 	 */
-	OMElement createLogoutCall(String sessionId) {
+	public OMElement createLogoutCall(String sessionId) {
 		OMElement method = fac.createOMElement(CORE_LOGOUT, mag);
 		OMElement paramSession = fac.createOMElement(SESSION_ID, mag);
 		paramSession.addChild(fac.createOMText(paramSession, sessionId));
@@ -80,7 +80,7 @@ public class SoapCallFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	OMElement createCall(String sessionId, String methodPath, Object arg) {
+	public OMElement createCall(String sessionId, String methodPath, Object arg) {
 		OMElement method = fac.createOMElement(CORE_CALL, mag);
 
 		// Register XML namespaces in method

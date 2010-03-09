@@ -190,6 +190,8 @@ public class SoapReturnParser {
 				} else if (test.getAttributeValue().equals("false")) {
 					return false;
 				}
+			} else {
+				return Boolean.parseBoolean(items.getText());
 			}
 		}
 		return false;
