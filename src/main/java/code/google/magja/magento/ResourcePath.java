@@ -47,6 +47,7 @@ public enum ResourcePath {
 	CustomerAddressInfo("customer_address.info"),
 	CustomerAddressUpdate("customer_address.update"),
 	CustomerAddressDelete("customer_address.delete"),
+	CustomerGroupList("customer_group.list"),
 	SalesOrderList("sales_order.list"),
 	SalesOrderInfo("sales_order.info"),
 	SalesOrderAddComment("sales_order.addComment"),
