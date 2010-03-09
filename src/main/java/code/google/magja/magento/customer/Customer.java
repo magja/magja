@@ -153,7 +153,5 @@ public class Customer extends Connection {
 		boolean state = c.delete(9);
 		System.out.println("*** DEBUG *** deleteCustomer:" + state);
 
-		// logout
-		c.logout();
 	}
 }
