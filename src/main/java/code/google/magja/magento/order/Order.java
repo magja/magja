@@ -197,7 +197,5 @@ public class Order extends Connection {
 		state = o.cancel(100000005);
 		System.out.println("*** DEBUG *** cancel:" + state);
 
-		// logout
-		o.logout();
 	}
 }
