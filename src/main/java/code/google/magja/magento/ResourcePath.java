@@ -59,7 +59,8 @@ public enum ResourcePath {
 	SalesOrderShipmentAddComment("sales_order_shipment.addComment"),
 	SalesOrderShipmentAddTrack("sales_order_shipment.addTrack"),
 	SalesOrderShipmentRemoveTrack("sales_order_shipment.removeTrack"),
-	SalesOrderShipmentGetCarriers("sales_order_shipment.getCarriers");
+	SalesOrderShipmentGetCarriers("sales_order_shipment.getCarriers"),
+	CountryList("country.list");
 
 	private String path;
 
