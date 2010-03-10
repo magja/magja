@@ -3,13 +3,14 @@
  */
 package code.google.magja.service.product;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductAttributeSet;
 import code.google.magja.model.product.ProductType;
 import code.google.magja.service.RemoteServiceFactory;
 import code.google.magja.service.ServiceException;
@@ -23,7 +24,12 @@ public class ProductRemoteServiceTest {
 
 	private ProductRemoteService service;
 
+	private String productSku;
+
+	private Integer productId;
+
 	/**
+	 * This method will run before the execution of any method
 	 * @throws java.lang.Exception
 	 */
 	@Before
@@ -38,8 +44,7 @@ public class ProductRemoteServiceTest {
 	public void testSave() throws ServiceException {
 
 		Product product = new Product();
-
-		product.setSku(MagjaStringUtils.randomString(3, 10));
+		product.setSku(MagjaStringUtils.randomString(3, 10).toUpperCase());
 		product.setName("Testing save One");
 		product.setShortDescription("this is a short description");
 		product.setDescription("this is a description");
@@ -60,6 +65,11 @@ public class ProductRemoteServiceTest {
 
 		service.save(product);
 
+		assertTrue(product.getId() != null);
+
+		// set up the id and sku for use in other methods
+		productId = product.getId();
+		productSku = product.getSku();
 	}
 
 	/**
@@ -68,14 +78,13 @@ public class ProductRemoteServiceTest {
 	@Test
 	public void testGetByIdAndSku() throws ServiceException {
 
-		Product product = service.getById(4);
-		System.out.println(product.toString());
+		testSave();
 
-		System.out.println(product.getType());
+		Product productById = service.getById(productId);
+		assertTrue(productById != null);
 
-		//product = service.getBySku("PRDAUTOTEST");
-		//System.out.println(product.toString());
-
+		Product productBySku = service.getBySku(productSku);
+		assertTrue(productBySku != null);
 	}
 
 	/**
@@ -101,16 +110,23 @@ public class ProductRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#listAllProductAttributeSet()}.
+	 * Test method for
+	 * {@link code.google.magja.service.product.ProductRemoteServiceImpl#delete(java.lang.Integer)}
+	 * {@link code.google.magja.service.product.ProductRemoteServiceImpl#delete(java.lang.String)}.
 	 */
 	@Test
-	public void testListAllProductAttributeSet() throws ServiceException {
-		List<ProductAttributeSet> sets  = service.listAllProductAttributeSet();
+	public void testDelete() throws ServiceException {
+		// first create some product
+		testSave();
 
-		for (ProductAttributeSet set : sets)
-			System.out.println(set.toString());
+		// then delete it by id
+		service.delete(productId);
+
+		// another product
+		testSave();
+
+		// delete it
+		service.delete(productSku);
 	}
-
-
 
 }

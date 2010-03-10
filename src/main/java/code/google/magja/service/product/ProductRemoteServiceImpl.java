@@ -151,6 +151,30 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		return prdAttSet;
 	}
 
+	/**
+	 * Delete a product by your id (prefered) or your sku
+	 * @param id
+	 * @param sku
+	 * @throws ServiceException
+	 */
+	private void delete(Integer id, String sku) throws ServiceException {
+
+		Boolean success = false;
+		try {
+			if(id != null) {
+				success = (Boolean) soapClient.call(ResourcePath.ProductDelete, id);
+			} else if(sku != null) {
+				success = (Boolean) soapClient.call(ResourcePath.ProductDelete, sku);
+			}
+
+		} catch (AxisFault e) {
+			System.out.println(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		if(!success) throw new ServiceException("Not success deleting product.");
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -238,7 +262,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * .magja.model.product.Product)
 	 */
 	@Override
-	public Product save(Product product) throws ServiceException {
+	public void save(Product product) throws ServiceException {
 
 		if (product.getId() == null) {
 
@@ -266,8 +290,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		} else {
 			// TODO implement the update product
 		}
-
-		return product;
 	}
 
 	/*
@@ -305,39 +327,22 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.product.ProductRemoteService#listAllProductAttributeSet()
+	 * @see code.google.magja.service.product.ProductRemoteService#delete(java.lang.Integer)
 	 */
 	@Override
-	public List<ProductAttributeSet> listAllProductAttributeSet()
-			throws ServiceException {
-
-		List<ProductAttributeSet> resultList = new ArrayList<ProductAttributeSet>();
-
-		List<Map<String, Object>> attSetList;
-		try {
-			attSetList = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductAttributeSetList, "");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ServiceException(e.getMessage());
-		}
-
-		// first, we have to put the default attributeSet to list because it isnt listed by the api
-		//ProductAttributeSet setDefault = new ProductAttributeSet();
-		//setDefault.setId(soapClient.getConfig().getDefaultAttributeSetId());
-		//setDefault.setName("Default");
-		//resultList.add(setDefault);
-
-		if(attSetList == null) return resultList;
-
-		for (Map<String, Object> att : attSetList) {
-			ProductAttributeSet set = new ProductAttributeSet();
-			for (Map.Entry<String, Object> attribute : att.entrySet())
-				set.set(attribute.getKey(), attribute.getValue());
-			resultList.add(set);
-		}
-
-		return resultList;
+	public void delete(Integer id) throws ServiceException {
+		delete(id, null);
 	}
+
+	/* (non-Javadoc)
+	 * @see code.google.magja.service.product.ProductRemoteService#delete(java.lang.String)
+	 */
+	@Override
+	public void delete(String sku) throws ServiceException {
+		delete(null, sku);
+	}
+
+
 
 
 

@@ -11,6 +11,8 @@ import org.junit.Test;
  */
 public class ProductTest {
 
+
+
 	/**
 	 * Test the reflection of Product
 	 */

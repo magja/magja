@@ -6,7 +6,6 @@ package code.google.magja.service.product;
 import java.util.List;
 
 import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductAttributeSet;
 import code.google.magja.model.product.ProductType;
 import code.google.magja.service.GeneralService;
 import code.google.magja.service.ServiceException;
@@ -51,22 +50,28 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * Save a product to the Magento, if the id attribute is null, then will create
 	 * a new product, otherwise will update the product with that id
 	 * @param product
-	 * @return the product inserted or updated
 	 * @throws ServiceException
 	 */
-	public abstract Product save(Product product) throws ServiceException;
+	public abstract void save(Product product) throws ServiceException;
+
+	/**
+	 * Remove a product from magento with the specified id
+	 * @param id
+	 * @throws ServiceException
+	 */
+	public abstract void delete(Integer id) throws ServiceException;
+
+	/**
+	 * remove a product from magento with the specified sku
+	 * @param sku
+	 * @throws ServiceException
+	 */
+	public abstract void delete(String sku) throws ServiceException;
 
 	/**
 	 * @return List of all ProductTypes from magento api
 	 * @throws ServiceException
 	 */
 	public abstract List<ProductType> listAllProductTypes() throws ServiceException;
-
-	/**
-	 * @return List of all ProductAttributeSet from magento api
-	 * @throws ServiceException
-	 */
-	public abstract List<ProductAttributeSet> listAllProductAttributeSet() throws ServiceException;
-
 
 }

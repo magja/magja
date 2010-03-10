@@ -5,6 +5,8 @@ package code.google.magja.service;
 
 import code.google.magja.service.category.CategoryRemoteService;
 import code.google.magja.service.category.CategoryRemoteServiceImpl;
+import code.google.magja.service.product.ProductAttributeRemoteService;
+import code.google.magja.service.product.ProductAttributeRemoteServiceImpl;
 import code.google.magja.service.product.ProductRemoteService;
 import code.google.magja.service.product.ProductRemoteServiceImpl;
 import code.google.magja.soap.MagentoSoapClient;
@@ -16,13 +18,26 @@ import code.google.magja.soap.MagentoSoapClient;
 public class RemoteServiceFactory {
 
 	/**
+	 * @return the productAttributeRemoteService
+	 */
+	public static ProductAttributeRemoteService getProductAttributeRemoteService() {
+
+		ProductAttributeRemoteService productAttributeRemoteService = new ProductAttributeRemoteServiceImpl();
+		productAttributeRemoteService.setSoapClient(MagentoSoapClient
+				.getInstance());
+
+		return productAttributeRemoteService;
+	}
+
+	/**
 	 * @return the productRemoteService
 	 */
 	public static ProductRemoteService getProductRemoteService() {
 
 		ProductRemoteService productRemoteService = new ProductRemoteServiceImpl();
 		productRemoteService.setSoapClient(MagentoSoapClient.getInstance());
-		productRemoteService.setCategoryRemoteService(getCategoryRemoteService());
+		productRemoteService
+				.setCategoryRemoteService(getCategoryRemoteService());
 
 		return productRemoteService;
 	}
