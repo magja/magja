@@ -106,12 +106,12 @@ public class Inventory extends Connection {
 		Inventory i = new Inventory();
 
 		// get shipment list
-		String list = i.getList(new String[] { "999", "t-shirt-lrg-blue" });
+		String list = i.getList(new String[] { "22", "19", "VTADVLIHWL" });
 		System.out.println("*** DEBUG *** getList:" + list);
 
 		// get shipment list
-		boolean state = i.update("1000", 5, 1);
-		System.out.println("*** DEBUG *** update:" + state);
+		//boolean state = i.update("22", 50);
+		//System.out.println("*** DEBUG *** update:" + state);
 
 	}
 }

@@ -4,9 +4,12 @@
 package code.google.magja.service.product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.axis2.AxisFault;
 
@@ -43,16 +46,23 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		this.categoryRemoteService = categoryRemoteService;
 	}
 
-	/*
-	 * Build the object Product with your dependencies
-	 */
-	private Product buildProduct(Map<String, Object> mpp)
-			throws ServiceException {
+	private Product buildProductBasic(Map<String, Object> mpp) {
 		Product product = new Product();
 
 		// populate the basic fields
 		for (Map.Entry<String, Object> attribute : mpp.entrySet())
 			product.set(attribute.getKey(), attribute.getValue());
+
+		return product;
+	}
+
+	/*
+	 * Build the object Product with your dependencies
+	 */
+	private Product buildProduct(Map<String, Object> mpp, boolean dependencies)
+			throws ServiceException {
+
+		Product product = buildProductBasic(mpp);
 
 		// set product type
 		if (mpp.get("type") != null) {
@@ -60,7 +70,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			ProductType type = ProductTypeEnum.getTypeOf((String) mpp
 					.get("type"));
 
-			if (type == null) {
+			if (type == null && dependencies) {
 				/*
 				 * means its a type not covered by the enum, so we have to look
 				 * in magento api to get this type
@@ -79,14 +89,21 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		}
 
 		// set the attributeSet
-		if (mpp.get("set") != null)
+		if (mpp.get("set") != null && dependencies)
 			product.setAttributeSet(getAttributeSet((String) mpp.get("set")));
 
 		// categories - dont get the full tree, only basic info of categories
-		if (mpp.get("category_ids") != null)
+		if (mpp.get("category_ids") != null && dependencies)
 			product.getCategories().addAll(
 					getCategoriesBasicInfo((List<Object>) mpp
 							.get("category_ids")));
+
+		// Inventory
+		if (dependencies) {
+			Set<Product> products = new HashSet<Product>();
+			products.add(product);
+			getInventoryInfo(products);
+		}
 
 		return product;
 	}
@@ -153,6 +170,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Delete a product by your id (prefered) or your sku
+	 *
 	 * @param id
 	 * @param sku
 	 * @throws ServiceException
@@ -161,18 +179,51 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 		Boolean success = false;
 		try {
-			if(id != null) {
-				success = (Boolean) soapClient.call(ResourcePath.ProductDelete, id);
-			} else if(sku != null) {
-				success = (Boolean) soapClient.call(ResourcePath.ProductDelete, sku);
+			if (id != null) {
+				success = (Boolean) soapClient.call(ResourcePath.ProductDelete,
+						id);
+			} else if (sku != null) {
+				success = (Boolean) soapClient.call(ResourcePath.ProductDelete,
+						sku);
 			}
 
 		} catch (AxisFault e) {
 			System.out.println(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
-		if(!success) throw new ServiceException("Not success deleting product.");
+		if (!success)
+			throw new ServiceException("Not success deleting product.");
 
+	}
+
+	/**
+	 * List the products, if dependencies is true, the products will be
+	 * populated with all your dependencies, otherwise, no.
+	 *
+	 * @param dependencies
+	 * @return List<Product>
+	 * @throws ServiceException
+	 */
+	private List<Product> list(boolean dependencies) throws ServiceException {
+		List<Product> products = new ArrayList<Product>();
+
+		List<Map<String, Object>> productList;
+
+		try {
+			productList = (List<Map<String, Object>>) soapClient.call(
+					ResourcePath.ProductList, "");
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		if (productList == null)
+			return products;
+
+		for (Map<String, Object> mpp : productList)
+			products.add(buildProduct(mpp, dependencies));
+
+		return products;
 	}
 
 	/*
@@ -197,7 +248,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		if (mpp == null)
 			return null;
 		else
-			return buildProduct(mpp);
+			return buildProduct(mpp, true);
 	}
 
 	/*
@@ -222,7 +273,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		if (mpp == null)
 			return null;
 		else
-			return buildProduct(mpp);
+			return buildProduct(mpp, true);
 	}
 
 	/*
@@ -232,26 +283,18 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 */
 	@Override
 	public List<Product> listAll() throws ServiceException {
+		return list(true);
+	}
 
-		List<Product> products = new ArrayList<Product>();
-
-		List<Map<String, Object>> productList;
-
-		try {
-			productList = (List<Map<String, Object>>) soapClient.call(
-					ResourcePath.ProductList, "");
-		} catch (AxisFault e) {
-			e.printStackTrace();
-			throw new ServiceException(e.getMessage());
-		}
-
-		if (productList == null)
-			return products;
-
-		for (Map<String, Object> mpp : productList)
-			products.add(buildProduct(mpp));
-
-		return products;
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * code.google.magja.service.product.ProductRemoteService#listAllNoDep()
+	 */
+	@Override
+	public List<Product> listAllNoDep() throws ServiceException {
+		return list(false);
 	}
 
 	/*
@@ -286,6 +329,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
+
+			// inventory
+			if(product.getQty() != null && (new Double(0) < product.getQty()))
+				updateInventory(product);
 
 		} else {
 			// TODO implement the update product
@@ -326,24 +373,109 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		return resultList;
 	}
 
-	/* (non-Javadoc)
-	 * @see code.google.magja.service.product.ProductRemoteService#delete(java.lang.Integer)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * code.google.magja.service.product.ProductRemoteService#delete(java.lang
+	 * .Integer)
 	 */
 	@Override
 	public void delete(Integer id) throws ServiceException {
 		delete(id, null);
 	}
 
-	/* (non-Javadoc)
-	 * @see code.google.magja.service.product.ProductRemoteService#delete(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * code.google.magja.service.product.ProductRemoteService#delete(java.lang
+	 * .String)
 	 */
 	@Override
 	public void delete(String sku) throws ServiceException {
 		delete(null, sku);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * code.google.magja.service.product.ProductRemoteService#getInventoryInfo
+	 * (java.util.Set)
+	 */
+	@Override
+	public void getInventoryInfo(Set<Product> products) throws ServiceException {
 
+		String[] productIds = new String[products.size()];
+		int i = 0;
+		for (Product product : products)
+			productIds[i++] = product.getId().toString();
 
+		List<Object> param = new LinkedList<Object>();
+		param.add(productIds);
 
+		List<Map<String, Object>> resultList = null;
+		try {
+			resultList = (List<Map<String, Object>>) soapClient.call(
+					ResourcePath.ProductStockList, param);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
+		for (Map<String, Object> iv : resultList) {
+			for (Product product : products) {
+				if (product.getId().equals(
+						Integer.parseInt((String) iv.get("product_id")))) {
+					if (iv.get("qty") != null || !"".equals(iv.get("qty")))
+						product.setQty(Double.parseDouble((String) iv
+								.get("qty")));
+					if (iv.get("is_in_stock") != null
+							|| !"".equals(iv.get("is_in_stock"))) {
+						if (((String) iv.get("is_in_stock")).equals("0"))
+							product.setInStock(false);
+						else
+							product.setInStock(true);
+					}
+				}
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * code.google.magja.service.product.ProductRemoteService#updateInventory
+	 * (code.google.magja.model.product.Product)
+	 */
+	@Override
+	public void updateInventory(Product product) throws ServiceException {
+
+		if (product.getId() == null && product.getSku() == null)
+			throw new ServiceException(
+					"The product must have the id or the sku seted for update inventory");
+
+		Map<String, Object> properties = new HashMap<String, Object>();
+		properties.put("qty", product.getQty());
+
+		if(product.getInStock() == null)
+			product.setInStock(product.getQty() > 0);
+
+		properties.put("is_in_stock", (product.getInStock() ? "1" : "0"));
+
+		List<Object> param = new LinkedList<Object>();
+		param
+				.add((product.getId() != null ? product.getId() : product
+						.getSku()));
+		param.add(properties);
+
+		try {
+			soapClient.call(ResourcePath.ProductStockUpdate, param);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+	}
 }

@@ -47,6 +47,10 @@ public class Product extends BaseMagentoModel {
 
 	private List<Category> categories = new ArrayList<Category>();
 
+	private Double qty;
+
+	private Boolean inStock;
+
 	public Product() {
 		super();
 		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
@@ -234,6 +238,34 @@ public class Product extends BaseMagentoModel {
 		this.cost = cost;
 	}
 
+	/**
+	 * @return the qty
+	 */
+	public Double getQty() {
+		return qty;
+	}
+
+	/**
+	 * @param qty the qty to set
+	 */
+	public void setQty(Double qty) {
+		this.qty = qty;
+	}
+
+	/**
+	 * @return the inStock
+	 */
+	public Boolean getInStock() {
+		return inStock;
+	}
+
+	/**
+	 * @param inStock the inStock to set
+	 */
+	public void setInStock(Boolean inStock) {
+		this.inStock = inStock;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -249,8 +281,10 @@ public class Product extends BaseMagentoModel {
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result + ((inStock == null) ? 0 : inStock.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((qty == null) ? 0 : qty.hashCode());
 		result = prime
 				* result
 				+ ((shortDescription == null) ? 0 : shortDescription.hashCode());
@@ -300,6 +334,11 @@ public class Product extends BaseMagentoModel {
 				return false;
 		} else if (!enabled.equals(other.enabled))
 			return false;
+		if (inStock == null) {
+			if (other.inStock != null)
+				return false;
+		} else if (!inStock.equals(other.inStock))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -309,6 +348,11 @@ public class Product extends BaseMagentoModel {
 			if (other.price != null)
 				return false;
 		} else if (!price.equals(other.price))
+			return false;
+		if (qty == null) {
+			if (other.qty != null)
+				return false;
+		} else if (!qty.equals(other.qty))
 			return false;
 		if (shortDescription == null) {
 			if (other.shortDescription != null)
@@ -347,12 +391,12 @@ public class Product extends BaseMagentoModel {
 	public String toString() {
 		return "Product [attributeSet=" + attributeSet + ", categories="
 				+ categories + ", cost=" + cost + ", description="
-				+ description + ", enabled=" + enabled + ", name=" + name
-				+ ", price=" + price + ", shortDescription=" + shortDescription
-				+ ", sku=" + sku + ", taxClassId=" + taxClassId + ", type="
-				+ type + ", websites=" + Arrays.toString(websites)
-				+ ", weight=" + weight + ", id=" + id + ", properties="
-				+ properties + "]";
+				+ description + ", enabled=" + enabled + ", inStock=" + inStock
+				+ ", name=" + name + ", price=" + price + ", qty=" + qty
+				+ ", shortDescription=" + shortDescription + ", sku=" + sku
+				+ ", taxClassId=" + taxClassId + ", type=" + type
+				+ ", websites=" + Arrays.toString(websites) + ", weight="
+				+ weight + ", id=" + id + ", properties=" + properties + "]";
 	}
 
 	/* (non-Javadoc)
