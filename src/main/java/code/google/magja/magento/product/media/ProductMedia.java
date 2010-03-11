@@ -105,7 +105,7 @@ public class ProductMedia extends Connection {
 		ProductMedia pm = new ProductMedia();
 
 		// test, create images
-		String newMedia = pm.create("n2610", "/tmp/3.jpg");
+		String newMedia = pm.create("VTHTX", "/home/andre/DEV/temp/AC-BR019_foto.jpg");
 		System.out.println("*** DEBUG *** createMedia:" + newMedia);
 
 		// test, get media info

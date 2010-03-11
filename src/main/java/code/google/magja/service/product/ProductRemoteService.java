@@ -111,4 +111,14 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 */
 	public abstract void updateInventory(Product product)
 			throws ServiceException;
+
+	/**
+	 * Populate medias attribute of product object specified in parameter with
+	 * the product medias associated
+	 *
+	 * @param product
+	 * @throws ServiceException
+	 */
+	public abstract void getProductMedias(Product product)
+			throws ServiceException;
 }

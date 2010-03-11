@@ -331,7 +331,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			}
 
 			// inventory
-			if(product.getQty() != null && (new Double(0) < product.getQty()))
+			if (product.getQty() != null && (new Double(0) < product.getQty()))
 				updateInventory(product);
 
 		} else {
@@ -460,7 +460,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put("qty", product.getQty());
 
-		if(product.getInStock() == null)
+		if (product.getInStock() == null)
 			product.setInStock(product.getQty() > 0);
 
 		properties.put("is_in_stock", (product.getInStock() ? "1" : "0"));
@@ -477,5 +477,17 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * code.google.magja.service.product.ProductRemoteService#getProductMedias
+	 * (code.google.magja.model.product.Product)
+	 */
+	@Override
+	public void getProductMedias(Product product) throws ServiceException {
+		// TODO Auto-generated method stub
 	}
 }
