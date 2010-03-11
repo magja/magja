@@ -3,11 +3,13 @@
  */
 package code.google.magja.model.product;
 
-import java.awt.Image;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import code.google.magja.model.BaseMagentoModel;
+import code.google.magja.model.media.Media;
 import code.google.magja.utils.PropertyLoader;
 
 /**
@@ -43,7 +45,7 @@ public class ProductMedia extends BaseMagentoModel {
 
 	private String url;
 
-	private Image image;
+	private Media image;
 
 	public ProductMedia() {
 		super();
@@ -56,17 +58,24 @@ public class ProductMedia extends BaseMagentoModel {
 	@Override
 	public Object serializeToApi() {
 
-		Map<String, Object> properties = getAllProperties();
-		properties.remove("url");
+		Map<String, Object> props = getAllProperties();
+		props.remove("url");
 
 		String[] str_types = new String[types.size()];
 		int i = 0;
 		for (Type type : types)
 			str_types[i++] = type.toString().toLowerCase();
 
-		System.out.println(str_types.toString());
+		if(str_types.length > 0)
+			props.put("types", str_types);
 
-		return null;
+		props.put("file", image.serializeToApi());
+
+		List<Object> newMedia = new LinkedList<Object>();
+		newMedia.add(product.getId());
+		newMedia.add(props);
+
+		return newMedia;
 	}
 
 	/**
@@ -170,14 +179,14 @@ public class ProductMedia extends BaseMagentoModel {
 	/**
 	 * @return the image
 	 */
-	public Image getImage() {
+	public Media getImage() {
 		return image;
 	}
 
 	/**
 	 * @param image the image to set
 	 */
-	public void setImage(Image image) {
+	public void setImage(Media image) {
 		this.image = image;
 	}
 
@@ -190,6 +199,7 @@ public class ProductMedia extends BaseMagentoModel {
 		int result = super.hashCode();
 		result = prime * result + ((exclude == null) ? 0 : exclude.hashCode());
 		result = prime * result + ((file == null) ? 0 : file.hashCode());
+		result = prime * result + ((image == null) ? 0 : image.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result
 				+ ((position == null) ? 0 : position.hashCode());
@@ -220,6 +230,11 @@ public class ProductMedia extends BaseMagentoModel {
 				return false;
 		} else if (!file.equals(other.file))
 			return false;
+		if (image == null) {
+			if (other.image != null)
+				return false;
+		} else if (!image.equals(other.image))
+			return false;
 		if (label == null) {
 			if (other.label != null)
 				return false;
@@ -249,8 +264,8 @@ public class ProductMedia extends BaseMagentoModel {
 	@Override
 	public String toString() {
 		return "ProductMedia [exclude=" + exclude + ", file=" + file
-				+ ", label=" + label + ", position=" + position + ", types="
-				+ types + ", url=" + url + "]";
+				+ ", image=" + image + ", label=" + label + ", position="
+				+ position + ", types=" + types + ", url=" + url
+				+ ", properties=" + properties + "]";
 	}
-
 }

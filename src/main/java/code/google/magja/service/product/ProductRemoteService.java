@@ -22,8 +22,15 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @param categoryRemoteService
 	 *            the categoryRemoteService to set
 	 */
-	public void setCategoryRemoteService(
+	public abstract void setCategoryRemoteService(
 			CategoryRemoteService categoryRemoteService);
+
+	/**
+	 * @param productMediaRemoteService
+	 *            the productMediaRemoteService to set
+	 */
+	public abstract void setProductMediaRemoteService(
+			ProductMediaRemoteService productMediaRemoteService);
 
 	/**
 	 * Get the product from Magento with the specified sku

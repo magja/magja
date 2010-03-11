@@ -17,6 +17,7 @@ import code.google.magja.magento.ResourcePath;
 import code.google.magja.model.category.Category;
 import code.google.magja.model.product.Product;
 import code.google.magja.model.product.ProductAttributeSet;
+import code.google.magja.model.product.ProductMedia;
 import code.google.magja.model.product.ProductType;
 import code.google.magja.model.product.ProductTypeEnum;
 import code.google.magja.service.GeneralServiceImpl;
@@ -33,6 +34,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	private CategoryRemoteService categoryRemoteService;
 
+	private ProductMediaRemoteService productMediaRemoteService;
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -46,6 +49,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		this.categoryRemoteService = categoryRemoteService;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seecode.google.magja.service.product.ProductRemoteService#
+	 * setProductMediaRemoteService
+	 * (code.google.magja.service.product.ProductMediaRemoteService)
+	 */
+	@Override
+	public void setProductMediaRemoteService(
+			ProductMediaRemoteService productMediaRemoteService) {
+		this.productMediaRemoteService = productMediaRemoteService;
+
+	}
+
 	private Product buildProductBasic(Map<String, Object> mpp) {
 		Product product = new Product();
 
@@ -57,7 +74,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	}
 
 	/*
-	 * Build the object Product with your dependencies
+	 * Build the object Product with your dependencies, for the queries
 	 */
 	private Product buildProduct(Map<String, Object> mpp, boolean dependencies)
 			throws ServiceException {
@@ -104,6 +121,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			products.add(product);
 			getInventoryInfo(products);
 		}
+
+		// medias
+		if (dependencies)
+			product.setMedias(productMediaRemoteService.listByProduct(product));
 
 		return product;
 	}
@@ -333,6 +354,16 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			// inventory
 			if (product.getQty() != null && (new Double(0) < product.getQty()))
 				updateInventory(product);
+
+			// if have media, create it too
+			if (product.getMedias() != null) {
+				if (!product.getMedias().isEmpty()) {
+					for (ProductMedia media : product.getMedias()) {
+						if(media.getImage() != null && media.getImage().getData() != null)
+							productMediaRemoteService.save(media);
+					}
+				}
+			}
 
 		} else {
 			// TODO implement the update product

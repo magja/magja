@@ -88,11 +88,12 @@ public class ProductMediaRemoteServiceImpl extends
 			for (Map.Entry<String, Object> att : media.entrySet())
 				prd_media.set(att.getKey(), att.getValue());
 
-			if(media.get("types") != null) {
+			if (media.get("types") != null) {
 				prd_media.setTypes(new HashSet<ProductMedia.Type>());
 				List<String> types = (List<String>) media.get("types");
 				for (String type : types)
-					prd_media.getTypes().add(ProductMedia.Type.getValueOfString(type));
+					prd_media.getTypes().add(
+							ProductMedia.Type.getValueOfString(type));
 			}
 
 			result.add(prd_media);
@@ -110,8 +111,27 @@ public class ProductMediaRemoteServiceImpl extends
 	 */
 	@Override
 	public void save(ProductMedia productMedia) throws ServiceException {
-		// TODO Auto-generated method stub
+		if (productMedia.getProduct() == null)
+			throw new ServiceException(
+					"the product attribute for the media must be setted.");
 
+		if (productMedia.getImage() == null)
+			throw new ServiceException("the image is null.");
+
+		if (productMedia.getImage().getData() == null)
+			throw new ServiceException("invalid binary data for the image.");
+
+		try {
+			String result = (String) soapClient.call(
+					ResourcePath.ProductAttributeMediaCreate, productMedia
+							.serializeToApi());
+
+			productMedia.setFile(result);
+
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 }

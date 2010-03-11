@@ -3,6 +3,7 @@
  */
 package code.google.magja.model.product;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -302,7 +303,22 @@ public class Product extends BaseMagentoModel {
 	 * @param medias the medias to set
 	 */
 	public void setMedias(List<ProductMedia> medias) {
-		this.medias = medias;
+		medias = new ArrayList<ProductMedia>();
+		for (ProductMedia media : medias)
+			addMedia(media);
+	}
+
+	/**
+	 * @param media the media to add
+	 */
+	public void addMedia(ProductMedia media) {
+		if(media == null) throw new InvalidParameterException("the product media cannot be null");
+
+		media.setProduct(this);
+
+		if(medias == null) medias = new ArrayList<ProductMedia>();
+
+		if(!medias.contains(media)) medias.add(media);
 	}
 
 	/* (non-Javadoc)

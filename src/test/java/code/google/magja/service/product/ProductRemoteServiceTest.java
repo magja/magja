@@ -39,7 +39,7 @@ public class ProductRemoteServiceTest {
 		service = RemoteServiceFactory.getProductRemoteService();
 	}
 
-	private Product generateProduct() {
+	public static Product generateProduct() {
 		Product product = new Product();
 		product.setSku(MagjaStringUtils.randomString(3, 10).toUpperCase());
 		product.setName(MagjaStringUtils.randomString(3, 5) + " Product Test");
