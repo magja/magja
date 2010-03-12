@@ -303,7 +303,7 @@ public class Product extends BaseMagentoModel {
 	 * @param medias the medias to set
 	 */
 	public void setMedias(List<ProductMedia> medias) {
-		medias = new ArrayList<ProductMedia>();
+		this.medias = new ArrayList<ProductMedia>();
 		for (ProductMedia media : medias)
 			addMedia(media);
 	}
@@ -313,12 +313,9 @@ public class Product extends BaseMagentoModel {
 	 */
 	public void addMedia(ProductMedia media) {
 		if(media == null) throw new InvalidParameterException("the product media cannot be null");
-
+		if(this.medias == null) this.medias = new ArrayList<ProductMedia>();
 		media.setProduct(this);
-
-		if(medias == null) medias = new ArrayList<ProductMedia>();
-
-		if(!medias.contains(media)) medias.add(media);
+		this.medias.add(media);
 	}
 
 	/* (non-Javadoc)

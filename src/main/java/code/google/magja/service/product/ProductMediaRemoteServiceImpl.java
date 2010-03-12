@@ -5,6 +5,7 @@ package code.google.magja.service.product;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,44 @@ import code.google.magja.service.ServiceException;
 public class ProductMediaRemoteServiceImpl extends
 		GeneralServiceImpl<ProductMedia> implements ProductMediaRemoteService {
 
+	/**
+	 * Build the object ProductMedia with the Map returned by the api
+	 *
+	 * @param map
+	 * @return ProductMedia
+	 */
+	private ProductMedia buildProductMedia(Map<String, Object> map) {
+		ProductMedia prd_media = new ProductMedia();
+
+		for (Map.Entry<String, Object> att : map.entrySet())
+			prd_media.set(att.getKey(), att.getValue());
+
+		if (map.get("types") != null) {
+			prd_media.setTypes(new HashSet<ProductMedia.Type>());
+			List<String> types = (List<String>) map.get("types");
+			for (String type : types)
+				prd_media.getTypes().add(
+						ProductMedia.Type.getValueOfString(type));
+		}
+
+		return prd_media;
+	}
+
+	/**
+	 * test if the product is not null, and if the product id or sku is not null
+	 *
+	 * @param product
+	 * @return
+	 */
+	private Boolean validadeProduct(Product product) {
+		if (product == null)
+			return false;
+		else if (product.getId() != null || product.getSku() != null)
+			return true;
+		else
+			return false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -32,8 +71,26 @@ public class ProductMediaRemoteServiceImpl extends
 	 */
 	@Override
 	public void delete(ProductMedia productMedia) throws ServiceException {
-		// TODO Auto-generated method stub
+		if (!validadeProduct(productMedia.getProduct()))
+			throw new ServiceException(
+					"the product attribute for the media must be setted.");
 
+		List<Object> params = new LinkedList<Object>();
+		params.add((productMedia.getProduct().getId() != null ? productMedia
+				.getProduct().getId() : productMedia.getProduct().getSku()));
+		params.add(productMedia.getFile());
+
+		Boolean success = false;
+		try {
+			success = (Boolean) soapClient.call(
+					ResourcePath.ProductAttributeMediaRemove, params);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		if (!success)
+			throw new ServiceException("Error deleting the Product Media");
 	}
 
 	/*
@@ -46,8 +103,26 @@ public class ProductMediaRemoteServiceImpl extends
 	@Override
 	public ProductMedia getByProductAndFile(Product product, String file)
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (!validadeProduct(product))
+			throw new ServiceException(
+					"the product for the media must be setted.");
+
+		List<Object> params = new LinkedList<Object>();
+		params.add((product.getId() != null ? product.getId() : product
+				.getSku()));
+		params.add(file);
+
+		Map<String, Object> media = null;
+		try {
+			media = (Map<String, Object>) soapClient.call(
+					ResourcePath.ProductAttributeMediaInfo, params);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		return buildProductMedia(media);
 	}
 
 	/*
@@ -61,11 +136,11 @@ public class ProductMediaRemoteServiceImpl extends
 	public List<ProductMedia> listByProduct(Product product)
 			throws ServiceException {
 
-		List<ProductMedia> result = new ArrayList<ProductMedia>();
-
-		if (product.getId() == null && product.getSku() == null)
+		if (!validadeProduct(product))
 			throw new ServiceException(
 					"The product must have the id or the sku seted for list medias");
+
+		List<ProductMedia> result = new ArrayList<ProductMedia>();
 
 		List<Map<String, Object>> medias = null;
 		try {
@@ -81,23 +156,8 @@ public class ProductMediaRemoteServiceImpl extends
 		if (medias == null)
 			return null;
 
-		for (Map<String, Object> media : medias) {
-
-			ProductMedia prd_media = new ProductMedia();
-
-			for (Map.Entry<String, Object> att : media.entrySet())
-				prd_media.set(att.getKey(), att.getValue());
-
-			if (media.get("types") != null) {
-				prd_media.setTypes(new HashSet<ProductMedia.Type>());
-				List<String> types = (List<String>) media.get("types");
-				for (String type : types)
-					prd_media.getTypes().add(
-							ProductMedia.Type.getValueOfString(type));
-			}
-
-			result.add(prd_media);
-		}
+		for (Map<String, Object> media : medias)
+			result.add(buildProductMedia(media));
 
 		return result;
 	}
@@ -111,7 +171,7 @@ public class ProductMediaRemoteServiceImpl extends
 	 */
 	@Override
 	public void save(ProductMedia productMedia) throws ServiceException {
-		if (productMedia.getProduct() == null)
+		if (!validadeProduct(productMedia.getProduct()))
 			throw new ServiceException(
 					"the product attribute for the media must be setted.");
 

@@ -25,8 +25,8 @@ public class RemoteServiceFactory {
 	public static ProductMediaRemoteService getProductMediaRemoteService() {
 
 		ProductMediaRemoteService productMediaRemoteService = new ProductMediaRemoteServiceImpl();
-		productMediaRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance());
+		productMediaRemoteService
+				.setSoapClient(MagentoSoapClient.getInstance());
 
 		return productMediaRemoteService;
 	}
@@ -52,6 +52,8 @@ public class RemoteServiceFactory {
 		productRemoteService.setSoapClient(MagentoSoapClient.getInstance());
 		productRemoteService
 				.setCategoryRemoteService(getCategoryRemoteService());
+		productRemoteService
+				.setProductMediaRemoteService(getProductMediaRemoteService());
 
 		return productRemoteService;
 	}

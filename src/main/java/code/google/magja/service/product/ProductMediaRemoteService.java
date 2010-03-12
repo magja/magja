@@ -49,6 +49,13 @@ public interface ProductMediaRemoteService extends GeneralService<ProductMedia> 
 	public abstract void save(ProductMedia productMedia)
 			throws ServiceException;
 
+	/**
+	 * Delete a Product Media from magento, the object must have the product id
+	 * or sku specified
+	 *
+	 * @param productMedia
+	 * @throws ServiceException
+	 */
 	public abstract void delete(ProductMedia productMedia)
 			throws ServiceException;
 
