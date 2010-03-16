@@ -15,7 +15,7 @@ public class ProductLinkTest {
 	@Test
 	public void testGetList() {
 		ProductLink pl = new ProductLink();
-		String list = pl.getList("related", "2000");
+		String list = pl.getList("related", "32");
 		System.out.println("*** DEBUG *** getList:" + list);
 
 	}
@@ -29,7 +29,7 @@ public class ProductLinkTest {
 		ProductLink pl = new ProductLink();
 		ProductLinkProperties lp = new ProductLinkProperties();
 		lp.setQty(10.0);
-		boolean state = pl.assign("up_sell", "2000", new String[] { "2001", "2002", "3000", "4000" }, lp);
+		boolean state = pl.assign("up_sell", "17", new String[] { "18", "19", "20", "21" }, lp);
 		System.out.println("*** DEBUG *** assign:" + state);
 
 	}
@@ -80,7 +80,16 @@ public class ProductLinkTest {
 	public void testGetAttributes() {
 		ProductLink pl = new ProductLink();
 		String list = pl.getAttributes("related");
-		System.out.println("*** DEBUG *** getTypes:" + list);
+		System.out.println("*** DEBUG *** getTypes related:" + list);
+
+		list = pl.getAttributes("up_sell");
+		System.out.println("*** DEBUG *** getTypes up_sell:" + list);
+
+		list = pl.getAttributes("cross_sell");
+		System.out.println("*** DEBUG *** getTypes cross_sell:" + list);
+
+		list = pl.getAttributes("grouped");
+		System.out.println("*** DEBUG *** getTypes grouped:" + list);
 
 	}
 }
