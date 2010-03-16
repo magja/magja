@@ -17,6 +17,7 @@ import code.google.magja.magento.ResourcePath;
 import code.google.magja.model.category.Category;
 import code.google.magja.model.product.Product;
 import code.google.magja.model.product.ProductAttributeSet;
+import code.google.magja.model.product.ProductLink;
 import code.google.magja.model.product.ProductMedia;
 import code.google.magja.model.product.ProductType;
 import code.google.magja.model.product.ProductTypeEnum;
@@ -35,6 +36,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	private CategoryRemoteService categoryRemoteService;
 
 	private ProductMediaRemoteService productMediaRemoteService;
+
+	private ProductLinkRemoteService productLinkRemoteService;
 
 	/*
 	 * (non-Javadoc)
@@ -60,7 +63,19 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	public void setProductMediaRemoteService(
 			ProductMediaRemoteService productMediaRemoteService) {
 		this.productMediaRemoteService = productMediaRemoteService;
+	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seecode.google.magja.service.product.ProductRemoteService#
+	 * setProductLinkRemoteService
+	 * (code.google.magja.service.product.ProductLinkRemoteService)
+	 */
+	@Override
+	public void setProductLinkRemoteService(
+			ProductLinkRemoteService productLinkRemoteService) {
+		this.productLinkRemoteService = productLinkRemoteService;
 	}
 
 	private Product buildProductBasic(Map<String, Object> mpp) {
@@ -125,6 +140,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		// medias
 		if (dependencies)
 			product.setMedias(productMediaRemoteService.listByProduct(product));
+
+		// product links
+		if (dependencies)
+			product.setLinks(productLinkRemoteService.list(product));
 
 		return product;
 	}
@@ -359,8 +378,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			if (product.getMedias() != null) {
 				if (!product.getMedias().isEmpty()) {
 					for (ProductMedia media : product.getMedias()) {
-						if(media.getImage() != null && media.getImage().getData() != null)
+						if (media.getImage() != null
+								&& media.getImage().getData() != null)
 							productMediaRemoteService.save(media);
+					}
+				}
+			}
+
+			// if has links, create too
+			if (product.getLinks() != null) {
+				if (!product.getLinks().isEmpty()) {
+					for (ProductLink link : product.getLinks()) {
+						if (link.getLinkType() != null
+								&& (link.getId() != null || link.getSku() != null))
+							productLinkRemoteService.assign(product, link);
 					}
 				}
 			}
@@ -508,17 +539,5 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#getProductMedias
-	 * (code.google.magja.model.product.Product)
-	 */
-	@Override
-	public void getProductMedias(Product product) throws ServiceException {
-		// TODO Auto-generated method stub
 	}
 }

@@ -33,6 +33,13 @@ public interface ProductRemoteService extends GeneralService<Product> {
 			ProductMediaRemoteService productMediaRemoteService);
 
 	/**
+	 * @param productLinkRemoteService
+	 *            the productLinkRemoteService to set
+	 */
+	public abstract void setProductLinkRemoteService(
+			ProductLinkRemoteService productLinkRemoteService);
+
+	/**
 	 * Get the product from Magento with the specified sku
 	 *
 	 * @param sku
@@ -117,15 +124,5 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract void updateInventory(Product product)
-			throws ServiceException;
-
-	/**
-	 * Populate medias attribute of product object specified in parameter with
-	 * the product medias associated
-	 *
-	 * @param product
-	 * @throws ServiceException
-	 */
-	public abstract void getProductMedias(Product product)
 			throws ServiceException;
 }

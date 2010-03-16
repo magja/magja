@@ -47,21 +47,6 @@ public class ProductMediaRemoteServiceImpl extends
 		return prd_media;
 	}
 
-	/**
-	 * test if the product is not null, and if the product id or sku is not null
-	 *
-	 * @param product
-	 * @return
-	 */
-	private Boolean validadeProduct(Product product) {
-		if (product == null)
-			return false;
-		else if (product.getId() != null || product.getSku() != null)
-			return true;
-		else
-			return false;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *

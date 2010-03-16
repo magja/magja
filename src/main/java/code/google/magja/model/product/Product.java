@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import code.google.magja.model.BaseMagentoModel;
 import code.google.magja.model.category.Category;
@@ -53,6 +54,8 @@ public class Product extends BaseMagentoModel {
 	private Boolean inStock;
 
 	private List<ProductMedia> medias;
+
+	private Set<ProductLink> links;
 
 	public Product() {
 		super();
@@ -316,6 +319,20 @@ public class Product extends BaseMagentoModel {
 		if(this.medias == null) this.medias = new ArrayList<ProductMedia>();
 		media.setProduct(this);
 		this.medias.add(media);
+	}
+
+	/**
+	 * @return the links
+	 */
+	public Set<ProductLink> getLinks() {
+		return links;
+	}
+
+	/**
+	 * @param links the links to set
+	 */
+	public void setLinks(Set<ProductLink> links) {
+		this.links = links;
 	}
 
 	/* (non-Javadoc)
