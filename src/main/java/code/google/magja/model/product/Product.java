@@ -6,6 +6,7 @@ package code.google.magja.model.product;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -333,6 +334,15 @@ public class Product extends BaseMagentoModel {
 	 */
 	public void setLinks(Set<ProductLink> links) {
 		this.links = links;
+	}
+
+	/**
+	 * @param link the link to add
+	 */
+	public void addLink(ProductLink link) {
+		if(link == null) throw new InvalidParameterException("the product link cannot be null");
+		if (this.links == null) this.links = new HashSet<ProductLink>();
+		this.links.add(link);
 	}
 
 	/* (non-Javadoc)
