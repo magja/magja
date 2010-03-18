@@ -16,7 +16,7 @@ public class CategoryAttributeTest {
 	@Test
 	public void testCurrentStore() {
 		CategoryAttribute ca = new CategoryAttribute();
-		int list = ca.currentStore("de");
+		int list = ca.currentStore("default");
 		System.out.println("*** DEBUG *** currentStore:" + list);
 
 	}
@@ -40,7 +40,8 @@ public class CategoryAttributeTest {
 	@Test
 	public void testGetOptions() {
 		CategoryAttribute ca = new CategoryAttribute();
-		String list = ca.getOptions("default_sort_by", "de");
+		//String list = ca.getOptions("default_sort_by", "default");
+		String list = ca.getOptions("custom_design", "default");
 		System.out.println("*** DEBUG *** getOptions:" + list);
 
 	}

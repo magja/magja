@@ -18,6 +18,34 @@ import code.google.magja.service.ServiceException;
  */
 public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> implements CategoryRemoteService {
 
+	/**
+	 * Load children for the category
+	 * @param category
+	 * @throws ServiceException
+	 */
+	private void loadChildren(Category category) throws ServiceException {
+		if(category.get("children") != null) {
+			String str_children = (String) category.get("children");
+			String[] arr_children = str_children.split(",");
+			for (String str_child : arr_children) {
+				Category child = getByIdClean(new Integer(str_child));
+				if(child != null) category.addChild(child);
+			}
+		}
+	}
+
+	/**
+	 * load parent for the category
+	 * @param category
+	 * @throws ServiceException
+	 */
+	private void loadParent(Category category) throws ServiceException {
+		if(category.get("parent_id") != null) {
+			Category parent = getByIdClean((Integer) category.get("parent_id"));
+			category.setParent(parent);
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see code.google.magja.service.category.CategoryRemoteService#getByIdClean(java.lang.Integer)
 	 */
@@ -53,7 +81,8 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 
 		Category category = getByIdClean(id);
 
-		// TODO load category children
+		// load category children
+		loadChildren(category);
 
 		return category;
 	}
@@ -66,7 +95,8 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 
 		Category category = getByIdClean(id);
 
-		// TODO load category parent
+		// load category parent
+		loadParent(category);
 
 		return category;
 	}
@@ -79,7 +109,9 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 
 		Category category = getByIdClean(id);
 
-		// TODO load category parent and children
+		// load category parent and children
+		loadChildren(category);
+		loadParent(category);
 
 		return category;
 	}

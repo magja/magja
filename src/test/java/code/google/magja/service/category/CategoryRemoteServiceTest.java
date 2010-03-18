@@ -3,8 +3,6 @@
  */
 package code.google.magja.service.category;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,7 +39,8 @@ public class CategoryRemoteServiceTest {
 	 */
 	@Test
 	public void testGetByIdWithChildren() throws Exception {
-		fail("Not yet implemented"); // TODO
+		Category category = service.getByIdWithChildren(new Integer(2));
+		if(category != null) System.out.println(category.toString());
 	}
 
 	/**
@@ -49,7 +48,8 @@ public class CategoryRemoteServiceTest {
 	 */
 	@Test
 	public void testGetByIdWithParent() throws Exception {
-		fail("Not yet implemented"); // TODO
+		Category category = service.getByIdWithParent(new Integer(2));
+		if(category != null) System.out.println(category.toString());
 	}
 
 	/**
@@ -57,7 +57,8 @@ public class CategoryRemoteServiceTest {
 	 */
 	@Test
 	public void testGetByIdWithParentAndChildren() throws Exception {
-		fail("Not yet implemented"); // TODO
+		Category category = service.getByIdWithParentAndChildren(new Integer(2));
+		if(category != null) System.out.println(category.toString());
 	}
 
 }

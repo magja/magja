@@ -3,6 +3,8 @@
  */
 package code.google.magja.service;
 
+import code.google.magja.service.category.CategoryAttributeRemoteService;
+import code.google.magja.service.category.CategoryAttributeRemoteServiceImpl;
 import code.google.magja.service.category.CategoryRemoteService;
 import code.google.magja.service.category.CategoryRemoteServiceImpl;
 import code.google.magja.service.product.ProductAttributeRemoteService;
@@ -82,6 +84,17 @@ public class RemoteServiceFactory {
 		categoryRemoteService.setSoapClient(MagentoSoapClient.getInstance());
 
 		return categoryRemoteService;
+	}
+
+	/**
+	 * @return the categoryAttributeRemoteService
+	 */
+	public static CategoryAttributeRemoteService getCategoryAttributeRemoteService() {
+	
+		CategoryAttributeRemoteService categoryAttributeRemoteService = new CategoryAttributeRemoteServiceImpl();
+		categoryAttributeRemoteService.setSoapClient(MagentoSoapClient.getInstance());
+	
+		return categoryAttributeRemoteService;
 	}
 
 }

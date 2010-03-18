@@ -1,5 +1,7 @@
 package code.google.magja.model.category;
 
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.List;
 
 import code.google.magja.model.BaseMagentoModel;
@@ -35,6 +37,15 @@ public class Category extends BaseMagentoModel {
 	public Category() {
 		super();
 		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
+	}
+
+	/* (non-Javadoc)
+	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 */
+	@Override
+	public Object serializeToApi() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -191,6 +202,15 @@ public class Category extends BaseMagentoModel {
 		this.children = children;
 	}
 
+	/**
+	 * @param child the child to add
+	 */
+	public void addChild(Category child) {
+		if(child == null) throw new InvalidParameterException("the child cannot be null");
+		if(children == null) children = new ArrayList<Category>();
+		children.add(child);
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -301,15 +321,6 @@ public class Category extends BaseMagentoModel {
 				+ metaDescription + ", metaKeywords=" + metaKeywords
 				+ ", name=" + name + ", parent=" + parent + ", position="
 				+ position + ", id=" + id + ", properties=" + properties + "]";
-	}
-
-	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
-	 */
-	@Override
-	public Object serializeToApi() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
