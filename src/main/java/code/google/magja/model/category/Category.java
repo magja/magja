@@ -208,6 +208,7 @@ public class Category extends BaseMagentoModel {
 	public void addChild(Category child) {
 		if(child == null) throw new InvalidParameterException("the child cannot be null");
 		if(children == null) children = new ArrayList<Category>();
+		child.setParent(this);
 		children.add(child);
 	}
 
