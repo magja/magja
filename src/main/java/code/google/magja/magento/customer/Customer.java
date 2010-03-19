@@ -145,13 +145,12 @@ public class Customer extends Connection {
 		System.out.println("*** DEBUG *** getInfo:" + customerInfo);
 
 		// create customer
-		int customerId = c.create("First", "Last", "test@example.com",
-				"password");
-		System.out.println("*** DEBUG *** createCustomer:" + customerId);
+		//int customerId = c.create("First", "Last", "test@example.com", "password");
+		//System.out.println("*** DEBUG *** createCustomer:" + customerId);
 
 		// delete customer
-		boolean state = c.delete(9);
-		System.out.println("*** DEBUG *** deleteCustomer:" + state);
+		//boolean state = c.delete(9);
+		//System.out.println("*** DEBUG *** deleteCustomer:" + state);
 
 	}
 }
