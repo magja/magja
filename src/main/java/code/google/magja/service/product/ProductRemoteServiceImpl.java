@@ -78,6 +78,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		this.productLinkRemoteService = productLinkRemoteService;
 	}
 
+	/**
+	 * Create a object product with basic fields from the attribute map
+	 *
+	 * @param mpp
+	 *            - the attribute map
+	 * @return Product
+	 */
 	private Product buildProductBasic(Map<String, Object> mpp) {
 		Product product = new Product();
 
@@ -88,8 +95,14 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		return product;
 	}
 
-	/*
+	/**
 	 * Build the object Product with your dependencies, for the queries
+	 *
+	 * @param mpp
+	 * @param dependencies
+	 *            - if will or not load dependencies
+	 * @return Product
+	 * @throws ServiceException
 	 */
 	private Product buildProduct(Map<String, Object> mpp, boolean dependencies)
 			throws ServiceException {
