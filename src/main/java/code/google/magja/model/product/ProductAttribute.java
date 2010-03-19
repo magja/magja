@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.utils.PropertyLoader;
 
 /**
  * @author andre
@@ -16,8 +15,6 @@ import code.google.magja.utils.PropertyLoader;
  */
 @SuppressWarnings("serial")
 public class ProductAttribute extends BaseMagentoModel {
-
-	private static final String MAPPING_FILE_NAME = "productAttribute-mapping";
 
 	public enum Scope {
 		STORE(0), GLOBAL(1), WEBSITE(2);
@@ -86,13 +83,6 @@ public class ProductAttribute extends BaseMagentoModel {
 	private List<ProductType> applyTo;
 
 	private Map<Integer, String> options;
-
-	public ProductAttribute() {
-		super();
-		mapping = PropertyLoader.loadProperties(getClass().getPackage()
-				.getName()
-				+ "." + MAPPING_FILE_NAME);
-	}
 
 	/*
 	 * (non-Javadoc)

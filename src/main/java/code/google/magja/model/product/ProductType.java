@@ -4,7 +4,6 @@
 package code.google.magja.model.product;
 
 import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.utils.PropertyLoader;
 
 /**
  * @author andre
@@ -13,15 +12,13 @@ import code.google.magja.utils.PropertyLoader;
 @SuppressWarnings("serial")
 public class ProductType extends BaseMagentoModel {
 
-	private static final String MAPPING_FILE_NAME = "productType-mapping";
-
 	public ProductType(String label, String type) {
 		this.label = label;
 		this.type = type;
 	}
 
 	public ProductType() {
-		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
+		super();
 	}
 
 	private String label;

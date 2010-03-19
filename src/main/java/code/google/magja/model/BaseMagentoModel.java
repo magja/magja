@@ -9,13 +9,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import code.google.magja.utils.PropertyLoader;
+
 public abstract class BaseMagentoModel implements Serializable {
+
+	protected static final String MAPPING_FILE_NAME_SUFIX = "-mapping";
 
 	protected Integer id;
 
 	protected Map<String, Object> properties = new HashMap<String, Object>();
 
 	protected Properties mapping;
+
+	public BaseMagentoModel() {
+		String className = getClass().getSimpleName();
+		className = className.substring(0, 1).toLowerCase() + className.substring(1);
+		className = getClass().getPackage().getName() + "." + className + MAPPING_FILE_NAME_SUFIX;
+		mapping = PropertyLoader.loadProperties(className);
+	}
 
 	/**
 	 * @return the id

@@ -4,15 +4,12 @@
 package code.google.magja.model.product;
 
 import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.utils.PropertyLoader;
 
 /**
  * @author andre
  *
  */
 public class ProductLink extends BaseMagentoModel {
-
-	private static final String MAPPING_FILE_NAME = "productLink-mapping";
 
 	public enum LinkType {
 		RELATED, UP_SELL, CROSS_SELL, GROUPED;
@@ -37,11 +34,6 @@ public class ProductLink extends BaseMagentoModel {
 	private Integer position;
 
 	private Double qty;
-
-	public ProductLink() {
-		super();
-		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
-	}
 
 	/* (non-Javadoc)
 	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()

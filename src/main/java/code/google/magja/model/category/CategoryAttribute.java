@@ -7,15 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.utils.PropertyLoader;
 
 /**
  * @author andre
  *
  */
 public class CategoryAttribute extends BaseMagentoModel {
-
-	private static final String MAPPING_FILE_NAME = "categoryAttribute-mapping";
 
 	private String scope;
 
@@ -26,11 +23,6 @@ public class CategoryAttribute extends BaseMagentoModel {
 	private String type;
 
 	private List<CategoryAttributeOption> options = new ArrayList<CategoryAttributeOption>();
-
-	public CategoryAttribute() {
-		super();
-		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
-	}
 
 	/* (non-Javadoc)
 	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()

@@ -13,7 +13,6 @@ import java.util.Set;
 
 import code.google.magja.model.BaseMagentoModel;
 import code.google.magja.model.category.Category;
-import code.google.magja.utils.PropertyLoader;
 
 /**
  * @author andre
@@ -21,8 +20,6 @@ import code.google.magja.utils.PropertyLoader;
  */
 @SuppressWarnings("serial")
 public class Product extends BaseMagentoModel {
-
-	private static final String MAPPING_FILE_NAME = "product-mapping";
 
 	private String sku;
 
@@ -57,11 +54,6 @@ public class Product extends BaseMagentoModel {
 	private List<ProductMedia> medias;
 
 	private Set<ProductLink> links;
-
-	public Product() {
-		super();
-		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
-	}
 
 	/* (non-Javadoc)
 	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()

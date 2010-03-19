@@ -10,15 +10,12 @@ import java.util.Set;
 
 import code.google.magja.model.BaseMagentoModel;
 import code.google.magja.model.media.Media;
-import code.google.magja.utils.PropertyLoader;
 
 /**
  * @author andre
  *
  */
 public class ProductMedia extends BaseMagentoModel {
-
-	private static final String MAPPING_FILE_NAME = "productMedia-mapping";
 
 	public enum Type {
 		IMAGE, SMALL_IMAGE, THUMBNAIL;
@@ -46,11 +43,6 @@ public class ProductMedia extends BaseMagentoModel {
 	private String url;
 
 	private Media image;
-
-	public ProductMedia() {
-		super();
-		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
-	}
 
 	/* (non-Javadoc)
 	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()

@@ -17,19 +17,16 @@ import code.google.magja.utils.PropertyLoader;
 @SuppressWarnings("serial")
 public class ProductAttributeSet extends BaseMagentoModel {
 
-	private static final String MAPPING_FILE_NAME = "productAttributeSet-mapping";
-
 	private String name;
-
-	public ProductAttributeSet() {
-		super();
-		mapping = PropertyLoader.loadProperties(getClass().getPackage().getName() + "." + MAPPING_FILE_NAME);
-	}
 
 	public ProductAttributeSet(Integer id, String name) {
 		super();
 		this.name = name;
 		this.id = id;
+	}
+
+	public ProductAttributeSet() {
+		super();
 	}
 
 	public static ProductAttributeSet getDefaultProductAttributeSet() {
