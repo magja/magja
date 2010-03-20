@@ -18,9 +18,12 @@ import code.google.magja.service.ServiceException;
  * @author andre
  *
  */
-public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country> implements CountryRemoteService {
+public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
+		implements CountryRemoteService {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see code.google.magja.service.country.CountryRemoteService#list()
 	 */
 	@Override
@@ -30,13 +33,15 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country> implem
 
 		List<Map<String, Object>> remote_list = null;
 		try {
-			remote_list = (List<Map<String, Object>>) soapClient.call(ResourcePath.CountryList, "");
+			remote_list = (List<Map<String, Object>>) soapClient.call(
+					ResourcePath.CountryList, "");
 		} catch (AxisFault e) {
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
-		if(remote_list == null) return countries;
+		if (remote_list == null)
+			return countries;
 
 		for (Map<String, Object> map : remote_list) {
 

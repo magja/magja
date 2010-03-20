@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.country;
+package code.google.magja.service.region;
 
 import static org.junit.Assert.fail;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.country.Country;
+import code.google.magja.model.region.Region;
 import code.google.magja.service.RemoteServiceFactory;
 import code.google.magja.service.ServiceException;
 
@@ -18,36 +18,35 @@ import code.google.magja.service.ServiceException;
  * @author andre
  *
  */
-public class CountryRemoteServiceTest {
+public class RegionRemoteServiceTest {
 
-	private CountryRemoteService service;
+	private RegionRemoteService service;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getCountryRemoteService();
+		service = RemoteServiceFactory.getRegionRemoteService();
 	}
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.country.CountryRemoteServiceImpl#list()}
+	 * {@link code.google.magja.service.region.RegionRemoteServiceImpl#list(java.lang.String)}
 	 * .
 	 */
 	@Test
 	public void testList() {
 
 		try {
-			List<Country> countries = service.list();
+			List<Region> regions = service.list("US");
 
-			for (Country country : countries)
-				System.out.println(country.toString());
+			for (Region region : regions)
+				System.out.println(region.toString());
 
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
-
 	}
 
 }

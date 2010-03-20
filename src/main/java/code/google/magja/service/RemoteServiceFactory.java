@@ -21,6 +21,8 @@ import code.google.magja.service.product.ProductMediaRemoteService;
 import code.google.magja.service.product.ProductMediaRemoteServiceImpl;
 import code.google.magja.service.product.ProductRemoteService;
 import code.google.magja.service.product.ProductRemoteServiceImpl;
+import code.google.magja.service.region.RegionRemoteService;
+import code.google.magja.service.region.RegionRemoteServiceImpl;
 import code.google.magja.soap.MagentoSoapClient;
 
 /**
@@ -28,6 +30,17 @@ import code.google.magja.soap.MagentoSoapClient;
  *
  */
 public class RemoteServiceFactory {
+
+	/**
+	 * @return the regionRemoteService
+	 */
+	public static RegionRemoteService getRegionRemoteService() {
+
+		RegionRemoteService regionRemoteService = new RegionRemoteServiceImpl();
+		regionRemoteService.setSoapClient(MagentoSoapClient.getInstance());
+
+		return regionRemoteService;
+	}
 
 	/**
 	 * @return the countryRemoteService
