@@ -11,6 +11,7 @@ import org.apache.axis2.AxisFault;
 
 import code.google.magja.magento.ResourcePath;
 import code.google.magja.model.customer.Customer;
+import code.google.magja.model.customer.CustomerGroup;
 import code.google.magja.model.customer.Customer.Gender;
 import code.google.magja.service.GeneralServiceImpl;
 import code.google.magja.service.ServiceException;
@@ -41,6 +42,19 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 		}
 
 		return customer;
+	}
+
+	/**
+	 * Create a customer group object from the specified attribute map
+	 *
+	 * @param attributes
+	 * @return
+	 */
+	private CustomerGroup buildCustomerGroup(Map<String, Object> attributes) {
+		CustomerGroup group = new CustomerGroup();
+		for (Map.Entry<String, Object> attr : attributes.entrySet())
+			group.set(attr.getKey(), attr.getValue());
+		return group;
 	}
 
 	/*
@@ -177,6 +191,35 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 				throw new ServiceException(e.getMessage());
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * code.google.magja.service.customer.CustomerRemoteService#listGroups()
+	 */
+	@Override
+	public List<CustomerGroup> listGroups() throws ServiceException {
+
+		List<CustomerGroup> groups = new ArrayList<CustomerGroup>();
+
+		List<Map<String, Object>> list = null;
+		try {
+			list = (List<Map<String, Object>>) soapClient.call(
+					ResourcePath.CustomerGroupList, "");
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		if (list == null)
+			return groups;
+
+		for (Map<String, Object> map : list)
+			groups.add(buildCustomerGroup(map));
+
+		return groups;
 	}
 
 }

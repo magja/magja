@@ -72,9 +72,13 @@ public abstract class BaseMagentoModel implements Serializable {
 
 					if(fld.getType().equals(Class.forName("java.lang.Boolean"))) {
 
-						if(arg.equals("1")) args[0] = new Boolean(true);
-						else if(arg.equals("0")) args[0] = new Boolean(false);
-						else args[0] = new Boolean((String) arg);
+						if(arg.getClass().getSimpleName().equals("Boolean")) {
+							args[0] = arg;
+						} else {
+							if(arg.equals("1") || arg.equals("true")) args[0] = new Boolean(true);
+							else if(arg.equals("0") || arg.equals("false")) args[0] = new Boolean(false);
+							else args[0] = new Boolean((String) arg);
+						}
 
 					} else {
 

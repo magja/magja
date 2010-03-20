@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import code.google.magja.model.customer.Customer;
+import code.google.magja.model.customer.CustomerGroup;
 import code.google.magja.model.customer.Customer.Gender;
 import code.google.magja.service.RemoteServiceFactory;
 import code.google.magja.service.ServiceException;
@@ -37,11 +38,10 @@ public class CustomerRemoteServiceTest {
 		service = RemoteServiceFactory.getCustomerRemoteService();
 	}
 
-	public Customer generateCustomer() {
+	public static Customer generateCustomer() {
 		Customer cust = new Customer();
 
-		first_name = MagjaStringUtils.randomString(5, 10);
-		cust.setFirstName(first_name);
+		cust.setFirstName(MagjaStringUtils.randomString(5, 10));
 		cust.setMiddleName(MagjaStringUtils.randomString(5, 10));
 		cust.setLastName(MagjaStringUtils.randomString(5, 10));
 		cust.setPassword("test");
@@ -63,6 +63,7 @@ public class CustomerRemoteServiceTest {
 
 		// test creating a new customer
 		Customer cust = generateCustomer();
+		first_name = cust.getFirstName();
 
 		try {
 			service.save(cust);
@@ -157,6 +158,21 @@ public class CustomerRemoteServiceTest {
 			List<Customer> results = service.list();
 			for (Customer customer : results)
 				System.out.println(customer.toString());
+
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * Test method for {@link code.google.magja.service.customer.CustomerRemoteServiceImpl#listGroups()}.
+	 */
+	@Test
+	public void testListGroups() {
+		try {
+			List<CustomerGroup> results = service.listGroups();
+			for (CustomerGroup group : results)
+				System.out.println(group.toString());
 
 		} catch (ServiceException e) {
 			fail(e.getMessage());

@@ -6,6 +6,7 @@ package code.google.magja.service.customer;
 import java.util.List;
 
 import code.google.magja.model.customer.Customer;
+import code.google.magja.model.customer.CustomerGroup;
 import code.google.magja.service.GeneralService;
 import code.google.magja.service.ServiceException;
 
@@ -57,5 +58,11 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
 	 * @throws ServiceException
 	 */
 	public abstract void delete(Integer id) throws ServiceException;
+
+	/**
+	 * @return list of all customer groups on magento
+	 * @throws ServiceException
+	 */
+	public abstract List<CustomerGroup> listGroups() throws ServiceException;
 
 }
