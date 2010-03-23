@@ -11,9 +11,15 @@ import code.google.magja.model.BaseMagentoModel;
  */
 public abstract class Address extends BaseMagentoModel {
 
+	protected String prefix;
+
 	protected String firstName;
 
+	protected String middleName;
+
 	protected String lastName;
+
+	protected String suffix;
 
 	protected String company;
 
@@ -32,6 +38,20 @@ public abstract class Address extends BaseMagentoModel {
 	protected String countryCode;
 
 	/**
+	 * @return the prefix
+	 */
+	public String getPrefix() {
+		return prefix;
+	}
+
+	/**
+	 * @param prefix the prefix to set
+	 */
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	/**
 	 * @return the firstName
 	 */
 	public String getFirstName() {
@@ -46,6 +66,20 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
+	 * @return the middleName
+	 */
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	/**
+	 * @param middleName the middleName to set
+	 */
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	/**
 	 * @return the lastName
 	 */
 	public String getLastName() {
@@ -57,6 +91,20 @@ public abstract class Address extends BaseMagentoModel {
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	/**
+	 * @return the suffix
+	 */
+	public String getSuffix() {
+		return suffix;
+	}
+
+	/**
+	 * @param suffix the suffix to set
+	 */
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
 	}
 
 	/**
@@ -188,9 +236,13 @@ public abstract class Address extends BaseMagentoModel {
 		result = prime * result
 				+ ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result
+				+ ((middleName == null) ? 0 : middleName.hashCode());
+		result = prime * result
 				+ ((postCode == null) ? 0 : postCode.hashCode());
+		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
 		result = prime * result + ((region == null) ? 0 : region.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
+		result = prime * result + ((suffix == null) ? 0 : suffix.hashCode());
 		result = prime * result
 				+ ((telephone == null) ? 0 : telephone.hashCode());
 		return result;
@@ -238,10 +290,20 @@ public abstract class Address extends BaseMagentoModel {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+		if (middleName == null) {
+			if (other.middleName != null)
+				return false;
+		} else if (!middleName.equals(other.middleName))
+			return false;
 		if (postCode == null) {
 			if (other.postCode != null)
 				return false;
 		} else if (!postCode.equals(other.postCode))
+			return false;
+		if (prefix == null) {
+			if (other.prefix != null)
+				return false;
+		} else if (!prefix.equals(other.prefix))
 			return false;
 		if (region == null) {
 			if (other.region != null)
@@ -252,6 +314,11 @@ public abstract class Address extends BaseMagentoModel {
 			if (other.street != null)
 				return false;
 		} else if (!street.equals(other.street))
+			return false;
+		if (suffix == null) {
+			if (other.suffix != null)
+				return false;
+		} else if (!suffix.equals(other.suffix))
 			return false;
 		if (telephone == null) {
 			if (other.telephone != null)
@@ -269,9 +336,9 @@ public abstract class Address extends BaseMagentoModel {
 		return "Address [city=" + city + ", company=" + company
 				+ ", countryCode=" + countryCode + ", fax=" + fax
 				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", postCode=" + postCode + ", region=" + region + ", street="
-				+ street + ", telephone=" + telephone + ", id=" + id
-				+ ", properties=" + properties + "]";
+				+ ", middleName=" + middleName + ", postCode=" + postCode
+				+ ", prefix=" + prefix + ", region=" + region + ", street="
+				+ street + ", suffix=" + suffix + ", telephone=" + telephone
+				+ ", id=" + id + ", properties=" + properties + "]";
 	}
-
 }

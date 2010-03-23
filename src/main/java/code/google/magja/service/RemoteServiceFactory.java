@@ -15,6 +15,8 @@ import code.google.magja.service.customer.CustomerRemoteService;
 import code.google.magja.service.customer.CustomerRemoteServiceImpl;
 import code.google.magja.service.order.OrderRemoteService;
 import code.google.magja.service.order.OrderRemoteServiceImpl;
+import code.google.magja.service.order.ShipmentRemoteService;
+import code.google.magja.service.order.ShipmentRemoteServiceImpl;
 import code.google.magja.service.product.ProductAttributeRemoteService;
 import code.google.magja.service.product.ProductAttributeRemoteServiceImpl;
 import code.google.magja.service.product.ProductLinkRemoteService;
@@ -32,6 +34,17 @@ import code.google.magja.soap.MagentoSoapClient;
  *
  */
 public class RemoteServiceFactory {
+
+	/**
+	 * @return the shipmentRemoteService
+	 */
+	public static ShipmentRemoteService getShipmentRemoteService() {
+
+		ShipmentRemoteService shipmentRemoteService = new ShipmentRemoteServiceImpl();
+		shipmentRemoteService.setSoapClient(MagentoSoapClient.getInstance());
+
+		return shipmentRemoteService;
+	}
 
 	/**
 	 * @return the orderRemoteService

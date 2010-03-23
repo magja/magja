@@ -11,8 +11,12 @@ import java.util.Map;
 import org.apache.axis2.AxisFault;
 
 import code.google.magja.magento.ResourcePath;
+import code.google.magja.model.customer.Customer;
+import code.google.magja.model.customer.Customer.Gender;
 import code.google.magja.model.order.Order;
+import code.google.magja.model.order.OrderAddress;
 import code.google.magja.model.order.OrderFilter;
+import code.google.magja.model.order.OrderItem;
 import code.google.magja.service.GeneralServiceImpl;
 import code.google.magja.service.ServiceException;
 
@@ -23,6 +27,13 @@ import code.google.magja.service.ServiceException;
 public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 		OrderRemoteService {
 
+	/**
+	 * Build a object Order
+	 *
+	 * @param attributes
+	 * @return Order
+	 * @throws ServiceException
+	 */
 	private Order buildOrderObject(Map<String, Object> attributes)
 			throws ServiceException {
 		Order order = new Order();
@@ -30,7 +41,77 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 		for (Map.Entry<String, Object> att : attributes.entrySet())
 			order.set(att.getKey(), att.getValue());
 
-		// TODO: customer, items, billing and shipping address
+		// customer
+		if (attributes.get("customer_id") != null) {
+			Customer customer = new Customer();
+
+			customer.setId(new Integer((String) attributes.get("customer_id")));
+			if (attributes.get("customer_email") != null)
+				customer.setEmail((String) attributes.get("customer_email"));
+			if (attributes.get("customer_prefix") != null)
+				customer.setPrefix((String) attributes.get("customer_prefix"));
+			if (attributes.get("customer_firstname") != null)
+				customer.setFirstName((String) attributes
+						.get("customer_firstname"));
+			if (attributes.get("customer_middlename") != null)
+				customer.setMiddleName((String) attributes
+						.get("customer_middlename"));
+			if (attributes.get("customer_lastname") != null)
+				customer.setLastName((String) attributes
+						.get("customer_lastname"));
+			if (attributes.get("customer_lastname") != null)
+				customer.setLastName((String) attributes
+						.get("customer_lastname"));
+			if (attributes.get("customer_group_id") != null)
+				customer.setGroupId(new Integer((String) attributes
+						.get("customer_group_id")));
+			if (attributes.get("customer_gender") != null) {
+				Integer gender = new Integer((String) attributes
+						.get("customer_gender"));
+				customer.setGender(gender.equals(new Integer(1)) ? Gender.MALE
+						: Gender.FEMALE);
+			}
+
+			order.setCustomer(customer);
+		}
+
+		// shipping address
+		if (attributes.get("shipping_address") != null) {
+			OrderAddress shippingAddress = new OrderAddress();
+
+			Map<String, Object> atts = (Map<String, Object>) attributes
+					.get("shipping_address");
+			for (Map.Entry<String, Object> att : atts.entrySet())
+				shippingAddress.set(att.getKey(), att.getValue());
+
+			order.setShippingAddress(shippingAddress);
+		}
+
+		// billing address
+		if (attributes.get("billing_address") != null) {
+			OrderAddress billingAddress = new OrderAddress();
+
+			Map<String, Object> atts = (Map<String, Object>) attributes
+					.get("billing_address");
+			for (Map.Entry<String, Object> att : atts.entrySet())
+				billingAddress.set(att.getKey(), att.getValue());
+
+			order.setBillingAddress(billingAddress);
+		}
+
+		// items
+		if (attributes.get("items") != null) {
+			List<Map<String, Object>> res = (List<Map<String, Object>>) attributes
+					.get("items");
+
+			for (Map<String, Object> i : res) {
+				OrderItem item = new OrderItem();
+				for (Map.Entry<String, Object> att : i.entrySet())
+					item.set(att.getKey(), att.getValue());
+
+				order.getItems().add(item);
+			}
+		}
 
 		return order;
 	}

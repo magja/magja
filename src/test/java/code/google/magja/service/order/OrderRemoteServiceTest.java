@@ -76,7 +76,14 @@ public class OrderRemoteServiceTest {
 
 		try {
 			Order order = service.getById(100000001);
-			System.out.println(order.toString());
+			//System.out.println(order.toString());
+
+			//System.out.println(order.getCustomer().toString());
+			//System.out.println(order.getShippingAddress().toString());
+			//System.out.println(order.getBillingAddress().toString());
+
+			//for (OrderItem item : order.getItems())
+			//	System.out.println(item.toString());
 
 			assertTrue(order != null);
 

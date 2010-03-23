@@ -17,12 +17,6 @@ public class CustomerAddress extends Address {
 
 	private Customer customer;
 
-	private String prefix;
-
-	private String middleName;
-
-	private String suffix;
-
 	private Boolean defaultBilling;
 
 	private Boolean defaultShipping;
@@ -44,48 +38,6 @@ public class CustomerAddress extends Address {
 		params.add(props);
 
 		return params;
-	}
-
-	/**
-	 * @return the prefix
-	 */
-	public String getPrefix() {
-		return prefix;
-	}
-
-	/**
-	 * @param prefix the prefix to set
-	 */
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-
-	/**
-	 * @return the middleName
-	 */
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	/**
-	 * @param middleName the middleName to set
-	 */
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	/**
-	 * @return the suffix
-	 */
-	public String getSuffix() {
-		return suffix;
-	}
-
-	/**
-	 * @param suffix the suffix to set
-	 */
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
 	}
 
 	/**
@@ -138,13 +90,11 @@ public class CustomerAddress extends Address {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result
+				+ ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result
 				+ ((defaultBilling == null) ? 0 : defaultBilling.hashCode());
 		result = prime * result
 				+ ((defaultShipping == null) ? 0 : defaultShipping.hashCode());
-		result = prime * result
-				+ ((middleName == null) ? 0 : middleName.hashCode());
-		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
-		result = prime * result + ((suffix == null) ? 0 : suffix.hashCode());
 		return result;
 	}
 
@@ -160,6 +110,11 @@ public class CustomerAddress extends Address {
 		if (getClass() != obj.getClass())
 			return false;
 		CustomerAddress other = (CustomerAddress) obj;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
 		if (defaultBilling == null) {
 			if (other.defaultBilling != null)
 				return false;
@@ -170,21 +125,6 @@ public class CustomerAddress extends Address {
 				return false;
 		} else if (!defaultShipping.equals(other.defaultShipping))
 			return false;
-		if (middleName == null) {
-			if (other.middleName != null)
-				return false;
-		} else if (!middleName.equals(other.middleName))
-			return false;
-		if (prefix == null) {
-			if (other.prefix != null)
-				return false;
-		} else if (!prefix.equals(other.prefix))
-			return false;
-		if (suffix == null) {
-			if (other.suffix != null)
-				return false;
-		} else if (!suffix.equals(other.suffix))
-			return false;
 		return true;
 	}
 
@@ -193,14 +133,14 @@ public class CustomerAddress extends Address {
 	 */
 	@Override
 	public String toString() {
-		return "CustomerAddress [defaultBilling=" + defaultBilling
-				+ ", defaultShipping=" + defaultShipping + ", middleName="
-				+ middleName + ", prefix=" + prefix + ", suffix=" + suffix
+		return "CustomerAddress [defaultBilling="
+				+ defaultBilling + ", defaultShipping=" + defaultShipping
 				+ ", city=" + city + ", company=" + company + ", countryCode="
 				+ countryCode + ", fax=" + fax + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", postCode=" + postCode
-				+ ", region=" + region + ", street=" + street + ", telephone="
-				+ telephone + ", id=" + id + ", properties=" + properties + "]";
+				+ ", lastName=" + lastName + ", middleName=" + middleName
+				+ ", postCode=" + postCode + ", prefix=" + prefix + ", region="
+				+ region + ", street=" + street + ", suffix=" + suffix
+				+ ", telephone=" + telephone + ", id=" + id + ", properties="
+				+ properties + "]";
 	}
-
 }
