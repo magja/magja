@@ -66,7 +66,15 @@ public abstract class BaseMagentoModel implements Serializable {
 					args = new Object[1];
 
 					// find the type of attribute
-					Field fld = tClass.getDeclaredField(attribute);
+					Field fld = null;
+					try {
+						fld = tClass.getDeclaredField(attribute);
+					} catch (NoSuchFieldException e) {
+						// means the field could be on the super class
+						Class superclass = tClass.getSuperclass();
+						fld = superclass.getDeclaredField(attribute);
+					}
+
 					argTypes = new Class[1];
 					argTypes[0] = fld.getType();
 

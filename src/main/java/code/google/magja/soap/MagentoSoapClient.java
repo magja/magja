@@ -159,6 +159,9 @@ public class MagentoSoapClient implements SoapClient {
 		OMElement method = callFactory.createCall(sessionId, path.getPath(),
 				args);
 		OMElement result = sender.sendReceive(method);
+
+		//System.out.println(result.getBuilder().getDocumentElement());
+
 		return returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
 	}
 

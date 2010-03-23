@@ -173,29 +173,29 @@ public class Order extends Connection {
 		Order o = new Order();
 
 		// get order list
-		String list = o.getList();
-		System.out.println("*** DEBUG *** getList:" + list);
+		//String list = o.getList();
+		//System.out.println("*** DEBUG *** getList:" + list);
 
 		// get order info
 		String info = o.getInfo(100000001);
-		System.out.println("*** DEBUG *** getInfo:" + info);
+		//System.out.println("*** DEBUG *** getInfo:" + info);
 
 		// add order comment
-		boolean state = o.addComment(100000002, "holded",
-				"You order is holded", 1);
-		System.out.println("*** DEBUG *** addComment:" + state);
+		//boolean state = o.addComment(100000002, "holded",
+				//"You order is holded", 1);
+		//System.out.println("*** DEBUG *** addComment:" + state);
 
 		// set order status to hold
-		state = o.hold(100000003);
-		System.out.println("*** DEBUG *** hold:" + state);
+		//state = o.hold(100000003);
+		//System.out.println("*** DEBUG *** hold:" + state);
 
 		// set order status to unhold
-		state = o.unhold(100000004);
-		System.out.println("*** DEBUG *** unhold:" + state);
+		//state = o.unhold(100000004);
+		//System.out.println("*** DEBUG *** unhold:" + state);
 
 		// cancel order
-		state = o.cancel(100000005);
-		System.out.println("*** DEBUG *** cancel:" + state);
+		//state = o.cancel(100000005);
+		//System.out.println("*** DEBUG *** cancel:" + state);
 
 	}
 }
