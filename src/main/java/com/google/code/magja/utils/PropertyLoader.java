@@ -1,4 +1,4 @@
-package code.google.magja.utils;
+package com.google.code.magja.utils;
 
 import java.io.InputStream;
 import java.util.Enumeration;

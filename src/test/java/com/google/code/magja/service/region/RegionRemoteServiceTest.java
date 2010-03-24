@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.region;
+package com.google.code.magja.service.region;
 
 import static org.junit.Assert.fail;
 
@@ -10,9 +10,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.region.Region;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.region.Region;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -32,7 +32,7 @@ public class RegionRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.region.RegionRemoteServiceImpl#list(java.lang.String)}
+	 * {@link com.google.code.magja.service.region.RegionRemoteServiceImpl#list(java.lang.String)}
 	 * .
 	 */
 	@Test

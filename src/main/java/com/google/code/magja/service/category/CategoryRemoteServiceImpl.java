@@ -1,16 +1,16 @@
 /**
  *
  */
-package code.google.magja.service.category;
+package com.google.code.magja.service.category;
 
 import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.category.Category;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.category.Category;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -47,7 +47,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.category.CategoryRemoteService#getByIdClean(java.lang.Integer)
+	 * @see com.google.code.magja.service.category.CategoryRemoteService#getByIdClean(java.lang.Integer)
 	 */
 	@Override
 	public Category getByIdClean(Integer id) throws ServiceException {
@@ -74,7 +74,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.category.CategoryRemoteService#getByIdWithChildren(java.lang.Integer)
+	 * @see com.google.code.magja.service.category.CategoryRemoteService#getByIdWithChildren(java.lang.Integer)
 	 */
 	@Override
 	public Category getByIdWithChildren(Integer id) throws ServiceException {
@@ -88,7 +88,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.category.CategoryRemoteService#getByIdWithParent(java.lang.Integer)
+	 * @see com.google.code.magja.service.category.CategoryRemoteService#getByIdWithParent(java.lang.Integer)
 	 */
 	@Override
 	public Category getByIdWithParent(Integer id) throws ServiceException {
@@ -102,7 +102,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.category.CategoryRemoteService#getByIdWithParentAndChildren(java.lang.Integer)
+	 * @see com.google.code.magja.service.category.CategoryRemoteService#getByIdWithParentAndChildren(java.lang.Integer)
 	 */
 	@Override
 	public Category getByIdWithParentAndChildren(Integer id) throws ServiceException {

@@ -1,9 +1,9 @@
 /**
  *
  */
-package code.google.magja.model.product;
+package com.google.code.magja.model.product;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -36,7 +36,7 @@ public class ProductLink extends BaseMagentoModel {
 	private Double qty;
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

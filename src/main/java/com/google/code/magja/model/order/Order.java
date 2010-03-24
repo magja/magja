@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.model.order;
+package com.google.code.magja.model.order;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.model.customer.Customer;
+import com.google.code.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.customer.Customer;
 
 /**
  * @author andre
@@ -70,7 +70,7 @@ public class Order extends BaseMagentoModel {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

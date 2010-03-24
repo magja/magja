@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.region;
+package com.google.code.magja.service.region;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.region.Region;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.region.Region;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -21,7 +21,7 @@ import code.google.magja.service.ServiceException;
 public class RegionRemoteServiceImpl extends GeneralServiceImpl<Region> implements RegionRemoteService {
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.region.RegionRemoteService#list(java.lang.String)
+	 * @see com.google.code.magja.service.region.RegionRemoteService#list(java.lang.String)
 	 */
 	@Override
 	public List<Region> list(String countryId) throws ServiceException {

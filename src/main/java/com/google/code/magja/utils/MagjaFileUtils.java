@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.utils;
+package com.google.code.magja.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;

@@ -1,14 +1,14 @@
 /**
  *
  */
-package code.google.magja.model.product;
+package com.google.code.magja.model.product;
 
 import java.util.Properties;
 
-import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.soap.MagentoSoapClient;
-import code.google.magja.soap.SoapConfig;
-import code.google.magja.utils.PropertyLoader;
+import com.google.code.magja.model.BaseMagentoModel;
+import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapConfig;
+import com.google.code.magja.utils.PropertyLoader;
 
 /**
  * @author andre
@@ -90,7 +90,7 @@ public class ProductAttributeSet extends BaseMagentoModel {
 
 	/* (non-Javadoc)
 	 * Its ready only, we never will save a attributeSet to magento
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

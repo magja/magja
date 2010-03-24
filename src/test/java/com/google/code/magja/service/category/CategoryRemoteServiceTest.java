@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.service.category;
+package com.google.code.magja.service.category;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.category.Category;
-import code.google.magja.service.RemoteServiceFactory;
+import com.google.code.magja.model.category.Category;
+import com.google.code.magja.service.RemoteServiceFactory;
 
 /**
  * @author andre
@@ -26,7 +26,7 @@ public class CategoryRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.category.CategoryRemoteServiceImpl#getByIdClean(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#getByIdClean(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetByIdClean() throws Exception {
@@ -35,7 +35,7 @@ public class CategoryRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.category.CategoryRemoteServiceImpl#getByIdWithChildren(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#getByIdWithChildren(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetByIdWithChildren() throws Exception {
@@ -46,7 +46,7 @@ public class CategoryRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.category.CategoryRemoteServiceImpl#getByIdWithParent(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#getByIdWithParent(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetByIdWithParent() throws Exception {
@@ -55,7 +55,7 @@ public class CategoryRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.category.CategoryRemoteServiceImpl#getByIdWithParentAndChildren(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#getByIdWithParentAndChildren(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetByIdWithParentAndChildren() throws Exception {

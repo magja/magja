@@ -1,12 +1,12 @@
 /**
  *
  */
-package code.google.magja.model.category;
+package com.google.code.magja.model.category;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -25,7 +25,7 @@ public class CategoryAttribute extends BaseMagentoModel {
 	private List<CategoryAttributeOption> options = new ArrayList<CategoryAttributeOption>();
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

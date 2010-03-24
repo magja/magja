@@ -1,11 +1,11 @@
 /**
  *
  */
-package code.google.magja.service.category;
+package com.google.code.magja.service.category;
 
-import code.google.magja.model.category.Category;
-import code.google.magja.service.GeneralService;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.category.Category;
+import com.google.code.magja.service.GeneralService;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre

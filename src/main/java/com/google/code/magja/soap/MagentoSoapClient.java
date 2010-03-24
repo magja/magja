@@ -1,4 +1,4 @@
-package code.google.magja.soap;
+package com.google.code.magja.soap;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.utils.PropertyLoader;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.utils.PropertyLoader;
 
 public class MagentoSoapClient implements SoapClient {
 

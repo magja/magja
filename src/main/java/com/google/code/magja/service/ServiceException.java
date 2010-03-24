@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service;
+package com.google.code.magja.service;
 
 /**
  * @author andre

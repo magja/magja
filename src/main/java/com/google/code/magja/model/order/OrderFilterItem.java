@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.model.order;
+package com.google.code.magja.model.order;
 
 import java.io.Serializable;
 

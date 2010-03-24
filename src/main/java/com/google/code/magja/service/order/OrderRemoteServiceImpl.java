@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.order;
+package com.google.code.magja.service.order;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,15 +10,15 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.customer.Customer;
-import code.google.magja.model.customer.Customer.Gender;
-import code.google.magja.model.order.Order;
-import code.google.magja.model.order.OrderAddress;
-import code.google.magja.model.order.OrderFilter;
-import code.google.magja.model.order.OrderItem;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.customer.Customer;
+import com.google.code.magja.model.customer.Customer.Gender;
+import com.google.code.magja.model.order.Order;
+import com.google.code.magja.model.order.OrderAddress;
+import com.google.code.magja.model.order.OrderFilter;
+import com.google.code.magja.model.order.OrderItem;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -120,7 +120,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.order.OrderRemoteService#addComment(code.google
+	 * com.google.code.magja.service.order.OrderRemoteService#addComment(code.google
 	 * .magja.model.order.Order, java.lang.String, java.lang.String,
 	 * java.lang.Boolean)
 	 */
@@ -146,7 +146,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.order.OrderRemoteService#cancel(code.google
+	 * com.google.code.magja.service.order.OrderRemoteService#cancel(code.google
 	 * .magja.model.order.Order)
 	 */
 	@Override
@@ -165,7 +165,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.order.OrderRemoteService#getById(java.lang.
+	 * com.google.code.magja.service.order.OrderRemoteService#getById(java.lang.
 	 * Integer)
 	 */
 	@Override
@@ -190,7 +190,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.order.OrderRemoteService#hold(code.google.magja
+	 * com.google.code.magja.service.order.OrderRemoteService#hold(com.google.code.magja
 	 * .model.order.Order)
 	 */
 	@Override
@@ -209,7 +209,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.order.OrderRemoteService#list(code.google.magja
+	 * com.google.code.magja.service.order.OrderRemoteService#list(com.google.code.magja
 	 * .model.order.OrderFilter)
 	 */
 	@Override
@@ -245,7 +245,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.order.OrderRemoteService#unhold(code.google
+	 * com.google.code.magja.service.order.OrderRemoteService#unhold(code.google
 	 * .magja.model.order.Order)
 	 */
 	@Override

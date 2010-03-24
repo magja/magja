@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,11 +11,11 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductMedia;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -51,7 +51,7 @@ public class ProductMediaRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductMediaRemoteService#delete(code
+	 * com.google.code.magja.service.product.ProductMediaRemoteService#delete(code
 	 * .google.magja.model.product.ProductMedia)
 	 */
 	@Override
@@ -81,8 +81,8 @@ public class ProductMediaRemoteServiceImpl extends
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @seecode.google.magja.service.product.ProductMediaRemoteService#
-	 * getByProductAndFile(code.google.magja.model.product.Product,
+	 * @seecom.google.code.magja.service.product.ProductMediaRemoteService#
+	 * getByProductAndFile(com.google.code.magja.model.product.Product,
 	 * java.lang.String)
 	 */
 	@Override
@@ -114,8 +114,8 @@ public class ProductMediaRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductMediaRemoteService#listByProduct
-	 * (code.google.magja.model.product.Product)
+	 * com.google.code.magja.service.product.ProductMediaRemoteService#listByProduct
+	 * (com.google.code.magja.model.product.Product)
 	 */
 	@Override
 	public List<ProductMedia> listByProduct(Product product)
@@ -151,7 +151,7 @@ public class ProductMediaRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductMediaRemoteService#save(code
+	 * com.google.code.magja.service.product.ProductMediaRemoteService#save(code
 	 * .google.magja.model.product.ProductMedia)
 	 */
 	@Override

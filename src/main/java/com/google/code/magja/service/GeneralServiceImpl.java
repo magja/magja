@@ -1,11 +1,11 @@
 /**
  *
  */
-package code.google.magja.service;
+package com.google.code.magja.service;
 
-import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.model.product.Product;
-import code.google.magja.soap.MagentoSoapClient;
+import com.google.code.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.soap.MagentoSoapClient;
 
 /**
  * @author andre

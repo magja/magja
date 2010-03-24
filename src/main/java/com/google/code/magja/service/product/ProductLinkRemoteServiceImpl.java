@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,13 +12,13 @@ import java.util.Set;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductLink;
-import code.google.magja.model.product.ProductTypeEnum;
-import code.google.magja.model.product.ProductLink.LinkType;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductLink;
+import com.google.code.magja.model.product.ProductTypeEnum;
+import com.google.code.magja.model.product.ProductLink.LinkType;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -76,9 +76,9 @@ public class ProductLinkRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductLinkRemoteService#assign(code
+	 * com.google.code.magja.service.product.ProductLinkRemoteService#assign(code
 	 * .google.magja.model.product.Product,
-	 * code.google.magja.model.product.ProductLink)
+	 * com.google.code.magja.model.product.ProductLink)
 	 */
 	@Override
 	public void assign(Product product, ProductLink link)
@@ -104,7 +104,7 @@ public class ProductLinkRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductLinkRemoteService#list(code.
+	 * com.google.code.magja.service.product.ProductLinkRemoteService#list(code.
 	 * google.magja.model.product.Product)
 	 */
 	@Override
@@ -125,9 +125,9 @@ public class ProductLinkRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductLinkRemoteService#list(code.
+	 * com.google.code.magja.service.product.ProductLinkRemoteService#list(code.
 	 * google.magja.model.product.ProductLink.LinkType,
-	 * code.google.magja.model.product.Product)
+	 * com.google.code.magja.model.product.Product)
 	 */
 	@Override
 	public Set<ProductLink> list(LinkType linktype, Product product)
@@ -168,9 +168,9 @@ public class ProductLinkRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductLinkRemoteService#remove(code
+	 * com.google.code.magja.service.product.ProductLinkRemoteService#remove(code
 	 * .google.magja.model.product.Product,
-	 * code.google.magja.model.product.ProductLink)
+	 * com.google.code.magja.model.product.ProductLink)
 	 */
 	@Override
 	public void remove(Product product, ProductLink link)
@@ -202,9 +202,9 @@ public class ProductLinkRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductLinkRemoteService#update(code
+	 * com.google.code.magja.service.product.ProductLinkRemoteService#update(code
 	 * .google.magja.model.product.Product,
-	 * code.google.magja.model.product.ProductLink)
+	 * com.google.code.magja.model.product.ProductLink)
 	 */
 	@Override
 	public void update(Product product, ProductLink link)

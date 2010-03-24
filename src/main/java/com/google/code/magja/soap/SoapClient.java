@@ -1,10 +1,10 @@
-package code.google.magja.soap;
+package com.google.code.magja.soap;
 
 import java.util.List;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
+import com.google.code.magja.magento.ResourcePath;
 
 public interface SoapClient {
 

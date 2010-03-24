@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.model.category;
+package com.google.code.magja.model.category;
 
 /**
  * @author andre

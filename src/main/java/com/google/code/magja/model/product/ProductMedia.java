@@ -1,15 +1,15 @@
 /**
  *
  */
-package code.google.magja.model.product;
+package com.google.code.magja.model.product;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.model.media.Media;
+import com.google.code.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.media.Media;
 
 /**
  * @author andre
@@ -45,7 +45,7 @@ public class ProductMedia extends BaseMagentoModel {
 	private Media image;
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.country;
+package com.google.code.magja.service.country;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.country.Country;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.country.Country;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -24,7 +24,7 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see code.google.magja.service.country.CountryRemoteService#list()
+	 * @see com.google.code.magja.service.country.CountryRemoteService#list()
 	 */
 	@Override
 	public List<Country> list() throws ServiceException {

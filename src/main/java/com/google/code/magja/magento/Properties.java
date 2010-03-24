@@ -7,7 +7,7 @@
  * You are free to use it under the terms of the GNU General Public License
  */
 
-package code.google.magja.magento;
+package com.google.code.magja.magento;
 
 import java.util.HashMap;
 import java.util.Map;

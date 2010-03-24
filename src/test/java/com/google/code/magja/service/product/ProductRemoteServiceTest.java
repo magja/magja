@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,11 +12,11 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductType;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
-import code.google.magja.utils.MagjaStringUtils;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.utils.MagjaStringUtils;
 
 /**
  * @author andre
@@ -68,7 +68,7 @@ public class ProductRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#save(code.google.magja.model.product.Product)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#save(com.google.code.magja.model.product.Product)}.
 	 */
 	@Test
 	public void testSave() throws ServiceException {
@@ -84,7 +84,7 @@ public class ProductRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#getById(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#getById(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetByIdAndSku() throws ServiceException {
@@ -99,7 +99,7 @@ public class ProductRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#listAll()}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#listAll()}.
 	 */
 	@Test
 	public void testListAll() throws ServiceException {
@@ -108,7 +108,7 @@ public class ProductRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#listAllNoDep()}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#listAllNoDep()}.
 	 */
 	@Test
 	public void testListAllNoDep() throws ServiceException {
@@ -117,7 +117,7 @@ public class ProductRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductRemoteServiceImpl#listAllProductTypes()}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#listAllProductTypes()}.
 	 */
 	@Test
 	public void testListAllProductTypes() throws ServiceException {
@@ -127,8 +127,8 @@ public class ProductRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.product.ProductRemoteServiceImpl#delete(java.lang.Integer)}
-	 * {@link code.google.magja.service.product.ProductRemoteServiceImpl#delete(java.lang.String)}.
+	 * {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#delete(java.lang.Integer)}
+	 * {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#delete(java.lang.String)}.
 	 */
 	@Test
 	public void testDelete() throws ServiceException {
@@ -147,7 +147,7 @@ public class ProductRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.product.ProductRemoteServiceImpl#getInventoryInfo(java.util.Set)}.
+	 * {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#getInventoryInfo(java.util.Set)}.
 	 */
 	@Test
 	public void testGetInventoryInfo() throws ServiceException {
@@ -161,7 +161,7 @@ public class ProductRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.product.ProductRemoteServiceImpl#updateInventory(code.google.magja.model.product.Product)}.
+	 * {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#updateInventory(com.google.code.magja.model.product.Product)}.
 	 */
 	@Test
 	public void testUpdateInventory() throws ServiceException {

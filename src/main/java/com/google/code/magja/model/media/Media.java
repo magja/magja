@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.model.media;
+package com.google.code.magja.model.media;
 
 import java.util.Arrays;
 import java.util.HashMap;

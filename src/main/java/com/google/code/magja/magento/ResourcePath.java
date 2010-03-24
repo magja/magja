@@ -11,7 +11,7 @@
  * Magento Core API
  * http://www.magentocommerce.com/wiki/doc/webservices-api/api
  */
-package code.google.magja.magento;
+package com.google.code.magja.magento;
 
 public enum ResourcePath {
 

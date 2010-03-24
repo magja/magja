@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.model.order;
+package com.google.code.magja.model.order;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -26,7 +26,7 @@ public class Shipment extends BaseMagentoModel {
 	private List<ShipmentItem> items = new ArrayList<ShipmentItem>();
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

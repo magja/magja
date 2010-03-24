@@ -1,9 +1,9 @@
 /**
- * 
+ *
  */
-package code.google.magja.model.order;
+package com.google.code.magja.model.order;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -12,7 +12,7 @@ import code.google.magja.model.BaseMagentoModel;
 public class Invoice extends BaseMagentoModel {
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

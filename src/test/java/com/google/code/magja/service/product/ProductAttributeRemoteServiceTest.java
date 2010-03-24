@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -14,13 +14,13 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.product.ProductAttribute;
-import code.google.magja.model.product.ProductAttributeSet;
-import code.google.magja.model.product.ProductType;
-import code.google.magja.model.product.ProductTypeEnum;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
-import code.google.magja.utils.MagjaStringUtils;
+import com.google.code.magja.model.product.ProductAttribute;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.ProductTypeEnum;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.utils.MagjaStringUtils;
 
 /**
  * @author andre
@@ -42,7 +42,7 @@ public class ProductAttributeRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductAttributeRemoteServiceImpl#delete(java.lang.String)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#delete(java.lang.String)}.
 	 */
 	@Test
 	public void testDelete() {
@@ -62,7 +62,7 @@ public class ProductAttributeRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductAttributeRemoteServiceImpl#getOptions(code.google.magja.model.product.ProductAttribute)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#getOptions(com.google.code.magja.model.product.ProductAttribute)}.
 	 */
 	@Test
 	public void testGetOptions() {
@@ -81,7 +81,7 @@ public class ProductAttributeRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductAttributeRemoteServiceImpl#listAllProductAttributeSet()}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#listAllProductAttributeSet()}.
 	 */
 	@Test
 	public void testListAllProductAttributeSet() {
@@ -94,7 +94,7 @@ public class ProductAttributeRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductAttributeRemoteServiceImpl#listByAttributeSet(code.google.magja.model.product.ProductAttributeSet)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#listByAttributeSet(com.google.code.magja.model.product.ProductAttributeSet)}.
 	 */
 	@Test
 	public void testListByAttributeSet() {
@@ -108,7 +108,7 @@ public class ProductAttributeRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductAttributeRemoteServiceImpl#save(code.google.magja.model.product.ProductAttribute)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#save(com.google.code.magja.model.product.ProductAttribute)}.
 	 */
 	@Test
 	public void testSave() {

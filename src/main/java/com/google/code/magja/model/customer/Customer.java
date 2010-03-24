@@ -1,14 +1,14 @@
 /**
  *
  */
-package code.google.magja.model.customer;
+package com.google.code.magja.model.customer;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import code.google.magja.magento.Utils;
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.magento.Utils;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -56,7 +56,7 @@ public class Customer extends BaseMagentoModel {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

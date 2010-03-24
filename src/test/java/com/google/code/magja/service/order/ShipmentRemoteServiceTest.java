@@ -1,14 +1,14 @@
 /**
  *
  */
-package code.google.magja.service.order;
+package com.google.code.magja.service.order;
 
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.RemoteServiceFactory;
 
 /**
  * @author andre
@@ -27,7 +27,7 @@ public class ShipmentRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.ShipmentRemoteServiceImpl#addComment(code.google.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)}.
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#addComment(com.google.code.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)}.
 	 */
 	@Test
 	public void testAddComment() {
@@ -35,7 +35,7 @@ public class ShipmentRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.ShipmentRemoteServiceImpl#addTrack(code.google.magja.model.order.Shipment, code.google.magja.model.order.ShipmentTrack)}.
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#addTrack(com.google.code.magja.model.order.Shipment, com.google.code.magja.model.order.ShipmentTrack)}.
 	 */
 	@Test
 	public void testAddTrack() {
@@ -43,7 +43,7 @@ public class ShipmentRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.ShipmentRemoteServiceImpl#getById(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#getById(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetById() {
@@ -51,7 +51,7 @@ public class ShipmentRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.ShipmentRemoteServiceImpl#list(java.lang.String)}.
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#list(java.lang.String)}.
 	 */
 	@Test
 	public void testList() {
@@ -59,7 +59,7 @@ public class ShipmentRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.ShipmentRemoteServiceImpl#removeTrack(code.google.magja.model.order.Shipment, code.google.magja.model.order.ShipmentTrack)}.
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#removeTrack(com.google.code.magja.model.order.Shipment, com.google.code.magja.model.order.ShipmentTrack)}.
 	 */
 	@Test
 	public void testRemoveTrack() {
@@ -67,7 +67,7 @@ public class ShipmentRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.ShipmentRemoteServiceImpl#save(code.google.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)}.
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#save(com.google.code.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)}.
 	 */
 	@Test
 	public void testSave() {
@@ -75,7 +75,7 @@ public class ShipmentRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.ShipmentRemoteServiceImpl#getCarriers(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#getCarriers(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetCarriers() {

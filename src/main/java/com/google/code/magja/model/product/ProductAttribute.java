@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.model.product;
+package com.google.code.magja.model.product;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -87,7 +87,7 @@ public class ProductAttribute extends BaseMagentoModel {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

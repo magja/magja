@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.utils;
+package com.google.code.magja.utils;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.min;

@@ -11,10 +11,10 @@
  * Magento Core API
  * http://www.magentocommerce.com/support/magento_core_api
  */
-package code.google.magja.magento;
+package com.google.code.magja.magento;
 
-import code.google.magja.soap.MagentoSoapClient;
-import code.google.magja.soap.SoapClient;
+import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 public class Connection {
 

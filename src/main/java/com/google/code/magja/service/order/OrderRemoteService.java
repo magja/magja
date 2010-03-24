@@ -1,14 +1,14 @@
 /**
  *
  */
-package code.google.magja.service.order;
+package com.google.code.magja.service.order;
 
 import java.util.List;
 
-import code.google.magja.model.order.Order;
-import code.google.magja.model.order.OrderFilter;
-import code.google.magja.service.GeneralService;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.order.Order;
+import com.google.code.magja.model.order.OrderFilter;
+import com.google.code.magja.service.GeneralService;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre

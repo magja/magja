@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.service.category;
+package com.google.code.magja.service.category;
 
 import java.util.List;
 
-import code.google.magja.model.category.CategoryAttribute;
-import code.google.magja.service.GeneralService;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.category.CategoryAttribute;
+import com.google.code.magja.service.GeneralService;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre

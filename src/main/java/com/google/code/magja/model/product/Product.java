@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.model.product;
+package com.google.code.magja.model.product;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import code.google.magja.model.BaseMagentoModel;
-import code.google.magja.model.category.Category;
+import com.google.code.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.category.Category;
 
 /**
  * @author andre
@@ -56,7 +56,7 @@ public class Product extends BaseMagentoModel {
 	private Set<ProductLink> links;
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

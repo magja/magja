@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.customer;
+package com.google.code.magja.service.customer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -11,11 +11,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.customer.Customer;
-import code.google.magja.model.customer.CustomerAddress;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
-import code.google.magja.utils.MagjaStringUtils;
+import com.google.code.magja.model.customer.Customer;
+import com.google.code.magja.model.customer.CustomerAddress;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.utils.MagjaStringUtils;
 
 /**
  * @author andre
@@ -60,7 +60,7 @@ public class CustomerAddressRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.customer.CustomerAddressRemoteServiceImpl#save(code.google.magja.model.customer.CustomerAddress)}.
+	 * Test method for {@link com.google.code.magja.service.customer.CustomerAddressRemoteServiceImpl#save(com.google.code.magja.model.customer.CustomerAddress)}.
 	 */
 	@Test
 	public void testSave() {
@@ -86,7 +86,7 @@ public class CustomerAddressRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.customer.CustomerAddressRemoteServiceImpl#save(code.google.magja.model.customer.CustomerAddress)}.
+	 * Test method for {@link com.google.code.magja.service.customer.CustomerAddressRemoteServiceImpl#save(com.google.code.magja.model.customer.CustomerAddress)}.
 	 */
 	@Test
 	public void testSaveAndUpdate() {
@@ -124,7 +124,7 @@ public class CustomerAddressRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.customer.CustomerAddressRemoteServiceImpl#delete(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.customer.CustomerAddressRemoteServiceImpl#delete(java.lang.Integer)}.
 	 */
 	@Test
 	public void testDelete() {
@@ -137,7 +137,7 @@ public class CustomerAddressRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.customer.CustomerAddressRemoteServiceImpl#getById(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.customer.CustomerAddressRemoteServiceImpl#getById(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetById() {
@@ -151,7 +151,7 @@ public class CustomerAddressRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.customer.CustomerAddressRemoteServiceImpl#list(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.customer.CustomerAddressRemoteServiceImpl#list(java.lang.Integer)}.
 	 */
 	@Test
 	public void testList() {

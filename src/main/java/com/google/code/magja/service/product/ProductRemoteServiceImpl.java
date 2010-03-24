@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,17 +13,17 @@ import java.util.Set;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.category.Category;
-import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductAttributeSet;
-import code.google.magja.model.product.ProductLink;
-import code.google.magja.model.product.ProductMedia;
-import code.google.magja.model.product.ProductType;
-import code.google.magja.model.product.ProductTypeEnum;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
-import code.google.magja.service.category.CategoryRemoteService;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.category.Category;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.model.product.ProductLink;
+import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.ProductTypeEnum;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.service.category.CategoryRemoteService;
 
 /**
  * @author andre
@@ -42,9 +42,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @seecode.google.magja.service.product.ProductRemoteService#
+	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setCategoryRemoteService
-	 * (code.google.magja.service.category.CategoryRemoteService)
+	 * (com.google.code.magja.service.category.CategoryRemoteService)
 	 */
 	@Override
 	public void setCategoryRemoteService(
@@ -55,9 +55,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @seecode.google.magja.service.product.ProductRemoteService#
+	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setProductMediaRemoteService
-	 * (code.google.magja.service.product.ProductMediaRemoteService)
+	 * (com.google.code.magja.service.product.ProductMediaRemoteService)
 	 */
 	@Override
 	public void setProductMediaRemoteService(
@@ -68,9 +68,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @seecode.google.magja.service.product.ProductRemoteService#
+	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setProductLinkRemoteService
-	 * (code.google.magja.service.product.ProductLinkRemoteService)
+	 * (com.google.code.magja.service.product.ProductLinkRemoteService)
 	 */
 	@Override
 	public void setProductLinkRemoteService(
@@ -283,7 +283,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#getBySku(java.
+	 * com.google.code.magja.service.product.ProductRemoteService#getBySku(java.
 	 * lang.String)
 	 */
 	@Override
@@ -308,7 +308,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#getById(java.lang
+	 * com.google.code.magja.service.product.ProductRemoteService#getById(java.lang
 	 * .Integer)
 	 */
 	@Override
@@ -332,7 +332,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see code.google.magja.service.product.ProductRemoteService#listAll()
+	 * @see com.google.code.magja.service.product.ProductRemoteService#listAll()
 	 */
 	@Override
 	public List<Product> listAll() throws ServiceException {
@@ -343,7 +343,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#listAllNoDep()
+	 * com.google.code.magja.service.product.ProductRemoteService#listAllNoDep()
 	 */
 	@Override
 	public List<Product> listAllNoDep() throws ServiceException {
@@ -354,7 +354,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#save(code.google
+	 * com.google.code.magja.service.product.ProductRemoteService#save(code.google
 	 * .magja.model.product.Product)
 	 */
 	@Override
@@ -418,7 +418,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#listAllProductTypes
+	 * com.google.code.magja.service.product.ProductRemoteService#listAllProductTypes
 	 * ()
 	 */
 	@Override
@@ -452,7 +452,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#delete(java.lang
+	 * com.google.code.magja.service.product.ProductRemoteService#delete(java.lang
 	 * .Integer)
 	 */
 	@Override
@@ -464,7 +464,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#delete(java.lang
+	 * com.google.code.magja.service.product.ProductRemoteService#delete(java.lang
 	 * .String)
 	 */
 	@Override
@@ -476,7 +476,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#getInventoryInfo
+	 * com.google.code.magja.service.product.ProductRemoteService#getInventoryInfo
 	 * (java.util.Set)
 	 */
 	@Override
@@ -522,8 +522,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductRemoteService#updateInventory
-	 * (code.google.magja.model.product.Product)
+	 * com.google.code.magja.service.product.ProductRemoteService#updateInventory
+	 * (com.google.code.magja.model.product.Product)
 	 */
 	@Override
 	public void updateInventory(Product product) throws ServiceException {

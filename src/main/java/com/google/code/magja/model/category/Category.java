@@ -1,10 +1,10 @@
-package code.google.magja.model.category;
+package com.google.code.magja.model.category;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 @SuppressWarnings("serial")
 public class Category extends BaseMagentoModel {
@@ -32,7 +32,7 @@ public class Category extends BaseMagentoModel {
 	private List<Category> children;
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

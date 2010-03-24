@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.customer;
+package com.google.code.magja.service.customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.customer.CustomerAddress;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.customer.CustomerAddress;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -41,7 +41,7 @@ public class CustomerAddressRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.customer.CustomerAddressRemoteService#delete
+	 * com.google.code.magja.service.customer.CustomerAddressRemoteService#delete
 	 * (java.lang.Integer)
 	 */
 	@Override
@@ -64,7 +64,7 @@ public class CustomerAddressRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.customer.CustomerAddressRemoteService#getById
+	 * com.google.code.magja.service.customer.CustomerAddressRemoteService#getById
 	 * (java.lang.Integer)
 	 */
 	@Override
@@ -90,7 +90,7 @@ public class CustomerAddressRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.customer.CustomerAddressRemoteService#list(
+	 * com.google.code.magja.service.customer.CustomerAddressRemoteService#list(
 	 * java.lang.Integer)
 	 */
 	@Override
@@ -121,8 +121,8 @@ public class CustomerAddressRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.customer.CustomerAddressRemoteService#save(
-	 * code.google.magja.model.customer.CustomerAddress)
+	 * com.google.code.magja.service.customer.CustomerAddressRemoteService#save(
+	 * com.google.code.magja.model.customer.CustomerAddress)
 	 */
 	@Override
 	public void save(CustomerAddress customerAddress) throws ServiceException {

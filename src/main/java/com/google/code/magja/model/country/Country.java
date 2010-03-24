@@ -1,9 +1,9 @@
 /**
  *
  */
-package code.google.magja.model.country;
+package com.google.code.magja.model.country;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -20,7 +20,7 @@ public class Country extends BaseMagentoModel {
 	private String iso2Code;
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

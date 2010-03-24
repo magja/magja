@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +11,11 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.product.ProductAttribute;
-import code.google.magja.model.product.ProductAttributeSet;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.product.ProductAttribute;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -29,7 +29,7 @@ public class ProductAttributeRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductAttributeRemoteService#delete
+	 * com.google.code.magja.service.product.ProductAttributeRemoteService#delete
 	 * (java.lang.String)
 	 */
 	@Override
@@ -50,8 +50,8 @@ public class ProductAttributeRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductAttributeRemoteService#getOptions
-	 * (code.google.magja.model.product.ProductAttribute)
+	 * com.google.code.magja.service.product.ProductAttributeRemoteService#getOptions
+	 * (com.google.code.magja.model.product.ProductAttribute)
 	 */
 	@Override
 	public void getOptions(ProductAttribute productAttribute)
@@ -86,7 +86,7 @@ public class ProductAttributeRemoteServiceImpl extends
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @seecode.google.magja.service.product.ProductAttributeRemoteService#
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * listAllProductAttributeSet()
 	 */
 	@Override
@@ -120,8 +120,8 @@ public class ProductAttributeRemoteServiceImpl extends
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @seecode.google.magja.service.product.ProductAttributeRemoteService#
-	 * listByAttributeSet(code.google.magja.model.product.ProductAttributeSet)
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * listByAttributeSet(com.google.code.magja.model.product.ProductAttributeSet)
 	 */
 	@Override
 	public List<ProductAttribute> listByAttributeSet(ProductAttributeSet set)
@@ -161,8 +161,8 @@ public class ProductAttributeRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.product.ProductAttributeRemoteService#save(
-	 * code.google.magja.model.product.ProductAttribute)
+	 * com.google.code.magja.service.product.ProductAttributeRemoteService#save(
+	 * com.google.code.magja.model.product.ProductAttribute)
 	 */
 	@Override
 	public void save(ProductAttribute productAttribute) throws ServiceException {

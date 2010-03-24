@@ -1,4 +1,4 @@
-package code.google.magja.soap;
+package com.google.code.magja.soap;
 
 import java.util.HashMap;
 import java.util.Iterator;

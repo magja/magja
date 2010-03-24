@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.order;
+package com.google.code.magja.service.order;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,11 +10,11 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.order.Shipment;
-import code.google.magja.model.order.ShipmentTrack;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.order.Shipment;
+import com.google.code.magja.model.order.ShipmentTrack;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -35,7 +35,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.order.ShipmentRemoteService#addComment(code.google.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)
+	 * @see com.google.code.magja.service.order.ShipmentRemoteService#addComment(com.google.code.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)
 	 */
 	@Override
 	public void addComment(Shipment shipment, String comment, Boolean email,
@@ -56,7 +56,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.order.ShipmentRemoteService#addTrack(code.google.magja.model.order.Shipment, code.google.magja.model.order.ShipmentTrack)
+	 * @see com.google.code.magja.service.order.ShipmentRemoteService#addTrack(com.google.code.magja.model.order.Shipment, com.google.code.magja.model.order.ShipmentTrack)
 	 */
 	@Override
 	public void addTrack(Shipment shipment, ShipmentTrack track)
@@ -85,7 +85,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.order.ShipmentRemoteService#getById(java.lang.Integer)
+	 * @see com.google.code.magja.service.order.ShipmentRemoteService#getById(java.lang.Integer)
 	 */
 	@Override
 	public Shipment getById(Integer id) throws ServiceException {
@@ -102,7 +102,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.order.ShipmentRemoteService#list(java.lang.String)
+	 * @see com.google.code.magja.service.order.ShipmentRemoteService#list(java.lang.String)
 	 */
 	@Override
 	public List<Shipment> list(String filter) throws ServiceException {
@@ -124,7 +124,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.order.ShipmentRemoteService#removeTrack(code.google.magja.model.order.Shipment, code.google.magja.model.order.ShipmentTrack)
+	 * @see com.google.code.magja.service.order.ShipmentRemoteService#removeTrack(com.google.code.magja.model.order.Shipment, com.google.code.magja.model.order.ShipmentTrack)
 	 */
 	@Override
 	public void removeTrack(Shipment shipment, ShipmentTrack track)
@@ -144,7 +144,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.order.ShipmentRemoteService#save(code.google.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)
+	 * @see com.google.code.magja.service.order.ShipmentRemoteService#save(com.google.code.magja.model.order.Shipment, java.lang.String, java.lang.Boolean, java.lang.Boolean)
 	 */
 	@Override
 	public void save(Shipment shipment, String comment, Boolean email,
@@ -172,7 +172,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 	}
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.service.order.ShipmentRemoteService#getCarriers(java.lang.Integer)
+	 * @see com.google.code.magja.service.order.ShipmentRemoteService#getCarriers(java.lang.Integer)
 	 */
 	@Override
 	public Map<String, String> getCarriers(Integer orderId) throws ServiceException {

@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.model.product;
+package com.google.code.magja.model.product;
 
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
@@ -12,8 +12,8 @@ import javax.imageio.stream.ImageInputStream;
 
 import org.junit.Test;
 
-import code.google.magja.model.media.Media;
-import code.google.magja.utils.MagjaFileUtils;
+import com.google.code.magja.model.media.Media;
+import com.google.code.magja.utils.MagjaFileUtils;
 
 /**
  * @author andre

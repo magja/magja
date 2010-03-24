@@ -1,4 +1,4 @@
-package code.google.magja.model;
+package com.google.code.magja.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import code.google.magja.utils.PropertyLoader;
+import com.google.code.magja.utils.PropertyLoader;
 
 public abstract class BaseMagentoModel implements Serializable {
 

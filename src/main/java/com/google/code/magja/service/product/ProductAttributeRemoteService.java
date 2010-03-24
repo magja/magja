@@ -1,14 +1,14 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import java.util.List;
 
-import code.google.magja.model.product.ProductAttribute;
-import code.google.magja.model.product.ProductAttributeSet;
-import code.google.magja.service.GeneralService;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.product.ProductAttribute;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.service.GeneralService;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre

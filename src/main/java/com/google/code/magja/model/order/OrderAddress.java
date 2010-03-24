@@ -1,9 +1,9 @@
 /**
  *
  */
-package code.google.magja.model.order;
+package com.google.code.magja.model.order;
 
-import code.google.magja.model.address.Address;
+import com.google.code.magja.model.address.Address;
 
 /**
  * @author andre
@@ -12,7 +12,7 @@ import code.google.magja.model.address.Address;
 public class OrderAddress extends Address {
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

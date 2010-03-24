@@ -1,10 +1,10 @@
 /**
  *
  */
-package code.google.magja.service.order;
+package com.google.code.magja.service.order;
 
-import code.google.magja.model.order.Invoice;
-import code.google.magja.service.GeneralService;
+import com.google.code.magja.model.order.Invoice;
+import com.google.code.magja.service.GeneralService;
 
 /**
  * @author andre

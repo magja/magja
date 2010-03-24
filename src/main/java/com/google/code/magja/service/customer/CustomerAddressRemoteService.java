@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.service.customer;
+package com.google.code.magja.service.customer;
 
 import java.util.List;
 
-import code.google.magja.model.customer.CustomerAddress;
-import code.google.magja.service.GeneralService;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.customer.CustomerAddress;
+import com.google.code.magja.service.GeneralService;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre

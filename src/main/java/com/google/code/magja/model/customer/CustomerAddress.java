@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.model.customer;
+package com.google.code.magja.model.customer;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import code.google.magja.model.address.Address;
+import com.google.code.magja.model.address.Address;
 
 /**
  * @author andre
@@ -22,7 +22,7 @@ public class CustomerAddress extends Address {
 	private Boolean defaultShipping;
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

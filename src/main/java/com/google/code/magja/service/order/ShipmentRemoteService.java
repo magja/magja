@@ -1,15 +1,15 @@
 /**
  *
  */
-package code.google.magja.service.order;
+package com.google.code.magja.service.order;
 
 import java.util.List;
 import java.util.Map;
 
-import code.google.magja.model.order.Shipment;
-import code.google.magja.model.order.ShipmentTrack;
-import code.google.magja.service.GeneralService;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.order.Shipment;
+import com.google.code.magja.model.order.ShipmentTrack;
+import com.google.code.magja.service.GeneralService;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre

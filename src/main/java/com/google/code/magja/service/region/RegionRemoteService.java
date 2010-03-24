@@ -1,13 +1,13 @@
 /**
  *
  */
-package code.google.magja.service.region;
+package com.google.code.magja.service.region;
 
 import java.util.List;
 
-import code.google.magja.model.region.Region;
-import code.google.magja.service.GeneralService;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.region.Region;
+import com.google.code.magja.service.GeneralService;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre

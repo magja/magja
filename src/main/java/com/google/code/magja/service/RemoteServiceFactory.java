@@ -1,33 +1,33 @@
 /**
  *
  */
-package code.google.magja.service;
+package com.google.code.magja.service;
 
-import code.google.magja.service.category.CategoryAttributeRemoteService;
-import code.google.magja.service.category.CategoryAttributeRemoteServiceImpl;
-import code.google.magja.service.category.CategoryRemoteService;
-import code.google.magja.service.category.CategoryRemoteServiceImpl;
-import code.google.magja.service.country.CountryRemoteService;
-import code.google.magja.service.country.CountryRemoteServiceImpl;
-import code.google.magja.service.customer.CustomerAddressRemoteService;
-import code.google.magja.service.customer.CustomerAddressRemoteServiceImpl;
-import code.google.magja.service.customer.CustomerRemoteService;
-import code.google.magja.service.customer.CustomerRemoteServiceImpl;
-import code.google.magja.service.order.OrderRemoteService;
-import code.google.magja.service.order.OrderRemoteServiceImpl;
-import code.google.magja.service.order.ShipmentRemoteService;
-import code.google.magja.service.order.ShipmentRemoteServiceImpl;
-import code.google.magja.service.product.ProductAttributeRemoteService;
-import code.google.magja.service.product.ProductAttributeRemoteServiceImpl;
-import code.google.magja.service.product.ProductLinkRemoteService;
-import code.google.magja.service.product.ProductLinkRemoteServiceImpl;
-import code.google.magja.service.product.ProductMediaRemoteService;
-import code.google.magja.service.product.ProductMediaRemoteServiceImpl;
-import code.google.magja.service.product.ProductRemoteService;
-import code.google.magja.service.product.ProductRemoteServiceImpl;
-import code.google.magja.service.region.RegionRemoteService;
-import code.google.magja.service.region.RegionRemoteServiceImpl;
-import code.google.magja.soap.MagentoSoapClient;
+import com.google.code.magja.service.category.CategoryAttributeRemoteService;
+import com.google.code.magja.service.category.CategoryAttributeRemoteServiceImpl;
+import com.google.code.magja.service.category.CategoryRemoteService;
+import com.google.code.magja.service.category.CategoryRemoteServiceImpl;
+import com.google.code.magja.service.country.CountryRemoteService;
+import com.google.code.magja.service.country.CountryRemoteServiceImpl;
+import com.google.code.magja.service.customer.CustomerAddressRemoteService;
+import com.google.code.magja.service.customer.CustomerAddressRemoteServiceImpl;
+import com.google.code.magja.service.customer.CustomerRemoteService;
+import com.google.code.magja.service.customer.CustomerRemoteServiceImpl;
+import com.google.code.magja.service.order.OrderRemoteService;
+import com.google.code.magja.service.order.OrderRemoteServiceImpl;
+import com.google.code.magja.service.order.ShipmentRemoteService;
+import com.google.code.magja.service.order.ShipmentRemoteServiceImpl;
+import com.google.code.magja.service.product.ProductAttributeRemoteService;
+import com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl;
+import com.google.code.magja.service.product.ProductLinkRemoteService;
+import com.google.code.magja.service.product.ProductLinkRemoteServiceImpl;
+import com.google.code.magja.service.product.ProductMediaRemoteService;
+import com.google.code.magja.service.product.ProductMediaRemoteServiceImpl;
+import com.google.code.magja.service.product.ProductRemoteService;
+import com.google.code.magja.service.product.ProductRemoteServiceImpl;
+import com.google.code.magja.service.region.RegionRemoteService;
+import com.google.code.magja.service.region.RegionRemoteServiceImpl;
+import com.google.code.magja.soap.MagentoSoapClient;
 
 /**
  * @author andre

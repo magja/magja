@@ -1,9 +1,9 @@
 /**
  *
  */
-package code.google.magja.model.address;
+package com.google.code.magja.model.address;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre

@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.magento;
+package com.google.code.magja.magento;
 
 import static org.junit.Assert.fail;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 import org.apache.axis2.AxisFault;
 import org.junit.Test;
 
-import code.google.magja.soap.SoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 /**
  * @author andre

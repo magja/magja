@@ -6,7 +6,7 @@
  *
  * You are free to use it under the terms of the GNU General Public License
  */
-package code.google.magja.magento;
+package com.google.code.magja.magento;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,7 +63,7 @@ public class Utils {
 
 		return s;
 	}
-	
+
 	public static String viewTable(List<String> list) {
 		StringBuilder builder = new StringBuilder();
 		for (String s : list) {

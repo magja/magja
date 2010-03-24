@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.category;
+package com.google.code.magja.service.category;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,11 +10,11 @@ import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
-import code.google.magja.magento.ResourcePath;
-import code.google.magja.model.category.CategoryAttribute;
-import code.google.magja.model.category.CategoryAttributeOption;
-import code.google.magja.service.GeneralServiceImpl;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.category.CategoryAttribute;
+import com.google.code.magja.model.category.CategoryAttributeOption;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -28,7 +28,7 @@ public class CategoryAttributeRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * code.google.magja.service.category.CategoryAttributeRemoteService#listAll
+	 * com.google.code.magja.service.category.CategoryAttributeRemoteService#listAll
 	 * (java.lang.String)
 	 */
 	@Override

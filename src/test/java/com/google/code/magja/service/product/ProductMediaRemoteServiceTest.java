@@ -1,4 +1,4 @@
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -11,12 +11,12 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.media.Media;
-import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductMedia;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
-import code.google.magja.utils.MagjaFileUtils;
+import com.google.code.magja.model.media.Media;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.utils.MagjaFileUtils;
 
 public class ProductMediaRemoteServiceTest {
 
@@ -98,7 +98,7 @@ public class ProductMediaRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.product.ProductMediaRemoteServiceImpl#save(code.google.magja.model.product.ProductMedia)
+	 * {@link com.google.code.magja.service.product.ProductMediaRemoteServiceImpl#save(com.google.code.magja.model.product.ProductMedia)
 
 	 */
 	@Test
@@ -148,7 +148,7 @@ public class ProductMediaRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.product.ProductMediaRemoteServiceImpl#delete(code.google.magja.model.product.ProductMedia)
+	 * {@link com.google.code.magja.service.product.ProductMediaRemoteServiceImpl#delete(com.google.code.magja.model.product.ProductMedia)
 
 	 */
 	@Test
@@ -167,7 +167,7 @@ public class ProductMediaRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.product.ProductMediaRemoteServiceImpl#getByProductAndFile(code.google.magja.model.product.Product, java.lang.String)
+	 * {@link com.google.code.magja.service.product.ProductMediaRemoteServiceImpl#getByProductAndFile(com.google.code.magja.model.product.Product, java.lang.String)
 
 	 */
 	@Test
@@ -186,7 +186,7 @@ public class ProductMediaRemoteServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link code.google.magja.service.product.ProductMediaRemoteServiceImpl#listByProduct(code.google.magja.model.product.Product)}
+	 * {@link com.google.code.magja.service.product.ProductMediaRemoteServiceImpl#listByProduct(com.google.code.magja.model.product.Product)}
 	 * .
 	 */
 	@Test

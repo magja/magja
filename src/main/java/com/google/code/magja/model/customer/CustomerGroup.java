@@ -1,9 +1,9 @@
 /**
  *
  */
-package code.google.magja.model.customer;
+package com.google.code.magja.model.customer;
 
-import code.google.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
@@ -14,7 +14,7 @@ public class CustomerGroup extends BaseMagentoModel {
 	private String groupCode;
 
 	/* (non-Javadoc)
-	 * @see code.google.magja.model.BaseMagentoModel#serializeToApi()
+	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {

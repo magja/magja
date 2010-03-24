@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.order;
+package com.google.code.magja.service.order;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -11,11 +11,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.order.Order;
-import code.google.magja.model.order.OrderFilter;
-import code.google.magja.model.order.OrderFilterItem;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.order.Order;
+import com.google.code.magja.model.order.OrderFilter;
+import com.google.code.magja.model.order.OrderFilterItem;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -35,7 +35,7 @@ public class OrderRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.OrderRemoteServiceImpl#addComment(code.google.magja.model.order.Order, java.lang.String, java.lang.String, java.lang.Boolean)}.
+	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#addComment(com.google.code.magja.model.order.Order, java.lang.String, java.lang.String, java.lang.Boolean)}.
 	 */
 	@Test
 	public void testAddComment() {
@@ -52,7 +52,7 @@ public class OrderRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.OrderRemoteServiceImpl#cancel(code.google.magja.model.order.Order)}.
+	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#cancel(com.google.code.magja.model.order.Order)}.
 	 */
 	@Test
 	public void testCancel() {
@@ -69,7 +69,7 @@ public class OrderRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.OrderRemoteServiceImpl#getById(java.lang.Integer)}.
+	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#getById(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetById() {
@@ -93,7 +93,7 @@ public class OrderRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.OrderRemoteServiceImpl#hold(code.google.magja.model.order.Order)}.
+	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#hold(com.google.code.magja.model.order.Order)}.
 	 */
 	@Test
 	public void testHold() {
@@ -110,7 +110,7 @@ public class OrderRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.OrderRemoteServiceImpl#unhold(code.google.magja.model.order.Order)}.
+	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#unhold(com.google.code.magja.model.order.Order)}.
 	 */
 	@Test
 	public void testUnhold() {
@@ -127,7 +127,7 @@ public class OrderRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.order.OrderRemoteServiceImpl#list(code.google.magja.model.order.OrderFilter)}.
+	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#list(com.google.code.magja.model.order.OrderFilter)}.
 	 */
 	@Test
 	public void testList() {

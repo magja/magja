@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.category;
+package com.google.code.magja.service.category;
 
 import static org.junit.Assert.fail;
 
@@ -10,9 +10,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.category.CategoryAttribute;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.category.CategoryAttribute;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -31,7 +31,7 @@ public class CategoryAttributeRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.category.CategoryAttributeRemoteServiceImpl#listAll(java.lang.String)}.
+	 * Test method for {@link com.google.code.magja.service.category.CategoryAttributeRemoteServiceImpl#listAll(java.lang.String)}.
 	 */
 	@Test
 	public void testListAll() {

@@ -1,9 +1,9 @@
 /**
  *
  */
-package code.google.magja.magento;
+package com.google.code.magja.magento;
 
-import code.google.magja.soap.SoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 /**
  * @author andre

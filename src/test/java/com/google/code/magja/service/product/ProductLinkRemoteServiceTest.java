@@ -1,7 +1,7 @@
 /**
  *
  */
-package code.google.magja.service.product;
+package com.google.code.magja.service.product;
 
 import static org.junit.Assert.fail;
 
@@ -12,11 +12,11 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import code.google.magja.model.product.Product;
-import code.google.magja.model.product.ProductLink;
-import code.google.magja.model.product.ProductLink.LinkType;
-import code.google.magja.service.RemoteServiceFactory;
-import code.google.magja.service.ServiceException;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductLink;
+import com.google.code.magja.model.product.ProductLink.LinkType;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
@@ -54,7 +54,7 @@ public class ProductLinkRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductLinkRemoteServiceImpl#assign(code.google.magja.model.product.Product, code.google.magja.model.product.ProductLink)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductLinkRemoteServiceImpl#assign(com.google.code.magja.model.product.Product, com.google.code.magja.model.product.ProductLink)}.
 	 */
 	@Test
 	public void testAssignProductProductLink() {
@@ -82,7 +82,7 @@ public class ProductLinkRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductLinkRemoteServiceImpl#list(code.google.magja.model.product.Product)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductLinkRemoteServiceImpl#list(com.google.code.magja.model.product.Product)}.
 	 */
 	@Test
 	public void testListByProduct() {
@@ -102,7 +102,7 @@ public class ProductLinkRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductLinkRemoteServiceImpl#list(code.google.magja.model.product.ProductLink.LinkType, code.google.magja.model.product.Product)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductLinkRemoteServiceImpl#list(com.google.code.magja.model.product.ProductLink.LinkType, com.google.code.magja.model.product.Product)}.
 	 */
 	@Test
 	public void testListLinkTypeProduct() {
@@ -122,7 +122,7 @@ public class ProductLinkRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductLinkRemoteServiceImpl#remove(code.google.magja.model.product.Product, code.google.magja.model.product.ProductLink)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductLinkRemoteServiceImpl#remove(com.google.code.magja.model.product.Product, com.google.code.magja.model.product.ProductLink)}.
 	 */
 	@Test
 	public void testRemove() {
@@ -148,7 +148,7 @@ public class ProductLinkRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link code.google.magja.service.product.ProductLinkRemoteServiceImpl#update(code.google.magja.model.product.Product, code.google.magja.model.product.ProductLink)}.
+	 * Test method for {@link com.google.code.magja.service.product.ProductLinkRemoteServiceImpl#update(com.google.code.magja.model.product.Product, com.google.code.magja.model.product.ProductLink)}.
 	 */
 	@Test
 	public void testUpdate() {

@@ -1,4 +1,4 @@
-package code.google.magja.model.product;
+package com.google.code.magja.model.product;
 
 public enum ProductTypeEnum {
 
