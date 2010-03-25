@@ -4,7 +4,7 @@
 	<groupId>com.google.code.magja</groupId>
 	<artifactId>magja</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>magja</name>
 	<description>
 		Magja is a java connector for access the Magento API (http://www.magentocommerce.com/support/magento_core_api),
@@ -55,6 +55,33 @@
 		<system>GoogleCode</system>
 		<url>http://code.google.com/p/magja/issues/list</url>
 	</issueManagement>
+
+	<!--
+		remove the <build> and <repositories> before create bundle to update
+		to maven repository
+	-->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>jboss</id>
+			<url>http://repository.jboss.com/maven2/</url>
+		</repository>
+		<repository>
+			<id>codehaus</id>
+			<url>http://repository.codehaus.org/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
