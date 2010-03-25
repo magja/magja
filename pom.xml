@@ -7,7 +7,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>magja</name>
 	<description>
-		Magja is a java connector for Magento API (http://www.magentocommerce.com/support/magento_core_api)
+		Magja is a java connector for access the Magento API (http://www.magentocommerce.com/support/magento_core_api),
+		with that you will be able to manipulate the magento products (images include), categories, customers, orders,
+		and much more. Just you have to do its create a properties file with the connection parameters for the magento
+		installation. For more information visit the project page.
 	</description>
 	<url>http://magja.googlecode.com</url>
 	<organization>
