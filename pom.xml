@@ -3,7 +3,7 @@
 	<groupId>com.google.code.magja</groupId>
 	<artifactId>magja</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>magja</name>
 	<description>
 		Magja is a java connector for access the Magento API (http://www.magentocommerce.com/support/magento_core_api),
@@ -12,10 +12,18 @@
 		installation. For more information visit the project page.
 	</description>
 	<url>http://magja.googlecode.com</url>
+
+	<scm>
+		<url>http://magja.googlecode.com/svn/trunk</url>
+		<connection>scm:svn:http://magja.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://magja.googlecode.com/svn/trunk</developerConnection>
+	</scm>
+
 	<organization>
 		<name>Panticz</name>
 		<url>http://www.panticz.de</url>
 	</organization>
+
 	<developers>
 		<developer>
 			<id>pawel</id>
@@ -40,6 +48,7 @@
 			</roles>
 		</developer>
 	</developers>
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -47,11 +56,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
-	<scm>
-		<url>http://magja.googlecode.com/svn/tags/magja-0.0.1</url>
-		<connection>scm:svn:http://magja.googlecode.com/svn/tags/magja-0.0.1</connection>
-	</scm>
 
 	<issueManagement>
 		<system>GoogleCode</system>
