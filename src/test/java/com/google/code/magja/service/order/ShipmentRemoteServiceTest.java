@@ -31,7 +31,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Test
 	public void testAddComment() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Test
 	public void testAddTrack() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Test
 	public void testGetById() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Test
 	public void testList() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Test
 	public void testRemoveTrack() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Test
 	public void testSave() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Test
 	public void testGetCarriers() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 }

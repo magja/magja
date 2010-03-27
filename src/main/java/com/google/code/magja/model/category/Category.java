@@ -308,12 +308,11 @@ public class Category extends BaseMagentoModel {
 	@Override
 	public String toString() {
 		return "Category [active=" + active + ", anchor=" + anchor
-				+ ", availableSortBy=" + availableSortBy + ", children="
-				+ children + ", defaultSortBy=" + defaultSortBy
-				+ ", description=" + description + ", metaDescription="
-				+ metaDescription + ", metaKeywords=" + metaKeywords
-				+ ", name=" + name + ", parent=" + parent + ", position="
-				+ position + ", id=" + id + ", properties=" + properties + "]";
+				+ ", availableSortBy=" + availableSortBy + ", defaultSortBy="
+				+ defaultSortBy + ", description=" + description
+				+ ", metaDescription=" + metaDescription + ", metaKeywords="
+				+ metaKeywords + ", name=" + name + ", position=" + position
+				+ ", id=" + id + ", properties=" + properties + "]";
 	}
 
 }

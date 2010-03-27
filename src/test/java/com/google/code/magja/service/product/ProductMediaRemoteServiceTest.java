@@ -136,6 +136,7 @@ public class ProductMediaRemoteServiceTest {
 
 			assertTrue(prd_media.getFile() != null);
 
+			product.addMedia(prd_media);
 			file = prd_media.getFile();
 
 		} catch (IOException e1) {

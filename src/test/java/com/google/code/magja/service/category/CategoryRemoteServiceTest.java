@@ -51,7 +51,7 @@ public class CategoryRemoteServiceTest {
 	@Test
 	public void testGetByIdWithParent() throws Exception {
 		Category category = service.getByIdWithParent(new Integer(2));
-		if(category != null) System.out.println(category.toString());
+		if (category != null) if (category.getParent() != null) System.out.println(category.getParent().toString());
 	}
 
 	/**
@@ -60,7 +60,13 @@ public class CategoryRemoteServiceTest {
 	@Test
 	public void testGetByIdWithParentAndChildren() throws Exception {
 		Category category = service.getByIdWithParentAndChildren(new Integer(2));
-		if(category != null) System.out.println(category.toString());
+		if(category != null) {
+			if (category.getParent() != null) System.out.println("parent: " + category.getParent().toString());
+			if (category.getChildren() != null) {
+				System.out.println("children: ");
+				for (Category child : category.getChildren()) System.out.println(child.toString());
+			}
+		}
 	}
 
 }

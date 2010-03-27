@@ -207,9 +207,11 @@
 					<value>true</value>
 				</property>
 			</activation>
+			<!-- Comment if run Maven Test -->
 			<properties>
 				<maven.test.skip>true</maven.test.skip>
 			</properties>
+
 			<build>
 				<plugins>
 					<plugin>
