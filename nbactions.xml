@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-skip-tests</actionName>
+            <displayName>skip-tests</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <activatedProfiles>
+                <activatedProfile>jdk-1.6</activatedProfile>
+            </activatedProfiles>
+        </action>
+    </actions>
