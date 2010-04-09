@@ -45,6 +45,12 @@ public class MagentoSoapClient implements SoapClient {
         returnParser = new SoapReturnParser();
         config = new SoapConfig(magentoapi);
 
+        try {
+			login();
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -121,7 +127,7 @@ public class MagentoSoapClient implements SoapClient {
         OMElement loginMethod = callFactory.createLoginCall(this.config.getApiUser(), this.config.getApiKey());
         OMElement loginResult = sender.sendReceive(loginMethod);
 
-        String session = loginResult.getFirstChildWithName(LOGIN_RETURN).getText();
+        sessionId = loginResult.getFirstChildWithName(LOGIN_RETURN).getText();
     }
 
     /**
