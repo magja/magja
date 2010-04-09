@@ -383,6 +383,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				throw new ServiceException(e.getMessage());
 			}
 
+			// TODO: assign the product to the categories here, if it have categories
+
+
 			// inventory
 			if (product.getQty() != null && (new Double(0) < product.getQty()))
 				updateInventory(product);

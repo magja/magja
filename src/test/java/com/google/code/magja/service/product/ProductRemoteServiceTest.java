@@ -12,6 +12,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.service.RemoteServiceFactory;
@@ -60,8 +61,16 @@ public class ProductRemoteServiceTest {
 		product.set("meta_description", "one two tree");
 		product.set("enable_googlecheckout", 1);
 
+
 		// this attributes not working
-		product.set("categories", "[3, 4]");
+		//Category category = new Category();
+		//category.setId(new Integer(4));
+		//product.getCategories().add(category);
+
+		String[] categories = {"3", "4"};
+		product.set("categories", categories);
+
+		//product.set("categories", "[3, 4]");
 		product.set("options_container", "container2");
 
 		return product;
@@ -96,6 +105,8 @@ public class ProductRemoteServiceTest {
 
 		Product productBySku = service.getBySku(productSku);
 		assertTrue(productBySku != null);
+
+		System.out.println(productById.toString());
 	}
 
 	/**
