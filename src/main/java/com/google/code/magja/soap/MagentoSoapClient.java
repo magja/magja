@@ -38,19 +38,7 @@ public class MagentoSoapClient implements SoapClient {
      * parameters just have to use the appropriate method
      */
     public MagentoSoapClient() {
-
-        java.util.Properties magentoapi = PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE);
-
-        callFactory = new SoapCallFactory();
-        returnParser = new SoapReturnParser();
-        config = new SoapConfig(magentoapi);
-
-        try {
-			login();
-		} catch (AxisFault e) {
-			e.printStackTrace();
-		}
-
+        this(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
     }
 
     /**
@@ -59,6 +47,14 @@ public class MagentoSoapClient implements SoapClient {
      */
     public MagentoSoapClient(SoapConfig soapConfig) {
         config = soapConfig;
+        callFactory = new SoapCallFactory();
+        returnParser = new SoapReturnParser();
+        try {
+            login();
+        } catch (AxisFault ex) {
+            // do not swallow, rethrow as runtime
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
@@ -82,7 +78,7 @@ public class MagentoSoapClient implements SoapClient {
     public Object call(ResourcePath path, Object args) throws AxisFault {
 
         // login before calls
-        if(!isLoggedIn()) {
+        if (!isLoggedIn()) {
             login();
         }
 
@@ -103,7 +99,7 @@ public class MagentoSoapClient implements SoapClient {
      */
     protected void login() throws AxisFault {
 
-        if( isLoggedIn() ) {
+        if (isLoggedIn()) {
             logout();
         }
 
