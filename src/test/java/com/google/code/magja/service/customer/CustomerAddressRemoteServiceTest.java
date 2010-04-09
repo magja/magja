@@ -34,8 +34,8 @@ public class CustomerAddressRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getCustomerAddressRemoteService();
-		customerService = RemoteServiceFactory.getCustomerRemoteService();
+		service = new RemoteServiceFactory().getCustomerAddressRemoteService();
+		customerService = new RemoteServiceFactory().getCustomerRemoteService();
 	}
 
 	public static CustomerAddress generateAddress() {

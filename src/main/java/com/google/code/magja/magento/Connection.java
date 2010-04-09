@@ -18,10 +18,9 @@ import com.google.code.magja.soap.SoapClient;
 
 public class Connection {
 
-	protected SoapClient client = null;
+    protected SoapClient client = null;
 
-	public Connection() {
-		client = MagentoSoapClient.getInstance();
-	}
-
+    public Connection() {
+        client = new MagentoSoapClient();
+    }
 }

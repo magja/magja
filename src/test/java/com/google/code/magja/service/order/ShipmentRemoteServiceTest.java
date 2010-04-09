@@ -23,7 +23,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getShipmentRemoteService();
+		service = new RemoteServiceFactory().getShipmentRemoteService();
 	}
 
 	/**

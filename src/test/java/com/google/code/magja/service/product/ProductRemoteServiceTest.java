@@ -37,7 +37,7 @@ public class ProductRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getProductRemoteService();
+		service = new RemoteServiceFactory().getProductRemoteService();
 	}
 
 	public static Product generateProduct() {
