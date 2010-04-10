@@ -21,4 +21,15 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 
 	public abstract Category getByIdWithParentAndChildren(Integer id) throws ServiceException;
 
+	public abstract int save(Category category) throws ServiceException;
+
+	public abstract void delete(Integer id) throws ServiceException;
+
+	public abstract void deleteAllChildren(Integer id) throws ServiceException;
+
+	public abstract Category getDefaultParent() throws ServiceException;
+
+	public abstract int create(Integer parentId, String categoryName) throws ServiceException;
+
+	public abstract int create(Integer parentId, String[] categoryNames) throws ServiceException;
 }

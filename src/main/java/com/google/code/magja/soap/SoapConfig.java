@@ -11,6 +11,8 @@ public class SoapConfig {
 	private static final String MAGENTO_API_USERNAME = "magento-api-username";
 
 	public static final String DEFAULT_ATTRIBUTE_SET_ID = "default-attribute-set-id";
+	
+	public static final String DEFAULT_ROOT_CATEGORY_ID = "default-root-category-id";
 
 	private String apiUser;
 
@@ -19,6 +21,8 @@ public class SoapConfig {
 	private String remoteHost;
 
 	private Integer defaultAttributeSetId;
+	
+	private Integer defaultRootCategoryId;
 
 	public SoapConfig(String apiUser, String apiKey, String remoteHost) {
 		this.apiUser = apiUser;
@@ -31,6 +35,7 @@ public class SoapConfig {
 		this.apiKey = properties.getProperty(MAGENTO_API_PASSWORD);
 		this.remoteHost = properties.getProperty(MAGENTO_API_URL);
 		this.defaultAttributeSetId = Integer.parseInt(properties.getProperty(DEFAULT_ATTRIBUTE_SET_ID));
+		this.defaultRootCategoryId = Integer.parseInt(properties.getProperty(DEFAULT_ROOT_CATEGORY_ID));
 	}
 
 	/**
@@ -87,5 +92,19 @@ public class SoapConfig {
 	 */
 	public void setDefaultAttributeSetId(Integer defaultAttributeSetId) {
 		this.defaultAttributeSetId = defaultAttributeSetId;
+	}
+	
+	/**
+	 * @return the defaultRootCategoryId
+	 */
+	public Integer getDefaultRootCategoryId() {
+		return defaultRootCategoryId;
+	}
+
+	/**
+	 * @param defaultRootCategoryId the defaultRootCategoryId to set
+	 */
+	public void setDefaultRootCategoryId(Integer defaultRootCategoryId) {
+		this.defaultRootCategoryId = defaultRootCategoryId;
 	}
 }

@@ -3,6 +3,8 @@
  */
 package com.google.code.magja.service.category;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,4 +71,61 @@ public class CategoryRemoteServiceTest {
 		}
 	}
 
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#save(com.google.code.magja.model.category.Category)}
+	 * .
+	 */
+	@Test
+	public void testSave() throws Exception {
+		Category category = new Category(service.getDefaultParent(), "Test Category 1");
+		service.save(category);
+
+		assertTrue(category.getId() != null);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#delete(java.lang.Integer)}
+	 */
+	@Test
+	public void testDelete() throws Exception {
+		// first create some category
+		Category category = new Category(service.getDefaultParent(), "Test Category 2");
+		int categoryId = service.save(category);
+
+		// then delete it by id
+		service.delete(categoryId);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#deleteAllChildren(java.lang.Integer)}
+	 */
+	@Test
+	public void testDeleteAllChildren() throws Exception {
+		service.deleteAllChildren(2);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#create(java.lang.Integer, java.lang.String)}
+	 */
+	@Test
+	public void testCreate() throws Exception {
+		Category parent = service.getDefaultParent();
+		service.create(parent.getId(), "Category 0");
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#create(java.lang.Integer, java.lang.String[])}
+	 */
+	@Test
+	public void testCreateFromArray() throws Exception {
+		Category parent = service.getDefaultParent();
+		service.create(parent.getId(), new String[] { "Category 1", "Sub Category 2", "Under Sub Category 3" });
+		service.create(parent.getId(), new String[] { "Category 1", "Sub Category 2", "Under Sub Category 4" });
+		service.create(parent.getId(), new String[] { "Category 2", "Sub Category 3", "Under Sub Category 4" });
+	}
 }
