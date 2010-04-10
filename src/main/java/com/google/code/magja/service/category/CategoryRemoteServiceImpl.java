@@ -204,18 +204,19 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 	/**
 	 * create category tree from String
 	 */
-	public int create(Integer parentId, String categoryName) throws ServiceException {
+	public Category create(Integer parentId, String categoryName) throws ServiceException {
 		return create(parentId, new String[] { categoryName });
 	}
 
 	/**
 	 * create category tree from String array
 	 */
-	public int create(Integer parentId, String[] categoryNames) throws ServiceException {
+	public Category create(Integer parentId, String[] categoryNames) throws ServiceException {
+		Category newCategory = null;
+		
 		for (int i = 0; i < categoryNames.length; i++) {
 			if (categoryNames[i].length() > 0) {
 				Category parent = getByIdWithChildren(parentId);
-				Category newCategory = null;
 
 				// check if children already exists
 				boolean childrenFound = false;
@@ -238,7 +239,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 			}
 		}
 
-		return parentId;
+		return newCategory;
 	}
 	
 }
