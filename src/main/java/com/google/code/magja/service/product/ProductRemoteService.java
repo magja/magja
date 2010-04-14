@@ -99,6 +99,13 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract void delete(String sku) throws ServiceException;
+	
+	/**
+	 * Remove all product from magento
+	 *
+	 * @throws ServiceException
+	 */
+	public abstract void deleteAll() throws ServiceException;
 
 	/**
 	 * @return List of all ProductTypes from magento api

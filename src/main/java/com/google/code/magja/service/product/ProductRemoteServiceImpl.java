@@ -474,6 +474,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	public void delete(String sku) throws ServiceException {
 		delete(null, sku);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.google.code.magja.service.product.ProductRemoteService#deleteAll()
+	 */
+	@Override
+	public void deleteAll() throws ServiceException {
+		List<Product> products = listAllNoDep();
+		for(Product product : products) {
+			delete(product.getId());
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
