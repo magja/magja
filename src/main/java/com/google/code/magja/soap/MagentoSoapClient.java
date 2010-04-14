@@ -1,8 +1,6 @@
 package com.google.code.magja.soap;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
@@ -33,19 +31,16 @@ public class MagentoSoapClient implements SoapClient {
     private ServiceClient sender;
 
     /**
-     * On the constructor, we will perform the login to magento API, to keep the
-     * same session for all operations, if the user want to change the login
-     * parameters just have to use the appropriate method
+     * The default constructor for custom connections
      */
-    public MagentoSoapClient() {
-        this(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
+    private MagentoSoapClient() {
     }
 
     /**
      * Construct soap client using given configuration
      * @param soapConfig
      */
-    public MagentoSoapClient(SoapConfig soapConfig) {
+    private MagentoSoapClient(SoapConfig soapConfig) {
         config = soapConfig;
         callFactory = new SoapCallFactory();
         returnParser = new SoapReturnParser();
@@ -56,6 +51,29 @@ public class MagentoSoapClient implements SoapClient {
             throw new RuntimeException(ex);
         }
     }
+
+    /**
+	 * MagentoSoapClientHolder is loaded on the first execution of
+	 * MagentoSoapClient.getInstance() or the first access to
+	 * MagentoSoapClientHolder.INSTANCE, not before.
+	 */
+	private static class MagentoSoapClientHolder {
+		private static final MagentoSoapClient INSTANCE_DEFAULT = new MagentoSoapClient(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
+		private static final MagentoSoapClient INSTANCE_CUSTOM = new MagentoSoapClient();
+	}
+
+	public static MagentoSoapClient getInstance() {
+		return MagentoSoapClientHolder.INSTANCE_DEFAULT;
+	}
+
+	public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
+		MagentoSoapClient instance = MagentoSoapClientHolder.INSTANCE_CUSTOM;
+
+		if(!soapConfig.equals(instance.getConfig()))
+			instance = new MagentoSoapClient(soapConfig);
+
+		return MagentoSoapClientHolder.INSTANCE_DEFAULT;
+	}
 
     /**
      * @return the config
@@ -76,12 +94,6 @@ public class MagentoSoapClient implements SoapClient {
     }
 
     public Object call(ResourcePath path, Object args) throws AxisFault {
-
-        // login before calls
-        if (!isLoggedIn()) {
-            login();
-        }
-
         OMElement method = callFactory.createCall(sessionId, path.getPath(),
                 args);
         OMElement result = sender.sendReceive(method);
@@ -99,9 +111,7 @@ public class MagentoSoapClient implements SoapClient {
      */
     protected void login() throws AxisFault {
 
-        if (isLoggedIn()) {
-            logout();
-        }
+        if (isLoggedIn()) logout();
 
         connectOptions = new Options();
         connectOptions.setTo(new EndpointReference(config.getRemoteHost()));

@@ -28,6 +28,7 @@ import com.google.code.magja.service.product.ProductRemoteServiceImpl;
 import com.google.code.magja.service.region.RegionRemoteService;
 import com.google.code.magja.service.region.RegionRemoteServiceImpl;
 import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapConfig;
 
 /**
  * @author andre
@@ -38,7 +39,11 @@ public class RemoteServiceFactory {
     private final MagentoSoapClient magentoSoapClient;
 
     public RemoteServiceFactory() {
-        this.magentoSoapClient = new MagentoSoapClient();
+        this.magentoSoapClient = MagentoSoapClient.getInstance();
+    }
+
+    public RemoteServiceFactory(SoapConfig soapConfig) {
+        this.magentoSoapClient = MagentoSoapClient.getInstance(soapConfig);
     }
 
     public RemoteServiceFactory(MagentoSoapClient magentoSoapClient) {
