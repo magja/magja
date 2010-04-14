@@ -72,7 +72,7 @@ public class MagentoSoapClient implements SoapClient {
 		if(!soapConfig.equals(instance.getConfig()))
 			instance = new MagentoSoapClient(soapConfig);
 
-		return MagentoSoapClientHolder.INSTANCE_DEFAULT;
+		return instance;
 	}
 
     /**
