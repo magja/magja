@@ -21,6 +21,6 @@ public class Connection {
     protected SoapClient client = null;
 
     public Connection() {
-        client = MagentoSoapClient.getInstance();
+        client = new MagentoSoapClient();
     }
 }
