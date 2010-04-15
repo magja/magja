@@ -78,7 +78,7 @@ public class CategoryRemoteServiceTest {
 	 */
 	@Test
 	public void testSave() throws Exception {
-		Category category = new Category(service.getDefaultParent(), "Test Category 1");
+		Category category = service.getMinimalCategory(service.getDefaultParent().getId(), "Test Category 1");
 		service.save(category);
 
 		assertTrue(category.getId() != null);
@@ -91,7 +91,7 @@ public class CategoryRemoteServiceTest {
 	@Test
 	public void testDelete() throws Exception {
 		// first create some category
-		Category category = new Category(service.getDefaultParent(), "Test Category 2");
+		Category category = service.getMinimalCategory(service.getDefaultParent().getId(), "Test Category 2");
 		int categoryId = service.save(category);
 
 		// then delete it by id

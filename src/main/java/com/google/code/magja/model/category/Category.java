@@ -32,34 +32,6 @@ public class Category extends BaseMagentoModel {
 
 	private List<Category> children;
 
-	/**
-	 * empty constructor
-	 */
-	public Category() {
-	}
-
-	/**
-	 * quick constructor
-	 * 
-	 * Settings: availableSortBy = name defaultSortBy = name active = true
-	 * anchor = true
-	 */
-	public Category(Category parent, String name) {
-		this(parent, name, "name", "name", true, true);
-	}
-
-	/**
-	 * minimal constructor (with all required parameters)
-	 */
-	public Category(Category parent, String name, String availableSortBy, String defaultSortBy, Boolean active, Boolean anchor) {
-		setParent(parent);
-		setName(name);
-		setAvailableSortBy(availableSortBy);
-		setDefaultSortBy(defaultSortBy);
-		setActive(active);
-		setAnchor(anchor);
-	}
-
 	/* (non-Javadoc)
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */

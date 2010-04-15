@@ -203,6 +203,34 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 	}
 
 	/**
+	 * create category from minimal parameter
+	 * 
+	 * Settings: availableSortBy = name defaultSortBy = name active = true
+	 * anchor = true
+	 */
+	public Category getMinimalCategory(Integer parentId, String categoryName) {
+		return getRequiredCategory(parentId, categoryName, "name", "name", true, true);
+	}
+
+	/**
+	 * create category with required parameter (this parameter are required by Magento)
+	 */
+	public Category getRequiredCategory(Integer parentId, String categoryName, String availableSortBy, String defaultSortBy, Boolean active, Boolean anchor) {
+		Category parent = new Category();
+		parent.setId(parentId);
+		
+		Category category = new Category();
+		category.setParent(parent);
+		category.setName(categoryName);
+		category.setAvailableSortBy(availableSortBy);
+		category.setDefaultSortBy(defaultSortBy);
+		category.setActive(active);
+		category.setAnchor(anchor);
+		
+		return category;
+	}
+	
+	/**
 	 * create category tree from String
 	 */
 	public Category create(Integer parentId, String categoryName) throws ServiceException {
@@ -233,7 +261,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 
 				if (!childrenFound) {
 					// children not found, create new one
-					newCategory = new Category(parent, categoryNames[i]);
+					newCategory = getMinimalCategory(parent.getId(), categoryNames[i]);
 				}
 
 				parentId = save(newCategory);
