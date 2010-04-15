@@ -383,8 +383,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				throw new ServiceException(e.getMessage());
 			}
 
-			// TODO: assign the product to the categories here, if it have categories
-
+			// assign to one or more category
+			if(product.getCategories() != null) {
+				for(Category category : product.getCategories()) {
+					categoryRemoteService.assignProduct(category, product);
+				}
+			}
 
 			// inventory
 			if (product.getQty() != null && (new Double(0) < product.getQty()))

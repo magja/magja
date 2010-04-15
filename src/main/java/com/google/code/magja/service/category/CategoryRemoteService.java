@@ -4,6 +4,7 @@
 package com.google.code.magja.service.category;
 
 import com.google.code.magja.model.category.Category;
+import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
@@ -32,4 +33,6 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	public abstract Category create(Integer parentId, String categoryName) throws ServiceException;
 
 	public abstract Category create(Integer parentId, String[] categoryNames) throws ServiceException;
+	
+	public abstract void assignProduct(Category category, Product product) throws ServiceException;
 }

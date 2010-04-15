@@ -11,6 +11,7 @@ import org.apache.axis2.AxisFault;
 
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.category.Category;
+import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
@@ -242,4 +243,24 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 		return newCategory;
 	}
 	
+	/**
+	 * Assign product to category
+	 */
+	public void assignProduct(Category category, Product product) throws ServiceException {
+		List<Object> list = new LinkedList<Object>();
+		list.add(category.getId());
+		list.add(product.getId());
+
+		Boolean success = false;
+		try {
+			success = (Boolean) soapClient.call(ResourcePath.CategoryAssignProduct, list);
+		} catch (AxisFault e) {
+			System.out.println(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		if (!success) {
+			throw new ServiceException("Not success assign product to category.");
+		}
+	}
+
 }
