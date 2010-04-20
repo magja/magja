@@ -78,6 +78,20 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 		}
 
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.google.code.magja.service.customer.CustomerRemoteService#deleteAll()
+	 */
+	@Override
+	public void deleteAll() throws ServiceException {
+		List<Customer> customers = list();
+		for(Customer customer : customers) {
+			delete(customer.getId());
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

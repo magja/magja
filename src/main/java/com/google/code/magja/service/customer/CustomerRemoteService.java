@@ -60,6 +60,13 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
 	public abstract void delete(Integer id) throws ServiceException;
 
 	/**
+	 * Delete all customer
+	 *
+	 * @throws ServiceException
+	 */
+	public void deleteAll() throws ServiceException;
+
+	/**
 	 * @return list of all customer groups on magento
 	 * @throws ServiceException
 	 */
