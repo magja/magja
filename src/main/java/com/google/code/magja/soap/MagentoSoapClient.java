@@ -29,6 +29,11 @@ public class MagentoSoapClient implements SoapClient {
     private Options connectOptions;
     private String sessionId;
     private ServiceClient sender;
+    // the instance is loaded on the first execution of MagentoSoapClient.getInstance() not before. 
+    // remove the MagentoSoapClientHolder because the class loader will throw could not load [magento-api.properties] exception when we not include
+    // magento-api.properties in the class path although we want to use custom instance 
+    private static MagentoSoapClient INSTANCE_CUSTOM;
+    private static MagentoSoapClient INSTANCE_DEFAULT;
 
     /**
      * The default constructor for custom connections
@@ -53,27 +58,27 @@ public class MagentoSoapClient implements SoapClient {
     }
 
     /**
-	 * MagentoSoapClientHolder is loaded on the first execution of
-	 * MagentoSoapClient.getInstance() or the first access to
-	 * MagentoSoapClientHolder.INSTANCE, not before.
-	 */
-	private static class MagentoSoapClientHolder {
-		private static final MagentoSoapClient INSTANCE_DEFAULT = new MagentoSoapClient(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
-		private static final MagentoSoapClient INSTANCE_CUSTOM = new MagentoSoapClient();
-	}
+     * MagentoSoapClientHolder is loaded on the first execution of
+     * MagentoSoapClient.getInstance() or the first access to
+     * MagentoSoapClientHolder.INSTANCE, not before.
+     */
 
-	public static MagentoSoapClient getInstance() {
-		return MagentoSoapClientHolder.INSTANCE_DEFAULT;
-	}
 
-	public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
-		MagentoSoapClient instance = MagentoSoapClientHolder.INSTANCE_CUSTOM;
+    public static MagentoSoapClient getInstance() {
+        if (INSTANCE_DEFAULT == null) {
+            INSTANCE_DEFAULT = new MagentoSoapClient(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
+        }
+        return INSTANCE_DEFAULT;
+    }
 
-		if(!soapConfig.equals(instance.getConfig()))
-			instance = new MagentoSoapClient(soapConfig);
-
-		return instance;
-	}
+    public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
+        if (INSTANCE_CUSTOM == null) {
+            INSTANCE_CUSTOM = new MagentoSoapClient();
+        }
+        if(!soapConfig.equals(INSTANCE_CUSTOM.getConfig()))
+            INSTANCE_CUSTOM = new MagentoSoapClient(soapConfig);
+        return INSTANCE_CUSTOM;
+    }
 
     /**
      * @return the config

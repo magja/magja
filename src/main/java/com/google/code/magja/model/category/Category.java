@@ -20,6 +20,8 @@ public class Category extends BaseMagentoModel {
 
 	private Boolean active = false;
 
+	private String metaTitle;
+
 	private String metaDescription;
 
 	private String metaKeywords;
@@ -27,7 +29,7 @@ public class Category extends BaseMagentoModel {
 	private Integer position;
 
 	private Boolean anchor = false;
-
+	
 	private Category parent;
 
 	private List<Category> children;
@@ -37,11 +39,16 @@ public class Category extends BaseMagentoModel {
 	 */
 	@Override
 	public Object serializeToApi() {
-		List<Object> newCategory = new LinkedList<Object>();
-		newCategory.add(getParent().getId());
-		newCategory.add(getAllProperties());
-
-		return newCategory;
+	    List<Object> newCategory = new LinkedList<Object>();
+        if (getId() == null) {
+            // means its a new category
+            newCategory.add(getParent().getId());
+        } else {
+            // means its a old category
+            newCategory.add(getId());
+        }
+        newCategory.add(getAllProperties());
+        return newCategory;
 	}
 
 	/**
@@ -120,6 +127,21 @@ public class Category extends BaseMagentoModel {
 	public String getMetaDescription() {
 		return metaDescription;
 	}
+	
+    /**
+     * @return the metaTitle
+     */
+    public String getMetaTitle() {
+        return metaTitle;
+    }
+
+    /**
+     * @param metaTitle the metaTitle to set
+     */
+    public void setMetaTitle(String metaTitle) {
+        this.metaTitle = metaTitle;
+    }
+    
 
 	/**
 	 * @param metaDescription the metaDescription to set
@@ -225,6 +247,8 @@ public class Category extends BaseMagentoModel {
 				+ ((defaultSortBy == null) ? 0 : defaultSortBy.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
+        result = prime * result
+                + ((metaTitle == null) ? 0 : metaTitle.hashCode());
 		result = prime * result
 				+ ((metaDescription == null) ? 0 : metaDescription.hashCode());
 		result = prime * result
@@ -278,6 +302,11 @@ public class Category extends BaseMagentoModel {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (metaTitle == null) {
+            if (other.metaTitle != null)
+                return false;
+        } else if (!metaTitle.equals(other.metaTitle))
+            return false;
 		if (metaDescription == null) {
 			if (other.metaDescription != null)
 				return false;
@@ -314,6 +343,7 @@ public class Category extends BaseMagentoModel {
 		return "Category [active=" + active + ", anchor=" + anchor
 				+ ", availableSortBy=" + availableSortBy + ", defaultSortBy="
 				+ defaultSortBy + ", description=" + description
+				+ ", metaTitle=" + metaTitle
 				+ ", metaDescription=" + metaDescription + ", metaKeywords="
 				+ metaKeywords + ", name=" + name + ", position=" + position
 				+ ", id=" + id + ", properties=" + properties + "]";
