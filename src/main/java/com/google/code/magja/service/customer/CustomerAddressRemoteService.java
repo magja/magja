@@ -52,4 +52,11 @@ public interface CustomerAddressRemoteService extends
 	 */
 	public abstract void delete(Integer id) throws ServiceException;
 
+	/**
+	 * Delete all customer address by its id
+	 *
+	 * @param id
+	 * @throws ServiceException
+	 */
+	public void deleteAll(Integer customerId) throws ServiceException;
 }

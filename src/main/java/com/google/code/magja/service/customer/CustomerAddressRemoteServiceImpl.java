@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.axis2.AxisFault;
 
 import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.customer.Customer;
 import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
@@ -58,6 +59,20 @@ public class CustomerAddressRemoteServiceImpl extends
 			throw new ServiceException(e.getMessage());
 		}
 
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.google.code.magja.service.customer.CustomerRemoteService#deleteAll()
+	 */
+	@Override
+	public void deleteAll(Integer customerId) throws ServiceException {
+		List<CustomerAddress> addresses = list(customerId);
+		for(CustomerAddress address : addresses) {
+			delete(address.getId());
+		}
 	}
 
 	/*
