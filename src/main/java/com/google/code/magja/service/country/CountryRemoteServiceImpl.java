@@ -56,4 +56,33 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
 		return countries;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see com.google.code.magja.service.country.CountryRemoteService#getCountryByName()
+	 */
+	@Override
+	public Country getCountryByName(String countryName) throws ServiceException {
+		List<Country> countries = list();
+		for(Country country : countries) {
+			if(country.getName().equals(countryName)) {
+				return country;
+			}
+		}
+		
+		// Country not found
+		throw new ServiceException(countryName + " not found");
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see com.google.code.magja.service.country.CountryRemoteService#getCountryIdByName()
+	 */
+	@Override
+	public String getCountryIdByName(String countryName) throws ServiceException {
+		Country country = getCountryByName(countryName);
+		
+		return country.getCountryId();
+	}
 }
