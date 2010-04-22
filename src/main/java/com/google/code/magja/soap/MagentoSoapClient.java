@@ -131,6 +131,8 @@ public class MagentoSoapClient implements SoapClient {
                 Constants.VALUE_TRUE);
         connectOptions.setProperty(HTTPConstants.CACHED_HTTP_CLIENT,
                 httpClient);
+        connectOptions.setProperty(HTTPConstants.HTTP_PROTOCOL_VERSION,
+        		HTTPConstants.HEADER_PROTOCOL_10);
 
         sender = new ServiceClient();
         sender.setOptions(connectOptions);
