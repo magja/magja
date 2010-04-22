@@ -90,12 +90,21 @@ public abstract class BaseMagentoModel implements Serializable {
 
 					} else {
 
+						//sometimes the arg could still have in boolean type, so we convert here
+						Object arg2;
+						if(arg instanceof Boolean) {
+							//Boolean temp = (Boolean) arg;
+							arg2 = new String("");
+						} else {
+							arg2 = arg;
+						}
+
 						// create the object with correct type
 						Class partypes[] = new Class[1];
 						partypes[0] = String.class;
 
 						Constructor ct = fld.getType().getConstructor(partypes);
-						args[0] = ct.newInstance(arg);
+						args[0] = ct.newInstance(arg2);
 					}
 				}
 
