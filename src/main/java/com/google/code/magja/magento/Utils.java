@@ -80,13 +80,21 @@ public class Utils {
 		return builder.toString();
 	}
 
-	public static String getMd5Hash(String s) {
+	public static String getMd5Hash(String plaintext) {
 		try {
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			md5.update(s.getBytes(), 0, s.length());
-			String signature = new BigInteger(1, md5.digest()).toString(16);
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.reset();
+            md5.update(plaintext.getBytes());
+            byte[] digest = md5.digest();
+            BigInteger bigInt = new BigInteger(1, digest);
+            String hashtext = bigInt.toString(16);
 
-			return signature;
+            // we need to zero pad it to use the full 32 chars
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+
+			return hashtext;
 		} catch (final NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
