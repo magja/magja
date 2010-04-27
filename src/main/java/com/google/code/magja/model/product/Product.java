@@ -16,7 +16,7 @@ import com.google.code.magja.model.category.Category;
 
 /**
  * @author andre
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class Product extends BaseMagentoModel {
@@ -55,16 +55,19 @@ public class Product extends BaseMagentoModel {
 
 	private Set<ProductLink> links;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {
 
 		// set the attributSet
-		Integer attributeId = ProductAttributeSet.getDefaultProductAttributeSet().getId();
-		if(attributeSet != null) {
-			if(attributeSet.getId() != null) {
+		Integer attributeId = ProductAttributeSet
+				.getDefaultProductAttributeSet().getId();
+		if (attributeSet != null) {
+			if (attributeSet.getId() != null) {
 				attributeId = attributeSet.getId();
 			}
 		}
@@ -86,7 +89,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param sku the sku to set
+	 * @param sku
+	 *            the sku to set
 	 */
 	public void setSku(String sku) {
 		this.sku = sku;
@@ -100,7 +104,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param attributeSet the attributeSet to set
+	 * @param attributeSet
+	 *            the attributeSet to set
 	 */
 	public void setAttributeSet(ProductAttributeSet attributeSet) {
 		this.attributeSet = attributeSet;
@@ -114,7 +119,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param type
+	 *            the type to set
 	 */
 	public void setType(ProductType type) {
 		this.type = type;
@@ -128,7 +134,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -142,7 +149,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param price the price to set
+	 * @param price
+	 *            the price to set
 	 */
 	public void setPrice(Double price) {
 		this.price = price;
@@ -156,7 +164,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param shortDescription the shortDescription to set
+	 * @param shortDescription
+	 *            the shortDescription to set
 	 */
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
@@ -170,7 +179,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -184,7 +194,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param enabled the enabled to set
+	 * @param enabled
+	 *            the enabled to set
 	 */
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
@@ -198,7 +209,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param weight the weight to set
+	 * @param weight
+	 *            the weight to set
 	 */
 	public void setWeight(Double weight) {
 		this.weight = weight;
@@ -212,7 +224,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param taxClassId the taxClassId to set
+	 * @param taxClassId
+	 *            the taxClassId to set
 	 */
 	public void setTaxClassId(Integer taxClassId) {
 		this.taxClassId = taxClassId;
@@ -226,7 +239,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param websites the websites to set
+	 * @param websites
+	 *            the websites to set
 	 */
 	public void setWebsites(Integer[] websites) {
 		this.websites = websites;
@@ -240,7 +254,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param categories the categories to set
+	 * @param categories
+	 *            the categories to set
 	 */
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
@@ -254,7 +269,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param cost the cost to set
+	 * @param cost
+	 *            the cost to set
 	 */
 	public void setCost(Double cost) {
 		this.cost = cost;
@@ -268,7 +284,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param qty the qty to set
+	 * @param qty
+	 *            the qty to set
 	 */
 	public void setQty(Double qty) {
 		this.qty = qty;
@@ -282,7 +299,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param inStock the inStock to set
+	 * @param inStock
+	 *            the inStock to set
 	 */
 	public void setInStock(Boolean inStock) {
 		this.inStock = inStock;
@@ -296,7 +314,8 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param medias the medias to set
+	 * @param medias
+	 *            the medias to set
 	 */
 	public void setMedias(List<ProductMedia> medias) {
 		this.medias = new ArrayList<ProductMedia>();
@@ -305,11 +324,15 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param media the media to add
+	 * @param media
+	 *            the media to add
 	 */
 	public void addMedia(ProductMedia media) {
-		if(media == null) throw new InvalidParameterException("the product media cannot be null");
-		if(this.medias == null) this.medias = new ArrayList<ProductMedia>();
+		if (media == null)
+			throw new InvalidParameterException(
+					"the product media cannot be null");
+		if (this.medias == null)
+			this.medias = new ArrayList<ProductMedia>();
 		media.setProduct(this);
 		this.medias.add(media);
 	}
@@ -322,22 +345,29 @@ public class Product extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param links the links to set
+	 * @param links
+	 *            the links to set
 	 */
 	public void setLinks(Set<ProductLink> links) {
 		this.links = links;
 	}
 
 	/**
-	 * @param link the link to add
+	 * @param link
+	 *            the link to add
 	 */
 	public void addLink(ProductLink link) {
-		if(link == null) throw new InvalidParameterException("the product link cannot be null");
-		if (this.links == null) this.links = new HashSet<ProductLink>();
+		if (link == null)
+			throw new InvalidParameterException(
+					"the product link cannot be null");
+		if (this.links == null)
+			this.links = new HashSet<ProductLink>();
 		this.links.add(link);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -368,7 +398,9 @@ public class Product extends BaseMagentoModel {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -455,7 +487,9 @@ public class Product extends BaseMagentoModel {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
