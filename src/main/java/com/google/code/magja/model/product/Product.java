@@ -55,6 +55,8 @@ public class Product extends BaseMagentoModel {
 
 	private Set<ProductLink> links;
 
+	private String metaDescription;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -365,6 +367,21 @@ public class Product extends BaseMagentoModel {
 		this.links.add(link);
 	}
 
+	/**
+	 * @return the metaDescription
+	 */
+	public String getMetaDescription() {
+		return metaDescription;
+	}
+
+	/**
+	 * @param metaDescription
+	 *            the metaDescription to set
+	 */
+	public void setMetaDescription(String metaDescription) {
+		this.metaDescription = metaDescription;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -383,6 +400,10 @@ public class Product extends BaseMagentoModel {
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
 		result = prime * result + ((inStock == null) ? 0 : inStock.hashCode());
+		result = prime * result + ((links == null) ? 0 : links.hashCode());
+		result = prime * result + ((medias == null) ? 0 : medias.hashCode());
+		result = prime * result
+				+ ((metaDescription == null) ? 0 : metaDescription.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((qty == null) ? 0 : qty.hashCode());
@@ -442,6 +463,21 @@ public class Product extends BaseMagentoModel {
 				return false;
 		} else if (!inStock.equals(other.inStock))
 			return false;
+		if (links == null) {
+			if (other.links != null)
+				return false;
+		} else if (!links.equals(other.links))
+			return false;
+		if (medias == null) {
+			if (other.medias != null)
+				return false;
+		} else if (!medias.equals(other.medias))
+			return false;
+		if (metaDescription == null) {
+			if (other.metaDescription != null)
+				return false;
+		} else if (!metaDescription.equals(other.metaDescription))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -497,10 +533,12 @@ public class Product extends BaseMagentoModel {
 		return "Product [attributeSet=" + attributeSet + ", categories="
 				+ categories + ", cost=" + cost + ", description="
 				+ description + ", enabled=" + enabled + ", inStock=" + inStock
-				+ ", name=" + name + ", price=" + price + ", qty=" + qty
-				+ ", shortDescription=" + shortDescription + ", sku=" + sku
-				+ ", taxClassId=" + taxClassId + ", type=" + type
-				+ ", websites=" + Arrays.toString(websites) + ", weight="
-				+ weight + ", id=" + id + ", properties=" + properties + "]";
+				+ ", links=" + links + ", medias=" + medias
+				+ ", metaDescription=" + metaDescription + ", name=" + name
+				+ ", price=" + price + ", qty=" + qty + ", shortDescription="
+				+ shortDescription + ", sku=" + sku + ", taxClassId="
+				+ taxClassId + ", type=" + type + ", websites="
+				+ Arrays.toString(websites) + ", weight=" + weight + ", id="
+				+ id + ", properties=" + properties + "]";
 	}
 }
