@@ -57,6 +57,8 @@ public class Product extends BaseMagentoModel {
 
 	private String metaDescription;
 
+	private Boolean googleCheckout;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -382,6 +384,21 @@ public class Product extends BaseMagentoModel {
 		this.metaDescription = metaDescription;
 	}
 
+	/**
+	 * @return the googleCheckout
+	 */
+	public Boolean getGoogleCheckout() {
+		return googleCheckout;
+	}
+
+	/**
+	 * @param googleCheckout
+	 *            the googleCheckout to set
+	 */
+	public void setGoogleCheckout(Boolean googleCheckout) {
+		this.googleCheckout = googleCheckout;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -399,6 +416,8 @@ public class Product extends BaseMagentoModel {
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result
+				+ ((googleCheckout == null) ? 0 : googleCheckout.hashCode());
 		result = prime * result + ((inStock == null) ? 0 : inStock.hashCode());
 		result = prime * result + ((links == null) ? 0 : links.hashCode());
 		result = prime * result + ((medias == null) ? 0 : medias.hashCode());
@@ -457,6 +476,11 @@ public class Product extends BaseMagentoModel {
 			if (other.enabled != null)
 				return false;
 		} else if (!enabled.equals(other.enabled))
+			return false;
+		if (googleCheckout == null) {
+			if (other.googleCheckout != null)
+				return false;
+		} else if (!googleCheckout.equals(other.googleCheckout))
 			return false;
 		if (inStock == null) {
 			if (other.inStock != null)
@@ -532,13 +556,13 @@ public class Product extends BaseMagentoModel {
 	public String toString() {
 		return "Product [attributeSet=" + attributeSet + ", categories="
 				+ categories + ", cost=" + cost + ", description="
-				+ description + ", enabled=" + enabled + ", inStock=" + inStock
-				+ ", links=" + links + ", medias=" + medias
-				+ ", metaDescription=" + metaDescription + ", name=" + name
-				+ ", price=" + price + ", qty=" + qty + ", shortDescription="
-				+ shortDescription + ", sku=" + sku + ", taxClassId="
-				+ taxClassId + ", type=" + type + ", websites="
-				+ Arrays.toString(websites) + ", weight=" + weight + ", id="
-				+ id + ", properties=" + properties + "]";
+				+ description + ", enabled=" + enabled + ", googleCheckout="
+				+ googleCheckout + ", inStock=" + inStock + ", links=" + links
+				+ ", medias=" + medias + ", metaDescription=" + metaDescription
+				+ ", name=" + name + ", price=" + price + ", qty=" + qty
+				+ ", shortDescription=" + shortDescription + ", sku=" + sku
+				+ ", taxClassId=" + taxClassId + ", type=" + type
+				+ ", websites=" + Arrays.toString(websites) + ", weight="
+				+ weight + ", id=" + id + ", properties=" + properties + "]";
 	}
 }
