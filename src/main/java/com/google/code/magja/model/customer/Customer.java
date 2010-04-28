@@ -12,7 +12,7 @@ import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
- *
+ * 
  */
 public class Customer extends BaseMagentoModel {
 
@@ -55,7 +55,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
@@ -261,7 +261,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -291,7 +291,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -368,7 +368,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
