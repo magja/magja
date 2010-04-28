@@ -53,6 +53,8 @@ public class Customer extends BaseMagentoModel {
 
 	private Gender gender;
 
+	private String createdAt;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -259,6 +261,21 @@ public class Customer extends BaseMagentoModel {
 		this.gender = gender;
 	}
 
+	/**
+	 * @return the createdAt
+	 */
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	/**
+	 * @param createdAt
+	 *            the createdAt to set
+	 */
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -268,6 +285,8 @@ public class Customer extends BaseMagentoModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result
 				+ ((firstName == null) ? 0 : firstName.hashCode());
@@ -303,6 +322,11 @@ public class Customer extends BaseMagentoModel {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -373,11 +397,12 @@ public class Customer extends BaseMagentoModel {
 	 */
 	@Override
 	public String toString() {
-		return "Customer [email=" + email + ", firstName=" + firstName
-				+ ", gender=" + gender + ", groupId=" + groupId + ", lastName="
-				+ lastName + ", middleName=" + middleName + ", password="
-				+ password + ", passwordHash=" + passwordHash + ", prefix="
-				+ prefix + ", storeId=" + storeId + ", suffix=" + suffix
+		return "Customer [createdAt=" + createdAt + ", email=" + email
+				+ ", firstName=" + firstName + ", gender=" + gender
+				+ ", groupId=" + groupId + ", lastName=" + lastName
+				+ ", middleName=" + middleName + ", password=" + password
+				+ ", passwordHash=" + passwordHash + ", prefix=" + prefix
+				+ ", storeId=" + storeId + ", suffix=" + suffix
 				+ ", websiteId=" + websiteId + ", id=" + id + ", properties="
 				+ properties + "]";
 	}
