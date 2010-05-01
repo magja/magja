@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://schemas.xmlsoap.org/soap/encoding/" uri="wsdl/schemas.xmlsoap.org/soap/encoding.xsd"/>
+</catalog>
