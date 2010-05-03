@@ -4,6 +4,7 @@
 package com.google.code.magja.service.product;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.code.magja.model.product.ProductAttribute;
 import com.google.code.magja.model.product.ProductAttributeSet;
@@ -61,5 +62,14 @@ public interface ProductAttributeRemoteService extends
 	 */
 	public abstract void save(ProductAttribute productAttribute)
 			throws ServiceException;
+	
+	/**
+     * Save new options for Product Attribute
+     *
+     * @param productAttribute a <code>ProductAttribute</code> instance
+     * @param productAttributeOptions a <code>Map<Integer, String></code> instance
+     * @throws ServiceException
+     */
+	public void saveOptions(ProductAttribute productAttribute, Map<Integer, String> productAttributeOptions) throws ServiceException;
 
 }

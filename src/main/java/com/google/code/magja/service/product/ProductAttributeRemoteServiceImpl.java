@@ -213,4 +213,39 @@ public class ProductAttributeRemoteServiceImpl extends
 		}
 	}
 
+	/*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.google.code.magja.service.product.ProductAttributeRemoteService#addOptions(
+     * com.google.code.magja.model.product.ProductAttribute
+     * , Map<Integer, String>)
+     */
+    @Override
+    public void saveOptions(ProductAttribute productAttribute, Map<Integer, String> productAttributeOptions) throws ServiceException {
+        // if has options, include this too
+        if (productAttributeOptions != null) {
+            if (!productAttributeOptions.isEmpty()) {
+                String[] options = new String[productAttributeOptions.size()];
+                int i = 0;
+                for (Map.Entry<Integer, String> option : productAttributeOptions.entrySet())
+                    options[i++] = option.getValue();
+
+                List<Object> params = new LinkedList<Object>();
+                params.add(productAttribute.getId());
+                params.add(options);
+
+                try {
+                    if (!(Boolean) soapClient.call(
+                            ResourcePath.ProductAttributeAddOptions, params))
+                        throw new ServiceException(
+                                "The product attribute was saved, but had error "
+                                        + "on save the options for that");
+                } catch (AxisFault e) {
+                    e.printStackTrace();
+                    throw new ServiceException(e.getMessage());
+                }
+            }
+        }
+    }
 }
