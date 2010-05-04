@@ -4,6 +4,7 @@
 package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,9 +13,12 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.model.product.ProductLink;
 import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.ProductTypeEnum;
+import com.google.code.magja.model.product.ProductLink.LinkType;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaStringUtils;
@@ -40,41 +44,44 @@ public class ProductRemoteServiceTest {
 		service = new RemoteServiceFactory().getProductRemoteService();
 	}
 
-	public static Product generateProduct() {
+	/**
+	 * Test method for save a configurable product
+	 * This test its just for exemplify the use of Product Configurable
+	 * Before run this test, create some Attribute Set in Magento admin and change
+	 * the name and id bellow of that to work
+	 */
+	@Test
+	public void testSaveConfigurableProduct() throws ServiceException {
+
 		Product product = new Product();
 		product.setSku(MagjaStringUtils.randomString(3, 10).toUpperCase());
-		product.setName(MagjaStringUtils.randomString(3, 5) + " Product Test");
-		product.setShortDescription("this is a short description");
-		product.setDescription("this is a description");
-		product.setPrice(new Double(230.23));
-		product.setCost(new Double(120.22));
+		product.setName(MagjaStringUtils.randomString(3, 5) + " Configurable Prod");
+		product.setShortDescription("Short description");
+		product.setDescription("Some description for that configurable product");
+		product.setPrice(new Double(111.23));
+		product.setCost(new Double(222.22));
 		product.setEnabled(true);
 		product.setWeight(new Double(0.100));
 		Integer[] websites = { 1 };
 		product.setWebsites(websites);
 
-		// inventory
-		product.setQty(new Double(20));
-		product.setInStock(true);
+		// here we set the product type as a configurable
+		product.setType(ProductTypeEnum.CONFIGURABLE.getProductType());
 
-		// can use like that too (for the properties not mapped):
-		product.set("meta_description", "one two tree");
-		product.set("enable_googlecheckout", 1);
+		/*
+		 * here I created a attribute set named "Teste" with id "26" on the magento admin
+		 * change the name and id before run this test
+		 */
+		ProductAttributeSet set = new ProductAttributeSet();
+		set.setId(26);
+		set.setName("Teste");
+		product.setAttributeSet(set);
 
+		service.save(product);
 
-		// this attributes not working
-		//Category category = new Category();
-		//category.setId(new Integer(4));
-		//product.getCategories().add(category);
-
-		String[] categories = {"3", "4"};
-		product.set("categories", categories);
-
-		//product.set("categories", "[3, 4]");
-		product.set("options_container", "container2");
-
-		return product;
+		// the problem is: how to associate simple products to that configurable product?
 	}
+
 
 	/**
 	 * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#save(com.google.code.magja.model.product.Product)}.
@@ -185,6 +192,46 @@ public class ProductRemoteServiceTest {
 		product.setQty(new Double(50));
 
 		service.updateInventory(product);
+	}
+
+	/**
+	 * Support method for create a simple product
+	 * @return simple product
+	 */
+	public static Product generateProduct() {
+		Product product = new Product();
+		product.setSku(MagjaStringUtils.randomString(3, 10).toUpperCase());
+		product.setName(MagjaStringUtils.randomString(3, 5) + " Product Test");
+		product.setShortDescription("this is a short description");
+		product.setDescription("this is a description");
+		product.setPrice(new Double(230.23));
+		product.setCost(new Double(120.22));
+		product.setEnabled(true);
+		product.setWeight(new Double(0.100));
+		Integer[] websites = { 1 };
+		product.setWebsites(websites);
+
+		// inventory
+		product.setQty(new Double(20));
+		product.setInStock(true);
+
+		// can use like that too (for the properties not mapped):
+		product.set("meta_description", "one two tree");
+		product.set("enable_googlecheckout", 1);
+
+
+		// this attributes not working
+		//Category category = new Category();
+		//category.setId(new Integer(4));
+		//product.getCategories().add(category);
+
+		String[] categories = {"3", "4"};
+		product.set("categories", categories);
+
+		//product.set("categories", "[3, 4]");
+		product.set("options_container", "container2");
+
+		return product;
 	}
 
 }
