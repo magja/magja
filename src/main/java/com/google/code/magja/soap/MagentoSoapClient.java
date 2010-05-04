@@ -178,7 +178,11 @@ public class MagentoSoapClient implements SoapClient {
         OMElement logoutResult = sender.sendReceive(logoutMethod);
         Boolean logoutSuccess = Boolean.parseBoolean(logoutResult.getFirstChildWithName(
                 LOGOUT_RETURN).getText());
-
+        try {
+            sender.cleanupTransport();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.finalize();
     }
 }
