@@ -49,7 +49,7 @@ public abstract class BaseMagentoModel implements Serializable {
 
 			if(methodName.equals("getId")) return this.getId();
 			else if (methodName.equals("setId")) {
-				this.setId(Integer.parseInt((String) arg));
+			    this.setId(Integer.parseInt((String) arg.toString()));
 				return null;
 			}
 
@@ -83,9 +83,9 @@ public abstract class BaseMagentoModel implements Serializable {
 						if(arg.getClass().getSimpleName().equals("Boolean")) {
 							args[0] = arg;
 						} else {
-							if(arg.equals("1") || arg.equals("true")) args[0] = new Boolean(true);
-							else if(arg.equals("0") || arg.equals("false")) args[0] = new Boolean(false);
-							else args[0] = new Boolean((String) arg);
+						    if(arg.toString().equals("1") || arg.equals("true")) args[0] = new Boolean(true);
+						    else if(arg.toString().equals("0") || arg.equals("false")) args[0] = new Boolean(false);
+						    else args[0] = new Boolean((String) arg.toString());
 						}
 
 					} else {
