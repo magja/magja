@@ -34,6 +34,7 @@ public class OrderServiceIT {
         assertTrue(newSalesOrders.length > 0);
         for (SalesOrderEntity salesOrder : newSalesOrders) {
             assertEquals(OrderStatus.New.toString(), salesOrder.getState());
+            System.out.println(salesOrder);
         }
     }
 }
