@@ -29,26 +29,28 @@ public class Category extends BaseMagentoModel {
 	private Integer position;
 
 	private Boolean anchor = false;
-	
+
 	private Category parent;
 
 	private List<Category> children;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
 	public Object serializeToApi() {
-	    List<Object> newCategory = new LinkedList<Object>();
-        if (getId() == null) {
-            // means its a new category
-            newCategory.add(getParent().getId());
-        } else {
-            // means its a old category
-            newCategory.add(getId());
-        }
-        newCategory.add(getAllProperties());
-        return newCategory;
+		List<Object> newCategory = new LinkedList<Object>();
+		if (getId() == null) {
+			// means its a new category
+			newCategory.add(getParent().getId());
+		} else {
+			// means its a old category
+			newCategory.add(getId());
+		}
+		newCategory.add(getAllProperties());
+		return newCategory;
 	}
 
 	/**
@@ -59,7 +61,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -73,7 +76,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param availableSortBy the availableSortBy to set
+	 * @param availableSortBy
+	 *            the availableSortBy to set
 	 */
 	public void setAvailableSortBy(String availableSortBy) {
 		this.availableSortBy = availableSortBy;
@@ -87,7 +91,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param defaultSortBy the defaultSortBy to set
+	 * @param defaultSortBy
+	 *            the defaultSortBy to set
 	 */
 	public void setDefaultSortBy(String defaultSortBy) {
 		this.defaultSortBy = defaultSortBy;
@@ -101,7 +106,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -115,7 +121,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param active the active to set
+	 * @param active
+	 *            the active to set
 	 */
 	public void setActive(Boolean active) {
 		this.active = active;
@@ -127,24 +134,25 @@ public class Category extends BaseMagentoModel {
 	public String getMetaDescription() {
 		return metaDescription;
 	}
-	
-    /**
-     * @return the metaTitle
-     */
-    public String getMetaTitle() {
-        return metaTitle;
-    }
-
-    /**
-     * @param metaTitle the metaTitle to set
-     */
-    public void setMetaTitle(String metaTitle) {
-        this.metaTitle = metaTitle;
-    }
-    
 
 	/**
-	 * @param metaDescription the metaDescription to set
+	 * @return the metaTitle
+	 */
+	public String getMetaTitle() {
+		return metaTitle;
+	}
+
+	/**
+	 * @param metaTitle
+	 *            the metaTitle to set
+	 */
+	public void setMetaTitle(String metaTitle) {
+		this.metaTitle = metaTitle;
+	}
+
+	/**
+	 * @param metaDescription
+	 *            the metaDescription to set
 	 */
 	public void setMetaDescription(String metaDescription) {
 		this.metaDescription = metaDescription;
@@ -158,7 +166,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param metaKeywords the metaKeywords to set
+	 * @param metaKeywords
+	 *            the metaKeywords to set
 	 */
 	public void setMetaKeywords(String metaKeywords) {
 		this.metaKeywords = metaKeywords;
@@ -172,7 +181,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param position the position to set
+	 * @param position
+	 *            the position to set
 	 */
 	public void setPosition(Integer position) {
 		this.position = position;
@@ -186,7 +196,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param anchor the anchor to set
+	 * @param anchor
+	 *            the anchor to set
 	 */
 	public void setAnchor(Boolean anchor) {
 		this.anchor = anchor;
@@ -200,7 +211,8 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param parent the parent to set
+	 * @param parent
+	 *            the parent to set
 	 */
 	public void setParent(Category parent) {
 		this.parent = parent;
@@ -214,23 +226,29 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param children the children to set
+	 * @param children
+	 *            the children to set
 	 */
 	public void setChildren(List<Category> children) {
 		this.children = children;
 	}
 
 	/**
-	 * @param child the child to add
+	 * @param child
+	 *            the child to add
 	 */
 	public void addChild(Category child) {
-		if(child == null) throw new InvalidParameterException("the child cannot be null");
-		if(children == null) children = new ArrayList<Category>();
+		if (child == null)
+			throw new InvalidParameterException("the child cannot be null");
+		if (children == null)
+			children = new ArrayList<Category>();
 		child.setParent(this);
 		children.add(child);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -247,8 +265,8 @@ public class Category extends BaseMagentoModel {
 				+ ((defaultSortBy == null) ? 0 : defaultSortBy.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
-        result = prime * result
-                + ((metaTitle == null) ? 0 : metaTitle.hashCode());
+		result = prime * result
+				+ ((metaTitle == null) ? 0 : metaTitle.hashCode());
 		result = prime * result
 				+ ((metaDescription == null) ? 0 : metaDescription.hashCode());
 		result = prime * result
@@ -260,7 +278,9 @@ public class Category extends BaseMagentoModel {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -303,10 +323,10 @@ public class Category extends BaseMagentoModel {
 		} else if (!description.equals(other.description))
 			return false;
 		if (metaTitle == null) {
-            if (other.metaTitle != null)
-                return false;
-        } else if (!metaTitle.equals(other.metaTitle))
-            return false;
+			if (other.metaTitle != null)
+				return false;
+		} else if (!metaTitle.equals(other.metaTitle))
+			return false;
 		if (metaDescription == null) {
 			if (other.metaDescription != null)
 				return false;
@@ -335,7 +355,9 @@ public class Category extends BaseMagentoModel {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -343,10 +365,10 @@ public class Category extends BaseMagentoModel {
 		return "Category [active=" + active + ", anchor=" + anchor
 				+ ", availableSortBy=" + availableSortBy + ", defaultSortBy="
 				+ defaultSortBy + ", description=" + description
-				+ ", metaTitle=" + metaTitle
-				+ ", metaDescription=" + metaDescription + ", metaKeywords="
-				+ metaKeywords + ", name=" + name + ", position=" + position
-				+ ", id=" + id + ", properties=" + properties + "]";
+				+ ", metaTitle=" + metaTitle + ", metaDescription="
+				+ metaDescription + ", metaKeywords=" + metaKeywords
+				+ ", name=" + name + ", position=" + position + ", id=" + id
+				+ ", properties=" + properties + "]";
 	}
 
 }
