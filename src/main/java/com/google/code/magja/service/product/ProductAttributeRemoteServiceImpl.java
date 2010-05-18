@@ -164,6 +164,31 @@ public class ProductAttributeRemoteServiceImpl extends
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * listAllAttributes()
+	 */
+	public List<ProductAttribute> listAllAttributes() throws ServiceException {
+		List<ProductAttribute> allProductAttributes = new ArrayList<ProductAttribute>();
+
+		try {
+			List<ProductAttributeSet> allProductAttributeSets = listAllProductAttributeSet();
+			for (ProductAttributeSet productAttributeSet : allProductAttributeSets) {
+				List<ProductAttribute> listProductAttributes = listByAttributeSet(productAttributeSet);
+				for (ProductAttribute productAttribute : listProductAttributes) {
+					allProductAttributes.add(productAttribute);
+				}
+			}
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		return allProductAttributes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductAttributeRemoteService#save(
 	 * com.google.code.magja.model.product.ProductAttribute)
