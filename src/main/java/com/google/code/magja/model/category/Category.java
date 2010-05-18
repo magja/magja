@@ -35,6 +35,31 @@ public class Category extends BaseMagentoModel {
 	private List<Category> children;
 
 	/*
+	 * create empty category
+	 */
+	public Category() {
+		super();
+	}
+
+	/*
+	 * create category with id
+	 */
+	public Category(Integer id) {
+		super();
+
+		setId(id);
+	}
+
+	/*
+	 * create category with name
+	 */
+	public Category(String name) {
+		super();
+
+		setName(name);
+	}
+
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
