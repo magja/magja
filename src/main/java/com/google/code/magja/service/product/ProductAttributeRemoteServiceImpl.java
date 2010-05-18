@@ -195,9 +195,9 @@ public class ProductAttributeRemoteServiceImpl extends
 	 */
 	@Override
 	public void save(ProductAttribute productAttribute) throws ServiceException {
-		if (productAttribute.getId() != null)
+		if (productAttribute.getId() != null || exists(productAttribute.getCode()))
 			throw new ServiceException(
-					"Not allowed to update product attributes yet");
+					productAttribute.getCode() + " exists already. Not allowed to update product attributes yet");
 
 		Integer id = null;
 		try {
