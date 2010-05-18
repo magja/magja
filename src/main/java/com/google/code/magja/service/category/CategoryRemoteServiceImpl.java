@@ -3,6 +3,7 @@
  */
 package com.google.code.magja.service.category;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -241,15 +242,18 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
      * create category tree from String
      */
     public Category create(Integer parentId, String categoryName) throws ServiceException {
-        return create(parentId, new String[] { categoryName });
+        List<Category> categories = create(parentId, new String[] { categoryName });
+        
+        return categories.get(0);
     }
 
     /**
      * create category tree from String array
      */
-    public Category create(Integer parentId, String[] categoryNames) throws ServiceException {
+    public List<Category> create(Integer parentId, String[] categoryNames) throws ServiceException {
+    	List<Category> categories = new ArrayList<Category>();
+    	
         Category newCategory = null;
-        
         for (int i = 0; i < categoryNames.length; i++) {
             if (categoryNames[i].length() > 0) {
                 Category parent = getByIdWithChildren(parentId);
@@ -272,10 +276,11 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
                 }
 
                 parentId = save(newCategory);
+                categories.add(newCategory);
             }
         }
 
-        return newCategory;
+        return categories;
     }
     
     /**
