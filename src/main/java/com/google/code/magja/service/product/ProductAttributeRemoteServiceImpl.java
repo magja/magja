@@ -19,7 +19,7 @@ import com.google.code.magja.service.ServiceException;
 
 /**
  * @author andre
- *
+ * 
  */
 public class ProductAttributeRemoteServiceImpl extends
 		GeneralServiceImpl<ProductAttribute> implements
@@ -27,7 +27,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductAttributeRemoteService#delete
 	 * (java.lang.String)
@@ -48,10 +48,9 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see
-	 * com.google.code.magja.service.product.ProductAttributeRemoteService#getOptions
-	 * (com.google.code.magja.model.product.ProductAttribute)
+	 * 
+	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * getOptions (com.google.code.magja.model.product.ProductAttribute)
 	 */
 	@Override
 	public void getOptions(ProductAttribute productAttribute)
@@ -75,9 +74,13 @@ public class ProductAttributeRemoteServiceImpl extends
 
 		if (options != null) {
 			for (Map<String, Object> option : options) {
-				if(!"".equals((String) option.get("label"))) {
-					if(productAttribute.getOptions() == null) productAttribute.setOptions(new HashMap<Integer, String>());
-					productAttribute.getOptions().put(new Integer((String) option.get("value")), (String) option.get("label"));
+				if (!"".equals((String) option.get("label"))) {
+					if (productAttribute.getOptions() == null)
+						productAttribute
+								.setOptions(new HashMap<Integer, String>());
+					productAttribute.getOptions().put(
+							new Integer((String) option.get("value")),
+							(String) option.get("label"));
 				}
 			}
 		}
@@ -85,8 +88,8 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * 
+	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * listAllProductAttributeSet()
 	 */
 	@Override
@@ -119,9 +122,10 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
-	 * listByAttributeSet(com.google.code.magja.model.product.ProductAttributeSet)
+	 * 
+	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * listByAttributeSet
+	 * (com.google.code.magja.model.product.ProductAttributeSet)
 	 */
 	@Override
 	public List<ProductAttribute> listByAttributeSet(ProductAttributeSet set)
@@ -159,7 +163,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductAttributeRemoteService#save(
 	 * com.google.code.magja.model.product.ProductAttribute)
@@ -214,38 +218,40 @@ public class ProductAttributeRemoteServiceImpl extends
 	}
 
 	/*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.google.code.magja.service.product.ProductAttributeRemoteService#addOptions(
-     * com.google.code.magja.model.product.ProductAttribute
-     * , Map<Integer, String>)
-     */
-    @Override
-    public void saveOptions(ProductAttribute productAttribute, Map<Integer, String> productAttributeOptions) throws ServiceException {
-        // if has options, include this too
-        if (productAttributeOptions != null) {
-            if (!productAttributeOptions.isEmpty()) {
-                String[] options = new String[productAttributeOptions.size()];
-                int i = 0;
-                for (Map.Entry<Integer, String> option : productAttributeOptions.entrySet())
-                    options[i++] = option.getValue();
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * addOptions( com.google.code.magja.model.product.ProductAttribute ,
+	 * Map<Integer, String>)
+	 */
+	@Override
+	public void saveOptions(ProductAttribute productAttribute,
+			Map<Integer, String> productAttributeOptions)
+			throws ServiceException {
+		// if has options, include this too
+		if (productAttributeOptions != null) {
+			if (!productAttributeOptions.isEmpty()) {
+				String[] options = new String[productAttributeOptions.size()];
+				int i = 0;
+				for (Map.Entry<Integer, String> option : productAttributeOptions
+						.entrySet())
+					options[i++] = option.getValue();
 
-                List<Object> params = new LinkedList<Object>();
-                params.add(productAttribute.getId());
-                params.add(options);
+				List<Object> params = new LinkedList<Object>();
+				params.add(productAttribute.getId());
+				params.add(options);
 
-                try {
-                    if (!(Boolean) soapClient.call(
-                            ResourcePath.ProductAttributeAddOptions, params))
-                        throw new ServiceException(
-                                "The product attribute was saved, but had error "
-                                        + "on save the options for that");
-                } catch (AxisFault e) {
-                    e.printStackTrace();
-                    throw new ServiceException(e.getMessage());
-                }
-            }
-        }
-    }
+				try {
+					if (!(Boolean) soapClient.call(
+							ResourcePath.ProductAttributeAddOptions, params))
+						throw new ServiceException(
+								"The product attribute was saved, but had error "
+										+ "on save the options for that");
+				} catch (AxisFault e) {
+					e.printStackTrace();
+					throw new ServiceException(e.getMessage());
+				}
+			}
+		}
+	}
 }
