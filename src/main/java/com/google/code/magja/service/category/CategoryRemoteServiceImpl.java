@@ -224,12 +224,10 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
      * create category with required parameter (this parameter are required by Magento)
      */
     public Category getRequiredCategory(Integer parentId, String categoryName, String availableSortBy, String defaultSortBy, Boolean active, Boolean anchor) {
-        Category parent = new Category();
-        parent.setId(parentId);
+        Category parent = new Category(parentId);
         
-        Category category = new Category();
+        Category category = new Category(categoryName);
         category.setParent(parent);
-        category.setName(categoryName);
         category.setAvailableSortBy(availableSortBy);
         category.setDefaultSortBy(defaultSortBy);
         category.setActive(active);
