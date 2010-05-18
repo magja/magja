@@ -11,7 +11,7 @@ import com.google.code.magja.model.BaseMagentoModel;
 
 /**
  * @author andre
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class ProductAttribute extends BaseMagentoModel {
@@ -86,7 +86,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
@@ -466,7 +466,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -512,7 +512,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -640,7 +640,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
