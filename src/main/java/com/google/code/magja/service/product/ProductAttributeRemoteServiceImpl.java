@@ -279,4 +279,22 @@ public class ProductAttributeRemoteServiceImpl extends
 			}
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * exists(String)
+	 */
+	public boolean exists(String attributeName) throws ServiceException {
+		List<ProductAttribute> allProductAttributes = listAllAttributes();
+
+		for (ProductAttribute productAttribute : allProductAttributes) {
+			if (productAttribute.getCode().equals(attributeName)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

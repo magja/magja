@@ -83,4 +83,14 @@ public interface ProductAttributeRemoteService extends
 	public void saveOptions(ProductAttribute productAttribute,
 			Map<Integer, String> productAttributeOptions)
 			throws ServiceException;
+
+	/**
+	 * Save new options for Product Attribute
+	 * 
+	 * @param attributeName
+	 *            a <code>ProductAttribute</code> code
+	 * @throws ServiceException
+	 */
+	public abstract boolean exists(String attributeName)
+			throws ServiceException;
 }
