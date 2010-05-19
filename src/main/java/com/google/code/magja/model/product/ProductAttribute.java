@@ -84,6 +84,8 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	private Map<Integer, String> options;
 
+	private Boolean sortBy;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -464,6 +466,21 @@ public class ProductAttribute extends BaseMagentoModel {
 		this.options = options;
 	}
 
+	/**
+	 * @return the sortBy
+	 */
+	public Boolean getSortBy() {
+		return sortBy;
+	}
+
+	/**
+	 * @param sortBy
+	 *            Used for sorting in product listing
+	 */
+	public void setSortBy(Boolean sortBy) {
+		this.sortBy = sortBy;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -481,13 +498,13 @@ public class ProductAttribute extends BaseMagentoModel {
 		result = prime * result
 				+ ((comparable == null) ? 0 : comparable.hashCode());
 		result = prime * result
+				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = prime * result
 				+ ((filterable == null) ? 0 : filterable.hashCode());
 		result = prime * result
 				+ ((frontend == null) ? 0 : frontend.hashCode());
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((input == null) ? 0 : input.hashCode());
-		result = prime * result
-				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((options == null) ? 0 : options.hashCode());
 		result = prime * result
@@ -495,6 +512,7 @@ public class ProductAttribute extends BaseMagentoModel {
 		result = prime * result + ((scope == null) ? 0 : scope.hashCode());
 		result = prime * result
 				+ ((searchable == null) ? 0 : searchable.hashCode());
+		result = prime * result + ((sortBy == null) ? 0 : sortBy.hashCode());
 		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((unique == null) ? 0 : unique.hashCode());
@@ -549,6 +567,11 @@ public class ProductAttribute extends BaseMagentoModel {
 				return false;
 		} else if (!comparable.equals(other.comparable))
 			return false;
+		if (defaultValue == null) {
+			if (other.defaultValue != null)
+				return false;
+		} else if (!defaultValue.equals(other.defaultValue))
+			return false;
 		if (filterable == null) {
 			if (other.filterable != null)
 				return false;
@@ -568,11 +591,6 @@ public class ProductAttribute extends BaseMagentoModel {
 			if (other.input != null)
 				return false;
 		} else if (!input.equals(other.input))
-			return false;
-		if (defaultValue == null) {
-			if (other.defaultValue != null)
-				return false;
-		} else if (!defaultValue.equals(other.defaultValue))
 			return false;
 		if (label == null) {
 			if (other.label != null)
@@ -598,6 +616,11 @@ public class ProductAttribute extends BaseMagentoModel {
 			if (other.searchable != null)
 				return false;
 		} else if (!searchable.equals(other.searchable))
+			return false;
+		if (sortBy == null) {
+			if (other.sortBy != null)
+				return false;
+		} else if (!sortBy.equals(other.sortBy))
 			return false;
 		if (source == null) {
 			if (other.source != null)
@@ -647,15 +670,16 @@ public class ProductAttribute extends BaseMagentoModel {
 	public String toString() {
 		return "ProductAttribute [applyTo=" + applyTo + ", attributeClass="
 				+ attributeClass + ", backend=" + backend + ", code=" + code
-				+ ", comparable=" + comparable + ", filterable=" + filterable
-				+ ", frontend=" + frontend + ", group=" + group + ", input="
-				+ input + ", defaultValue=" + defaultValue + ", label=" + label
-				+ ", options=" + options + ", required=" + required
-				+ ", scope=" + scope + ", searchable=" + searchable
-				+ ", source=" + source + ", type=" + type + ", unique="
-				+ unique + ", userDefined=" + userDefined + ", visible="
-				+ visible + ", visibleOnAdvancedSearch="
+				+ ", comparable=" + comparable + ", defaultValue="
+				+ defaultValue + ", filterable=" + filterable + ", frontend="
+				+ frontend + ", group=" + group + ", input=" + input
+				+ ", label=" + label + ", options=" + options + ", required="
+				+ required + ", scope=" + scope + ", searchable=" + searchable
+				+ ", sortBy=" + sortBy + ", source=" + source + ", type="
+				+ type + ", unique=" + unique + ", userDefined=" + userDefined
+				+ ", visible=" + visible + ", visibleInAdvancedSearch="
 				+ visibleInAdvancedSearch + ", visibleOnFront="
-				+ visibleOnFront + ", id=" + id + "]";
+				+ visibleOnFront + ", id=" + id + ", properties=" + properties
+				+ "]";
 	}
 }
