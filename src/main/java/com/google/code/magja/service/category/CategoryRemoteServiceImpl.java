@@ -217,7 +217,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
      * anchor = true
      */
     public Category getMinimalCategory(Integer parentId, String categoryName) {
-        return getRequiredCategory(parentId, categoryName, "name", "name", true, true);
+        return getRequiredCategory(parentId, categoryName, "", "", true, true);
     }
 
     /**
