@@ -25,6 +25,8 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	public abstract Category getByIdWithParentAndChildren(Integer id) throws ServiceException;
 	
 	public abstract Category getTree(Integer id) throws ServiceException;
+	
+	public abstract void print(Category category) throws Exception;
 
 	public abstract int save(Category category) throws ServiceException;
 

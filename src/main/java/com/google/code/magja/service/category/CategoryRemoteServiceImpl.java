@@ -179,6 +179,26 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 
 		return category;
 	}
+	
+	/**
+	 * print all categories
+	 * 
+	 * @param id
+	 */
+	public void print(Category category) {
+		if (category != null) {
+			String s = "";
+			for (int i = 1; i < category.getLevel(); i++) {
+				s += " ";
+			}
+
+			System.out.println(s + category.getName());
+
+			for (Category child : category.getChildren()) {
+				print(child);
+			}
+		}
+	}
 
     /*
      * (non-Javadoc)
