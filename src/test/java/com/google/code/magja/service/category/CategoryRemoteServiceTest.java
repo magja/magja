@@ -71,6 +71,16 @@ public class CategoryRemoteServiceTest {
         }
     }
 
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#getTree(java.lang.Integer)}.
+	 */
+	@Test
+	public void testGetTree() throws Exception {
+		Category category = service.getTree(new Integer(2));
+		if(category != null) System.out.println(category.getName());
+	}
+	
     /**
      * Test method for
      * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#save(com.google.code.magja.model.category.Category)}

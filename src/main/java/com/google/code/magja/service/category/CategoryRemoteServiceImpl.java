@@ -121,6 +121,64 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 
         return category;
     }
+    
+	/**
+	 * get all category with subcategory by id
+	 * 
+	 * @param id
+	 * @throws ServiceException
+	 */
+	@SuppressWarnings("unchecked")
+	public Category getTree(Integer id) throws ServiceException {
+		
+		Category category = new Category();
+
+		if (id == null) return null;
+
+		Map<String, Object> cat;
+
+		try {
+			cat = (Map<String, Object>) soapClient.call(ResourcePath.CategoryTree, id);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		if (cat == null) return null;
+
+		category = getCategoryFromMap(cat);
+
+		return category;
+	}
+
+	/**
+	 * build category from Map
+	 * 
+	 * @param Map<String, Object>
+	 */
+	@SuppressWarnings("unchecked")
+	private Category getCategoryFromMap(Map<String, Object> cat) {
+		Category category = new Category();
+
+		for (Map.Entry<String, Object> attribute : cat.entrySet()) {
+			if (attribute.getKey().equals("children")) {
+				List<Category> children = new ArrayList<Category>();
+
+				List<Map<String, Object>> childrenList = (List<Map<String, Object>>) attribute.getValue();
+
+				for (Map<String, Object> child : childrenList) {
+					Category c = getCategoryFromMap(child);
+					children.add(c);
+				}
+
+				category.setChildren(children);
+			} else {
+				category.set(attribute.getKey(), attribute.getValue());
+			}
+		}
+
+		return category;
+	}
 
     /*
      * (non-Javadoc)
