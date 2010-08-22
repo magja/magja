@@ -27,6 +27,8 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	public abstract Category getTree(Integer id) throws ServiceException;
 	
 	public abstract void print(Category category) throws Exception;
+	
+	public abstract List<Category> search(Category category, List<String> childrenNames) throws ServiceException;
 
 	public abstract int save(Category category) throws ServiceException;
 

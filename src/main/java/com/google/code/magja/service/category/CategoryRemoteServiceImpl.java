@@ -199,6 +199,35 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 			}
 		}
 	}
+	
+	/**
+	 * search categories
+	 * 
+	 * @param id
+	 */
+	public List<Category> search(Category category, List<String> categoryNames) throws ServiceException {
+		List<Category> categories = new ArrayList<Category>();
+
+		for (String name : categoryNames) {
+			boolean found = false;
+			for (Category child : category.getChildren()) {
+				if (child.getName().equals(name)) {
+					found = true;
+					categories.add(child);
+
+					// override parent with child
+					category = child;
+					break;
+				}
+			}
+
+			if (!found) {
+				throw new ServiceException("Category \"" + name + "\" not found.");
+			}
+		}
+
+		return categories;
+	}
 
     /*
      * (non-Javadoc)

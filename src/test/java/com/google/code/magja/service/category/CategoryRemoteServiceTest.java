@@ -5,6 +5,9 @@ package com.google.code.magja.service.category;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,6 +82,28 @@ public class CategoryRemoteServiceTest {
 	public void testGetTree() throws Exception {
 		Category category = service.getTree(new Integer(2));
 		if(category != null) System.out.println(category.getName());
+	}
+	
+	/**
+	 * Test method for search category
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#search(com.google.code.magja.model.category.Category, java.util.ArrayList)}
+	 */
+	@Test
+	public void testSearch() throws Exception {
+		Category category = service.getTree(new Integer(2));
+
+		if (category != null) {
+			if(category.getChildren() != null) {
+				List<String> childrenNames = new ArrayList<String>();
+				childrenNames.add(category.getChildren().get(0).getName());
+	
+				List<Category> categories = service.search(category, childrenNames);
+	
+				for (Category cat : categories) {
+					System.out.println(cat.getId() + ":" + cat.getName());
+				}
+			}
+		}
 	}
 	
     /**
