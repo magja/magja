@@ -347,46 +347,42 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
      * create category tree from String
      */
     public Category create(Integer parentId, String categoryName) throws ServiceException {
-        List<Category> categories = create(parentId, new String[] { categoryName });
+    	List<String> categoryNames = new ArrayList<String>();
+    	categoryNames.add(categoryName);
+    	
+        List<Category> categories = create(parentId, categoryNames);
         
         return categories.get(0);
     }
 
-    /**
-     * create category tree from String array
-     */
-    public List<Category> create(Integer parentId, String[] categoryNames) throws ServiceException {
-    	List<Category> categories = new ArrayList<Category>();
-    	
-        Category newCategory = null;
-        for (int i = 0; i < categoryNames.length; i++) {
-            if (categoryNames[i].length() > 0) {
-                Category parent = getByIdWithChildren(parentId);
+	/**
+	 * create category tree from String array
+	 */
+	public List<Category> create(Integer parentId, List<String> categoryNames) throws ServiceException {
+		if (parentId > 0 && categoryNames.size() > 0) {
+			List<Category> categories = new ArrayList<Category>();
 
-                // check if children already exists
-                boolean childrenFound = false;
-                if (parent.getChildren() != null) {
-                    for (int c = 0; c < parent.getChildren().size() && !childrenFound; c++) {
-                        Category children = parent.getChildren().get(c);
-                        if (categoryNames[i].equals(children.getName())) {
-                            childrenFound = true;
-                            newCategory = children;
-                        }
-                    }
-                }
+			Category existingCategories = getTree(parentId);
 
-                if (!childrenFound) {
-                    // children not found, create new one
-                    newCategory = getMinimalCategory(parent.getId(), categoryNames[i]);
-                }
+			List<String> categoryNamesCpy = new ArrayList<String>();
+			for (String categoryName : categoryNames) {
+				categoryNamesCpy.add(categoryName);
 
-                parentId = save(newCategory);
-                categories.add(newCategory);
-            }
-        }
+				try {
+					categories = search(existingCategories, categoryNamesCpy);
+					parentId = categories.get(categories.size() -1).getId();
+				} catch (Exception e) {
+					Category newCategory = getMinimalCategory(parentId, categoryName);
+					parentId = save(newCategory);
+					categories.add(newCategory);
+				}
+			}
 
-        return categories;
-    }
+			return categories;
+		}
+
+		throw new ServiceException("Fail to create a new category");
+	}
     
     /**
      * Assign product to category

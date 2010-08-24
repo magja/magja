@@ -150,23 +150,17 @@ public class CategoryRemoteServiceTest {
 
     /**
      * Test method for
-     * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#create(java.lang.Integer, java.lang.String)}
+     * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#create(java.lang.Integer, java.util.ArrayList)}
      */
     @Test
     public void testCreate() throws Exception {
         Category parent = service.getDefaultParent();
-        service.create(parent.getId(), "Category 0");
-    }
 
-    /**
-     * Test method for
-     * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#create(java.lang.Integer, java.lang.String[])}
-     */
-    @Test
-    public void testCreateFromArray() throws Exception {
-        Category parent = service.getDefaultParent();
-        service.create(parent.getId(), new String[] { "Category 1", "Sub Category 2", "Under Sub Category 3" });
-        service.create(parent.getId(), new String[] { "Category 1", "Sub Category 2", "Under Sub Category 4" });
-        service.create(parent.getId(), new String[] { "Category 2", "Sub Category 3", "Under Sub Category 4" });
+    	List<String> categoryNames = new ArrayList<String>();
+    	categoryNames.add("Category 1");
+    	categoryNames.add("Sub Category 2");
+    	categoryNames.add("Under Sub Category 3");
+    	
+        service.create(parent.getId(), categoryNames);
     }
 }

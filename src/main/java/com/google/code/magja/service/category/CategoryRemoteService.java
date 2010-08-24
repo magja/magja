@@ -40,7 +40,7 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 
 	public abstract Category create(Integer parentId, String categoryName) throws ServiceException;
 
-	public abstract List<Category> create(Integer parentId, String[] categoryNames) throws ServiceException;
+	public abstract List<Category> create(Integer parentId, List<String> categoryNames) throws ServiceException;
 	
 	public abstract void assignProduct(Category category, Product product) throws ServiceException;
 	
