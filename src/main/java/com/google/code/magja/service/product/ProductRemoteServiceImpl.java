@@ -241,7 +241,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			}
 
 		} catch (AxisFault e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 		if (!success)
