@@ -247,7 +247,13 @@ public class Product extends BaseMagentoModel {
 	 *            the websites to set
 	 */
 	public void setWebsites(Integer[] websites) {
-		this.websites = websites;
+		// FIXME: this.websites = websites;
+		
+		String[] array = new String[websites.length];
+		for(int i = 0; i < websites.length; i++) {
+			array[i] = websites[i] + "";
+		}
+        set("websites", array);
 	}
 
 	/**
@@ -262,7 +268,13 @@ public class Product extends BaseMagentoModel {
 	 *            the categories to set
 	 */
 	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+		// FIXME: this.categories = categories;
+		
+		String[] array = new String[categories.size()];
+		for(int i = 0; i < categories.size(); i++) {
+			array[i] = categories.get(i).getId() + "";
+		}
+        set("categories", array);
 	}
 
 	/**
