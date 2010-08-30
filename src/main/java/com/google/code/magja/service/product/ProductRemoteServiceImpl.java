@@ -529,7 +529,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 								.get("qty")));
 					if (iv.get("is_in_stock") != null
 							|| !"".equals(iv.get("is_in_stock"))) {
-						if (((String) iv.get("is_in_stock")).equals("0"))
+						if (iv.get("is_in_stock").toString().equals("0") || iv.get("is_in_stock").toString().equals("false"))
 							product.setInStock(false);
 						else
 							product.setInStock(true);
