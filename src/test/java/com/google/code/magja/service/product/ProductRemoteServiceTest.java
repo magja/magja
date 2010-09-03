@@ -6,6 +6,7 @@ package com.google.code.magja.service.product;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,14 +14,18 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.code.magja.model.category.Category;
+import com.google.code.magja.model.media.Media;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductLink;
+import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.ProductTypeEnum;
 import com.google.code.magja.model.product.ProductLink.LinkType;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.utils.MagjaFileUtils;
 import com.google.code.magja.utils.MagjaStringUtils;
 
 /**
@@ -219,16 +224,36 @@ public class ProductRemoteServiceTest {
 		product.set("meta_description", "one two tree");
 		product.set("enable_googlecheckout", 1);
 
+		// add category
+		List<Category> categorys = new ArrayList<Category>();
+		categorys.add(new Category(2));
+		product.setCategories(categorys);
 
-		// this attributes not working
-		//Category category = new Category();
-		//category.setId(new Integer(4));
-		//product.getCategories().add(category);
+		// add media
+		try {
+			byte[] data = MagjaFileUtils.getBytesFromFileURL("http://code.google.com/images/code_sm.png");
+	
+			Media image = new Media();
+			image.setName("google");
+			image.setMime("image/jpeg");
+			image.setData(data);
+	
+			Set<ProductMedia.Type> types = new HashSet<ProductMedia.Type>();
+			types.add(ProductMedia.Type.IMAGE);
+			types.add(ProductMedia.Type.SMALL_IMAGE);
+	
+			ProductMedia media = new ProductMedia();
+			media.setExclude(false);
+			media.setImage(image);
+			media.setLabel("Image for Product");
+			media.setPosition(1);
+			media.setTypes(types);
+	
+			product.addMedia(media);
+		} catch(Exception e) {
+			System.err.println("fail to add media to product");
+		}
 
-		String[] categories = {"3", "4"};
-		product.set("categories", categories);
-
-		//product.set("categories", "[3, 4]");
 		product.set("options_container", "container2");
 
 		return product;
