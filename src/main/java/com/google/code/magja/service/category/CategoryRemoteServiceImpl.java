@@ -446,5 +446,26 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 		
 		return products;
     }
+    
+    /**
+     * get list of last categories in a category tree
+     */
+    public List<Category> getLastCategorys(Category categoryTree) {
+        List<Category> categoryList = new ArrayList<Category>();
+
+        for (Category child : categoryTree.getChildren()) {
+            if (child.getChildren().isEmpty()) {
+                categoryList.add(child);
+            } else {
+                List<Category> categorys = getLastCategorys(child);
+
+                for (Category c : categorys) {
+                    categoryList.add(c);
+                }
+            }
+        }
+
+        return categoryList;
+    }
 
 }
