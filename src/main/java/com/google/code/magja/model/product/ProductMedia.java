@@ -64,7 +64,7 @@ public class ProductMedia extends BaseMagentoModel {
 		props.put("file", image.serializeToApi());
 
 		List<Object> newMedia = new LinkedList<Object>();
-		newMedia.add((product.getId() != null ? product.getId() : product.getSku()));
+		newMedia.add(product.getSku());
 		newMedia.add(props);
 
 		return newMedia;
