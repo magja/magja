@@ -403,5 +403,48 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
             throw new ServiceException("Not success assign product to category.");
         }
     }
+    
+    /**
+     * Get list of assigned products in default store
+     */
+    public List<Product> getProducts(Category category) throws ServiceException {
+    	return getProducts(category, 1);
+    }
+    
+    /**
+     * Get list of assigned products
+     */
+    public List<Product> getProducts(Category category, Integer storeID) throws ServiceException {
+
+		if (category == null) return null;
+		
+    	List<Object> list = new LinkedList<Object>();
+        list.add(category.getId());
+        list.add(storeID);
+
+		List<Product> products = new ArrayList<Product>();
+
+		List<Map<String, Object>> productList;
+		
+		try {
+			productList = (List<Map<String, Object>>) soapClient.call(ResourcePath.CategoryAssignedProducts, list);
+		} catch (AxisFault e) {
+			if(debug) e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		if (productList == null)
+			return products;
+
+		for (Map<String, Object> mpp : productList) {
+			Product product = new Product();
+			for (Map.Entry<String, Object> attribute : mpp.entrySet()) {
+				product.set(attribute.getKey(), attribute.getValue());
+			}
+			products.add(product);
+		}
+		
+		return products;
+    }
 
 }

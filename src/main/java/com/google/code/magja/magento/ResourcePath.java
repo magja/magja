@@ -21,6 +21,7 @@ public enum ResourcePath {
 	CategoryDelete("catalog_category.delete"),
 	CategoryUpdate("catalog_category.update"),
 	CategoryAssignProduct("catalog_category.assignProduct"),
+	CategoryAssignedProducts("catalog_category.assignedProducts"),
 	CategoryAttributeCurrentStore("category_attribute.currentStore"),
 	CategoryAttributeList("category_attribute.list"),
 	CategoryAttributeOptions("category_attribute.options"),
