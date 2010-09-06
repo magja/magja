@@ -14,6 +14,8 @@ import com.google.code.magja.soap.MagentoSoapClient;
 @SuppressWarnings("serial")
 public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements GeneralService<T> {
 
+	protected Boolean debug = false;
+	
 	protected MagentoSoapClient soapClient;
 
 	/**
@@ -36,6 +38,16 @@ public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements 
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * disable or enable debug informations
+	 *
+	 * @param Boolean
+	 * @return
+	 */
+	public void setDebug(Boolean b) {
+		this.debug = b;
 	}
 
 }

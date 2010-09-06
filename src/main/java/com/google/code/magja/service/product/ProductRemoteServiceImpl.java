@@ -201,7 +201,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				setList = (List<Map<String, Object>>) soapClient.call(
 						ResourcePath.ProductAttributeSetList, "");
 			} catch (AxisFault e) {
-				e.printStackTrace();
+				if(debug) e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
 
@@ -241,7 +241,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			}
 
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 		if (!success)
@@ -266,7 +266,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			productList = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductList, "");
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -294,7 +294,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			mpp = (Map<String, Object>) soapClient.call(
 					ResourcePath.ProductInfo, sku);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -319,7 +319,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			mpp = (Map<String, Object>) soapClient.call(
 					ResourcePath.ProductInfo, id);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -376,10 +376,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 					throw new ServiceException("Error inserting new Product");
 
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				if(debug) e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			} catch (AxisFault e) {
-				e.printStackTrace();
+				if(debug) e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
 
@@ -438,7 +438,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			productTypes = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductTypeList, "");
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -516,7 +516,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			resultList = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductStockList, param);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -570,7 +570,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		try {
 			soapClient.call(ResourcePath.ProductStockUpdate, param);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 	}

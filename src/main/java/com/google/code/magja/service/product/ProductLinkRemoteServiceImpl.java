@@ -94,7 +94,7 @@ public class ProductLinkRemoteServiceImpl extends
 			soapClient.call(ResourcePath.ProductLinkAssign, buildLinkToPersist(
 					product, link));
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -151,7 +151,7 @@ public class ProductLinkRemoteServiceImpl extends
 			results = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductLinkList, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -192,7 +192,7 @@ public class ProductLinkRemoteServiceImpl extends
 		try {
 			soapClient.call(ResourcePath.ProductLinkRemove, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -220,7 +220,7 @@ public class ProductLinkRemoteServiceImpl extends
 			soapClient.call(ResourcePath.ProductLinkUpdate, buildLinkToPersist(
 					product, link));
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 	}

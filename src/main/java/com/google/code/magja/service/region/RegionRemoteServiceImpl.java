@@ -31,7 +31,7 @@ public class RegionRemoteServiceImpl extends GeneralServiceImpl<Region> implemen
 		try {
 			remote_list = (List<Map<String, Object>>) soapClient.call(ResourcePath.RegionList, countryId);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 

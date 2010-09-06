@@ -137,7 +137,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 		try {
 			soapClient.call(ResourcePath.SalesOrderAddComment, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -155,7 +155,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 		try {
 			soapClient.call(ResourcePath.SalesOrderCancel, order.getId());
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -176,7 +176,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 			order_remote = (Map<String, Object>) soapClient.call(
 					ResourcePath.SalesOrderInfo, id);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -199,7 +199,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 		try {
 			soapClient.call(ResourcePath.SalesOrderHold, order.getId());
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -231,7 +231,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 					ResourcePath.SalesOrderList, (filter != null ? filter
 							.serializeToApi() : ""));
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -254,7 +254,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 		try {
 			soapClient.call(ResourcePath.SalesOrderUnhold, order.getId());
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 

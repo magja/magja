@@ -50,7 +50,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 		try {
 			soapClient.call(ResourcePath.SalesOrderShipmentAddComment, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -72,10 +72,10 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 		try {
 			id = Integer.parseInt((String) soapClient.call(ResourcePath.SalesOrderShipmentAddTrack, params));
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -94,7 +94,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 		try {
 			result = (Map<String, Object>) soapClient.call(ResourcePath.SalesOrderShipmentInfo, id);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -113,7 +113,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 		try {
 			results = (List<Map<String, Object>>) soapClient.call(ResourcePath.SalesOrderShipmentList, filter);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -137,7 +137,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 		try {
 			soapClient.call(ResourcePath.SalesOrderShipmentRemoveTrack, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -159,10 +159,10 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 		try {
 			id = Integer.parseInt((String) soapClient.call(ResourcePath.SalesOrderShipmentCreate, params));
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -181,7 +181,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 			Map<String, String> carriers = (Map<String, String>) soapClient.call(ResourcePath.SalesOrderShipmentGetCarriers, orderId);
 			return carriers;
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 

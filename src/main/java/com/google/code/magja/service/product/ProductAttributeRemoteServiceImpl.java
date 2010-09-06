@@ -40,7 +40,7 @@ public class ProductAttributeRemoteServiceImpl extends
 					attributeName))
 				throw new ServiceException("Error deleting product attribute.");
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -68,7 +68,7 @@ public class ProductAttributeRemoteServiceImpl extends
 							.getId() != null ? productAttribute.getId()
 							: productAttribute.getCode()));
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -103,7 +103,7 @@ public class ProductAttributeRemoteServiceImpl extends
 			attSetList = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductAttributeSetList, "");
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -138,7 +138,7 @@ public class ProductAttributeRemoteServiceImpl extends
 			prd_attributes = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductAttributeList, set.getId());
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -179,7 +179,7 @@ public class ProductAttributeRemoteServiceImpl extends
 				}
 			}
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -205,7 +205,7 @@ public class ProductAttributeRemoteServiceImpl extends
 					ResourcePath.ProductAttributeCreate, productAttribute
 							.serializeToApi()));
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -235,7 +235,7 @@ public class ProductAttributeRemoteServiceImpl extends
 								"The product attribute was saved, but had error "
 										+ "on save the options for that");
 				} catch (AxisFault e) {
-					e.printStackTrace();
+					if(debug) e.printStackTrace();
 					throw new ServiceException(e.getMessage());
 				}
 			}
@@ -273,7 +273,7 @@ public class ProductAttributeRemoteServiceImpl extends
 								"The product attribute was saved, but had error "
 										+ "on save the options for that");
 				} catch (AxisFault e) {
-					e.printStackTrace();
+					if(debug) e.printStackTrace();
 					throw new ServiceException(e.getMessage());
 				}
 			}

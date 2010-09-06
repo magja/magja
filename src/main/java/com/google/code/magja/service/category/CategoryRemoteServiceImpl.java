@@ -67,7 +67,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
         try {
             cat = (Map<String, Object>) soapClient.call(ResourcePath.CategoryInfo, id);
         } catch (AxisFault e) {
-            e.printStackTrace();
+        	if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
         }
 
@@ -140,7 +140,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 		try {
 			cat = (Map<String, Object>) soapClient.call(ResourcePath.CategoryTree, id);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -251,10 +251,10 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
                     throw new ServiceException("Error inserting new Category");
                 }
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+            	if(debug) e.printStackTrace();
                 throw new ServiceException(e.getMessage());
             } catch (AxisFault e) {
-                e.printStackTrace();
+            	if(debug) e.printStackTrace();
                 throw new ServiceException(e.getMessage());
             }
         } else {
@@ -265,7 +265,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
                     throw new ServiceException("Error on update Category");
                 }
             } catch (AxisFault e) {
-                e.printStackTrace();
+            	if(debug) e.printStackTrace();
                 throw new ServiceException(e.getMessage());
             }
             return category.getId();

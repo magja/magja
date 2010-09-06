@@ -42,7 +42,7 @@ public class CategoryAttributeRemoteServiceImpl extends
 			attributes = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.CategoryAttributeList, "");
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -71,7 +71,7 @@ public class CategoryAttributeRemoteServiceImpl extends
 								ResourcePath.CategoryAttributeOptions,
 								optParamList);
 					} catch (AxisFault e) {
-						e.printStackTrace();
+						if(debug) e.printStackTrace();
 						throw new ServiceException(e.getMessage());
 					}
 

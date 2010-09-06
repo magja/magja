@@ -16,4 +16,5 @@ public interface GeneralService<T extends BaseMagentoModel> extends Serializable
 
 	public abstract void setSoapClient(MagentoSoapClient soapClient);
 
+	public abstract void setDebug(Boolean b);
 }

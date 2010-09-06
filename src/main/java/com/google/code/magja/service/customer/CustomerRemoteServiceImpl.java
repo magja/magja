@@ -73,7 +73,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 			if (!success)
 				throw new ServiceException("Error deleting the Customer");
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -108,7 +108,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 			remote_result = (Map<String, Object>) soapClient.call(
 					ResourcePath.CustomerInfo, id);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -147,7 +147,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 			resultList = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.CustomerList, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -188,10 +188,10 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 										.serializeToApi()));
 				customer.setId(id);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				if(debug) e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			} catch (AxisFault e) {
-				e.printStackTrace();
+				if(debug) e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
 		} else {
@@ -201,7 +201,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 				if (!success)
 					throw new ServiceException("Error updating Customer");
 			} catch (AxisFault e) {
-				e.printStackTrace();
+				if(debug) e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
 		}
@@ -223,7 +223,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 			list = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.CustomerGroupList, "");
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 

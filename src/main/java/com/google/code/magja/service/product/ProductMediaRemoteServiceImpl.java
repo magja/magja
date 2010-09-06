@@ -70,7 +70,7 @@ public class ProductMediaRemoteServiceImpl extends
 			success = (Boolean) soapClient.call(
 					ResourcePath.ProductAttributeMediaRemove, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -103,7 +103,7 @@ public class ProductMediaRemoteServiceImpl extends
 			media = (Map<String, Object>) soapClient.call(
 					ResourcePath.ProductAttributeMediaInfo, params);
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -134,7 +134,7 @@ public class ProductMediaRemoteServiceImpl extends
 					(product.getId() != null ? product.getId() : product
 							.getSku()));
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -174,7 +174,7 @@ public class ProductMediaRemoteServiceImpl extends
 			productMedia.setFile(result);
 
 		} catch (AxisFault e) {
-			e.printStackTrace();
+			if(debug) e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 	}
