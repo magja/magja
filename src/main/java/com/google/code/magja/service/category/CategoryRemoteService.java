@@ -52,5 +52,5 @@ public interface CategoryRemoteService extends GeneralService<Category> {
     
     public abstract List<Product> getProducts(Category category, Integer storeID) throws ServiceException;
     
-    public abstract List<Category> getLastCategorys(Category categoryTree);
+    public abstract List<Category> getLastCategories(Category categoryTree);
 }
