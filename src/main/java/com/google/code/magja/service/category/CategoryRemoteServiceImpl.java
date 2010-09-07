@@ -471,7 +471,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
     /**
      * get list of last categories without products
      */
-    public List<Category> findEmptyLastCategories(Integer id) throws ServiceException {
+    public List<Category> findEmpty(Integer id) throws ServiceException {
         Category startCategory = getTree(id);
 
         List<Category> lastCategories = getLastCategories(startCategory);
