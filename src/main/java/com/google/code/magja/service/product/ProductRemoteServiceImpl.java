@@ -138,10 +138,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			product.setAttributeSet(getAttributeSet((String) mpp.get("set")));
 
 		// categories - dont get the full tree, only basic info of categories
-		if (mpp.get("category_ids") != null && dependencies)
+		if (mpp.get("category_ids") != null) {
+			if(dependencies) {
 			product.getCategories().addAll(
 					getCategoriesBasicInfo((List<Object>) mpp
 							.get("category_ids")));
+			} else {
+				List<Category> categories = new ArrayList<Category>();
+				for (Object obj : (List<Object>) mpp.get("category_ids")) {
+					Integer id = Integer.parseInt((String) obj);
+					categories.add(new Category(id));
+				}
+				product.setCategories(categories);
+			}	
+		}
 
 		// Inventory
 		if (dependencies) {

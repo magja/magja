@@ -268,7 +268,7 @@ public class Product extends BaseMagentoModel {
 	 *            the categories to set
 	 */
 	public void setCategories(List<Category> categories) {
-		// FIXME: this.categories = categories;
+		this.categories = categories;
 		
 		String[] array = new String[categories.size()];
 		for(int i = 0; i < categories.size(); i++) {
