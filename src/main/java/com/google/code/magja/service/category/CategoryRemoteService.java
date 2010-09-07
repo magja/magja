@@ -55,4 +55,6 @@ public interface CategoryRemoteService extends GeneralService<Category> {
     public abstract List<Category> getLastCategories(Category categoryTree);
     
     public abstract List<Category> findEmpty(Integer id) throws ServiceException;
+    
+    public abstract Integer deleteEmpty(Integer id) throws ServiceException;
 }

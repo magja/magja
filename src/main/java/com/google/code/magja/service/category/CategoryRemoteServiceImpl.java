@@ -485,5 +485,19 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
         
         return emptyCategories;
     }
+    
+    /**
+     * delete last categories without products
+     */
+    public Integer deleteEmpty(Integer id) throws ServiceException {
+        List<Category> emptyCategories = findEmpty(id);
+        for (Category category : emptyCategories) {
+            delete(category.getId());
+        }
+        
+        // FIXME: delete empty parent
+        
+        return emptyCategories.size();
+    }
 
 }
