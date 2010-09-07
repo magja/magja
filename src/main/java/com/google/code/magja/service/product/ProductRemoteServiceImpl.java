@@ -584,4 +584,23 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			throw new ServiceException(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Get products without category
+	 *
+	 * @return List<Product>
+	 * @throws ServiceException
+	 */
+	public List<Product> getWithoutCategory() throws ServiceException {
+        List<Product> withoutCategory = new ArrayList<Product>();
+        
+        List<Product> products = listAllNoDep();
+        for (Product product : products) {
+           if(product.getCategories().isEmpty()) {
+        	   withoutCategory.add(product);
+           }
+        }
+        
+        return withoutCategory;
+	}
 }

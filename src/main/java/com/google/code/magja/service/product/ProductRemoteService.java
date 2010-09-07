@@ -132,4 +132,6 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 */
 	public abstract void updateInventory(Product product)
 			throws ServiceException;
+	
+	public abstract List<Product> getWithoutCategory() throws ServiceException;
 }
