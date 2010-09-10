@@ -264,7 +264,11 @@ public class Category extends BaseMagentoModel {
 	 * @return the children
 	 */
 	public List<Category> getChildren() {
-		return children;
+		if(children != null) {
+			return children;
+		} else {
+			return new ArrayList<Category>();
+		}
 	}
 
 	/**
