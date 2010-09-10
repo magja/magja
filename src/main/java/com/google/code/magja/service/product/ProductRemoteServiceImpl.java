@@ -258,6 +258,27 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			throw new ServiceException("Not success deleting product.");
 
 	}
+	
+	/**
+	 * Delete a product by sku and category if empty
+	 *
+	 * @param sku
+	 * @throws ServiceException
+	 */
+	public void deleteWithEmptyCategory(String sku) throws ServiceException {
+		Product product = getBySku(sku);
+		List<Category> categories = product.getCategories();
+
+		delete(sku);
+
+	    if (categories != null) {
+	        for (Category category : categories) {
+	            if (category.getChildren().isEmpty() && categoryRemoteService.getProducts(category).isEmpty()) {
+	                categoryRemoteService.delete(category.getId());
+	            }
+	        }
+	    }
+	}
 
 	/**
 	 * List the products, if dependencies is true, the products will be

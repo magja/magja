@@ -106,6 +106,8 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract void deleteAll() throws ServiceException;
+	
+	public abstract void deleteWithEmptyCategory(String sku) throws ServiceException;
 
 	/**
 	 * @return List of all ProductTypes from magento api
