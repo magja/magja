@@ -9,6 +9,7 @@ import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.service.product.ProductRemoteService;
 
 /**
  * @author andre
@@ -50,11 +51,16 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	
     public abstract List<Product> getProducts(Category category) throws ServiceException;
     
-    public abstract List<Product> getProducts(Category category, Integer storeID) throws ServiceException;
+    public abstract List<Product> getProducts(Category category, Integer storeID, boolean dependencies) throws ServiceException;
     
     public abstract List<Category> getLastCategories(Category categoryTree);
     
     public abstract List<Category> findEmpty(Integer id) throws ServiceException;
     
     public abstract Integer deleteEmpty(Integer id) throws ServiceException;
+    
+	/**
+	 * @param productRemoteService the productRemoteService to set
+	 */
+	public abstract void setProductRemoteService(ProductRemoteService productRemoteService);
 }

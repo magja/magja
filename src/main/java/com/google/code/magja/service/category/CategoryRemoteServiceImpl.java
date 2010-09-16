@@ -15,6 +15,7 @@ import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.service.product.ProductRemoteService;
 
 /**
  * @author andre
@@ -22,6 +23,19 @@ import com.google.code.magja.service.ServiceException;
  */
 public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> implements CategoryRemoteService {
 
+	private ProductRemoteService productRemoteService;
+	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seecom.google.code.magja.service.product.CategoryRemoteService#setProductRemoteService
+	 * (com.google.code.magja.service.category.CategoryRemoteService)
+	 */
+	@Override
+	public void setProductRemoteService(ProductRemoteService productRemoteService) {
+		this.productRemoteService = productRemoteService;
+	}
+	
     /**
      * Load children for the category
      * @param category
@@ -408,13 +422,15 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
      * Get list of assigned products in default store
      */
     public List<Product> getProducts(Category category) throws ServiceException {
-    	return getProducts(category, 1);
+    	return getProducts(category, 1, false);
     }
     
     /**
      * Get list of assigned products
+     * If dependencies are disabled, the Product will contain only following attributes:
+     * product_id, type, set, sku. All other attributes will be null.
      */
-    public List<Product> getProducts(Category category, Integer storeID) throws ServiceException {
+    public List<Product> getProducts(Category category, Integer storeID, boolean dependencies) throws ServiceException {
 
 		if (category == null) return null;
 		
@@ -437,10 +453,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 			return products;
 
 		for (Map<String, Object> mpp : productList) {
-			Product product = new Product();
-			for (Map.Entry<String, Object> attribute : mpp.entrySet()) {
-				product.set(attribute.getKey(), attribute.getValue());
-			}
+			Product product = productRemoteService.buildProduct(mpp, dependencies);
 			products.add(product);
 		}
 		
