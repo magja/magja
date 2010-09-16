@@ -153,10 +153,16 @@ public class RemoteServiceFactory {
      * @return the productRemoteService
      */
     public ProductRemoteService getProductRemoteService() {
-
+    	return getProductRemoteService(getCategoryRemoteService());
+    }
+    
+    /**
+     * @return the productRemoteService
+     */
+    public ProductRemoteService getProductRemoteService(CategoryRemoteService categoryRemoteService) {
         ProductRemoteService productRemoteService = new ProductRemoteServiceImpl();
         productRemoteService.setSoapClient(magentoSoapClient);
-        productRemoteService.setCategoryRemoteService(getCategoryRemoteService());
+        productRemoteService.setCategoryRemoteService(categoryRemoteService);
         productRemoteService.setProductMediaRemoteService(getProductMediaRemoteService());
         productRemoteService.setProductLinkRemoteService(getProductLinkRemoteService());
 
@@ -167,9 +173,11 @@ public class RemoteServiceFactory {
      * @return the categoryRemoteService
      */
     public CategoryRemoteService getCategoryRemoteService() {
-
         CategoryRemoteService categoryRemoteService = new CategoryRemoteServiceImpl();
         categoryRemoteService.setSoapClient(magentoSoapClient);
+        
+        ProductRemoteService productRemoteService = getProductRemoteService(categoryRemoteService);
+        categoryRemoteService.setProductRemoteService(productRemoteService);
 
         return categoryRemoteService;
     }
