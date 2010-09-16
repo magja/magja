@@ -4,6 +4,7 @@
 package com.google.code.magja.service.product;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.code.magja.model.product.Product;
@@ -136,4 +137,6 @@ public interface ProductRemoteService extends GeneralService<Product> {
 			throws ServiceException;
 	
 	public abstract List<Product> getWithoutCategory() throws ServiceException;
+	
+	public abstract Product buildProduct(Map<String, Object> mpp, boolean dependencies) throws ServiceException;
 }
