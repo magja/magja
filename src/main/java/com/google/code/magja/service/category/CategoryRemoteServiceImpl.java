@@ -453,7 +453,14 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 			return products;
 
 		for (Map<String, Object> mpp : productList) {
-			Product product = productRemoteService.buildProduct(mpp, dependencies);
+			// get minimal product object
+			Product product = productRemoteService.buildProduct(mpp, false);
+			
+			if (dependencies) {
+				// buid a full product object if required
+				product = productRemoteService.getBySku(product.getSku());
+			}
+			
 			products.add(product);
 		}
 		
