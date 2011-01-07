@@ -572,4 +572,33 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 		return emptyCategories.size();
 	}
 
+	/**
+	 * delete delete recursive if empty
+	 */
+	public void deleteEmptyRecursive(Category category) throws ServiceException {
+		if (isEmpty(category)) {
+			// get parent category
+			Category parent = getByIdWithParent(category.getId()).getParent();
+
+			// delete current empty category
+			delete(category.getId());
+
+			// delete parent category if empty
+			deleteEmptyRecursive(parent);
+		}
+	}
+
+	/**
+	 * Check if category is empty
+	 * 
+	 * @param cagegory
+	 * @throws ServiceException
+	 */
+	public Boolean isEmpty(Category category) throws ServiceException {
+		if (category.getChildren().isEmpty() && getProducts(category).isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

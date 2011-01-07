@@ -63,4 +63,8 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	 * @param productRemoteService the productRemoteService to set
 	 */
 	public abstract void setProductRemoteService(ProductRemoteService productRemoteService);
+	
+	public abstract Boolean isEmpty(Category category) throws ServiceException;
+	
+	public abstract void deleteEmptyRecursive(Category category) throws ServiceException;
 }

@@ -273,9 +273,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	    if (categories != null) {
 	        for (Category category : categories) {
-	            if (category.getChildren().isEmpty() && categoryRemoteService.getProducts(category).isEmpty()) {
-	                categoryRemoteService.delete(category.getId());
-	            }
+				categoryRemoteService.deleteEmptyRecursive(category);
 	        }
 	    }
 	}
