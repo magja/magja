@@ -48,6 +48,16 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract Product getBySku(String sku) throws ServiceException;
+	
+	/**
+	 * Get the product from Magento with the specified sku
+	 *
+	 * @param sku
+	 * @param dependencies
+	 * @return Product
+	 * @throws ServiceException
+	 */
+	public abstract Product getBySku(String sku, boolean dependencies) throws ServiceException;
 
 	/**
 	 * Get the product from Magento with the specified id

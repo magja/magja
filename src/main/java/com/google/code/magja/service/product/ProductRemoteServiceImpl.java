@@ -320,6 +320,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 */
 	@Override
 	public Product getBySku(String sku) throws ServiceException {
+		return getBySku(sku, true);
+	}
+	
+	public Product getBySku(String sku, boolean dependencies) throws ServiceException {
 
 		Map<String, Object> mpp;
 		try {
@@ -334,7 +338,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		if (mpp == null)
 			return null;
 		else
-			return buildProduct(mpp, true);
+			return buildProduct(mpp, dependencies);
 	}
 
 	/*
