@@ -192,7 +192,7 @@ public abstract class BaseMagentoModel implements Serializable {
 	/**
 	 * @return all the properties in a Map to interchange with Magento API
 	 */
-	protected Map<String, Object> getAllProperties() {
+	public Map<String, Object> getAllProperties() {
 		Map<String, Object> props = new HashMap<String, Object>();
 
 		// put the basic properties

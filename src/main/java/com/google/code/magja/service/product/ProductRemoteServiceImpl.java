@@ -398,17 +398,53 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	@Override
 	public void save(Product product) throws ServiceException {
 
-		if (product.getId() == null) {
+		int id = 0;
+		try {
+			id = getBySku(product.getSku(), false).getId();
+		} catch (ServiceException e) {
+			if (debug) {
+				e.printStackTrace();
+			}
+		}
 
+		if (id > 0) {
+			// means its a existing product
+			Boolean success = false;
+			try {
+
+				List<Object> newProduct = new LinkedList<Object>();
+				newProduct.add(product.getSku());
+				newProduct.add(product.getAllProperties());
+				// newProduct.add(product.getStoreView()); // TODO: not implemented yet
+
+				success = (Boolean) soapClient.call(ResourcePath.ProductUpdate,
+						newProduct);
+
+				if (success) {
+					product.setId(id);
+				} else {
+					throw new ServiceException("Error updating Product");
+				}
+
+			} catch (NumberFormatException e) {
+				if (debug)
+					e.printStackTrace();
+				throw new ServiceException(e.getMessage());
+			} catch (AxisFault e) {
+				if (debug)
+					e.printStackTrace();
+				throw new ServiceException(e.getMessage());
+			}
+		} else {
 			// means its a new product
 			try {
 
 				List<Object> newProduct = (LinkedList<Object>) product
 						.serializeToApi();
 
-				Integer id = Integer.parseInt((String) soapClient.call(
+				id = Integer.parseInt((String) soapClient.call(
 						ResourcePath.ProductCreate, newProduct));
-				if (id > -1)
+				if (id > 0)
 					product.setId(id);
 				else
 					throw new ServiceException("Error inserting new Product");
@@ -422,42 +458,40 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 					e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
+		}
 
-			// assign to one or more category
-			if (product.getCategories() != null) {
-				for (Category category : product.getCategories()) {
-					categoryRemoteService.assignProduct(category, product);
+		// assign to one or more category
+		if (product.getCategories() != null) {
+			for (Category category : product.getCategories()) {
+				categoryRemoteService.assignProduct(category, product);
+			}
+		}
+
+		// inventory
+		if (product.getQty() != null && (new Double(0) < product.getQty()))
+			updateInventory(product);
+
+		// if have media, create it too
+		if (product.getMedias() != null) {
+
+			if (!product.getMedias().isEmpty()) {
+				for (ProductMedia media : product.getMedias()) {
+					if (media.getImage() != null
+							&& media.getImage().getData() != null)
+						productMediaRemoteService.save(media);
 				}
 			}
+		}
 
-			// inventory
-			if (product.getQty() != null && (new Double(0) < product.getQty()))
-				updateInventory(product);
-
-			// if have media, create it too
-			if (product.getMedias() != null) {
-				if (!product.getMedias().isEmpty()) {
-					for (ProductMedia media : product.getMedias()) {
-						if (media.getImage() != null
-								&& media.getImage().getData() != null)
-							productMediaRemoteService.save(media);
-					}
+		// if has links, create too
+		if (product.getLinks() != null) {
+			if (!product.getLinks().isEmpty()) {
+				for (ProductLink link : product.getLinks()) {
+					if (link.getLinkType() != null
+							&& (link.getId() != null || link.getSku() != null))
+						productLinkRemoteService.assign(product, link);
 				}
 			}
-
-			// if has links, create too
-			if (product.getLinks() != null) {
-				if (!product.getLinks().isEmpty()) {
-					for (ProductLink link : product.getLinks()) {
-						if (link.getLinkType() != null
-								&& (link.getId() != null || link.getSku() != null))
-							productLinkRemoteService.assign(product, link);
-					}
-				}
-			}
-
-		} else {
-			// TODO implement the update product
 		}
 	}
 
