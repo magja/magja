@@ -27,7 +27,7 @@ import com.google.code.magja.service.category.CategoryRemoteService;
 
 /**
  * @author andre
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
@@ -41,7 +41,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setCategoryRemoteService
 	 * (com.google.code.magja.service.category.CategoryRemoteService)
@@ -54,7 +54,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setProductMediaRemoteService
 	 * (com.google.code.magja.service.product.ProductMediaRemoteService)
@@ -67,7 +67,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setProductLinkRemoteService
 	 * (com.google.code.magja.service.product.ProductLinkRemoteService)
@@ -80,7 +80,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Create a object product with basic fields from the attribute map
-	 *
+	 * 
 	 * @param mpp
 	 *            - the attribute map
 	 * @return Product
@@ -97,7 +97,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Build the object Product with your dependencies, for the queries
-	 *
+	 * 
 	 * @param mpp
 	 * @param dependencies
 	 *            - if will or not load dependencies
@@ -139,10 +139,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 		// categories - dont get the full tree, only basic info of categories
 		if (mpp.get("category_ids") != null) {
-			if(dependencies) {
-			product.getCategories().addAll(
-					getCategoriesBasicInfo((List<Object>) mpp
-							.get("category_ids")));
+			if (dependencies) {
+				product.getCategories().addAll(
+						getCategoriesBasicInfo((List<Object>) mpp
+								.get("category_ids")));
 			} else {
 				List<Category> categories = new ArrayList<Category>();
 				for (Object obj : (List<Object>) mpp.get("category_ids")) {
@@ -150,7 +150,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 					categories.add(new Category(id));
 				}
 				product.setCategories(categories);
-			}	
+			}
 		}
 
 		// Inventory
@@ -211,7 +211,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				setList = (List<Map<String, Object>>) soapClient.call(
 						ResourcePath.ProductAttributeSetList, "");
 			} catch (AxisFault e) {
-				if(debug) e.printStackTrace();
+				if (debug)
+					e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
 
@@ -233,7 +234,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Delete a product by your id (prefered) or your sku
-	 *
+	 * 
 	 * @param id
 	 * @param sku
 	 * @throws ServiceException
@@ -251,17 +252,18 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			}
 
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 		if (!success)
 			throw new ServiceException("Not success deleting product.");
 
 	}
-	
+
 	/**
 	 * Delete a product by sku and category if empty
-	 *
+	 * 
 	 * @param sku
 	 * @throws ServiceException
 	 */
@@ -271,17 +273,17 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 		delete(sku);
 
-	    if (categories != null) {
-	        for (Category category : categories) {
+		if (categories != null) {
+			for (Category category : categories) {
 				categoryRemoteService.deleteEmptyRecursive(category);
-	        }
-	    }
+			}
+		}
 	}
 
 	/**
 	 * List the products, if dependencies is true, the products will be
 	 * populated with all your dependencies, otherwise, no.
-	 *
+	 * 
 	 * @param dependencies
 	 * @return List<Product>
 	 * @throws ServiceException
@@ -295,7 +297,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			productList = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductList, "");
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -310,7 +313,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#getBySku(java.
 	 * lang.String)
@@ -323,7 +326,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			mpp = (Map<String, Object>) soapClient.call(
 					ResourcePath.ProductInfo, sku);
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -335,10 +339,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
-	 * com.google.code.magja.service.product.ProductRemoteService#getById(java.lang
-	 * .Integer)
+	 * com.google.code.magja.service.product.ProductRemoteService#getById(java
+	 * .lang .Integer)
 	 */
 	@Override
 	public Product getById(Integer id) throws ServiceException {
@@ -348,7 +352,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			mpp = (Map<String, Object>) soapClient.call(
 					ResourcePath.ProductInfo, id);
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -360,7 +365,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.google.code.magja.service.product.ProductRemoteService#listAll()
 	 */
 	@Override
@@ -370,7 +375,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#listAllNoDep()
 	 */
@@ -381,10 +386,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
-	 * com.google.code.magja.service.product.ProductRemoteService#save(code.google
-	 * .magja.model.product.Product)
+	 * com.google.code.magja.service.product.ProductRemoteService#save(code.
+	 * google .magja.model.product.Product)
 	 */
 	@Override
 	public void save(Product product) throws ServiceException {
@@ -405,16 +410,18 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 					throw new ServiceException("Error inserting new Product");
 
 			} catch (NumberFormatException e) {
-				if(debug) e.printStackTrace();
+				if (debug)
+					e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			} catch (AxisFault e) {
-				if(debug) e.printStackTrace();
+				if (debug)
+					e.printStackTrace();
 				throw new ServiceException(e.getMessage());
 			}
 
 			// assign to one or more category
-			if(product.getCategories() != null) {
-				for(Category category : product.getCategories()) {
+			if (product.getCategories() != null) {
+				for (Category category : product.getCategories()) {
 					categoryRemoteService.assignProduct(category, product);
 				}
 			}
@@ -452,10 +459,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see
-	 * com.google.code.magja.service.product.ProductRemoteService#listAllProductTypes
-	 * ()
+	 * 
+	 * @see com.google.code.magja.service.product.ProductRemoteService#
+	 * listAllProductTypes ()
 	 */
 	@Override
 	public List<ProductType> listAllProductTypes() throws ServiceException {
@@ -467,7 +473,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			productTypes = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductTypeList, "");
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -486,10 +493,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
-	 * com.google.code.magja.service.product.ProductRemoteService#delete(java.lang
-	 * .Integer)
+	 * com.google.code.magja.service.product.ProductRemoteService#delete(java
+	 * .lang .Integer)
 	 */
 	@Override
 	public void delete(Integer id) throws ServiceException {
@@ -498,33 +505,33 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
-	 * com.google.code.magja.service.product.ProductRemoteService#delete(java.lang
-	 * .String)
+	 * com.google.code.magja.service.product.ProductRemoteService#delete(java
+	 * .lang .String)
 	 */
 	@Override
 	public void delete(String sku) throws ServiceException {
 		delete(null, sku);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#deleteAll()
 	 */
 	@Override
 	public void deleteAll() throws ServiceException {
 		List<Product> products = listAllNoDep();
-		for(Product product : products) {
+		for (Product product : products) {
 			delete(product.getId());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#getInventoryInfo
 	 * (java.util.Set)
@@ -545,7 +552,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			resultList = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductStockList, param);
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -558,7 +566,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 								.get("qty")));
 					if (iv.get("is_in_stock") != null
 							|| !"".equals(iv.get("is_in_stock"))) {
-						if (iv.get("is_in_stock").toString().equals("0") || iv.get("is_in_stock").toString().equals("false"))
+						if (iv.get("is_in_stock").toString().equals("0")
+								|| iv.get("is_in_stock").toString()
+										.equals("false"))
 							product.setInStock(false);
 						else
 							product.setInStock(true);
@@ -570,7 +580,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#updateInventory
 	 * (com.google.code.magja.model.product.Product)
@@ -591,35 +601,34 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		properties.put("is_in_stock", (product.getInStock() ? "1" : "0"));
 
 		List<Object> param = new LinkedList<Object>();
-		param
-				.add((product.getId() != null ? product.getId() : product
-						.getSku()));
+		param.add((product.getId() != null ? product.getId() : product.getSku()));
 		param.add(properties);
 
 		try {
 			soapClient.call(ResourcePath.ProductStockUpdate, param);
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Get products without category
-	 *
+	 * 
 	 * @return List<Product>
 	 * @throws ServiceException
 	 */
 	public List<Product> getWithoutCategory() throws ServiceException {
-        List<Product> withoutCategory = new ArrayList<Product>();
-        
-        List<Product> products = listAllNoDep();
-        for (Product product : products) {
-           if(product.getCategories().isEmpty()) {
-        	   withoutCategory.add(product);
-           }
-        }
-        
-        return withoutCategory;
+		List<Product> withoutCategory = new ArrayList<Product>();
+
+		List<Product> products = listAllNoDep();
+		for (Product product : products) {
+			if (product.getCategories().isEmpty()) {
+				withoutCategory.add(product);
+			}
+		}
+
+		return withoutCategory;
 	}
 }
