@@ -468,7 +468,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		}
 
 		// inventory
-		if (product.getQty() != null && (new Double(0) < product.getQty()))
+		if (product.getQty() != null)
 			updateInventory(product);
 
 		// if have media, create it too
