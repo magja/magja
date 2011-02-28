@@ -305,6 +305,12 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 			} catch (AxisFault e) {
 				if (debug)
 					e.printStackTrace();
+				
+				if(e.getMessage().indexOf("available_sort_by") > 0) {
+					System.out.println("Broken Magento API? Run this SQL code first\n" +
+							"update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';");
+				}
+				
 				throw new ServiceException(e.getMessage());
 			}
 		} else {
@@ -377,7 +383,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 	 * anchor = true
 	 */
 	public Category getMinimalCategory(Integer parentId, String categoryName) {
-		return getRequiredCategory(parentId, categoryName, "", "", true, true);
+		return getRequiredCategory(parentId, categoryName, new String[] {}, "", true, true);
 	}
 
 	/**
@@ -385,7 +391,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 	 * Magento)
 	 */
 	public Category getRequiredCategory(Integer parentId, String categoryName,
-			String availableSortBy, String defaultSortBy, Boolean active,
+			String[] availableSortBy, String defaultSortBy, Boolean active,
 			Boolean anchor) {
 		Category parent = new Category(parentId);
 

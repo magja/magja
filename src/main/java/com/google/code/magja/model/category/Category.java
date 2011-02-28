@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
@@ -12,7 +13,7 @@ public class Category extends BaseMagentoModel {
 
 	private String name;
 
-	private String availableSortBy;
+	private String[] availableSortBy;
 
 	private String defaultSortBy;
 
@@ -76,7 +77,16 @@ public class Category extends BaseMagentoModel {
 			// means its a old category
 			newCategory.add(getId());
 		}
-		newCategory.add(getAllProperties());
+		Map<String, Object> allProperties = getAllProperties();
+		/*
+		 * FIXME: Workaround for Magento API available_sort_by bug
+		 * For more info see documentation from setAvailableSortBy()
+		 */
+		if(getAvailableSortBy().length == 0) {
+			allProperties.put("available_sort_by", "");
+		}
+		newCategory.add(allProperties);
+		
 		return newCategory;
 	}
 
@@ -98,15 +108,23 @@ public class Category extends BaseMagentoModel {
 	/**
 	 * @return the availableSortBy
 	 */
-	public String getAvailableSortBy() {
+	public String[] getAvailableSortBy() {
 		return availableSortBy;
 	}
 
 	/**
 	 * @param availableSortBy
 	 *            the availableSortBy to set
+	 *            
+	 * ATTENTION: Run this SQL query first to fix the available_sort_by bug (tested with Magento 1.4)
+	 * <code>update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';</code>
+	 * 
+	 * See:
+	 * http://www.magentocommerce.com/bug-tracking/issue?issue=6842
+	 * http://www.magentocommerce.com/boards/viewthread/48088/#t198697
+	 * 
 	 */
-	public void setAvailableSortBy(String availableSortBy) {
+	public void setAvailableSortBy(String[] availableSortBy) {
 		this.availableSortBy = availableSortBy;
 	}
 
