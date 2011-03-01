@@ -422,6 +422,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 				if (success) {
 					product.setId(id);
+					
+					// FIXME: compare new and existing media instead of delete and create
+					for (ProductMedia media : productMediaRemoteService.listByProduct(product)) {
+						productMediaRemoteService.delete(media);
+					}
 				} else {
 					throw new ServiceException("Error updating Product");
 				}
