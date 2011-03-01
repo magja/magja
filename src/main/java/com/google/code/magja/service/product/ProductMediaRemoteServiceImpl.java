@@ -141,8 +141,11 @@ public class ProductMediaRemoteServiceImpl extends
 		if (medias == null)
 			return null;
 
-		for (Map<String, Object> media : medias)
-			result.add(buildProductMedia(media));
+		for (Map<String, Object> media : medias) {
+			ProductMedia productMedia = buildProductMedia(media);
+			productMedia.setProduct(product);
+			result.add(productMedia);
+		}
 
 		return result;
 	}
