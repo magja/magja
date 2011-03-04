@@ -274,6 +274,21 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 		return categories;
 	}
+	
+	/**
+	 * search for equal child
+	 */
+	public Category searchChild(Category category, Category search) throws ServiceException {
+		if(category != null) {
+			for(Category child : category.getChildren()) {
+				if(child.getName().equals(search.getName())) {
+					return child;
+				}
+			}
+		}
+		
+		throw new ServiceException("Child not found");
+	}
 
 	/*
 	 * (non-Javadoc)

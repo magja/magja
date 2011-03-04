@@ -32,6 +32,8 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	public abstract List<Category> search(Category category, List<String> childrenNames) throws ServiceException;
 
 	public abstract int save(Category category) throws ServiceException;
+	
+	public abstract Category searchChild(Category category, Category search) throws ServiceException;
 
 	public abstract void delete(Integer id) throws ServiceException;
 
