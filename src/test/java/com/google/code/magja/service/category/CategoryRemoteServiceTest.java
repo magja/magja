@@ -156,12 +156,14 @@ public class CategoryRemoteServiceTest {
     public void testCreate() throws Exception {
         Category parent = service.getDefaultParent();
 
-    	List<String> categoryNames = new ArrayList<String>();
-    	categoryNames.add("Category 1");
-    	categoryNames.add("Sub Category 2");
-    	categoryNames.add("Under Sub Category 3");
-    	
-        service.create(parent.getId(), categoryNames);
+		List<Category> categories = new ArrayList<Category>();
+		categories.add(service.getMinimalCategory(0, "Category 1"));
+		categories.add(service.getRequiredCategory(0, "Sub Category 2", new String[] {"name", "price"}, "name", true, true));
+		categories.add(service.getRequiredCategory(0, "Under Sub Category 3", new String[] {"name"}, "name", true, true));
+		
+		Category category = service.linkCategory(categories);
+		
+		service.create(parent.getId(), category);
     }
     
     /**

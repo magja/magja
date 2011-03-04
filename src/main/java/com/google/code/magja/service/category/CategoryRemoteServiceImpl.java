@@ -464,27 +464,58 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 	 */
 	public List<Category> create(Integer parentId, List<String> categoryNames)
 			throws ServiceException {
-		if (parentId > 0 && categoryNames.size() > 0) {
+		
+		List<Category> categories = new ArrayList<Category>();
+		for(String categoryName : categoryNames) {
+			categories.add(getMinimalCategory(0, categoryName));
+		}
+		
+		return create(parentId, linkCategory(categories));
+	}
+	
+	/**
+	 * create category if not exists already
+	 */
+	public List<Category> create(Integer parentId, Category category) throws ServiceException {
+		if (parentId > 0 && category != null) {
 			List<Category> categories = new ArrayList<Category>();
+			
+			Category parent = getTree(parentId);
 
-			Category existingCategories = getTree(parentId);
-
-			List<String> categoryNamesCpy = new ArrayList<String>();
-			for (String categoryName : categoryNames) {
-				categoryNamesCpy.add(categoryName);
-
+			while(category != null) {
 				try {
-					categories = search(existingCategories, categoryNamesCpy);
-					parentId = categories.get(categories.size() - 1).getId();
-				} catch (Exception e) {
-					Category newCategory = getMinimalCategory(parentId,
-							categoryName);
-					parentId = save(newCategory);
-					categories.add(newCategory);
-				}
-			}
+					// search for category
+					Category child = searchChild(parent, category);
 
-			return categories;
+					// category exists already, set id from existing one
+					category.setId(child.getId());
+				
+					// set values for next loop
+					parent = child;
+					parentId = parent.getId();
+				} catch(Exception e) {
+					parent = null;
+				}
+				
+				// create / update category
+				// FIXME: update all categories, not only the last one
+				if(parent == null || category.getChildren().size() == 0) {
+					category.setParent(new Category(parentId));
+					parentId = save(category);
+				}
+
+				// set values for next loop
+				if(category.getChildren().size() > 0) {
+					// set values for next loop
+					// FIXME: set more then one child
+					category = category.getChildren().get(0);
+				} else {
+					return categories;
+				}
+				
+				// add category to return list
+				categories.add(category);
+			}
 		}
 
 		throw new ServiceException("Fail to create a new category");

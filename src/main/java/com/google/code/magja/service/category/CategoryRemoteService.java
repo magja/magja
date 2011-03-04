@@ -49,6 +49,8 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	
 	public abstract void assignProduct(Category category, Product product) throws ServiceException;
 	
+	public abstract List<Category> create(Integer parentId, Category category) throws ServiceException;
+	
 	public abstract Category getMinimalCategory(Integer parentId, String categoryName);
 
 	public abstract Category getRequiredCategory(Integer parentId, String categoryName, String[] availableSortBy, String defaultSortBy, Boolean active, Boolean anchor);
