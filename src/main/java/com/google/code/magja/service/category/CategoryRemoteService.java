@@ -38,6 +38,8 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 	public abstract void deleteAllChildren(Integer id) throws ServiceException;
 
 	public abstract Category getDefaultParent() throws ServiceException;
+	
+	public abstract Category linkCategory(List<Category> categories) throws ServiceException;
 
 	public abstract Category create(Integer parentId, String categoryName) throws ServiceException;
 

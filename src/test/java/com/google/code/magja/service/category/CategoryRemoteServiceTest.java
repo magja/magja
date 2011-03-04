@@ -163,4 +163,18 @@ public class CategoryRemoteServiceTest {
     	
         service.create(parent.getId(), categoryNames);
     }
+    
+    /**
+     * Test method for
+     * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#linkCategory(java.util.List)}
+     */
+    @Test
+    public void testLinkCategory() throws Exception {
+		List<Category> categories = new ArrayList<Category>();
+		categories.add(service.getMinimalCategory(0, "cat1"));
+		categories.add(service.getRequiredCategory(0, "cat2", new String[] {"name", "price"}, "name", true, true));
+		categories.add(service.getMinimalCategory(0, "cat3"));
+    	
+    	service.linkCategory(categories);
+    }
 }

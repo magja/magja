@@ -417,6 +417,32 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 		return categories.get(0);
 	}
+	
+	/**
+	 * create category from category list
+	 */
+	public Category linkCategory(List<Category> categories) throws ServiceException {
+		if (categories.size() > 0) {
+			for (int i = 0; i < categories.size(); i++) {
+				// set parent
+				if(i > 0) {
+					Category parent = categories.get(i - 1);
+					categories.get(i).setParent(parent);
+				}
+				
+				// set children
+				if(i < categories.size() - 1) {
+					List<Category> children = new ArrayList<Category>();
+					children.add(categories.get(i + 1));
+					categories.get(i).setChildren(children);
+				}
+			}
+	
+			return categories.get(0);
+		}
+		
+		throw new ServiceException("Category list is empty");
+	}
 
 	/**
 	 * create category tree from String array
