@@ -498,11 +498,8 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 				}
 				
 				// create / update category
-				// FIXME: update all categories, not only the last one
-				if(parent == null || category.getChildren().size() == 0) {
-					category.setParent(new Category(parentId));
-					parentId = save(category);
-				}
+				category.setParent(new Category(parentId));
+				parentId = save(category);
 
 				// set values for next loop
 				if(category.getChildren().size() > 0) {
