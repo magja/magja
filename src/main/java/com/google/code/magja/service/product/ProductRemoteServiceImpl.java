@@ -465,13 +465,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			}
 		}
 
-		// assign to one or more category
-		if (product.getCategories() != null) {
-			for (Category category : product.getCategories()) {
-				categoryRemoteService.assignProduct(category, product);
-			}
-		}
-
 		// inventory
 		if (product.getQty() != null)
 			updateInventory(product);
