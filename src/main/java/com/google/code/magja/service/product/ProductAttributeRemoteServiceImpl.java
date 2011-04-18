@@ -297,4 +297,21 @@ public class ProductAttributeRemoteServiceImpl extends
 
 		return false;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#getByCode(String)
+	 */
+	public ProductAttribute getByCode(String code) throws ServiceException {
+		List<ProductAttribute> productAttributeList = listAllAttributes();
+		for (ProductAttribute productAttribute : productAttributeList) {
+			if (productAttribute.getCode().equals(code)) {
+				return productAttribute;
+			}
+		}
+            
+		// not found
+		throw new ServiceException("Product attribute \"" + code + "\" not found");
+	}
 }
