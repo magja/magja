@@ -314,4 +314,21 @@ public class ProductAttributeRemoteServiceImpl extends
 		// not found
 		throw new ServiceException("Product attribute \"" + code + "\" not found");
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#addOption(String)
+	 */
+	public void addOption(ProductAttribute productAttribute, String option) throws ServiceException {
+        // create ProductAttribute option
+        Map<Integer, String> productAttributeOption = new HashMap<Integer, String>();
+        productAttributeOption.put(0, option);
+
+        // add options to ProductAttribute
+        productAttribute.setOptions(productAttributeOption);
+
+        // save ProductAttribute
+        saveOptions(productAttribute, productAttributeOption);
+	}
 }

@@ -102,4 +102,15 @@ public interface ProductAttributeRemoteService extends
 	 * @throws ServiceException
 	 */
 	public ProductAttribute getByCode(String code) throws ServiceException;
+	
+	/**
+	 * add option to Product Attribute
+	 * 
+	 * @param productAttribute
+	 *            a <code>ProductAttribute</code>
+	 * @param option
+	 *            a <code>String</code>
+	 * @throws ServiceException
+	 */
+	public void addOption(ProductAttribute productAttribute, String option) throws ServiceException;
 }
