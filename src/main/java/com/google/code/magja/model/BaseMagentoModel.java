@@ -169,7 +169,7 @@ public abstract class BaseMagentoModel implements Serializable {
 	public void set(String name, Object value) {
 		if (name != null && value != null) {
 			name = name.trim();
-			if(!name.equals("") && !value.toString().equals("")) {
+			if(!name.equals("")) {
 				/*
 				 * first, we search for a correspondent model attribute for this property
 				 * if exists, we invoke the setter for this property instead put it on the map
