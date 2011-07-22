@@ -121,6 +121,7 @@ public class MagentoSoapClient implements SoapClient {
         connectOptions = new Options();
         connectOptions.setTo(new EndpointReference(config.getRemoteHost()));
         connectOptions.setTransportInProtocol(Constants.TRANSPORT_HTTP);
+        connectOptions.setTimeOutInMilliSeconds(60000);
 
         // to use the same tcp connection for multiple calls
         // workaround:
