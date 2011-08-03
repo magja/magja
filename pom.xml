@@ -18,6 +18,7 @@
 		<url>http://magja.googlecode.com/svn/trunk</url>
 		<connection>scm:svn:http://magja.googlecode.com/svn/trunk</connection>
 		<developerConnection>scm:svn:https://magja.googlecode.com/svn/trunk</developerConnection>
+		<tag>scm:svn:https://magja.googlecode.com/svn/tags</tag>
 	</scm>
 
 	<organization>
