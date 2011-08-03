@@ -5,7 +5,7 @@
 	<artifactId>magja</artifactId>
 	<packaging>jar</packaging>
 	<version>0.0.2-SNAPSHOT</version>
-	<name>magja-trunk</name>
+	<name>magja</name>
 	<description>
 		Magja is a java connector for access the Magento API (http://www.magentocommerce.com/support/magento_core_api),
 		with that you will be able to manipulate the magento products (images include), categories, customers, orders,
