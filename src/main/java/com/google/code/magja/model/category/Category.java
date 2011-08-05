@@ -33,6 +33,8 @@ public class Category extends BaseMagentoModel {
 
 	private Boolean anchor = false;
 
+	private Boolean includeInMenu = false;
+
 	private Category parent;
 
 	private List<Category> children;
@@ -79,14 +81,14 @@ public class Category extends BaseMagentoModel {
 		}
 		Map<String, Object> allProperties = getAllProperties();
 		/*
-		 * FIXME: Workaround for Magento API available_sort_by bug
-		 * For more info see documentation from setAvailableSortBy()
+		 * FIXME: Workaround for Magento API available_sort_by bug For more info
+		 * see documentation from setAvailableSortBy()
 		 */
-		if(getAvailableSortBy().length == 0) {
+		if (getAvailableSortBy().length == 0) {
 			allProperties.put("available_sort_by", "");
 		}
 		newCategory.add(allProperties);
-		
+
 		return newCategory;
 	}
 
@@ -115,17 +117,27 @@ public class Category extends BaseMagentoModel {
 	/**
 	 * @param availableSortBy
 	 *            the availableSortBy to set
-	 *            
-	 * ATTENTION: Run this SQL query first to fix the available_sort_by bug (tested with Magento 1.4)
-	 * <code>update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';</code>
 	 * 
-	 * See:
-	 * http://www.magentocommerce.com/bug-tracking/issue?issue=6842
-	 * http://www.magentocommerce.com/boards/viewthread/48088/#t198697
+	 *            ATTENTION: Run this SQL query first to fix the
+	 *            available_sort_by bug (tested with Magento 1.4)
+	 *            <code>update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';</code>
+	 * 
+	 *            See:
+	 *            http://www.magentocommerce.com/bug-tracking/issue?issue=6842
+	 *            http
+	 *            ://www.magentocommerce.com/boards/viewthread/48088/#t198697
 	 * 
 	 */
 	public void setAvailableSortBy(String[] availableSortBy) {
 		this.availableSortBy = availableSortBy;
+	}
+
+	/**
+	 * @param availableSortBy
+	 *            in string mode, because magento doens't return in a array mode
+	 */
+	public void setAvailableSortBy(String availableSortBy) {
+		this.availableSortBy = new String[] { availableSortBy };
 	}
 
 	/**
@@ -264,6 +276,21 @@ public class Category extends BaseMagentoModel {
 	}
 
 	/**
+	 * @return the includeInMenu
+	 */
+	public Boolean getIncludeInMenu() {
+		return includeInMenu;
+	}
+
+	/**
+	 * @param includeInMenu
+	 *            the includeInMenu to set
+	 */
+	public void setIncludeInMenu(Boolean includeInMenu) {
+		this.includeInMenu = includeInMenu;
+	}
+
+	/**
 	 * @return the parent
 	 */
 	public Category getParent() {
@@ -282,7 +309,7 @@ public class Category extends BaseMagentoModel {
 	 * @return the children
 	 */
 	public List<Category> getChildren() {
-		if(children != null) {
+		if (children != null) {
 			return children;
 		} else {
 			return new ArrayList<Category>();
@@ -321,6 +348,8 @@ public class Category extends BaseMagentoModel {
 		int result = super.hashCode();
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((anchor == null) ? 0 : anchor.hashCode());
+		result = prime * result
+				+ ((includeInMenu == null) ? 0 : includeInMenu.hashCode());
 		result = prime * result
 				+ ((availableSortBy == null) ? 0 : availableSortBy.hashCode());
 		result = prime * result
@@ -366,6 +395,11 @@ public class Category extends BaseMagentoModel {
 			if (other.anchor != null)
 				return false;
 		} else if (!anchor.equals(other.anchor))
+			return false;
+		if (includeInMenu == null) {
+			if (other.includeInMenu != null)
+				return false;
+		} else if (!includeInMenu.equals(other.includeInMenu))
 			return false;
 		if (availableSortBy == null) {
 			if (other.availableSortBy != null)
@@ -433,8 +467,8 @@ public class Category extends BaseMagentoModel {
 	@Override
 	public String toString() {
 		return "Category [active=" + active + ", anchor=" + anchor
-				+ ", availableSortBy=" + availableSortBy + ", children="
-				+ children + ", defaultSortBy=" + defaultSortBy
+				+ ", includeInMenu=" + includeInMenu + ", availableSortBy="
+				+ availableSortBy + ", defaultSortBy=" + defaultSortBy
 				+ ", description=" + description + ", level=" + level
 				+ ", metaDescription=" + metaDescription + ", metaKeywords="
 				+ metaKeywords + ", metaTitle=" + metaTitle + ", name=" + name
