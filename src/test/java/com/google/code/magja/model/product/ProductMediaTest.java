@@ -40,11 +40,11 @@ public class ProductMediaTest {
 	    byte[] data = MagjaFileUtils.getBytesFromFileURL(url);
 
 	    //String filename = u.getFile().substring(url.lastIndexOf('/') + 1);
-	    String filename = "/home/andre/DEV/temp/image.jpg";
-	    FileOutputStream out = new FileOutputStream(filename);
-	    out.write(data);
-	    out.flush();
-	    out.close();
+	    //String filename = "/home/andre/DEV/temp/image.jpg";
+	    //FileOutputStream out = new FileOutputStream(filename);
+	    //out.write(data);
+	    //out.flush();
+	    //out.close();
 
 	}
 

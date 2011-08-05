@@ -94,13 +94,15 @@ public class CategoryRemoteServiceTest {
 
 		if (category != null) {
 			if(category.getChildren() != null) {
-				List<String> childrenNames = new ArrayList<String>();
-				childrenNames.add(category.getChildren().get(0).getName());
-	
-				List<Category> categories = service.search(category, childrenNames);
-	
-				for (Category cat : categories) {
-					System.out.println(cat.getId() + ":" + cat.getName());
+				if(!category.getChildren().isEmpty()) {
+					List<String> childrenNames = new ArrayList<String>();
+					childrenNames.add(category.getChildren().get(0).getName());
+		
+					List<Category> categories = service.search(category, childrenNames);
+		
+					for (Category cat : categories) {
+						System.out.println(cat.getId() + ":" + cat.getName());
+					}
 				}
 			}
 		}

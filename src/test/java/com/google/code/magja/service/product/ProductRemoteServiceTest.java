@@ -77,12 +77,12 @@ public class ProductRemoteServiceTest {
 		 * here I created a attribute set named "Teste" with id "26" on the magento admin
 		 * change the name and id before run this test
 		 */
-		ProductAttributeSet set = new ProductAttributeSet();
-		set.setId(26);
-		set.setName("Teste");
-		product.setAttributeSet(set);
+		//ProductAttributeSet set = new ProductAttributeSet();
+		//set.setId(26);
+		//set.setName("Teste");
+		//product.setAttributeSet(set);
 
-		service.save(product);
+		//service.save(product);
 
 		// the problem is: how to associate simple products to that configurable product?
 	}
