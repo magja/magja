@@ -4,7 +4,6 @@
 package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,11 +17,9 @@ import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.media.Media;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductAttributeSet;
-import com.google.code.magja.model.product.ProductLink;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.ProductTypeEnum;
-import com.google.code.magja.model.product.ProductLink.LinkType;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;
@@ -77,12 +74,12 @@ public class ProductRemoteServiceTest {
 		 * here I created a attribute set named "Teste" with id "26" on the magento admin
 		 * change the name and id before run this test
 		 */
-		//ProductAttributeSet set = new ProductAttributeSet();
-		//set.setId(26);
-		//set.setName("Teste");
-		//product.setAttributeSet(set);
+		ProductAttributeSet set = new ProductAttributeSet();
+		set.setId(9);
+		set.setName("Vestuario");
+		product.setAttributeSet(set);
 
-		//service.save(product);
+		service.save(product);
 
 		// the problem is: how to associate simple products to that configurable product?
 	}
