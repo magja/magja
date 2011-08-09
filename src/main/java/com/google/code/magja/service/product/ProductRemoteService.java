@@ -94,6 +94,16 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract void save(Product product) throws ServiceException;
+	
+	/**
+	 * Save a product to the Magento, if the id attribute is null, then will
+	 * create a new product, otherwise will update the product with that id
+	 *
+	 * @param product
+	 * @param storeView
+	 * @throws ServiceException
+	 */
+	public abstract void save(Product product, String storeView) throws ServiceException;
 
 	/**
 	 * Remove a product from magento with the specified id

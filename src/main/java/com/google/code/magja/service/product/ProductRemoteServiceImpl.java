@@ -397,7 +397,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 */
 	@Override
 	public void save(Product product) throws ServiceException {
-
+		save(product, "");
+	}
+	
+	public void save(Product product, String storeView) throws ServiceException {
 		int id = 0;
 		try {
 			id = getBySku(product.getSku(), false).getId();
@@ -415,7 +418,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				List<Object> newProduct = new LinkedList<Object>();
 				newProduct.add(product.getSku());
 				newProduct.add(product.getAllProperties());
-				// newProduct.add(product.getStoreView()); // TODO: not implemented yet
+				if(!storeView.isEmpty()) {
+					newProduct.add(storeView);
+				}
 
 				success = (Boolean) soapClient.call(ResourcePath.ProductUpdate,
 						newProduct);
@@ -423,9 +428,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				if (success) {
 					product.setId(id);
 					
-					// FIXME: compare new and existing media instead of delete and create
-					for (ProductMedia media : productMediaRemoteService.listByProduct(product)) {
-						productMediaRemoteService.delete(media);
+					if(storeView.isEmpty()) {
+						// FIXME: compare new and existing media instead of delete and create
+						for (ProductMedia media : productMediaRemoteService.listByProduct(product)) {
+							productMediaRemoteService.delete(media);
+						}
 					}
 				} else {
 					throw new ServiceException("Error updating Product");
