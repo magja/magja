@@ -46,19 +46,19 @@ public class ProductAttributeRemoteServiceTest {
 	 */
 	@Test
 	public void testDelete() {
-		//try {
+		try {
 
 			// first, create a attribute to be deleted
 			ProductAttribute pa = createTextAttributeSimple();
-			//service.save(pa);
-			//assertTrue(pa.getId() != null);
+			service.save(pa);
+			assertTrue(pa.getId() != null);
 
 			// then, delete the pa
-			//service.delete(pa.getCode());
+			service.delete(pa.getCode());
 
-		//} catch (ServiceException e) {
-			//fail(e.getMessage());
-		//}
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**
@@ -115,23 +115,23 @@ public class ProductAttributeRemoteServiceTest {
 	@Test
 	public void testSave() {
 
-		//try {
+		try {
 			ProductAttribute pa1 = createTextAttributeSimple();
-			//service.save(pa1);
+			service.save(pa1);
 
-			//assertTrue(pa1.getId() != null);
+			assertTrue(pa1.getId() != null);
 
 			ProductAttribute pa2 = createSelectWithOptionsAndApplyToSpecified();
-			//service.save(pa2);
+			service.save(pa2);
 
-			//assertTrue(pa2.getId() != null);
+			assertTrue(pa2.getId() != null);
 
 			// comment if you don't want to delete the created pa's
-			//service.delete(pa1.getCode()); service.delete(pa2.getCode());
+			service.delete(pa1.getCode()); service.delete(pa2.getCode());
 
-		//} catch (ServiceException e) {
-			//fail(e.getMessage());
-		//}
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
 
 	}
 
