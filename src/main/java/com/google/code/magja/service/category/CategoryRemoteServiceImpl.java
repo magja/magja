@@ -513,6 +513,9 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 				category.setParent(new Category(parentId));
 				parentId = save(category);
 
+				// add category to return list
+				categories.add(category);
+				
 				// set values for next loop
 				if(category.getChildren().size() > 0) {
 					// set values for next loop
@@ -521,9 +524,6 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 				} else {
 					return categories;
 				}
-				
-				// add category to return list
-				categories.add(category);
 			}
 		}
 
