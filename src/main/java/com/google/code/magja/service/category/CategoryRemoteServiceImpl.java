@@ -300,9 +300,15 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 	@SuppressWarnings("unchecked")
 	@Override
 	public int save(Category category) throws ServiceException {
-		List<Object> newCategory = (LinkedList<Object>) category
-				.serializeToApi();
+		return save(category, "");
+	}
+	
+	public int save(Category category, String storeView) throws ServiceException {
 		if (category.getId() == null) {
+			List<Object> newCategory = new LinkedList<Object>();
+			newCategory.add(category.getParent().getId());
+			newCategory.add(category.getAllProperties());
+			
 			// means its a new category
 			try {
 				Integer id = Integer.parseInt((String) soapClient.call(
@@ -330,6 +336,12 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 			}
 		} else {
 			// update existing category
+			List<Object> newCategory = new LinkedList<Object>();
+			newCategory.add(category.getId());
+			newCategory.add(category.getAllProperties());
+			if(!storeView.isEmpty()) {
+				newCategory.add(storeView);
+			}
 			try {
 				Boolean sucessed = (Boolean) soapClient.call(
 						ResourcePath.CategoryUpdate, newCategory);

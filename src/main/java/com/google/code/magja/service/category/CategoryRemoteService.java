@@ -33,6 +33,8 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 
 	public abstract int save(Category category) throws ServiceException;
 	
+	public abstract int save(Category category, String storeView) throws ServiceException;
+	
 	public abstract Category searchChild(Category category, Category search) throws ServiceException;
 
 	public abstract void delete(Integer id) throws ServiceException;
