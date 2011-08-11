@@ -39,6 +39,7 @@ public enum ResourcePath {
 	ProductAttributeAddOptions("catalog_product_attribute.addoptions"),
 	ProductAttributeMediaList("catalog_product_attribute_media.list"),
 	ProductAttributeMediaInfo("catalog_product_attribute_media.info"),
+	ProductAttributeMediaMd5("catalog_product_attribute_media.md5"),
 	ProductAttributeMediaTypes("catalog_product_attribute_media.types"),
 	ProductAttributeMediaCreate("catalog_product_attribute_media.create"),
 	ProductAttributeMediaUpdate("catalog_product_attribute_media.update"),

@@ -109,6 +109,22 @@ public class ProductMediaRemoteServiceImpl extends
 
 		return buildProductMedia(media);
 	}
+	
+	public String getMd5(String file) throws ServiceException {
+		List<Object> params = new LinkedList<Object>();
+		params.add(file);
+
+		String media = null;
+		try {
+			media = (String) soapClient.call(
+					ResourcePath.ProductAttributeMediaMd5, params);
+		} catch (AxisFault e) {
+			if(debug) e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
+		return media;
+	}
 
 	/*
 	 * (non-Javadoc)

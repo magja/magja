@@ -38,6 +38,18 @@ public interface ProductMediaRemoteService extends GeneralService<ProductMedia> 
 	 */
 	public abstract ProductMedia getByProductAndFile(Product product,
 			String file) throws ServiceException;
+	
+	/**
+	 * Get MD5 for a file
+	 * This is not a default Magento function! You have to extend your Magento API.
+	 * See: http://code.google.com/p/magja/downloads/detail?name=media.md5.api.xml.diff
+	 * and http://code.google.com/p/magja/downloads/detail?name=media.md5.api.xml.diff
+	 * 
+	 * @param file
+	 * @return MD5 sum
+	 * @throws ServiceException
+	 */
+	public abstract String getMd5(String file) throws ServiceException;
 
 	/**
 	 * Save a new ProductMedia to the database, the object must have the product
