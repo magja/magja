@@ -203,5 +203,26 @@ public class ProductMediaRemoteServiceTest {
 			fail(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.product.ProductMediaRemoteServiceImpl#getMd5(java.lang.String)}.
+	 */
+	@Test
+	public void testGetMd5() {
+		try {
+			testSave();
+			List<ProductMedia> medias = service.listByProduct(product);
+			
+			for (ProductMedia media : medias) {
+				String md5 = service.getMd5(media.getFile());
+				assertTrue("md5 is null!", md5 != null);
+			}
+			
+
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
 
 }
