@@ -110,6 +110,13 @@ public class ProductMediaRemoteServiceImpl extends
 		return buildProductMedia(media);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seecom.google.code.magja.service.product.ProductMediaRemoteService#
+	 * getMd5(java.lang.String)
+	 */
+	@Override
 	public String getMd5(String file) throws ServiceException {
 		List<Object> params = new LinkedList<Object>();
 		params.add(file);
