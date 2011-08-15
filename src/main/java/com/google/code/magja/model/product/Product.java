@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.code.magja.model.BaseMagentoModel;
@@ -58,6 +59,14 @@ public class Product extends BaseMagentoModel {
 	private String metaDescription;
 
 	private Boolean googleCheckout;
+
+	// for use with CONFIGURABLE products
+	
+	private Map<String, Map<String, Object>> configurableProductsData;
+	
+	private List<ConfigurableProductData> configurableSubProducts;
+	
+	private List<ConfigurableAttributeData> configurableAttributesData;
 
 	/*
 	 * (non-Javadoc)
@@ -248,12 +257,12 @@ public class Product extends BaseMagentoModel {
 	 */
 	public void setWebsites(Integer[] websites) {
 		// FIXME: this.websites = websites;
-		
+
 		String[] array = new String[websites.length];
-		for(int i = 0; i < websites.length; i++) {
+		for (int i = 0; i < websites.length; i++) {
 			array[i] = websites[i] + "";
 		}
-        set("websites", array);
+		set("websites", array);
 	}
 
 	/**
@@ -269,12 +278,12 @@ public class Product extends BaseMagentoModel {
 	 */
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
-		
+
 		String[] array = new String[categories.size()];
-		for(int i = 0; i < categories.size(); i++) {
+		for (int i = 0; i < categories.size(); i++) {
 			array[i] = categories.get(i).getId() + "";
 		}
-        set("categories", array);
+		set("categories", array);
 	}
 
 	/**
@@ -409,6 +418,51 @@ public class Product extends BaseMagentoModel {
 	 */
 	public void setGoogleCheckout(Boolean googleCheckout) {
 		this.googleCheckout = googleCheckout;
+	}
+
+	/**
+	 * @return the configurableProductsData
+	 */
+	public Map<String, Map<String, Object>> getConfigurableProductsData() {
+		return configurableProductsData;
+	}
+
+	/**
+	 * @param configurableProductsData the configurableProductsData to set
+	 */
+	public void setConfigurableProductsData(
+			Map<String, Map<String, Object>> configurableProductsData) {
+		this.configurableProductsData = configurableProductsData;
+	}
+
+	/**
+	 * @return the configurableSubProducts
+	 */
+	public List<ConfigurableProductData> getConfigurableSubProducts() {
+		return configurableSubProducts;
+	}
+
+	/**
+	 * @param configurableSubProducts the configurableSubProducts to set
+	 */
+	public void setConfigurableSubProducts(
+			List<ConfigurableProductData> configurableSubProducts) {
+		this.configurableSubProducts = configurableSubProducts;
+	}
+
+	/**
+	 * @return the configurableAttributesData
+	 */
+	public List<ConfigurableAttributeData> getConfigurableAttributesData() {
+		return configurableAttributesData;
+	}
+
+	/**
+	 * @param configurableAttributesData the configurableAttributesData to set
+	 */
+	public void setConfigurableAttributesData(
+			List<ConfigurableAttributeData> configurableAttributesData) {
+		this.configurableAttributesData = configurableAttributesData;
 	}
 
 	/*

@@ -4,9 +4,11 @@
 package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +17,10 @@ import org.junit.Test;
 
 import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.media.Media;
+import com.google.code.magja.model.product.ConfigurableAttributeData;
+import com.google.code.magja.model.product.ConfigurableData;
+import com.google.code.magja.model.product.ConfigurableDataException;
+import com.google.code.magja.model.product.ConfigurableProductData;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductMedia;
@@ -50,40 +56,126 @@ public class ProductRemoteServiceTest {
 	 * Test method for save a configurable product
 	 * This test its just for exemplify the use of Product Configurable
 	 * Before run this test, create some Attribute Set in Magento admin and change
-	 * the name and id bellow of that to work
+	 * the name and id bellow of that to work.
+	 * this test use two configurable attributes for instance, size and color
 	 */
 	@Test
 	public void testSaveConfigurableProduct() throws ServiceException {
-
+		
+		ProductAttributeSet set = new ProductAttributeSet();
+		set.setId(9);
+		set.setName("Vestuario");
+		
 		Product product = new Product();
+		product.setAttributeSet(set);
 		product.setSku(MagjaStringUtils.randomString(3, 10).toUpperCase());
 		product.setName(MagjaStringUtils.randomString(3, 5) + " Configurable Prod");
 		product.setShortDescription("Short description");
 		product.setDescription("Some description for that configurable product");
-		product.setPrice(new Double(111.23));
-		product.setCost(new Double(222.22));
+		product.setPrice(new Double(222.23));
+		product.setCost(new Double(111.22));
 		product.setEnabled(true);
 		product.setWeight(new Double(0.100));
 		Integer[] websites = { 1 };
 		product.setWebsites(websites);
 
-		// here we set the product type as a configurable
+		// set the product type as a configurable
 		product.setType(ProductTypeEnum.CONFIGURABLE.getProductType());
-
+		
 		/*
-		 * here I created a attribute set named "Teste" with id "26" on the magento admin
-		 * change the name and id before run this test
+		 * creates the Configurable Attributes Data, that are the attributes wich
+		 * are configurable for this product
 		 */
-		ProductAttributeSet set = new ProductAttributeSet();
-		set.setId(9);
-		set.setName("Vestuario");
-		product.setAttributeSet(set);
-
+		product.setConfigurableAttributesData(new LinkedList<ConfigurableAttributeData>());
+		
+		// the attribute SIZE
+		ConfigurableAttributeData cnfgAttributeSize = new ConfigurableAttributeData();
+		cnfgAttributeSize.setAttributeId(126);
+		cnfgAttributeSize.setAttributeCode("size");
+		
+		// the attribute COLOR
+		ConfigurableAttributeData cnfgAttributeColor = new ConfigurableAttributeData();
+		cnfgAttributeColor.setAttributeId(83);
+		cnfgAttributeColor.setAttributeCode("color");
+		
+		// add the conf attr data to the product
+		product.getConfigurableAttributesData().add(cnfgAttributeSize);
+		product.getConfigurableAttributesData().add(cnfgAttributeColor);
+		
+		
+		// reset the configurable product data from product
+		product.setConfigurableSubProducts(new LinkedList<ConfigurableProductData>());
+		
+		/*
+		 * creates the variations of the attributes, for each configurable attribute
+		 * it can add a new product for this variation, remember you have to 
+		 * creates the Configurable Attributes Data first (above code)
+		 */
+		ConfigurableProductData prdData1 = new ConfigurableProductData();
+		
+		ConfigurableData confgDataSizeOne = new ConfigurableData();
+		confgDataSizeOne.setAttributeId(126);
+		confgDataSizeOne.setLabel("P");
+		confgDataSizeOne.setValueIndex(6);
+		
+		ConfigurableData confgDataColorOne = new ConfigurableData();
+		confgDataColorOne.setAttributeId(83);
+		confgDataColorOne.setLabel("blue");
+		confgDataColorOne.setValueIndex(15);
+		
+		prdData1.getData().add(confgDataSizeOne);
+		prdData1.getData().add(confgDataColorOne);
+		
+		try {
+			prdData1.configurateProduct(product, new Double(10), new Double(100));
+		} catch (ConfigurableDataException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		
+		ConfigurableProductData prdData2 = new ConfigurableProductData();
+		
+		ConfigurableData confgDataSizeTwo = new ConfigurableData();
+		confgDataSizeTwo.setAttributeId(126);
+		confgDataSizeTwo.setLabel("M");
+		confgDataSizeTwo.setValueIndex(7);
+		
+		ConfigurableData confgDataColorTwo = new ConfigurableData();
+		confgDataColorTwo.setAttributeId(83);
+		confgDataColorTwo.setLabel("red");
+		confgDataColorTwo.setValueIndex(14);
+		
+		prdData2.getData().add(confgDataSizeTwo);
+		prdData2.getData().add(confgDataColorTwo);
+		
+		try {
+			prdData2.configurateProduct(product, new Double(15), new Double(130));
+		} catch (ConfigurableDataException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		
+		// don't forget to add the ConfigurableProductData as a subproduct to the main product
+		product.getConfigurableSubProducts().add(prdData1);
+		product.getConfigurableSubProducts().add(prdData2);
+		
+		// finally, save the product
 		service.save(product);
-
-		// the problem is: how to associate simple products to that configurable product?
+		
+		assertTrue(product.getId() != null);
+		
+		productId = product.getId();
+		
+		// way to get the subproducts from a super products:
+		// product.get("subproduct_ids");
 	}
 
+	@Test
+	public void testGetByIdWithSubProducts() throws ServiceException {
+		this.testSaveConfigurableProduct();
+		Product product = service.getById(productId);
+		assertTrue(product.get("subproduct_ids") != null);
+	}
 
 	/**
 	 * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#save(com.google.code.magja.model.product.Product)}.
@@ -195,12 +287,12 @@ public class ProductRemoteServiceTest {
 
 		service.updateInventory(product);
 	}
-
+	
 	/**
-	 * Support method for create a simple product
+	 * Support method for create a simple product without image
 	 * @return simple product
 	 */
-	public static Product generateProduct() {
+	public static Product generateProductWithoutImage() {
 		Product product = new Product();
 		product.setSku(MagjaStringUtils.randomString(3, 10).toUpperCase());
 		product.setName(MagjaStringUtils.randomString(3, 5) + " Product Test");
@@ -226,6 +318,18 @@ public class ProductRemoteServiceTest {
 		categorys.add(new Category(2));
 		product.setCategories(categorys);
 
+		//product.set("options_container", "container2");
+
+		return product;
+	}
+
+	/**
+	 * Support method for create a simple product
+	 * @return simple product
+	 */
+	public static Product generateProduct() {
+		Product product = generateProductWithoutImage();
+		
 		// add media
 		try {
 			byte[] data = MagjaFileUtils.getBytesFromFileURL("http://code.google.com/images/code_sm.png");
@@ -250,8 +354,6 @@ public class ProductRemoteServiceTest {
 		} catch(Exception e) {
 			System.err.println("fail to add media to product");
 		}
-
-		product.set("options_container", "container2");
 
 		return product;
 	}

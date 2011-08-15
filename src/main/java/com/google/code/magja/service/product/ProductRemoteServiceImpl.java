@@ -15,6 +15,8 @@ import org.apache.axis2.AxisFault;
 
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.category.Category;
+import com.google.code.magja.model.product.ConfigurableAttributeData;
+import com.google.code.magja.model.product.ConfigurableProductData;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductLink;
@@ -322,8 +324,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	public Product getBySku(String sku) throws ServiceException {
 		return getBySku(sku, true);
 	}
-	
-	public Product getBySku(String sku, boolean dependencies) throws ServiceException {
+
+	public Product getBySku(String sku, boolean dependencies)
+			throws ServiceException {
 
 		Map<String, Object> mpp;
 		try {
@@ -399,7 +402,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	public void save(Product product) throws ServiceException {
 		save(product, "");
 	}
-	
+
 	public void save(Product product, String storeView) throws ServiceException {
 		int id = 0;
 		try {
@@ -418,7 +421,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 				List<Object> newProduct = new LinkedList<Object>();
 				newProduct.add(product.getSku());
 				newProduct.add(product.getAllProperties());
-				if(!storeView.isEmpty()) {
+				if (!storeView.isEmpty()) {
 					newProduct.add(storeView);
 				}
 
@@ -427,10 +430,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 				if (success) {
 					product.setId(id);
-					
-					if(storeView.isEmpty()) {
-						// FIXME: compare new and existing media instead of delete and create
-						for (ProductMedia media : productMediaRemoteService.listByProduct(product)) {
+
+					if (storeView.isEmpty()) {
+						// FIXME: compare new and existing media instead of
+						// delete and create
+						for (ProductMedia media : productMediaRemoteService
+								.listByProduct(product)) {
 							productMediaRemoteService.delete(media);
 						}
 					}
@@ -449,6 +454,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			}
 		} else {
 			// means its a new product
+
+			// if is a configurable product, call the proper handle
+			if (product.getType().equals(ProductTypeEnum.CONFIGURABLE.getProductType()))
+				handleConfigurableForNewProducts(product);
+
 			try {
 
 				List<Object> newProduct = (LinkedList<Object>) product
@@ -496,6 +506,49 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 							&& (link.getId() != null || link.getSku() != null))
 						productLinkRemoteService.assign(product, link);
 				}
+			}
+		}
+	}
+
+	/*
+	 * Handle configurable products just for insert new products
+	 */
+	private void handleConfigurableForNewProducts(Product product)
+			throws ServiceException {
+
+		// if isn't a configurable product, stop the execution
+		if (!product.getType().equals(ProductTypeEnum.CONFIGURABLE.getProductType()))
+			return;
+		
+		if(product.getConfigurableAttributesData() != null) {
+			Map<String, Object> confAttrDataMap = new HashMap<String, Object>();
+			
+			Integer i = 0;
+			for (ConfigurableAttributeData configAttr : product.getConfigurableAttributesData()) {
+				confAttrDataMap.put(i.toString(), configAttr.serializeToApi());
+				i++;
+			}
+			
+			product.set("configurable_attributes_data", confAttrDataMap);
+		}
+
+		if (product.getConfigurableSubProducts() != null) {
+
+			if (product.getConfigurableProductsData() == null)
+				product.setConfigurableProductsData(new HashMap<String, Map<String, Object>>());
+
+			for (ConfigurableProductData prdData : product
+					.getConfigurableSubProducts()) {
+
+				Product subprd = prdData.getProduct();
+
+				// only save new simple products
+				if (subprd.getId() == null
+						&& subprd.getType().equals(ProductTypeEnum.SIMPLE.getProductType()))
+					this.save(subprd);
+
+				product.getConfigurableProductsData().put(subprd.getId().toString(),
+						prdData.serializeToApi());
 			}
 		}
 	}

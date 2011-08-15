@@ -33,6 +33,7 @@ public enum ResourcePath {
 	ProductTypeList("catalog_product_type.list"),
 	ProductAttributeSetList("catalog_product_attribute_set.list"),
 	ProductAttributeList("catalog_product_attribute.list"),
+	ProductAttributeInfo("catalog_product_attribute.info"),
 	ProductAttributeCreate("catalog_product_attribute.create"),
 	ProductAttributeDelete("catalog_product_attribute.delete"),
 	ProductAttributeOptions("catalog_product_attribute.options"),

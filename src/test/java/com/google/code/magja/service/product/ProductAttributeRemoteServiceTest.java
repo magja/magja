@@ -132,7 +132,20 @@ public class ProductAttributeRemoteServiceTest {
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
-
+	}
+	
+	/**
+	 * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#getByCode(java.lang.String)}.
+	 */
+	@Test
+	public void testGetByCode() {
+		try {
+			ProductAttribute pa = service.getByCode("description");
+			assertTrue(pa.getId() != null);
+			
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	private ProductAttribute createTextAttributeSimple() {

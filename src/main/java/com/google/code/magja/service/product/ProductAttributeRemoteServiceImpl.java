@@ -25,6 +25,22 @@ public class ProductAttributeRemoteServiceImpl extends
 		GeneralServiceImpl<ProductAttribute> implements
 		ProductAttributeRemoteService {
 
+	/**
+	 * Create a object product attribute from the attributes map
+	 * 
+	 * @param attributes
+	 * @return ProductAttribute
+	 */
+	private ProductAttribute buildProductAttribute(
+			Map<String, Object> attributes) {
+		ProductAttribute pa = new ProductAttribute();
+
+		for (Map.Entry<String, Object> attr : attributes.entrySet())
+			pa.set(attr.getKey(), attr.getValue());
+
+		return pa;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -40,7 +56,8 @@ public class ProductAttributeRemoteServiceImpl extends
 					attributeName))
 				throw new ServiceException("Error deleting product attribute.");
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -68,7 +85,8 @@ public class ProductAttributeRemoteServiceImpl extends
 							.getId() != null ? productAttribute.getId()
 							: productAttribute.getCode()));
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -103,7 +121,8 @@ public class ProductAttributeRemoteServiceImpl extends
 			attSetList = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductAttributeSetList, "");
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -138,7 +157,8 @@ public class ProductAttributeRemoteServiceImpl extends
 			prd_attributes = (List<Map<String, Object>>) soapClient.call(
 					ResourcePath.ProductAttributeList, set.getId());
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -179,7 +199,8 @@ public class ProductAttributeRemoteServiceImpl extends
 				}
 			}
 		} catch (ServiceException e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -195,17 +216,20 @@ public class ProductAttributeRemoteServiceImpl extends
 	 */
 	@Override
 	public void save(ProductAttribute productAttribute) throws ServiceException {
-		if (productAttribute.getId() != null || exists(productAttribute.getCode()))
+		if (productAttribute.getId() != null
+				|| exists(productAttribute.getCode()))
 			throw new ServiceException(
-					productAttribute.getCode() + " exists already. Not allowed to update product attributes yet");
+					productAttribute.getCode()
+							+ " exists already. Not allowed to update product attributes yet");
 
 		Integer id = null;
 		try {
 			id = Integer.parseInt((String) soapClient.call(
-					ResourcePath.ProductAttributeCreate, productAttribute
-							.serializeToApi()));
+					ResourcePath.ProductAttributeCreate,
+					productAttribute.serializeToApi()));
 		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -235,7 +259,8 @@ public class ProductAttributeRemoteServiceImpl extends
 								"The product attribute was saved, but had error "
 										+ "on save the options for that");
 				} catch (AxisFault e) {
-					if(debug) e.printStackTrace();
+					if (debug)
+						e.printStackTrace();
 					throw new ServiceException(e.getMessage());
 				}
 			}
@@ -273,7 +298,8 @@ public class ProductAttributeRemoteServiceImpl extends
 								"The product attribute was saved, but had error "
 										+ "on save the options for that");
 				} catch (AxisFault e) {
-					if(debug) e.printStackTrace();
+					if (debug)
+						e.printStackTrace();
 					throw new ServiceException(e.getMessage());
 				}
 			}
@@ -297,38 +323,48 @@ public class ProductAttributeRemoteServiceImpl extends
 
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#getByCode(String)
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * getByCode(String)
 	 */
 	public ProductAttribute getByCode(String code) throws ServiceException {
-		List<ProductAttribute> productAttributeList = listAllAttributes();
-		for (ProductAttribute productAttribute : productAttributeList) {
-			if (productAttribute.getCode().equals(code)) {
-				return productAttribute;
-			}
+
+		Map<String, Object> remote_result = null;
+		try {
+			remote_result = (Map<String, Object>) soapClient.call(
+					ResourcePath.ProductAttributeInfo, code);
+
+		} catch (AxisFault e) {
+			if (debug)
+				e.printStackTrace();
+			throw new ServiceException(e.getMessage());
 		}
-            
-		// not found
-		throw new ServiceException("Product attribute \"" + code + "\" not found");
+
+		if (remote_result == null)
+			return null;
+		else
+			return buildProductAttribute(remote_result);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#addOption(String)
+	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
+	 * addOption(String)
 	 */
-	public void addOption(ProductAttribute productAttribute, String option) throws ServiceException {
-        // create ProductAttribute option
-        Map<Integer, String> productAttributeOption = new HashMap<Integer, String>();
-        productAttributeOption.put(0, option);
+	public void addOption(ProductAttribute productAttribute, String option)
+			throws ServiceException {
+		// create ProductAttribute option
+		Map<Integer, String> productAttributeOption = new HashMap<Integer, String>();
+		productAttributeOption.put(0, option);
 
-        // add options to ProductAttribute
-        productAttribute.setOptions(productAttributeOption);
+		// add options to ProductAttribute
+		productAttribute.setOptions(productAttributeOption);
 
-        // save ProductAttribute
-        saveOptions(productAttribute, productAttributeOption);
+		// save ProductAttribute
+		saveOptions(productAttribute, productAttributeOption);
 	}
 }

@@ -86,6 +86,8 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	private Boolean sortBy;
 
+	private Boolean configurable;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -481,6 +483,21 @@ public class ProductAttribute extends BaseMagentoModel {
 		this.sortBy = sortBy;
 	}
 
+	/**
+	 * @return the configurable
+	 */
+	public Boolean getConfigurable() {
+		return configurable;
+	}
+
+	/**
+	 * @param configurable
+	 *            the configurable to set
+	 */
+	public void setConfigurable(Boolean configurable) {
+		this.configurable = configurable;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -497,6 +514,8 @@ public class ProductAttribute extends BaseMagentoModel {
 		result = prime * result + ((code == null) ? 0 : code.hashCode());
 		result = prime * result
 				+ ((comparable == null) ? 0 : comparable.hashCode());
+		result = prime * result
+				+ ((configurable == null) ? 0 : configurable.hashCode());
 		result = prime * result
 				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
 		result = prime * result
@@ -658,6 +677,11 @@ public class ProductAttribute extends BaseMagentoModel {
 				return false;
 		} else if (!visibleOnFront.equals(other.visibleOnFront))
 			return false;
+		if (configurable == null) {
+			if (other.configurable != null)
+				return false;
+		} else if (!configurable.equals(other.configurable))
+			return false;
 		return true;
 	}
 
@@ -679,7 +703,7 @@ public class ProductAttribute extends BaseMagentoModel {
 				+ type + ", unique=" + unique + ", userDefined=" + userDefined
 				+ ", visible=" + visible + ", visibleInAdvancedSearch="
 				+ visibleInAdvancedSearch + ", visibleOnFront="
-				+ visibleOnFront + ", id=" + id + ", properties=" + properties
-				+ "]";
+				+ visibleOnFront + ", configurable=" + configurable + ", id="
+				+ id + ", properties=" + properties + "]";
 	}
 }
