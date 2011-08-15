@@ -12,6 +12,8 @@ import java.util.Properties;
 import com.google.code.magja.utils.PropertyLoader;
 
 public abstract class BaseMagentoModel implements Serializable {
+	
+	private static final long serialVersionUID = 1904599004777705000L;
 
 	protected static final String MAPPING_FILE_NAME_SUFIX = "-mapping";
 
