@@ -353,7 +353,7 @@ public class ProductAttributeRemoteServiceImpl extends
 	 * (non-Javadoc)
 	 * 
 	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
-	 * addOption(String)
+	 * addOption(ProductAttribute, String)
 	 */
 	public void addOption(ProductAttribute productAttribute, String option)
 			throws ServiceException {
