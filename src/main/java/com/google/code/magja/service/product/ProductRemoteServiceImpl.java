@@ -106,7 +106,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	 * @return Product
 	 * @throws ServiceException
 	 */
-	public Product buildProduct(Map<String, Object> mpp, boolean dependencies)
+	private Product buildProduct(Map<String, Object> mpp, boolean dependencies)
 			throws ServiceException {
 
 		Product product = buildProductBasic(mpp);
