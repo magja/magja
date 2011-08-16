@@ -60,6 +60,32 @@ public class ProductAttributeRemoteServiceTest {
 			fail(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Test method for 
+	 * {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#addOption(com.google.code.magja.model.product.ProductAttribute, java.lang.String)}.
+	 */
+	@Test
+	public void testAddOption() {
+		ProductAttribute pa = createSelectAttributeSimple();
+		
+		try {
+			
+			service.save(pa);
+			
+			service.addOption(pa, "Small");
+			service.addOption(pa, "Medium");
+			service.addOption(pa, "Big");
+			
+			assertTrue(pa.getId() != null);
+			
+			service.delete(pa.getCode());
+			
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+		
+	}
 
 	/**
 	 * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#getOptions(com.google.code.magja.model.product.ProductAttribute)}.
@@ -146,6 +172,15 @@ public class ProductAttributeRemoteServiceTest {
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
+	}
+	
+	private ProductAttribute createSelectAttributeSimple() {
+		ProductAttribute attribute = createTextAttributeSimple();
+		
+		attribute.setType("int");
+		attribute.setInput("select");
+		
+		return attribute;
 	}
 
 	private ProductAttribute createTextAttributeSimple() {
