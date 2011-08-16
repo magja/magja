@@ -59,6 +59,8 @@ public class Product extends BaseMagentoModel {
 	private String metaDescription;
 
 	private Boolean googleCheckout;
+	
+	private Visibility visibility = Visibility.CATALOG_SEARCH;
 
 	// for use with CONFIGURABLE products
 	
@@ -84,6 +86,9 @@ public class Product extends BaseMagentoModel {
 				attributeId = attributeSet.getId();
 			}
 		}
+		
+		if(this.visibility != null)
+			set("visibility", this.visibility.getValue());
 
 		List<Object> newProduct = new LinkedList<Object>();
 		newProduct.add(type.getType());
@@ -463,6 +468,20 @@ public class Product extends BaseMagentoModel {
 	public void setConfigurableAttributesData(
 			List<ConfigurableAttributeData> configurableAttributesData) {
 		this.configurableAttributesData = configurableAttributesData;
+	}
+
+	/**
+	 * @return the visibility
+	 */
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	/**
+	 * @param visibility the visibility to set
+	 */
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
 	}
 
 	/*

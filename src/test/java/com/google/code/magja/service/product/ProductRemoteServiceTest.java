@@ -26,6 +26,7 @@ import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.ProductTypeEnum;
+import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;

@@ -23,6 +23,7 @@ import com.google.code.magja.model.product.ProductLink;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.ProductTypeEnum;
+import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
@@ -110,6 +111,28 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			throws ServiceException {
 
 		Product product = buildProductBasic(mpp);
+		
+		// product visibility
+		if(mpp.get("visibility") != null) {
+			Integer visi = new Integer(mpp.get("visibility").toString());
+			switch (visi) {
+			case 1:
+				product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
+				break;
+			case 2:
+				product.setVisibility(Visibility.CATALOG);
+				break;
+			case 3:
+				product.setVisibility(Visibility.SEARCH);
+				break;
+			case 4:
+				product.setVisibility(Visibility.CATALOG_SEARCH);
+				break;
+			default:
+				product.setVisibility(Visibility.CATALOG_SEARCH);
+				break;
+			}
+		}
 
 		// set product type
 		if (mpp.get("type") != null) {

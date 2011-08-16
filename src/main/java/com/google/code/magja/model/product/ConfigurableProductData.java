@@ -74,6 +74,9 @@ public class ConfigurableProductData extends BaseMagentoModel {
 		product.setEnabled(superprd.getEnabled());
 		product.setWeight(weight);
 		product.setSku(superprd.getSku() + sufix.toString());
+		
+		// defaul visibility for subproduct its not visible individually
+		product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
 
 		// inventory
 		product.setQty(qty);
