@@ -305,6 +305,8 @@ public class ProductRemoteServiceTest {
 		product.setWeight(new Double(0.100));
 		Integer[] websites = { 1 };
 		product.setWebsites(websites);
+		
+		product.setVisibility(Visibility.CATALOG_SEARCH);
 
 		// inventory
 		product.setQty(new Double(20));
