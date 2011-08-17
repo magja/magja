@@ -44,13 +44,17 @@ public class CustomerRemoteServiceTest {
 		cust.setFirstName(MagjaStringUtils.randomString(5, 10));
 		cust.setMiddleName(MagjaStringUtils.randomString(5, 10));
 		cust.setLastName(MagjaStringUtils.randomString(5, 10));
-		cust.setPassword("test");
+		cust.setPassword("test12");
 		cust.setPrefix("Mr.");
 		cust.setWebsiteId(1);
 		cust.setGroupId(1);
 		cust.setGender(Gender.MALE);
 		String email = MagjaStringUtils.randomString(4, 5) + "@" + MagjaStringUtils.randomString(4, 5) + ".com";
 		cust.setEmail(email.toLowerCase());
+		
+		// this include the date of birth on the customer, and it's works, 
+		// but, that attribute isn't listed when getting a customer from magento
+		cust.set("dob", "1980-08-17 20:53:04");
 
 		return cust;
 	}
