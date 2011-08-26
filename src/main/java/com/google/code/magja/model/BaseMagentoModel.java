@@ -285,8 +285,7 @@ public abstract class BaseMagentoModel implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "BaseMagentoModel [id=" + id + ", properties=" + properties
-				+ "]";
+		return "BaseMagentoModel [id=" + id + ", properties=" + properties + "]";
 	}
 
 }
