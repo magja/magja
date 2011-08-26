@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.order;
@@ -11,10 +12,6 @@ import com.google.code.magja.model.order.ShipmentTrack;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public interface ShipmentRemoteService extends GeneralService<Shipment> {
 
 	public abstract List<Shipment> list(String filter) throws ServiceException;

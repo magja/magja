@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.category;
@@ -17,18 +18,16 @@ import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.product.ProductRemoteService;
 
-/**
- * @author andre
- * 
- */
 public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 		implements CategoryRemoteService {
+
+	private static final long serialVersionUID=5806879316902937610L;
 
 	private ProductRemoteService productRemoteService;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.CategoryRemoteService#
 	 * setProductRemoteService
 	 * (com.google.code.magja.service.category.CategoryRemoteService)
@@ -41,7 +40,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * Load children for the category
-	 * 
+	 *
 	 * @param category
 	 * @throws ServiceException
 	 */
@@ -61,7 +60,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * load parent for the category
-	 * 
+	 *
 	 * @param category
 	 * @throws ServiceException
 	 */
@@ -74,7 +73,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.category.CategoryRemoteService#getByIdClean
 	 * (java.lang.Integer)
@@ -109,7 +108,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.category.CategoryRemoteService#
 	 * getByIdWithChildren(java.lang.Integer)
 	 */
@@ -126,7 +125,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.category.CategoryRemoteService#
 	 * getByIdWithParent(java.lang.Integer)
 	 */
@@ -143,7 +142,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.category.CategoryRemoteService#
 	 * getByIdWithParentAndChildren(java.lang.Integer)
 	 */
@@ -162,7 +161,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * get all category with subcategory by id
-	 * 
+	 *
 	 * @param id
 	 * @throws ServiceException
 	 */
@@ -195,7 +194,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * build category from Map
-	 * 
+	 *
 	 * @param Map
 	 *            <String, Object>
 	 */
@@ -226,7 +225,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * print all categories
-	 * 
+	 *
 	 * @param id
 	 */
 	public void print(Category category) {
@@ -246,7 +245,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * search categories
-	 * 
+	 *
 	 * @param id
 	 */
 	public List<Category> search(Category category, List<String> categoryNames)
@@ -274,7 +273,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 		return categories;
 	}
-	
+
 	/**
 	 * search for equal child
 	 */
@@ -286,13 +285,13 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 				}
 			}
 		}
-		
+
 		throw new ServiceException("Child not found");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.category.CategoryRemoteService#save(code
 	 * .google .magja.model.product.Category)
@@ -302,13 +301,13 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 	public int save(Category category) throws ServiceException {
 		return save(category, "");
 	}
-	
+
 	public int save(Category category, String storeView) throws ServiceException {
 		if (category.getId() == null) {
 			List<Object> newCategory = new LinkedList<Object>();
 			newCategory.add(category.getParent().getId());
 			newCategory.add(category.getAllProperties());
-			
+
 			// means its a new category
 			try {
 				Integer id = Integer.parseInt((String) soapClient.call(
@@ -326,12 +325,12 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 			} catch (AxisFault e) {
 				if (debug)
 					e.printStackTrace();
-				
+
 				if(e.getMessage().indexOf("available_sort_by") > 0) {
 					System.out.println("Broken Magento API? Run this SQL code first\n" +
 							"update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';");
 				}
-				
+
 				throw new ServiceException(e.getMessage());
 			}
 		} else {
@@ -359,7 +358,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * Delete a category by id
-	 * 
+	 *
 	 * @param id
 	 * @throws ServiceException
 	 */
@@ -379,7 +378,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * Delete a delete all children in a category
-	 * 
+	 *
 	 * @param parent
 	 *            category id
 	 * @throws ServiceException
@@ -395,7 +394,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * get default root category
-	 * 
+	 *
 	 * @param id
 	 * @throws ServiceException
 	 */
@@ -405,7 +404,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * create category from minimal parameter
-	 * 
+	 *
 	 * Settings: availableSortBy = name defaultSortBy = name active = true
 	 * anchor = true
 	 */
@@ -444,7 +443,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 		return categories.get(0);
 	}
-	
+
 	/**
 	 * create category from category list
 	 */
@@ -456,7 +455,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 					Category parent = categories.get(i - 1);
 					categories.get(i).setParent(parent);
 				}
-				
+
 				// set children
 				if(i < categories.size() - 1) {
 					List<Category> children = new ArrayList<Category>();
@@ -464,10 +463,10 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 					categories.get(i).setChildren(children);
 				}
 			}
-	
+
 			return categories.get(0);
 		}
-		
+
 		throw new ServiceException("Category list is empty");
 	}
 
@@ -476,22 +475,22 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 	 */
 	public List<Category> create(Integer parentId, List<String> categoryNames)
 			throws ServiceException {
-		
+
 		List<Category> categories = new ArrayList<Category>();
 		for(String categoryName : categoryNames) {
 			categories.add(getMinimalCategory(0, categoryName));
 		}
-		
+
 		return create(parentId, linkCategory(categories));
 	}
-	
+
 	/**
 	 * create category if not exists already
 	 */
 	public List<Category> create(Integer parentId, Category category) throws ServiceException {
 		if (parentId > 0 && category != null) {
 			List<Category> categories = new ArrayList<Category>();
-			
+
 			Category parent = getTree(parentId);
 
 			while(category != null) {
@@ -501,21 +500,21 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 					// category exists already, set id from existing one
 					category.setId(child.getId());
-				
+
 					// set values for next loop
 					parent = child;
 					parentId = parent.getId();
 				} catch(Exception e) {
 					parent = null;
 				}
-				
+
 				// create / update category
 				category.setParent(new Category(parentId));
 				parentId = save(category);
 
 				// add category to return list
 				categories.add(category);
-				
+
 				// set values for next loop
 				if(category.getChildren().size() > 0) {
 					// set values for next loop
@@ -592,9 +591,9 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 			return products;
 
 		for (Map<String, Object> mpp : productList) {
-			
+
 			Product product = new Product();
-			
+
 			if (dependencies) {
 				// buid a full product object if required
 				product = productRemoteService.getBySku(mpp.get("sku").toString(), true);
@@ -680,7 +679,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
 	/**
 	 * Check if category is empty
-	 * 
+	 *
 	 * @param cagegory
 	 * @throws ServiceException
 	 */

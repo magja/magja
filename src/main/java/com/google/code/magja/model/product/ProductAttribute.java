@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.product;
@@ -9,12 +10,9 @@ import java.util.Map;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andre
- * 
- */
-@SuppressWarnings("serial")
 public class ProductAttribute extends BaseMagentoModel {
+
+	private static final long serialVersionUID=7015962673006863327L;
 
 	public enum Scope {
 		STORE(0), GLOBAL(1), WEBSITE(2);
@@ -90,7 +88,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
@@ -500,7 +498,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -549,7 +547,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -687,7 +685,7 @@ public class ProductAttribute extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

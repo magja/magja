@@ -1,15 +1,14 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.country;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andre
- *
- */
 public class Country extends BaseMagentoModel {
+
+	private static final long serialVersionUID=7345606611959211286L;
 
 	private String countryId;
 

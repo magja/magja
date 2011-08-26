@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.utils;
@@ -10,10 +11,6 @@ import static java.lang.Math.random;
 import static java.lang.Math.round;
 import static org.apache.commons.lang.StringUtils.leftPad;
 
-/**
- * @author andre
- *
- */
 public class MagjaStringUtils {
 
 	/**

@@ -1,5 +1,6 @@
 /**
- * 
+ * @author andre
+ *
  */
 package com.google.code.magja.model.product;
 
@@ -10,11 +11,9 @@ import java.util.Map;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andrefabbro
- * 
- */
 public class ConfigurableProductData extends BaseMagentoModel {
+
+	private static final long serialVersionUID=-4140349719003168632L;
 
 	private Product product;
 
@@ -39,7 +38,7 @@ public class ConfigurableProductData extends BaseMagentoModel {
 	/**
 	 * Create a simple product with default properties from super product and
 	 * add the specified options
-	 * 
+	 *
 	 * @param superprd
 	 * @param qty
 	 * @param weight
@@ -74,7 +73,7 @@ public class ConfigurableProductData extends BaseMagentoModel {
 		product.setEnabled(superprd.getEnabled());
 		product.setWeight(weight);
 		product.setSku(superprd.getSku() + sufix.toString());
-		
+
 		// defaul visibility for subproduct its not visible individually
 		product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
 
@@ -141,7 +140,7 @@ public class ConfigurableProductData extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -155,7 +154,7 @@ public class ConfigurableProductData extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -182,7 +181,7 @@ public class ConfigurableProductData extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

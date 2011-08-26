@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.product;
@@ -15,12 +16,9 @@ import java.util.Set;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.category.Category;
 
-/**
- * @author andre
- * 
- */
-@SuppressWarnings("serial")
 public class Product extends BaseMagentoModel {
+
+	private static final long serialVersionUID=-8639442403416399439L;
 
 	private String sku;
 
@@ -59,20 +57,20 @@ public class Product extends BaseMagentoModel {
 	private String metaDescription;
 
 	private Boolean googleCheckout;
-	
+
 	private Visibility visibility = Visibility.CATALOG_SEARCH;
 
 	// for use with CONFIGURABLE products
-	
+
 	private Map<String, Map<String, Object>> configurableProductsData;
-	
+
 	private List<ConfigurableProductData> configurableSubProducts;
-	
+
 	private List<ConfigurableAttributeData> configurableAttributesData;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
@@ -86,7 +84,7 @@ public class Product extends BaseMagentoModel {
 				attributeId = attributeSet.getId();
 			}
 		}
-		
+
 		if(this.visibility != null)
 			set("visibility", this.visibility.getValue());
 
@@ -486,7 +484,7 @@ public class Product extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -525,7 +523,7 @@ public class Product extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -634,7 +632,7 @@ public class Product extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

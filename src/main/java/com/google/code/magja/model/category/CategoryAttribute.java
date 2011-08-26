@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.category;
@@ -8,11 +9,9 @@ import java.util.List;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andre
- *
- */
 public class CategoryAttribute extends BaseMagentoModel {
+
+	private static final long serialVersionUID=-6951641506668926740L;
 
 	private String scope;
 

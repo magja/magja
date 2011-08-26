@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.category;
@@ -16,13 +17,11 @@ import com.google.code.magja.model.category.CategoryAttributeOption;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public class CategoryAttributeRemoteServiceImpl extends
 		GeneralServiceImpl<CategoryAttribute> implements
 		CategoryAttributeRemoteService {
+
+	private static final long serialVersionUID=-6950318891229060141L;
 
 	/*
 	 * (non-Javadoc)

@@ -1,12 +1,9 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.utils;
 
-/**
- * @author andre
- *
- */
 public class MagjaNumberUtils {
 
 	/**

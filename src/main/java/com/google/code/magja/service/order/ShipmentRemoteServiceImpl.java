@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.order;
@@ -16,11 +17,9 @@ import com.google.code.magja.model.order.ShipmentTrack;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> implements ShipmentRemoteService {
+
+	private static final long serialVersionUID=-830461835402137135L;
 
 	/**
 	 * Build object Shipment from attributes map

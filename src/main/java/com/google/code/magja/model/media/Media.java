@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.media;
@@ -9,10 +10,6 @@ import java.util.Map;
 
 import org.apache.axis2.util.Base64;
 
-/**
- * @author andre
- *
- */
 public class Media {
 
 	// TODO: create a constuctor with a InputStream parameter to automatically

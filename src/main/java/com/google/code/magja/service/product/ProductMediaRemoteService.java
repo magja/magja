@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.product;
@@ -10,10 +11,6 @@ import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public interface ProductMediaRemoteService extends GeneralService<ProductMedia> {
 
 	/**
@@ -38,13 +35,13 @@ public interface ProductMediaRemoteService extends GeneralService<ProductMedia> 
 	 */
 	public abstract ProductMedia getByProductAndFile(Product product,
 			String file) throws ServiceException;
-	
+
 	/**
 	 * Get MD5 for a file
 	 * This is not a default Magento function! You have to extend your Magento API.
 	 * See: http://code.google.com/p/magja/downloads/detail?name=media.md5.api.xml.diff
 	 * and http://code.google.com/p/magja/downloads/detail?name=media.md5.api.xml.diff
-	 * 
+	 *
 	 * @param file
 	 * @return MD5 sum
 	 * @throws ServiceException

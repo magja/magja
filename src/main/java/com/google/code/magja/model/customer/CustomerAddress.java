@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.customer;
@@ -9,11 +10,9 @@ import java.util.Map;
 
 import com.google.code.magja.model.address.Address;
 
-/**
- * @author andre
- *
- */
 public class CustomerAddress extends Address {
+
+	private static final long serialVersionUID=-7194400140257435078L;
 
 	private Customer customer;
 

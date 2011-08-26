@@ -1,28 +1,25 @@
 /**
- * 
+ * @author andre
+ *
  */
 package com.google.code.magja.model.product;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author Andre Fabbro
- *
- */
 public class ConfigurableData extends BaseMagentoModel {
-	
+
 	private static final long serialVersionUID = -6615350392582486229L;
 
 	private Integer attributeId;
-	
+
 	private String label;
-	
+
 	private Integer valueIndex;
-	
+
 	private Boolean isPercent;
-	
+
 	private Double pricingValue;
-	
+
 	@Override
 	public Object serializeToApi() {
 		return getAllProperties();

@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service;
@@ -30,10 +31,6 @@ import com.google.code.magja.service.region.RegionRemoteServiceImpl;
 import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.code.magja.soap.SoapConfig;
 
-/**
- * @author andre
- *
- */
 public class RemoteServiceFactory {
 
     private final MagentoSoapClient magentoSoapClient;
@@ -155,7 +152,7 @@ public class RemoteServiceFactory {
     public ProductRemoteService getProductRemoteService() {
     	return getProductRemoteService(getCategoryRemoteService());
     }
-    
+
     /**
      * @return the productRemoteService
      */
@@ -175,7 +172,7 @@ public class RemoteServiceFactory {
     public CategoryRemoteService getCategoryRemoteService() {
         CategoryRemoteService categoryRemoteService = new CategoryRemoteServiceImpl();
         categoryRemoteService.setSoapClient(magentoSoapClient);
-        
+
         ProductRemoteService productRemoteService = getProductRemoteService(categoryRemoteService);
         categoryRemoteService.setProductRemoteService(productRemoteService);
 

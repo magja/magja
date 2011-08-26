@@ -1,12 +1,9 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.category;
 
-/**
- * @author andre
- *
- */
 public class CategoryAttributeOption {
 
 	private String label;

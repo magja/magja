@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.product;
@@ -11,10 +12,6 @@ import com.google.code.magja.model.product.ProductLink.LinkType;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public interface ProductLinkRemoteService extends GeneralService<ProductLink> {
 
 	/**

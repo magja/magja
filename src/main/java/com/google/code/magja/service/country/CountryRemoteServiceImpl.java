@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.country;
@@ -14,12 +15,10 @@ import com.google.code.magja.model.country.Country;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
 		implements CountryRemoteService {
+
+	private static final long serialVersionUID=1671845484676469453L;
 
 	/*
 	 * (non-Javadoc)
@@ -69,11 +68,11 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
 				return country;
 			}
 		}
-		
+
 		// Country not found
 		throw new ServiceException(countryName + " not found");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -82,7 +81,7 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
 	@Override
 	public String getCountryIdByName(String countryName) throws ServiceException {
 		Country country = getCountryByName(countryName);
-		
+
 		return country.getCountryId();
 	}
 }

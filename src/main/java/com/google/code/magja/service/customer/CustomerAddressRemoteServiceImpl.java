@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.customer;
@@ -10,18 +11,15 @@ import java.util.Map;
 import org.apache.axis2.AxisFault;
 
 import com.google.code.magja.magento.ResourcePath;
-import com.google.code.magja.model.customer.Customer;
 import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public class CustomerAddressRemoteServiceImpl extends
 		GeneralServiceImpl<CustomerAddress> implements
 		CustomerAddressRemoteService {
+
+	private static final long serialVersionUID=2269696861048421719L;
 
 	/**
 	 * Create a object CustomerAddress from the attributes map
@@ -60,7 +58,7 @@ public class CustomerAddressRemoteServiceImpl extends
 		}
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 *

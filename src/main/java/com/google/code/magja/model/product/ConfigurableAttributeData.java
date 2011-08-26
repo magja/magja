@@ -1,5 +1,6 @@
 /**
- * 
+ * @author andre
+ *
  */
 package com.google.code.magja.model.product;
 
@@ -8,34 +9,30 @@ import java.util.Map;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andrefabbro
- *
- */
 public class ConfigurableAttributeData extends BaseMagentoModel {
 
 	private static final long serialVersionUID = -8841796458643254112L;
 
 	private String label;
-	
+
 	private Integer position;
-	
+
 	private Integer attributeId;
-	
+
 	private String attributeCode;
-	
+
 	private String frontendLabel;
-	
+
 	private String htmlId;
-	
+
 	private List<ConfigurableData> values;
-	
+
 	@Override
 	public Object serializeToApi() {
-		
+
 		Map<String, Object> props = getAllProperties();
 		props.remove(values);
-		
+
 		return props;
 	}
 
@@ -226,5 +223,5 @@ public class ConfigurableAttributeData extends BaseMagentoModel {
 				+ frontendLabel + ", htmlId=" + htmlId + ", values=" + values
 				+ "]";
 	}
-	
+
 }

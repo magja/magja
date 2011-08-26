@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.region;
@@ -9,10 +10,6 @@ import com.google.code.magja.model.region.Region;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public interface RegionRemoteService extends GeneralService<Region> {
 
 	/**

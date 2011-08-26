@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.customer;
@@ -10,10 +11,6 @@ import com.google.code.magja.model.customer.CustomerGroup;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public interface CustomerRemoteService extends GeneralService<Customer> {
 
 	/**

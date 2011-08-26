@@ -1,16 +1,14 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.product;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andre
- *
- */
-@SuppressWarnings("serial")
 public class ProductType extends BaseMagentoModel {
+
+	private static final long serialVersionUID=-8248925608465129613L;
 
 	public ProductType(String label, String type) {
 		this.label = label;

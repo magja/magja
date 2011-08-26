@@ -1,14 +1,12 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service;
 
-/**
- * @author andre
- *
- */
-@SuppressWarnings("serial")
 public class ServiceException extends Exception {
+
+	private static final long serialVersionUID=-3829045040825848638L;
 
 	/**
 	 *

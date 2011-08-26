@@ -1,15 +1,14 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.order;
 
 import java.io.Serializable;
 
-/**
- * @author andre
- *
- */
 public class OrderFilterItem implements Serializable {
+
+	private static final long serialVersionUID=7897091919944931829L;
 
 	private String property;
 

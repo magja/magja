@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.product;
@@ -12,10 +13,6 @@ import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
 
-/**
- * @author andre
- *
- */
 public interface ProductRemoteService extends GeneralService<Product> {
 
 	/**
@@ -47,7 +44,7 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract Product getBySku(String sku) throws ServiceException;
-	
+
 	/**
 	 * Get the product from Magento with the specified sku
 	 *
@@ -93,7 +90,7 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract void save(Product product) throws ServiceException;
-	
+
 	/**
 	 * Save a product to the Magento, if the id attribute is null, then will
 	 * create a new product, otherwise will update the product with that id
@@ -119,14 +116,14 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @throws ServiceException
 	 */
 	public abstract void delete(String sku) throws ServiceException;
-	
+
 	/**
 	 * Remove all product from magento
 	 *
 	 * @throws ServiceException
 	 */
 	public abstract void deleteAll() throws ServiceException;
-	
+
 	public abstract void deleteWithEmptyCategory(String sku) throws ServiceException;
 
 	/**
@@ -154,6 +151,6 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 */
 	public abstract void updateInventory(Product product)
 			throws ServiceException;
-	
+
 	public abstract List<Product> getWithoutCategory() throws ServiceException;
 }

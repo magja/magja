@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.product;
@@ -17,17 +18,15 @@ import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- * 
- */
 public class ProductAttributeRemoteServiceImpl extends
 		GeneralServiceImpl<ProductAttribute> implements
 		ProductAttributeRemoteService {
 
+	private static final long serialVersionUID=-1575503087022556608L;
+
 	/**
 	 * Create a object product attribute from the attributes map
-	 * 
+	 *
 	 * @param attributes
 	 * @return ProductAttribute
 	 */
@@ -43,7 +42,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductAttributeRemoteService#delete
 	 * (java.lang.String)
@@ -65,7 +64,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * getOptions (com.google.code.magja.model.product.ProductAttribute)
 	 */
@@ -106,7 +105,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * listAllProductAttributeSet()
 	 */
@@ -141,7 +140,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * listByAttributeSet
 	 * (com.google.code.magja.model.product.ProductAttributeSet)
@@ -183,7 +182,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * listAllAttributes()
 	 */
@@ -209,7 +208,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductAttributeRemoteService#save(
 	 * com.google.code.magja.model.product.ProductAttribute)
@@ -269,7 +268,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * addOptions( com.google.code.magja.model.product.ProductAttribute ,
 	 * Map<Integer, String>)
@@ -308,7 +307,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * exists(String)
 	 */
@@ -326,7 +325,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * getByCode(String)
 	 */
@@ -351,7 +350,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.ProductAttributeRemoteService#
 	 * addOption(ProductAttribute, String)
 	 */

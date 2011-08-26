@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.region;
@@ -14,11 +15,9 @@ import com.google.code.magja.model.region.Region;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public class RegionRemoteServiceImpl extends GeneralServiceImpl<Region> implements RegionRemoteService {
+
+	private static final long serialVersionUID=3543094741234701831L;
 
 	/* (non-Javadoc)
 	 * @see com.google.code.magja.service.region.RegionRemoteService#list(java.lang.String)

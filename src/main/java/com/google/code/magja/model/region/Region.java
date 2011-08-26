@@ -1,15 +1,14 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.region;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andre
- *
- */
 public class Region extends BaseMagentoModel {
+
+	private static final long serialVersionUID=4831876724967628838L;
 
 	private String name;
 

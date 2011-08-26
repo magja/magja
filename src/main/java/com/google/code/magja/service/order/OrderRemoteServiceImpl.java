@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.order;
@@ -20,12 +21,10 @@ import com.google.code.magja.model.order.OrderItem;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 		OrderRemoteService {
+
+	private static final long serialVersionUID=8734041145563577985L;
 
 	/**
 	 * Build a object Order

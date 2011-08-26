@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.order;
@@ -10,11 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author andre
- *
- */
 public class OrderFilter implements Serializable {
+
+	private static final long serialVersionUID=-3928174333216515603L;
 
 	private List<OrderFilterItem> items = new ArrayList<OrderFilterItem>();
 

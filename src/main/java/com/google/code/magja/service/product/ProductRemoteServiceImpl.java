@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.product;
@@ -28,13 +29,10 @@ import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
 
-/**
- * @author andre
- * 
- */
-@SuppressWarnings("serial")
 public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		implements ProductRemoteService {
+
+	private static final long serialVersionUID=-3943518467672208326L;
 
 	private CategoryRemoteService categoryRemoteService;
 
@@ -44,7 +42,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setCategoryRemoteService
 	 * (com.google.code.magja.service.category.CategoryRemoteService)
@@ -57,7 +55,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setProductMediaRemoteService
 	 * (com.google.code.magja.service.product.ProductMediaRemoteService)
@@ -70,7 +68,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seecom.google.code.magja.service.product.ProductRemoteService#
 	 * setProductLinkRemoteService
 	 * (com.google.code.magja.service.product.ProductLinkRemoteService)
@@ -83,7 +81,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Create a object product with basic fields from the attribute map
-	 * 
+	 *
 	 * @param mpp
 	 *            - the attribute map
 	 * @return Product
@@ -100,7 +98,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Build the object Product with your dependencies, for the queries
-	 * 
+	 *
 	 * @param mpp
 	 * @param dependencies
 	 *            - if will or not load dependencies
@@ -111,7 +109,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 			throws ServiceException {
 
 		Product product = buildProductBasic(mpp);
-		
+
 		// product visibility
 		if(mpp.get("visibility") != null) {
 			Integer visi = new Integer(mpp.get("visibility").toString());
@@ -259,7 +257,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Delete a product by your id (prefered) or your sku
-	 * 
+	 *
 	 * @param id
 	 * @param sku
 	 * @throws ServiceException
@@ -288,7 +286,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Delete a product by sku and category if empty
-	 * 
+	 *
 	 * @param sku
 	 * @throws ServiceException
 	 */
@@ -308,7 +306,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 	/**
 	 * List the products, if dependencies is true, the products will be
 	 * populated with all your dependencies, otherwise, no.
-	 * 
+	 *
 	 * @param dependencies
 	 * @return List<Product>
 	 * @throws ServiceException
@@ -338,7 +336,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#getBySku(java.
 	 * lang.String)
@@ -369,7 +367,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#getById(java
 	 * .lang .Integer)
@@ -395,7 +393,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.product.ProductRemoteService#listAll()
 	 */
 	@Override
@@ -405,7 +403,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#listAllNoDep()
 	 */
@@ -416,7 +414,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#save(code.
 	 * google .magja.model.product.Product)
@@ -542,16 +540,16 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 		// if isn't a configurable product, stop the execution
 		if (!product.getType().equals(ProductTypeEnum.CONFIGURABLE.getProductType()))
 			return;
-		
+
 		if(product.getConfigurableAttributesData() != null) {
 			Map<String, Object> confAttrDataMap = new HashMap<String, Object>();
-			
+
 			Integer i = 0;
 			for (ConfigurableAttributeData configAttr : product.getConfigurableAttributesData()) {
 				confAttrDataMap.put(i.toString(), configAttr.serializeToApi());
 				i++;
 			}
-			
+
 			product.set("configurable_attributes_data", confAttrDataMap);
 		}
 
@@ -578,7 +576,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.service.product.ProductRemoteService#
 	 * listAllProductTypes ()
 	 */
@@ -612,7 +610,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#delete(java
 	 * .lang .Integer)
@@ -624,7 +622,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#delete(java
 	 * .lang .String)
@@ -636,7 +634,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#deleteAll()
 	 */
@@ -650,7 +648,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#getInventoryInfo
 	 * (java.util.Set)
@@ -699,7 +697,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.google.code.magja.service.product.ProductRemoteService#updateInventory
 	 * (com.google.code.magja.model.product.Product)
@@ -734,7 +732,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 	/**
 	 * Get products without category
-	 * 
+	 *
 	 * @return List<Product>
 	 * @throws ServiceException
 	 */

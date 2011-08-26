@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.product;
@@ -20,12 +21,10 @@ import com.google.code.magja.model.product.ProductTypeEnum;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public class ProductLinkRemoteServiceImpl extends
 		GeneralServiceImpl<ProductLink> implements ProductLinkRemoteService {
+
+	private static final long serialVersionUID=28223743577747311L;
 
 	private ProductLink buildProductLink(Map<String, Object> map,
 			LinkType linkType) {

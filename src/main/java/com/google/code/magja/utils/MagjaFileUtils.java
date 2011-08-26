@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.utils;
@@ -13,10 +14,6 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
-/**
- * @author andre
- *
- */
 public class MagjaFileUtils {
 
 	/**

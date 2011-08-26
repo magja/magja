@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.customer;
@@ -10,15 +11,13 @@ import java.util.Map;
 import com.google.code.magja.magento.Utils;
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andre
- * 
- */
 public class Customer extends BaseMagentoModel {
+
+	private static final long serialVersionUID=7260666195808816927L;
 
 	public enum Gender {
 		MALE(1), FEMALE(2);
-		private Integer value;
+		private final Integer value;
 
 		private Gender(Integer value) {
 			this.value = value;
@@ -57,7 +56,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
@@ -278,7 +277,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -310,7 +309,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -392,7 +391,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

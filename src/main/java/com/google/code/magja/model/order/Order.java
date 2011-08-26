@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.order;
@@ -9,11 +10,9 @@ import java.util.List;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.customer.Customer;
 
-/**
- * @author andre
- *
- */
 public class Order extends BaseMagentoModel {
+
+	private static final long serialVersionUID=4199906698069050318L;
 
 	private String storeName;
 

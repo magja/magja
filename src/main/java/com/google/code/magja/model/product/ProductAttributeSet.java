@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.product;
@@ -10,12 +11,9 @@ import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.code.magja.soap.SoapConfig;
 import com.google.code.magja.utils.PropertyLoader;
 
-/**
- * @author andre
- *
- */
-@SuppressWarnings("serial")
 public class ProductAttributeSet extends BaseMagentoModel {
+
+	private static final long serialVersionUID=-3154289809263844919L;
 
 	private String name;
 

@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service;
@@ -7,12 +8,9 @@ import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.soap.MagentoSoapClient;
 
-/**
- * @author andre
- *
- */
-@SuppressWarnings("serial")
 public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements GeneralService<T> {
+
+	private static final long serialVersionUID=-7262909756654576277L;
 
 	protected Boolean debug = false;
 

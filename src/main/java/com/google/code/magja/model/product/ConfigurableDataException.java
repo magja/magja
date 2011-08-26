@@ -1,14 +1,11 @@
 /**
- * 
+ * @author andre
+ *
  */
 package com.google.code.magja.model.product;
 
-/**
- * @author andrefabbro
- *
- */
 public class ConfigurableDataException extends Exception {
-	
+
 	private static final long serialVersionUID = -8601203755742890161L;
 
 	public ConfigurableDataException() {

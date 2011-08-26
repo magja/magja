@@ -13,7 +13,7 @@ import java.util.Properties;
 import com.google.code.magja.utils.PropertyLoader;
 
 public abstract class BaseMagentoModel implements Serializable {
-	
+
 	private static final long serialVersionUID = 1904599004777705000L;
 
 	protected static final String MAPPING_FILE_NAME_SUFIX = "-mapping";
@@ -52,7 +52,7 @@ public abstract class BaseMagentoModel implements Serializable {
 
 			if(methodName.equals("getId")) return this.getId();
 			else if (methodName.equals("setId")) {
-			    this.setId(Integer.parseInt((String) arg.toString()));
+			    this.setId(Integer.parseInt(arg.toString()));
 				return null;
 			}
 
@@ -88,7 +88,7 @@ public abstract class BaseMagentoModel implements Serializable {
 						} else {
 						    if(arg.toString().equals("1") || arg.equals("true")) args[0] = new Boolean(true);
 						    else if(arg.toString().equals("0") || arg.equals("false")) args[0] = new Boolean(false);
-						    else args[0] = new Boolean((String) arg.toString());
+						    else args[0] = new Boolean(arg.toString());
 						}
 
 					} else {
@@ -101,19 +101,19 @@ public abstract class BaseMagentoModel implements Serializable {
 						} else {
 							arg2 = arg;
 						}
-						
+
 						// when the argument is a array of String's
 						if(arg instanceof LinkedList) {
 							LinkedList<String> list = (LinkedList<String>) arg;
 							String[] strs = new String[list.size()];
 							list.toArray(strs);
 							args[0] = strs;
-							
+
 						} else {
 							// create the object with correct type
 							Class partypes[] = new Class[1];
 							partypes[0] = String.class;
-							
+
 							Constructor ct = fld.getType().getConstructor(partypes);
 							args[0] = ct.newInstance(arg2);
 						}
@@ -123,10 +123,9 @@ public abstract class BaseMagentoModel implements Serializable {
 				Method invokeMethod = tClass.getMethod(methodName, argTypes);
 				if(prefix.equals("get")) {
 					return invokeMethod.invoke(this);
-				} else {
-					invokeMethod.invoke(this, args);
-					return null;
 				}
+				invokeMethod.invoke(this, args);
+				return null;
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
@@ -160,14 +159,14 @@ public abstract class BaseMagentoModel implements Serializable {
 				name = name.trim();
 
 				// look for the property on map
-				if(properties.get(name) != null) return properties.get(name);
-				else {
-					// once we have the attribute name, just invoke the proper 'get' for that to invoke the correspondent model's method
-					try {
-						return invokeGetOrSetMethod(mapping.getProperty(name), "get", null);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				if(properties.get(name) != null)
+					return properties.get(name);
+
+				// once we have the attribute name, just invoke the proper 'get' for that to invoke the correspondent model's method
+				try {
+					return invokeGetOrSetMethod(mapping.getProperty(name), "get", null);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}

@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.service.country;
@@ -9,10 +10,6 @@ import com.google.code.magja.model.country.Country;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
-/**
- * @author andre
- *
- */
 public interface CountryRemoteService extends GeneralService<Country> {
 
 	/**
@@ -26,7 +23,7 @@ public interface CountryRemoteService extends GeneralService<Country> {
 	 * @throws ServiceException
 	 */
 	public abstract Country getCountryByName(String countryName) throws ServiceException;
-	
+
 	/**
 	 * @return get country id by name
 	 * @throws ServiceException

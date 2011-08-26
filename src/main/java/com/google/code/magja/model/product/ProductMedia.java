@@ -1,4 +1,5 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.product;
@@ -11,11 +12,9 @@ import java.util.Set;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.media.Media;
 
-/**
- * @author andre
- *
- */
 public class ProductMedia extends BaseMagentoModel {
+
+	private static final long serialVersionUID=-7705516482921672346L;
 
 	public enum Type {
 		IMAGE, SMALL_IMAGE, THUMBNAIL;

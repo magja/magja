@@ -1,15 +1,14 @@
 /**
+ * @author andre
  *
  */
 package com.google.code.magja.model.address;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-/**
- * @author andre
- *
- */
 public abstract class Address extends BaseMagentoModel {
+
+	private static final long serialVersionUID=4478193199848784303L;
 
 	protected String prefix;
 

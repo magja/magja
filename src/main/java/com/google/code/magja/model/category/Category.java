@@ -8,8 +8,9 @@ import java.util.Map;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-@SuppressWarnings("serial")
 public class Category extends BaseMagentoModel {
+
+	private static final long serialVersionUID=-3521812333331235180L;
 
 	private String name;
 
@@ -66,7 +67,7 @@ public class Category extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
@@ -117,16 +118,16 @@ public class Category extends BaseMagentoModel {
 	/**
 	 * @param availableSortBy
 	 *            the availableSortBy to set
-	 * 
+	 *
 	 *            ATTENTION: Run this SQL query first to fix the
 	 *            available_sort_by bug (tested with Magento 1.4)
 	 *            <code>update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';</code>
-	 * 
+	 *
 	 *            See:
 	 *            http://www.magentocommerce.com/bug-tracking/issue?issue=6842
 	 *            http
 	 *            ://www.magentocommerce.com/boards/viewthread/48088/#t198697
-	 * 
+	 *
 	 */
 	public void setAvailableSortBy(String[] availableSortBy) {
 		this.availableSortBy = availableSortBy;
@@ -339,7 +340,7 @@ public class Category extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -374,7 +375,7 @@ public class Category extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -461,7 +462,7 @@ public class Category extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
