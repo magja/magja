@@ -29,9 +29,9 @@ public class MagentoSoapClient implements SoapClient {
     private Options connectOptions;
     private String sessionId;
     private ServiceClient sender;
-    // the instance is loaded on the first execution of MagentoSoapClient.getInstance() not before. 
+    // the instance is loaded on the first execution of MagentoSoapClient.getInstance() not before.
     // remove the MagentoSoapClientHolder because the class loader will throw could not load [magento-api.properties] exception when we not include
-    // magento-api.properties in the class path although we want to use custom instance 
+    // magento-api.properties in the class path although we want to use custom instance
     private static MagentoSoapClient INSTANCE_CUSTOM;
     private static MagentoSoapClient INSTANCE_DEFAULT;
 
@@ -62,8 +62,6 @@ public class MagentoSoapClient implements SoapClient {
      * MagentoSoapClient.getInstance() or the first access to
      * MagentoSoapClientHolder.INSTANCE, not before.
      */
-
-
     public static MagentoSoapClient getInstance() {
         if (INSTANCE_DEFAULT == null) {
             INSTANCE_DEFAULT = new MagentoSoapClient(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
