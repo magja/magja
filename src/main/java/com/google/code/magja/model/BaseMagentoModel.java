@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
@@ -100,16 +101,24 @@ public abstract class BaseMagentoModel implements Serializable {
 						} else {
 							arg2 = arg;
 						}
-
-						// create the object with correct type
-						Class partypes[] = new Class[1];
-						partypes[0] = String.class;
-
-						Constructor ct = fld.getType().getConstructor(partypes);
-						args[0] = ct.newInstance(arg2);
+						
+						// when the argument is a array of String's
+						if(arg instanceof LinkedList) {
+							LinkedList<String> list = (LinkedList<String>) arg;
+							String[] strs = new String[list.size()];
+							list.toArray(strs);
+							args[0] = strs;
+							
+						} else {
+							// create the object with correct type
+							Class partypes[] = new Class[1];
+							partypes[0] = String.class;
+							
+							Constructor ct = fld.getType().getConstructor(partypes);
+							args[0] = ct.newInstance(arg2);
+						}
 					}
 				}
-
 
 				Method invokeMethod = tClass.getMethod(methodName, argTypes);
 				if(prefix.equals("get")) {
@@ -132,7 +141,7 @@ public abstract class BaseMagentoModel implements Serializable {
 				e.printStackTrace();
 				throw new Exception("SecurityException calling method " + methodName + " on " + tClass.getName());
 			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				throw new Exception("NoSuchMethodException calling method " + methodName + " on " + tClass.getName());
 			}
 		}

@@ -46,7 +46,7 @@ public class CategoryRemoteServiceTest {
     public void testGetByIdWithChildren() throws Exception {
         Category category = service.getByIdWithChildren(new Integer(2));
         for (Category child : category.getChildren()) {
-            System.out.println(child.toString());
+            assertTrue(child.getId() != null);
         }
     }
 
