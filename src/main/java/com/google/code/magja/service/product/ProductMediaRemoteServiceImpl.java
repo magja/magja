@@ -56,7 +56,7 @@ public class ProductMediaRemoteServiceImpl extends
 	 */
 	@Override
 	public void delete(ProductMedia productMedia) throws ServiceException {
-		if (!validadeProduct(productMedia.getProduct()))
+		if (!validateProduct(productMedia.getProduct()))
 			throw new ServiceException(
 					"the product attribute for the media must be setted.");
 
@@ -89,7 +89,7 @@ public class ProductMediaRemoteServiceImpl extends
 	public ProductMedia getByProductAndFile(Product product, String file)
 			throws ServiceException {
 
-		if (!validadeProduct(product))
+		if (!validateProduct(product))
 			throw new ServiceException(
 					"the product for the media must be setted.");
 
@@ -109,7 +109,7 @@ public class ProductMediaRemoteServiceImpl extends
 
 		return buildProductMedia(media);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -144,7 +144,7 @@ public class ProductMediaRemoteServiceImpl extends
 	public List<ProductMedia> listByProduct(Product product)
 			throws ServiceException {
 
-		if (!validadeProduct(product))
+		if (!validateProduct(product))
 			throw new ServiceException(
 					"The product must have the id or the sku seted for list medias");
 
@@ -182,7 +182,7 @@ public class ProductMediaRemoteServiceImpl extends
 	 */
 	@Override
 	public void save(ProductMedia productMedia) throws ServiceException {
-		if (!validadeProduct(productMedia.getProduct()))
+		if (!validateProduct(productMedia.getProduct()))
 			throw new ServiceException(
 					"the product attribute for the media must be setted.");
 

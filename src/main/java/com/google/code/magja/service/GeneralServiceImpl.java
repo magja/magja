@@ -15,7 +15,7 @@ import com.google.code.magja.soap.MagentoSoapClient;
 public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements GeneralService<T> {
 
 	protected Boolean debug = false;
-	
+
 	protected MagentoSoapClient soapClient;
 
 	/**
@@ -31,15 +31,10 @@ public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements 
 	 * @param product
 	 * @return
 	 */
-	protected Boolean validadeProduct(Product product) {
-		if (product == null)
-			return false;
-		else if (product.getId() != null || product.getSku() != null)
-			return true;
-		else
-			return false;
+	protected Boolean validateProduct(Product product) {
+		return product != null && (product.getId() != null || product.getSku() != null);
 	}
-	
+
 	/**
 	 * disable or enable debug informations
 	 *
