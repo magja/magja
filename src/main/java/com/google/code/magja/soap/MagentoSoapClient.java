@@ -30,8 +30,9 @@ public class MagentoSoapClient implements SoapClient {
 	private static final QName LOGIN_RETURN = new QName("loginReturn");
 	private static final QName LOGOUT_RETURN = new QName("endSessionReturn");
 	private static final QName CALL_RETURN = new QName("callReturn");
-	private final SoapCallFactory callFactory;
-	private final SoapReturnParser returnParser;
+
+	private SoapCallFactory callFactory;
+	private SoapReturnParser returnParser;
 	private SoapConfig config;
 	private Options connectOptions;
 	private String sessionId;
@@ -41,10 +42,32 @@ public class MagentoSoapClient implements SoapClient {
 	private static Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap();
 
 	/**
+	 * @return the FIRST created instance or a newly created one in case none
+	 *         exists
+	 */
+	public static MagentoSoapClient getInstance() {
+		if(INSTANCES.size() == 0){
+			return new MagentoSoapClient((new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE))));
+		}
+		return INSTANCES.values().iterator().next();
+	}
+
+	/**
+	 * @return the already created instance or a newly created one in case it
+	 *         does not exist
+	 */
+	public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
+		if(!INSTANCES.containsKey(soapConfig)){
+			return new MagentoSoapClient(soapConfig);
+		}
+		return INSTANCES.get(soapConfig);
+	}
+
+
+	/**
 	 * The default constructor for custom connections
 	 */
 	public MagentoSoapClient(){
-		this(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
 	}
 
 	/**
@@ -63,28 +86,6 @@ public class MagentoSoapClient implements SoapClient {
 			// do not swallow, rethrow as runtime
 			throw new RuntimeException(e);
 		}
-	}
-
-	/**
-	 * @return the FIRST created instance or a newly created one in case none
-	 *         exists
-	 */
-	public static MagentoSoapClient getInstance() {
-		if(INSTANCES.size() == 0){
-			return new MagentoSoapClient();
-		}
-		return INSTANCES.values().iterator().next();
-	}
-
-	/**
-	 * @return the already created instance or a newly created one in case it
-	 *         does not exist
-	 */
-	public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
-		if(!INSTANCES.containsKey(soapConfig)){
-			return new MagentoSoapClient(soapConfig);
-		}
-		return INSTANCES.get(soapConfig);
 	}
 
 	/**
