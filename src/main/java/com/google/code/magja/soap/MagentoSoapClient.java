@@ -42,8 +42,8 @@ public class MagentoSoapClient implements SoapClient {
 	private static Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap();
 
 	/**
-	 * @return the FIRST created instance or a newly created one in case none
-	 *         exists
+	 * @return the FIRST created instance or a newly created one from the
+	 *         magento-api.properties file
 	 */
 	public static MagentoSoapClient getInstance() {
 		if(INSTANCES.size() == 0){
@@ -53,8 +53,7 @@ public class MagentoSoapClient implements SoapClient {
 	}
 
 	/**
-	 * @return the already created instance or a newly created one in case it
-	 *         does not exist
+	 * @return the already created instance or a newly created one
 	 */
 	public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
 		if(!INSTANCES.containsKey(soapConfig)){
@@ -62,7 +61,6 @@ public class MagentoSoapClient implements SoapClient {
 		}
 		return INSTANCES.get(soapConfig);
 	}
-
 
 	/**
 	 * The default constructor for custom connections
