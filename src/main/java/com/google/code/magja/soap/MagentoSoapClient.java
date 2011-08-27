@@ -1,6 +1,6 @@
 /**
  * @author ???
- * 27-08-2011 Multi-instance support - marcolopes@netc.pt
+ * 2011-08-27 Multi-instance support - marcolopes@netc.pt
  *
  */
 package com.google.code.magja.soap;
@@ -49,7 +49,7 @@ public class MagentoSoapClient implements SoapClient {
 
 	/**
 	 * Construct soap client using given configuration
-	 * 
+	 *
 	 * @param soapConfig
 	 */
 	public MagentoSoapClient(SoapConfig soapConfig){
@@ -96,7 +96,7 @@ public class MagentoSoapClient implements SoapClient {
 
 	/**
 	 * Use to change the connection parameters to API (url, username, password)
-	 * 
+	 *
 	 * @param config
 	 *            the config to set
 	 */
@@ -154,7 +154,7 @@ public class MagentoSoapClient implements SoapClient {
 
 	/**
 	 * Logout from service, throws logout exception if failed
-	 * 
+	 *
 	 * @throws AxisFault
 	 */
 	protected void logout() throws AxisFault {
@@ -179,7 +179,7 @@ public class MagentoSoapClient implements SoapClient {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
 	@Override
