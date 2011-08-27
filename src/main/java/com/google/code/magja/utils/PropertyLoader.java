@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-//----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 /**
  * A simple class for loading java.util.Properties backed by .properties files
  * deployed as classpath resources. See individual methods for details.
