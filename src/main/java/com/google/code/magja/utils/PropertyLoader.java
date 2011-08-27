@@ -6,18 +6,19 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-// ----------------------------------------------------------------------------
 /**
  * A simple class for loading java.util.Properties backed by .properties files
  * deployed as classpath resources. See individual methods for details.
- * 
+ *
  * @author (C) <a
  *         href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad
  *         Roubtsov</a>, 2003
  */
-public abstract class PropertyLoader {
+public class PropertyLoader {
 
-	// public: ................................................................
+	private static final boolean THROW_ON_LOAD_FAILURE = true;
+	private static final boolean LOAD_AS_RESOURCE_BUNDLE = false;
+	private static final String SUFFIX = ".properties";
 
 	/**
 	 * Looks up a resource named 'name' in the classpath. The resource must map
@@ -25,7 +26,7 @@ public abstract class PropertyLoader {
 	 * and can use either "/" or "." for package segment separation with an
 	 * optional leading "/" and optional ".properties" suffix. Thus, the
 	 * following names refer to the same resource:
-	 * 
+	 *
 	 * <pre>
 	 * some.pkg.Resource
 	 * some.pkg.Resource.properties
@@ -34,21 +35,21 @@ public abstract class PropertyLoader {
 	 * /some/pkg/Resource
 	 * /some/pkg/Resource.properties
 	 * </pre>
-	 * 
+	 *
 	 * @param name
 	 *            classpath resource name [may not be null]
 	 * @param loader
 	 *            classloader through which to load the resource [null is
 	 *            equivalent to the application loader]
-	 * 
+	 *
 	 * @return resource converted to java.util.Properties [may be null if the
 	 *         resource was not found and THROW_ON_LOAD_FAILURE is false]
 	 * @throws IllegalArgumentException
 	 *             if the resource was not found and THROW_ON_LOAD_FAILURE is
 	 *             true
 	 */
-	public static Properties loadProperties(String name, ClassLoader loader)
-	{
+	public static Properties loadProperties(String name, ClassLoader loader){
+
 		if(name == null)
 			throw new IllegalArgumentException("null input: name");
 
@@ -61,13 +62,12 @@ public abstract class PropertyLoader {
 		Properties result = null;
 
 		InputStream in = null;
-		try
-		{
+		try	{
 			if(loader == null)
 				loader = ClassLoader.getSystemClassLoader();
 
-			if(LOAD_AS_RESOURCE_BUNDLE)
-			{
+			if(LOAD_AS_RESOURCE_BUNDLE)	{
+
 				name = name.replace('/', '.');
 
 				// throws MissingResourceException on lookup failures:
@@ -75,16 +75,16 @@ public abstract class PropertyLoader {
 						Locale.getDefault(), loader);
 
 				result = new Properties();
-				for(Enumeration keys = rb.getKeys(); keys.hasMoreElements();)
-				{
+				for(Enumeration keys = rb.getKeys(); keys.hasMoreElements();) {
+
 					final String key = (String)keys.nextElement();
 					final String value = rb.getString(key);
 
 					result.put(key, value);
 				}
-			}
-			else
-			{
+
+			}else{
+
 				name = name.replace('.', '/');
 
 				if(!name.endsWith(SUFFIX))
@@ -92,26 +92,22 @@ public abstract class PropertyLoader {
 
 				// returns null on lookup failures:
 				in = loader.getResourceAsStream(name);
-				if(in != null)
-				{
+				if(in != null){
 					result = new Properties();
 					result.load(in); // can throw IOException
 				}
 			}
-		}catch(Exception e)
-		{
+		}catch(Exception e)	{
 			result = null;
-		}finally
-		{
+
+		}finally{
 			if(in != null)
 				try{
 					in.close();
-				}catch(Throwable ignore){
-				}
+				}catch(Throwable ignore){}
 		}
 
-		if(THROW_ON_LOAD_FAILURE && (result == null))
-		{
+		if(THROW_ON_LOAD_FAILURE && (result == null)){
 			throw new IllegalArgumentException("could not load [" + name + "]" +
 				" as " + (LOAD_AS_RESOURCE_BUNDLE
 						? "a resource bundle"
@@ -127,21 +123,8 @@ public abstract class PropertyLoader {
 	 * would be to use techniques shown in
 	 * http://www.javaworld.com/javaworld/javaqa/2003-06/01-qa-0606-load.html
 	 */
-	public static Properties loadProperties(final String name)
-	{
-		return loadProperties(name,
-				Thread.currentThread().getContextClassLoader());
+	public static Properties loadProperties(final String name){
+		return loadProperties(name,	Thread.currentThread().getContextClassLoader());
 	}
 
-	// protected: .............................................................
-
-	// package: ...............................................................
-
-	// private: ...............................................................
-
-	private PropertyLoader(){} // this class is not extentible
-
-	private static final boolean THROW_ON_LOAD_FAILURE = true;
-	private static final boolean LOAD_AS_RESOURCE_BUNDLE = false;
-	private static final String SUFFIX = ".properties";
 }
