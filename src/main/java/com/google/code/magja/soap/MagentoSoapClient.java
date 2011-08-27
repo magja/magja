@@ -1,6 +1,13 @@
+/**
+ * @author ???
+ * 27-08-2011 Multi-instance support - marcolopes@netc.pt
+ *
+ */
 package com.google.code.magja.soap;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -23,59 +30,59 @@ public class MagentoSoapClient implements SoapClient {
     private static final QName LOGIN_RETURN = new QName("loginReturn");
     private static final QName LOGOUT_RETURN = new QName("endSessionReturn");
     private static final QName CALL_RETURN = new QName("callReturn");
-    private SoapCallFactory callFactory;
-    private SoapReturnParser returnParser;
+    private final SoapCallFactory callFactory;
+    private final SoapReturnParser returnParser;
     private SoapConfig config;
     private Options connectOptions;
     private String sessionId;
     private ServiceClient sender;
-    // the instance is loaded on the first execution of MagentoSoapClient.getInstance() not before.
-    // remove the MagentoSoapClientHolder because the class loader will throw could not load [magento-api.properties] exception when we not include
-    // magento-api.properties in the class path although we want to use custom instance
-    private static MagentoSoapClient INSTANCE_CUSTOM;
-    private static MagentoSoapClient INSTANCE_DEFAULT;
+
+    //holds all the created instances by creation order
+    private static Map<SoapConfig, MagentoSoapClient> INSTANCES=new LinkedHashMap();
 
     /**
      * The default constructor for custom connections
      */
-    private MagentoSoapClient() {
+    public MagentoSoapClient() {
+    	this(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
     }
 
     /**
      * Construct soap client using given configuration
      * @param soapConfig
      */
-    private MagentoSoapClient(SoapConfig soapConfig) {
+    public MagentoSoapClient(SoapConfig soapConfig) {
         config = soapConfig;
         callFactory = new SoapCallFactory();
         returnParser = new SoapReturnParser();
         try {
             login();
-        } catch (AxisFault ex) {
+            INSTANCES.put(soapConfig, this);
+        } catch (AxisFault e) {
             // do not swallow, rethrow as runtime
-            throw new RuntimeException(ex);
+            throw new RuntimeException(e);
         }
     }
 
     /**
-     * MagentoSoapClientHolder is loaded on the first execution of
-     * MagentoSoapClient.getInstance() or the first access to
-     * MagentoSoapClientHolder.INSTANCE, not before.
+     * @return the FIRST created instance
      */
     public static MagentoSoapClient getInstance() {
-        if (INSTANCE_DEFAULT == null) {
-            INSTANCE_DEFAULT = new MagentoSoapClient(new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE)));
-        }
-        return INSTANCE_DEFAULT;
+    	if (INSTANCES.size()==0){
+    		return new MagentoSoapClient();
+    	}
+    	return INSTANCES.values().iterator().next();
     }
 
+    /**
+     * @return the already created instance or a newly created one
+     * in case it does not exist
+     */
     public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
-        if (INSTANCE_CUSTOM == null) {
-            INSTANCE_CUSTOM = new MagentoSoapClient();
-        }
-        if(!soapConfig.equals(INSTANCE_CUSTOM.getConfig()))
-            INSTANCE_CUSTOM = new MagentoSoapClient(soapConfig);
-        return INSTANCE_CUSTOM;
+    	if (!INSTANCES.containsKey(soapConfig)){
+    		return new MagentoSoapClient(soapConfig);
+    	}
+		return INSTANCES.get(soapConfig);
     }
 
     /**
