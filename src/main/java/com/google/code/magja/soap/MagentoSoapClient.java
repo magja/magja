@@ -96,7 +96,7 @@ public class MagentoSoapClient implements SoapClient {
 	}
 
 	/**
-	 * Use to change the connection parameters to API (url, username, password)
+	 * Use to change the connection parameters to API (apiUser, apiKey, remoteHost)
 	 *
 	 * @param config
 	 *            the config to set
@@ -107,15 +107,13 @@ public class MagentoSoapClient implements SoapClient {
 	}
 
 	public Object call(ResourcePath path, Object args) throws AxisFault {
-		OMElement method = callFactory.createCall(sessionId, path.getPath(),
-				args);
+		OMElement method = callFactory.createCall(sessionId, path.getPath(), args);
 		OMElement result = sender.sendReceive(method);
 
 		return returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
 	}
 
-	public Object multiCall(List<ResourcePath> path, List<Object> args)
-			throws AxisFault {
+	public Object multiCall(List<ResourcePath> path, List<Object> args)	throws AxisFault {
 		throw new UnsupportedOperationException("not implemented");
 	}
 
