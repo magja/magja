@@ -28,6 +28,8 @@ public class SoapConfig {
 		this.apiUser = apiUser;
 		this.apiKey = apiKey;
 		this.remoteHost = remoteHost;
+		this.defaultAttributeSetId = 1;
+		this.defaultRootCategoryId = 1;
 	}
 
 	public SoapConfig(Properties properties){
