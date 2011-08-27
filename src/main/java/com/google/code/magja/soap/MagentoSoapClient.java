@@ -42,8 +42,11 @@ public class MagentoSoapClient implements SoapClient {
 	private static Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap();
 
 	/**
-	 * @return the FIRST created instance or a newly created one from the
-	 *         magento-api.properties file
+	 * Returns the default instance, or a newly created one from the
+	 * magento-api.properties file, if there is no default instance.
+	 * The default instance is the first one created.
+	 *
+	 * @return the default instance or a newly created one
 	 */
 	public static MagentoSoapClient getInstance() {
 		if(INSTANCES.size() == 0){
@@ -53,6 +56,9 @@ public class MagentoSoapClient implements SoapClient {
 	}
 
 	/**
+	 * Returns the instance that was created with the specified configuration
+	 * or a newly created one if the instance does not exist.
+	 *
 	 * @return the already created instance or a newly created one
 	 */
 	public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
