@@ -83,7 +83,7 @@ public class ProductLinkRemoteServiceImpl extends
 	public void assign(Product product, ProductLink link)
 			throws ServiceException {
 
-		if (!validateProduct(product))
+		if (!ProductServiceUtil.validateProduct(product))
 			throw new ServiceException("the product id or sku must be setted.");
 		if (!validadeProductLink(link))
 			throw new ServiceException(
@@ -109,7 +109,7 @@ public class ProductLinkRemoteServiceImpl extends
 	@Override
 	public Set<ProductLink> list(Product product) throws ServiceException {
 
-		if (!validateProduct(product))
+		if (!ProductServiceUtil.validateProduct(product))
 			throw new ServiceException("you must specify a product");
 
 		Set<ProductLink> links = new HashSet<ProductLink>();
@@ -132,7 +132,7 @@ public class ProductLinkRemoteServiceImpl extends
 	public Set<ProductLink> list(LinkType linktype, Product product)
 			throws ServiceException {
 
-		if (!validateProduct(product))
+		if (!ProductServiceUtil.validateProduct(product))
 			throw new ServiceException("you must specify a product");
 		if (linktype == null)
 			throw new ServiceException("you must specify a link type");
@@ -175,7 +175,7 @@ public class ProductLinkRemoteServiceImpl extends
 	public void remove(Product product, ProductLink link)
 			throws ServiceException {
 
-		if (!validateProduct(product))
+		if (!ProductServiceUtil.validateProduct(product))
 			throw new ServiceException("the product id or sku must be setted");
 		if (!validadeProductLink(link))
 			throw new ServiceException(
@@ -209,7 +209,7 @@ public class ProductLinkRemoteServiceImpl extends
 	public void update(Product product, ProductLink link)
 			throws ServiceException {
 
-		if (!validateProduct(product))
+		if (!ProductServiceUtil.validateProduct(product))
 			throw new ServiceException("the product id or sku must be setted");
 		if (!validadeProductLink(link))
 			throw new ServiceException(
