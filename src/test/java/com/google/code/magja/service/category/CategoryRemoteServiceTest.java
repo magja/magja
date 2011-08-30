@@ -27,7 +27,7 @@ public class CategoryRemoteServiceTest {
      */
     @Before
     public void setUp() throws Exception {
-        service = new RemoteServiceFactory().getCategoryRemoteService();
+        service = RemoteServiceFactory.getCategoryRemoteService();
     }
 
     /**

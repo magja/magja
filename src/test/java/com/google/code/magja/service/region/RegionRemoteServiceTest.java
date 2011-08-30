@@ -27,7 +27,7 @@ public class RegionRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = new RemoteServiceFactory().getRegionRemoteService();
+		service = RemoteServiceFactory.getRegionRemoteService();
 	}
 
 	/**

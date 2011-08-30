@@ -37,7 +37,7 @@ public class ProductAttributeRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = new RemoteServiceFactory().getProductAttributeRemoteService();
+		service = RemoteServiceFactory.getProductAttributeRemoteService();
 		defaultAttributeSet = ProductAttributeSet.getDefaultProductAttributeSet();
 	}
 

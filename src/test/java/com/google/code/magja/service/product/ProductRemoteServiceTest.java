@@ -50,7 +50,7 @@ public class ProductRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = new RemoteServiceFactory().getProductRemoteService();
+		service = RemoteServiceFactory.getProductRemoteService();
 	}
 
 	/**

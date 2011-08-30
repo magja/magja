@@ -30,8 +30,8 @@ public class ProductMediaRemoteServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		service = new RemoteServiceFactory().getProductMediaRemoteService();
-		productService = new RemoteServiceFactory().getProductRemoteService();
+		service = RemoteServiceFactory.getProductMediaRemoteService();
+		productService = RemoteServiceFactory.getProductRemoteService();
 	}
 
 	/**

@@ -12,8 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.code.magja.model.customer.Customer;
-import com.google.code.magja.model.customer.CustomerGroup;
 import com.google.code.magja.model.customer.Customer.Gender;
+import com.google.code.magja.model.customer.CustomerGroup;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaStringUtils;
@@ -35,7 +35,7 @@ public class CustomerRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = new RemoteServiceFactory().getCustomerRemoteService();
+		service = RemoteServiceFactory.getCustomerRemoteService();
 	}
 
 	public static Customer generateCustomer() {

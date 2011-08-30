@@ -3,8 +3,6 @@
  */
 package com.google.code.magja.service.order;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +21,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = new RemoteServiceFactory().getShipmentRemoteService();
+		service = RemoteServiceFactory.getShipmentRemoteService();
 	}
 
 	/**
