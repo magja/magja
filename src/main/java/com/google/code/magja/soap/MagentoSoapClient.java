@@ -27,66 +27,79 @@ import com.google.code.magja.utils.PropertyLoader;
 public class MagentoSoapClient implements SoapClient {
 
 	public static final String CONFIG_PROPERTIES_FILE = "magento-api";
+
 	private static final QName LOGIN_RETURN = new QName("loginReturn");
+
 	private static final QName LOGOUT_RETURN = new QName("endSessionReturn");
+
 	private static final QName CALL_RETURN = new QName("callReturn");
 
 	private SoapCallFactory callFactory;
+
 	private SoapReturnParser returnParser;
+
 	private SoapConfig config;
+
 	private Options connectOptions;
+
 	private String sessionId;
+
 	private ServiceClient sender;
 
-	// holds all the created instances by creation order
-	private static Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap();
+	// holds all the created instances by creation order, Multiton Pattern
+	private static final Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap<SoapConfig, MagentoSoapClient>();
 
 	/**
 	 * Returns the default instance, or a newly created one from the
-	 * magento-api.properties file, if there is no default instance.
-	 * The default instance is the first one created.
-	 *
+	 * magento-api.properties file, if there is no default instance. The default
+	 * instance is the first one created.
+	 * 
 	 * @return the default instance or a newly created one
 	 */
 	public static MagentoSoapClient getInstance() {
-		if(INSTANCES.size() == 0){
-			return new MagentoSoapClient((new SoapConfig(PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE))));
-		}
-		return INSTANCES.values().iterator().next();
+		return (INSTANCES.size() == 0) ? getInstance(null) : INSTANCES.values()
+				.iterator().next();
 	}
 
 	/**
-	 * Returns the instance that was created with the specified configuration
-	 * or a newly created one if the instance does not exist.
-	 *
-	 * @return the already created instance or a newly created one
+	 * Returns the instance that was created with the specified configuration or
+	 * create one if the instance does not exist.
+	 * 
+	 * @return the already created instance or a new one
 	 */
 	public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
-		if(!INSTANCES.containsKey(soapConfig)){
-			return new MagentoSoapClient(soapConfig);
-		}
-		return INSTANCES.get(soapConfig);
-	}
+		
+		// if has default instance and soapConfig is null
+		if(INSTANCES.size() > 0 && soapConfig == null)
+			return INSTANCES.values().iterator().next();
+		
+		synchronized (INSTANCES) {
 
-	/**
-	 * The default constructor for custom connections
-	 */
-	public MagentoSoapClient(){
+			if (soapConfig == null)
+				soapConfig = new SoapConfig(
+						PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE));
+
+			MagentoSoapClient instance = INSTANCES.get(soapConfig);
+			if (instance == null) {
+				instance = new MagentoSoapClient(soapConfig);
+				INSTANCES.put(soapConfig, instance);
+			}
+			return instance;
+		}
 	}
 
 	/**
 	 * Construct soap client using given configuration
-	 *
+	 * 
 	 * @param soapConfig
 	 */
-	public MagentoSoapClient(SoapConfig soapConfig){
+	private MagentoSoapClient(SoapConfig soapConfig) {
 		config = soapConfig;
 		callFactory = new SoapCallFactory();
 		returnParser = new SoapReturnParser();
-		try{
+		try {
 			login();
-			INSTANCES.put(soapConfig, this);
-		}catch(AxisFault e){
+		} catch (AxisFault e) {
 			// do not swallow, rethrow as runtime
 			throw new RuntimeException(e);
 		}
@@ -100,24 +113,43 @@ public class MagentoSoapClient implements SoapClient {
 	}
 
 	/**
-	 * Use to change the connection parameters to API (apiUser, apiKey, remoteHost)
-	 *
+	 * Use to change the connection parameters to API (apiUser, apiKey,
+	 * remoteHost)
+	 * 
 	 * @param config
 	 *            the config to set
 	 */
+	@Deprecated
 	public void setConfig(SoapConfig config) throws AxisFault {
 		this.config = config;
 		login();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.google.code.magja.soap.SoapClient#call(com.google.code.magja.magento
+	 * .ResourcePath, java.lang.Object)
+	 */
+	@Override
 	public Object call(ResourcePath path, Object args) throws AxisFault {
-		OMElement method = callFactory.createCall(sessionId, path.getPath(), args);
+		OMElement method = callFactory.createCall(sessionId, path.getPath(),
+				args);
 		OMElement result = sender.sendReceive(method);
 
 		return returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
 	}
 
-	public Object multiCall(List<ResourcePath> path, List<Object> args)	throws AxisFault {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.google.code.magja.soap.SoapClient#multiCall(java.util.List,
+	 * java.util.List)
+	 */
+	@Override
+	public Object multiCall(List<ResourcePath> path, List<Object> args)
+			throws AxisFault {
 		throw new UnsupportedOperationException("not implemented");
 	}
 
@@ -126,7 +158,7 @@ public class MagentoSoapClient implements SoapClient {
 	 */
 	protected void login() throws AxisFault {
 
-		if(isLoggedIn())
+		if (isLoggedIn())
 			logout();
 
 		connectOptions = new Options();
@@ -141,15 +173,16 @@ public class MagentoSoapClient implements SoapClient {
 		HttpClient httpClient = new HttpClient(httpConnectionManager);
 		connectOptions.setProperty(HTTPConstants.REUSE_HTTP_CLIENT,
 				Constants.VALUE_TRUE);
-		connectOptions.setProperty(HTTPConstants.CACHED_HTTP_CLIENT,
-				httpClient);
+		connectOptions
+				.setProperty(HTTPConstants.CACHED_HTTP_CLIENT, httpClient);
 		connectOptions.setProperty(HTTPConstants.HTTP_PROTOCOL_VERSION,
 				HTTPConstants.HEADER_PROTOCOL_10);
 
 		sender = new ServiceClient();
 		sender.setOptions(connectOptions);
 
-		OMElement loginMethod = callFactory.createLoginCall(this.config.getApiUser(), this.config.getApiKey());
+		OMElement loginMethod = callFactory.createLoginCall(
+				this.config.getApiUser(), this.config.getApiKey());
 		OMElement loginResult = sender.sendReceive(loginMethod);
 
 		sessionId = loginResult.getFirstChildWithName(LOGIN_RETURN).getText();
@@ -157,7 +190,7 @@ public class MagentoSoapClient implements SoapClient {
 
 	/**
 	 * Logout from service, throws logout exception if failed
-	 *
+	 * 
 	 * @throws AxisFault
 	 */
 	protected void logout() throws AxisFault {
@@ -165,9 +198,9 @@ public class MagentoSoapClient implements SoapClient {
 		// first, we need to logout the previous session
 		OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
 		OMElement logoutResult = sender.sendReceive(logoutMethod);
-		Boolean logoutSuccess = Boolean.parseBoolean(logoutResult.getFirstChildWithName(
-				LOGOUT_RETURN).getText());
-		if(!logoutSuccess){
+		Boolean logoutSuccess = Boolean.parseBoolean(logoutResult
+				.getFirstChildWithName(LOGOUT_RETURN).getText());
+		if (!logoutSuccess) {
 			throw new RuntimeException("Error logging out");
 		}
 		sessionId = null;
@@ -182,7 +215,7 @@ public class MagentoSoapClient implements SoapClient {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#finalize()
 	 */
 	@Override
@@ -191,11 +224,11 @@ public class MagentoSoapClient implements SoapClient {
 		// first, we need to logout the previous session
 		OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
 		OMElement logoutResult = sender.sendReceive(logoutMethod);
-		Boolean logoutSuccess = Boolean.parseBoolean(logoutResult.getFirstChildWithName(
-				LOGOUT_RETURN).getText());
-		try{
+		Boolean logoutSuccess = Boolean.parseBoolean(logoutResult
+				.getFirstChildWithName(LOGOUT_RETURN).getText());
+		try {
 			sender.cleanupTransport();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		super.finalize();
