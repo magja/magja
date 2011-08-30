@@ -26,8 +26,7 @@ public class ProductLinkRemoteServiceImpl extends
 
 	private static final long serialVersionUID=28223743577747311L;
 
-	private ProductLink buildProductLink(Map<String, Object> map,
-			LinkType linkType) {
+	private ProductLink buildProductLink(Map<String, Object> map, LinkType linkType) {
 		ProductLink link = new ProductLink();
 
 		link.setLinkType(linkType);
@@ -36,8 +35,7 @@ public class ProductLinkRemoteServiceImpl extends
 			link.set(att.getKey(), att.getValue());
 
 		if (map.get("type") != null)
-			link.setProductType(ProductTypeEnum.getTypeOf((String) map
-					.get("type")));
+			link.setProductType(ProductTypeEnum.getTypeOf((String) map.get("type")));
 
 		return link;
 	}
@@ -56,9 +54,7 @@ public class ProductLinkRemoteServiceImpl extends
 
 		List<Object> params = new LinkedList<Object>();
 		params.add(link.getLinkType().toString().toLowerCase());
-		params
-				.add(product.getId() != null ? product.getId() : product
-						.getSku());
+		params.add(product.getId() != null ? product.getId() : product.getSku());
 		params.add(link.getId() != null ? link.getId() : link.getSku());
 
 		Map<String, Object> props = new HashMap<String, Object>();
@@ -141,9 +137,7 @@ public class ProductLinkRemoteServiceImpl extends
 
 		List<Object> params = new LinkedList<Object>();
 		params.add(linktype.toString().toLowerCase());
-		params
-				.add(product.getId() != null ? product.getId() : product
-						.getSku());
+		params.add(product.getId() != null ? product.getId() : product.getSku());
 
 		List<Map<String, Object>> results = null;
 		try {
@@ -183,9 +177,7 @@ public class ProductLinkRemoteServiceImpl extends
 
 		List<Object> params = new LinkedList<Object>();
 		params.add(link.getLinkType().toString().toLowerCase());
-		params
-				.add(product.getId() != null ? product.getId() : product
-						.getSku());
+		params.add(product.getId() != null ? product.getId() : product.getSku());
 		params.add(link.getId() != null ? link.getId() : link.getSku());
 
 		try {
