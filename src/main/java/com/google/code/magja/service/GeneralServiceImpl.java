@@ -15,11 +15,14 @@ public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements 
 
 	protected MagentoSoapClient soapClient;
 
-	/**
-	 * @param soapClient the soapClient to set
-	 */
+	@Override
 	public void setSoapClient(MagentoSoapClient soapClient) {
 		this.soapClient = soapClient;
+	}
+	
+	@Override
+	public MagentoSoapClient getSoapClient() {
+		return soapClient;
 	}
 
 	/**
