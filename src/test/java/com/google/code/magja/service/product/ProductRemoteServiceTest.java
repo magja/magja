@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.code.magja.model.category.Category;
@@ -51,6 +52,17 @@ public class ProductRemoteServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		service = RemoteServiceFactory.getProductRemoteService();
+	}
+	
+	/**
+	 * Just a test for save up to 50 products for performance purposes, 
+	 * maked as ignore for maven builds
+	 * @throws Exception
+	 */
+	@Test @Ignore
+	public void testSaveMultipleProducts() throws Exception {
+		for (int i = 0; i < 50; i++)
+			testSaveConfigurableProduct();
 	}
 
 	/**
