@@ -11,20 +11,35 @@ import org.apache.axiom.om.OMNamespace;
 public class SoapCallFactory {
 
 	private OMFactory fac;
+
 	private OMNamespace noNs;
+
 	private OMNamespace mag;
+
 	private OMNamespace soapEnc;
+
 	private OMNamespace soapXml;
+
 	private OMNamespace xsi;
+
 	private OMNamespace xsd;
+
 	private static final String CORE_LOGIN = "login";
+
 	private static final String CORE_CALL = "call";
+
 	private static final String CORE_MULTI_CALL = "multiCall";
+
 	private static final String CORE_LOGOUT = "endSession";
+
 	private static final String SESSION_ID = "sessionId";
+
 	private static final String RESOURCE_PATH = "resourcePath";
+
 	private static final String ARGUMENTS = "args";
+
 	private static final String MULTI_CALLS = "calls";
+
 	private static final String MULTI_CALL_OPTIONS = "options";
 
 	public SoapCallFactory() {
@@ -39,15 +54,18 @@ public class SoapCallFactory {
 		mag = fac.createOMNamespace("urn:Magento", "mag");
 
 		// General namespaces, needed for soap
-		xsi = fac.createOMNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi");
+		xsi = fac.createOMNamespace(
+				"http://www.w3.org/2001/XMLSchema-instance", "xsi");
 		xsd = fac.createOMNamespace("http://www.w3.org/2001/XMLSchema", "xsd");
-		soapXml = fac.createOMNamespace("http://xml.apache.org/xml-soap", "SOAP-XML");
-		soapEnc = fac.createOMNamespace("http://schemas.xmlsoap.org/soap/encoding/", "SOAP-ENC");
+		soapXml = fac.createOMNamespace("http://xml.apache.org/xml-soap",
+				"SOAP-XML");
+		soapEnc = fac.createOMNamespace(
+				"http://schemas.xmlsoap.org/soap/encoding/", "SOAP-ENC");
 	}
 
 	/**
 	 * Creates a Soap method for login
-	 *
+	 * 
 	 * @param user
 	 * @param password
 	 * @return the created method as axiom element
@@ -67,7 +85,7 @@ public class SoapCallFactory {
 
 	/**
 	 * Creates a soap method to end a session
-	 *
+	 * 
 	 * @param sessionId
 	 * @return the created method as axiom element
 	 */
@@ -101,7 +119,8 @@ public class SoapCallFactory {
 		if (arg instanceof List) {
 			List<Object> args = (List<Object>) arg;
 			paramArgs = fac.createOMElement(ARGUMENTS, noNs);
-			paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + args.size() + "]", soapEnc);
+			paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
+					+ args.size() + "]", soapEnc);
 			paramArgs.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
 
 			for (Object argument : args) {
@@ -119,35 +138,39 @@ public class SoapCallFactory {
 	/**
 	 * Dispatcher function which decides, how the axiom subtree for a value is
 	 * created.
-	 *
+	 * 
 	 * @param elementNs
 	 * @param name
 	 * @param value
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private OMElement typedElement(OMNamespace elementNs, String name, Object value) {
+	private OMElement typedElement(OMNamespace elementNs, String name,
+			Object value) {
 		if (value instanceof String) {
 			/*
 			 * Simple key-value map <item><key
 			 * xsi:type="xsd:string">name</key><value
 			 * xsi:type="xsd:string">value</value></item>
 			 */
-			return this.typedElement(elementNs, name, (String) value, xsd.getPrefix() + ":string");
+			return this.typedElement(elementNs, name, (String) value,
+					xsd.getPrefix() + ":string");
 		} else if (value instanceof Integer) {
 			/*
 			 * Simple key-value map <item><key
 			 * xsi:type="xsd:string">name</key><value
 			 * xsi:type="xsd:int">value</value></item>
 			 */
-			return this.typedElement(elementNs, name, ((Integer) value).toString(), xsd.getPrefix() + ":int");
+			return this.typedElement(elementNs, name,
+					((Integer) value).toString(), xsd.getPrefix() + ":int");
 		} else if (value instanceof Double) {
 			/*
 			 * Simple key-value map <item><key
 			 * xsi:type="xsd:string">name</key><value
 			 * xsi:type="xsd:float">value</value></item>
 			 */
-			return this.typedElement(elementNs, name, ((Double) value).toString(), xsd.getPrefix() + ":float");
+			return this.typedElement(elementNs, name,
+					((Double) value).toString(), xsd.getPrefix() + ":float");
 		} else if (value instanceof String[]) {
 			/*
 			 * String Array is represented by a list of items <item
@@ -158,9 +181,20 @@ public class SoapCallFactory {
 			 */
 			String[] stringArray = (String[]) value;
 			OMElement arrayArg = fac.createOMElement(name, elementNs);
-			arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":string[" + stringArray.length + "]", soapEnc);
+			arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":string["
+					+ stringArray.length + "]", soapEnc);
 			arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
 			for (String item : stringArray) {
+				arrayArg.addChild(typedElement(elementNs, "item", item));
+			}
+			return arrayArg;
+		} else if (value instanceof List) {
+			List<Object> list = (List<Object>) value;
+			OMElement arrayArg = fac.createOMElement(name, elementNs);
+			arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
+					+ list.size() + "]", soapEnc);
+			arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
+			for (Object item : list) {
 				arrayArg.addChild(typedElement(elementNs, "item", item));
 			}
 			return arrayArg;
@@ -180,19 +214,21 @@ public class SoapCallFactory {
 			}
 			return mapArg;
 		}
-		throw new RuntimeException("keyValue not implemented for " + value.getClass().toString());
+		throw new RuntimeException("keyValue not implemented for "
+				+ value.getClass().toString());
 	}
 
 	/**
 	 * Create a simple element with a xsi:type attribute
-	 *
+	 * 
 	 * @param elementNs
 	 * @param name
 	 * @param value
 	 * @param valueType
 	 * @return
 	 */
-	private OMElement typedElement(OMNamespace elementNs, String name, String value, String valueType) {
+	private OMElement typedElement(OMNamespace elementNs, String name,
+			String value, String valueType) {
 		OMElement element = fac.createOMElement(name, elementNs);
 		element.addAttribute("type", valueType, xsi);
 		element.addChild(fac.createOMText(element, value));
@@ -201,7 +237,7 @@ public class SoapCallFactory {
 
 	/**
 	 * Creates an key-value elements contained by an item-element
-	 *
+	 * 
 	 * @param key
 	 * @param value
 	 * @return

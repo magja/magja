@@ -78,7 +78,15 @@ public enum ResourcePath {
 	SalesOrderShipmentRemoveTrack("sales_order_shipment.removeTrack"),
 	SalesOrderShipmentGetCarriers("sales_order_shipment.getCarriers"),
 	CountryList("country.list"),
-	RegionList("region.list");
+	RegionList("region.list"),
+	ShoppingCartCreate("cart.create"),
+	ShoppingCartLicenseAgreement("cart.license"),
+	ShoppingCartTotals("cart.totals"),
+	ShoppingCartInfo("cart.info"),
+	ShoppingCartOrder("cart.order"),
+	ShoppingCartCustomerSet("cart_customer.set"),
+	ShoppingCartCustomerAddresses("cart_customer.addresses"),
+	ShoppingCartProductAdd("cart_product.add");
 
 	private String path;
 

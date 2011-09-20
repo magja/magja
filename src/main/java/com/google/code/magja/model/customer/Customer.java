@@ -13,7 +13,7 @@ import com.google.code.magja.model.BaseMagentoModel;
 
 public class Customer extends BaseMagentoModel {
 
-	private static final long serialVersionUID=7260666195808816927L;
+	private static final long serialVersionUID = 7260666195808816927L;
 
 	public enum Gender {
 		MALE(1), FEMALE(2);
@@ -54,9 +54,50 @@ public class Customer extends BaseMagentoModel {
 
 	private String createdAt;
 
+	public static Customer fromAttributes(Map<String, Object> attrs) {
+		if (attrs.get("customer_id") != null) {
+			Customer customer = new Customer();
+
+			customer.setId(new Integer((String) attrs.get("customer_id")));
+			if (attrs.get("customer_email") != null) {
+				customer.setEmail((String) attrs.get("customer_email"));
+			}
+			if (attrs.get("customer_prefix") != null) {
+				customer.setPrefix((String) attrs.get("customer_prefix"));
+			}
+			if (attrs.get("customer_firstname") != null) {
+				customer.setFirstName((String) attrs.get("customer_firstname"));
+			}
+			if (attrs.get("customer_middlename") != null) {
+				customer.setMiddleName((String) attrs
+						.get("customer_middlename"));
+			}
+			if (attrs.get("customer_lastname") != null) {
+				customer.setLastName((String) attrs.get("customer_lastname"));
+			}
+			if (attrs.get("customer_lastname") != null) {
+				customer.setLastName((String) attrs.get("customer_lastname"));
+			}
+			if (attrs.get("customer_group_id") != null) {
+				customer.setGroupId(new Integer((String) attrs
+						.get("customer_group_id")));
+			}
+			if (attrs.get("customer_gender") != null) {
+				Integer gender = new Integer(
+						(String) attrs.get("customer_gender"));
+				customer.setGender(gender.equals(new Integer(1)) ? Gender.MALE
+						: Gender.FEMALE);
+			}
+
+			return customer;
+		}
+
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
@@ -277,7 +318,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -309,7 +350,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -391,7 +432,7 @@ public class Customer extends BaseMagentoModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

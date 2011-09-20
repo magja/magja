@@ -4,11 +4,13 @@
  */
 package com.google.code.magja.model.address;
 
+import java.util.Map;
+
 import com.google.code.magja.model.BaseMagentoModel;
 
 public abstract class Address extends BaseMagentoModel {
 
-	private static final long serialVersionUID=4478193199848784303L;
+	private static final long serialVersionUID = 4478193199848784303L;
 
 	protected String prefix;
 
@@ -36,6 +38,17 @@ public abstract class Address extends BaseMagentoModel {
 
 	protected String countryCode;
 
+	public static Address fromAttributes(Address address,
+			Map<String, Object> attrs) {
+		if (address == null)
+			return null;
+
+		for (Map.Entry<String, Object> attr : attrs.entrySet())
+			address.set(attr.getKey(), attr.getValue());
+
+		return address;
+	}
+
 	/**
 	 * @return the prefix
 	 */
@@ -44,7 +57,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param prefix the prefix to set
+	 * @param prefix
+	 *            the prefix to set
 	 */
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
@@ -58,7 +72,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param firstName the firstName to set
+	 * @param firstName
+	 *            the firstName to set
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -72,7 +87,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param middleName the middleName to set
+	 * @param middleName
+	 *            the middleName to set
 	 */
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
@@ -86,7 +102,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param lastName the lastName to set
+	 * @param lastName
+	 *            the lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -100,7 +117,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param suffix the suffix to set
+	 * @param suffix
+	 *            the suffix to set
 	 */
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
@@ -114,7 +132,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param company the company to set
+	 * @param company
+	 *            the company to set
 	 */
 	public void setCompany(String company) {
 		this.company = company;
@@ -128,7 +147,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param telephone the telephone to set
+	 * @param telephone
+	 *            the telephone to set
 	 */
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
@@ -142,7 +162,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param fax the fax to set
+	 * @param fax
+	 *            the fax to set
 	 */
 	public void setFax(String fax) {
 		this.fax = fax;
@@ -156,7 +177,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param postCode the postCode to set
+	 * @param postCode
+	 *            the postCode to set
 	 */
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
@@ -170,7 +192,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param street the street to set
+	 * @param street
+	 *            the street to set
 	 */
 	public void setStreet(String street) {
 		this.street = street;
@@ -184,7 +207,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param city the city to set
+	 * @param city
+	 *            the city to set
 	 */
 	public void setCity(String city) {
 		this.city = city;
@@ -198,7 +222,8 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param region the region to set
+	 * @param region
+	 *            the region to set
 	 */
 	public void setRegion(String region) {
 		this.region = region;
@@ -212,13 +237,16 @@ public abstract class Address extends BaseMagentoModel {
 	}
 
 	/**
-	 * @param countryCode the countryCode to set
+	 * @param countryCode
+	 *            the countryCode to set
 	 */
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -247,7 +275,9 @@ public abstract class Address extends BaseMagentoModel {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -327,7 +357,9 @@ public abstract class Address extends BaseMagentoModel {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
