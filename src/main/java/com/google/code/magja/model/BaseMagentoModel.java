@@ -228,6 +228,7 @@ public abstract class BaseMagentoModel implements Serializable {
 				}
 
 				if(value != null) props.put(key, finalValue);
+				if(finalValue != null) props.put(key, finalValue);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
