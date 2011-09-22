@@ -241,7 +241,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
 			if (setList != null) {
 				for (Map<String, Object> set : setList) {
-					if (set.get("set_id").equals(set_id)) {
+					if (set.get("set_id").equals(set_id.toString())) {
 
 						for (Map.Entry<String, Object> att : set.entrySet())
 							prdAttSet.set(att.getKey(), att.getValue());
