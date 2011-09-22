@@ -22,13 +22,13 @@ public class OrderFilter implements Serializable {
 		List<Object> props = new LinkedList<Object>();
 
 		for (OrderFilterItem item : items) {
-
+			Map<String, Map<String, String>> filterItem = new HashMap<String, Map<String, String>>();
+			
 			Map<String, String> params = new HashMap<String, String>();
-
 			params.put(item.getOperator(), item.getValue());
-
-			props.add(item.getProperty());
-			props.add(params);
+			
+			filterItem.put(item.getProperty(), params);
+			props.add(filterItem);
 		}
 
 		return props;
