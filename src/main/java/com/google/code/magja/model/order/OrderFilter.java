@@ -16,22 +16,39 @@ public class OrderFilter implements Serializable {
 	private static final long serialVersionUID=-3928174333216515603L;
 
 	private List<OrderFilterItem> items = new ArrayList<OrderFilterItem>();
-
+	
 	public Object serializeToApi() {
-
-		List<Object> props = new LinkedList<Object>();
-
+		
+		// Map each property to it's parameter map
+		Map<String, Map<String, String>> propertyMaps = new HashMap<String, Map<String, String>>();
+		
 		for (OrderFilterItem item : items) {
-			Map<String, Map<String, String>> filterItem = new HashMap<String, Map<String, String>>();
 			
-			Map<String, String> params = new HashMap<String, String>();
-			params.put(item.getOperator(), item.getValue());
+			String property = item.getProperty();
 			
-			filterItem.put(item.getProperty(), params);
-			props.add(filterItem);
+			// If we have this property already, add to the existing paramMap
+			if (propertyMaps.get(property) != null) {
+				propertyMaps.get(property).put(item.getOperator(), item.getValue());
+			} else { // new property, new paramMap
+				Map<String, String> params = new HashMap<String, String>();
+				params.put(item.getOperator(), item.getValue());
+				propertyMaps.put(property, params);
+			}
 		}
 
-		return props;
+		// output in the required format, a list of maps [property -> [paramMap]]
+		List<Map<String, Map<String, String>>> result = 
+				new LinkedList<Map<String,Map<String,String>>>();
+		
+		Map<String, Map<String, String>> newMap;
+		
+		for (String property : propertyMaps.keySet()) {
+			newMap = new HashMap<String, Map<String,String>>();
+			newMap.put(property, propertyMaps.get(property));
+			result.add(newMap);
+		}
+		
+		return result;
 	}
 
 	/**
