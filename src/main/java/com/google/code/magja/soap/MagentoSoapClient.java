@@ -77,7 +77,7 @@ public class MagentoSoapClient implements SoapClient {
 
 			if (soapConfig == null)
 				soapConfig = new SoapConfig(
-						PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE));
+						PropertyLoader.loadProperties(CONFIG_PROPERTIES_FILE, MagentoSoapClient.class.getClassLoader()));
 
 			MagentoSoapClient instance = INSTANCES.get(soapConfig);
 			if (instance == null) {
