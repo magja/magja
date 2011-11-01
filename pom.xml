@@ -226,6 +226,11 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.3</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
    <build>
@@ -314,6 +319,8 @@
 								<classpath/>
 								<argument>-Dlogback.configurationFile=${project.basedir}/logback.xml</argument>
 								<argument>-deprecation</argument>
+								<argument>-J-Xdebug</argument>
+								<argument>-J-agentlib:jdwp=transport=dt_shmem,server=y,suspend=n</argument>
 							</arguments>
 						</configuration>
 					</plugin>
