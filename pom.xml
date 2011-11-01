@@ -312,6 +312,7 @@
 							<arguments>
 								<argument>-cp</argument>
 								<classpath/>
+								<argument>-Dlogback.configurationFile=${project.basedir}/logback.xml</argument>
 								<argument>-deprecation</argument>
 							</arguments>
 						</configuration>
