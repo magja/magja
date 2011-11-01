@@ -138,7 +138,7 @@ public class Category extends BaseMagentoModel {
 	 *            in string mode, because magento doens't return in a array mode
 	 */
 	public void setAvailableSortBy(String availableSortBy) {
-		this.availableSortBy = new String[] { availableSortBy };
+		this.availableSortBy = availableSortBy != null ? availableSortBy.split(",") : new String[] { };
 	}
 
 	/**

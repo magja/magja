@@ -7,10 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import com.google.code.magja.utils.PropertyLoader;
+import com.google.common.base.Joiner;
 
 public abstract class BaseMagentoModel implements Serializable {
 
@@ -57,10 +59,11 @@ public abstract class BaseMagentoModel implements Serializable {
 				return null;
 			}
 
-			Class tClass = getClass();
+			Class<? extends BaseMagentoModel> tClass = getClass();
 			Object[] args = null;
-			Class[] argTypes = null;
-
+			Class<?>[] argTypes = null;
+			Method invokeMethod = null;
+			
 			try {
 
 				if(prefix.equals("set")) {
@@ -103,12 +106,16 @@ public abstract class BaseMagentoModel implements Serializable {
 							arg2 = arg;
 						}
 
-						// when the argument is a array of String's
-						if(arg instanceof LinkedList) {
+						// when the argument is a list of String's
+						if(arg instanceof List) {
 							LinkedList<String> list = (LinkedList<String>) arg;
 							String[] strs = new String[list.size()];
 							list.toArray(strs);
 							args[0] = strs;
+
+						// when Magento returns string instead of String[], for example in category setAvailableSortBy
+						} else if(arg instanceof String && argTypes.length == 1 && argTypes[0] == String[].class) {
+							argTypes[0] = String.class;
 
 						} else {
 							// create the object with correct type
@@ -121,7 +128,7 @@ public abstract class BaseMagentoModel implements Serializable {
 					}
 				}
 
-				Method invokeMethod = tClass.getMethod(methodName, argTypes);
+				invokeMethod = tClass.getMethod(methodName, argTypes);
 				if(prefix.equals("get")) {
 					return invokeMethod.invoke(this);
 				}
@@ -130,19 +137,19 @@ public abstract class BaseMagentoModel implements Serializable {
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
-				throw new Exception("IllegalArgumentException calling method " + methodName + " on " + tClass.getName());
+				throw new Exception("IllegalArgumentException calling method " + methodName + " on " + tClass.getName(), e);
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
-				throw new Exception("IllegalAccessException calling method " + methodName + " on " + tClass.getName());
+				throw new Exception("IllegalAccessException calling method " + methodName + " on " + tClass.getName(), e);
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
-				throw new Exception("InvocationTargetException calling method " + methodName + " on " + tClass.getName());
+				throw new Exception("InvocationTargetException calling method " + methodName + " on " + tClass.getName(), e);
 			} catch (SecurityException e) {
 				e.printStackTrace();
-				throw new Exception("SecurityException calling method " + methodName + " on " + tClass.getName());
+				throw new Exception("SecurityException calling method " + methodName + " on " + tClass.getName(), e);
 			} catch (NoSuchMethodException e) {
 				//e.printStackTrace();
-				throw new Exception("NoSuchMethodException calling method " + methodName + " on " + tClass.getName());
+				throw new Exception("NoSuchMethodException calling method " + methodName + "("+ Joiner.on(", ").join(argTypes) +") on " + tClass.getName(), e);
 			}
 		}
 
