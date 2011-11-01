@@ -1,0 +1,36 @@
+h1. Magja
+
+"Magja":http://code.google.com/p/magja/ is a Java Connector for Magento's API
+
+The goal its build a java interface to access the Magento API and exchange data.
+
+h2. Getting Started
+
+* "Installation for Use":http://code.google.com/p/magja/wiki/Installation
+* "Setup Project for Development":http://code.google.com/p/magja/wiki/SetupProject
+* "Wiki Pages":http://code.google.com/p/magja/w/list 
+
+h2. RSS Feed
+
+Stay up to date with "Magja RSS Feed":http://code.google.com/feeds/p/magja/updates/basic 
+
+h2. Magja Console
+
+Usage:
+
+bc.. 
+./magja-console
+
+import com.google.code.magja.soap._
+import com.google.code.magja.model.customer._
+import com.google.code.magja.service._
+import com.google.code.magja.service.customer._
+import collection.JavaConversions._
+
+val soapConfig = new SoapConfig("sysadmin", "admin123", "http://ceefour.annafi/demo/api/soap/")
+
+h3. Customers
+
+bc. val customerRemoteService = RemoteServiceFactory.getCustomerRemoteService(soapConfig)
+val customers = customerRemoteService.list
+customers.foreach(c => println(c.getFirstName + " " + c.getEmail))
