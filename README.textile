@@ -18,8 +18,7 @@ h2. Magja Console
 
 Usage:
 
-bc.. 
-./magja-console
+bc.. ./magja-console
 
 import com.google.code.magja.soap._
 import com.google.code.magja.model.customer._
@@ -29,7 +28,73 @@ import collection.JavaConversions._
 
 val soapConfig = new SoapConfig("sysadmin", "admin123", "http://ceefour.annafi/demo/api/soap/")
 
-h3. Customers
+h3. Category
+
+Get only the basic information of a Category, without its dependencies:
+
+bc. val category = RemoteServiceFactory.getCategoryRemoteService(soapConfig).getByIdClean(1)
+println(category)
+
+Get category with its children:
+
+bc. val category = RemoteServiceFactory.getCategoryRemoteService(soapConfig).getByIdWithChildren(1)
+category.getChildren.foreach(println)
+
+Get category with its parent:
+
+bc. val category = RemoteServiceFactory.getCategoryRemoteService(soapConfig).getByIdWithParent(1)
+println(category.getParent)
+
+Get category with its parent and children:
+
+bc. val category = RemoteServiceFactory.getCategoryRemoteService(soapConfig).getByIdWithParentAndChildren(1)
+
+h3. Product
+
+bc. import com.google.code.magja.model.product._
+
+h4. Listing Products
+
+List all products with dependencies (slower)
+
+bc. val products = RemoteServiceFactory.getProductRemoteService.listAll
+
+List all products without dependencies (faster)
+
+bc. val products = RemoteServiceFactory.getProductRemoteService.listAllNoDep
+
+h4. Create Product
+
+bc.. val product = new Product
+product.setSku("SKUOFPRODUCT")
+product.setName("Product Name")
+product.setShortDescription("This is a short description")
+product.setDescription("This is a description for Product")
+product.setPrice(250.99)
+product.setCost(100.22)
+product.setEnabled(true)
+product.setWeight(0.500)
+product.setType(ProductTypeEnum.SIMPLE.getProductType)
+product.setAttributeSet(new ProductAttributeSet(4, "Default"))
+product.setMetaDescription("one two tree")
+product.setGoogleCheckout(true)
+
+// category
+
+// websites - set the website for product
+product.setWebsites(Array(1)
+
+// inventory - set the inventory for product
+product.setQty(20)
+product.setInStock(true)
+
+// Optional: you can set the properties not mapped like the following too:
+product.set("meta_description", "one two tree")
+
+// then, we just instanciate the service to persist the product
+RemoteServiceFactory.getProductRemoteService.save(product)
+
+h3. Customer
 
 bc. val customerRemoteService = RemoteServiceFactory.getCustomerRemoteService(soapConfig)
 val customers = customerRemoteService.list
