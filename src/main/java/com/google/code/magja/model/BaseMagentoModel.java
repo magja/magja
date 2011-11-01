@@ -28,7 +28,8 @@ public abstract class BaseMagentoModel implements Serializable {
 		String className = getClass().getSimpleName();
 		className = className.substring(0, 1).toLowerCase() + className.substring(1);
 		className = getClass().getPackage().getName() + "." + className + MAPPING_FILE_NAME_SUFIX;
-		mapping = PropertyLoader.loadProperties(className);
+		// Use the correct classloader to ensure it still works on Scala Console or OSGi environments 
+		mapping = PropertyLoader.loadProperties(className, BaseMagentoModel.class.getClassLoader());
 	}
 
 	/**

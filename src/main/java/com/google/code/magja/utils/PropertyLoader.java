@@ -64,7 +64,7 @@ public class PropertyLoader {
 		InputStream in = null;
 		try	{
 			if(loader == null)
-				loader = ClassLoader.getSystemClassLoader();
+				loader = PropertyLoader.class.getClassLoader();
 
 			if(LOAD_AS_RESOURCE_BUNDLE)	{
 
@@ -111,7 +111,7 @@ public class PropertyLoader {
 			throw new IllegalArgumentException("could not load [" + name + "]" +
 				" as " + (LOAD_AS_RESOURCE_BUNDLE
 						? "a resource bundle"
-						: "a classloader resource"));
+						: "a classloader resource") + " using " + loader);
 		}
 
 		return result;
