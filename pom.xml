@@ -4,7 +4,7 @@
     <groupId>com.google.code.magja</groupId>
     <artifactId>magja</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>magja</name>
     <description>
         Magja is a java connector for access the Magento API (http://www.magentocommerce.com/support/magento_core_api),
@@ -12,12 +12,12 @@
         and much more. Just you have to do its create a properties file with the connection parameters for the magento
         installation. For more information visit the project page.
     </description>
-    <url>http://magja.googlecode.com</url>
+    <url>https://github.com/magja/magja</url>
 
     <scm>
-        <url>http://magja.googlecode.com/svn/trunk</url>
-        <connection>scm:svn:http://magja.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://magja.googlecode.com/svn/trunk</developerConnection>
+        <url>https://github.com/magja/magja</url>
+        <connection>scm:git:git://github.com/magja/magja.git</connection>
+        <developerConnection>scm:git:git@github.com:magja/magja.git</developerConnection>
     </scm>
 
     <organization>
@@ -45,6 +45,23 @@
             <organizationUrl>http://www.rockstore.com.br</organizationUrl>
             <roles>
                 <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>kdavey</id>
+            <name>Keith Davey</name>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>ceefour</id>
+            <name>Hendy Irawan</name>
+            <url>http://www.HendyIrawan.com/</url>
+            <organization>Bippo</organization>
+            <organizationUrl>http://www.bippoapp.com/</organizationUrl>
+            <roles>
                 <role>developer</role>
             </roles>
         </developer>
