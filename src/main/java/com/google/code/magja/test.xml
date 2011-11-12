@@ -1,0 +1,32 @@
+<mag:call xmlns:mag="urn:Magento" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns:SOAP-XML="http://xml.apache.org/xml-soap" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <sessionId>0bf880cf14d53b8275d3a3c5042d034c</sessionId>
+    <resourcePath>list_item.update</resourcePath>
+    <args SOAP-ENC:arrayType="xsd:ur-type[2]" xsi:type="SOAP-ENC:Array">
+        <item xsi:type="xsd:int">22</item>
+        <item xsi:type="SOAP-XML:Map">
+            <item>
+                <key xsi:type="xsd:string">data</key>
+                <value xsi:type="SOAP-XML:Map">
+                    <item>
+                        <key xsi:type="xsd:string">is_must_have</key>
+                        <value xsi:type="xsd:int">1</value>
+                    </item>
+                    <item>
+                        <key xsi:type="xsd:string">qty</key>
+                        <value xsi:type="xsd:int">2</value>
+                    </item>
+                    <item>
+                        <key xsi:type="xsd:string">qty_purchased</key>
+                        <value xsi:type="xsd:int">0</value>
+                    </item>
+                </value>
+            </item>
+            <item>
+                <key xsi:type="xsd:string">sku</key>
+                <value xsi:type="xsd:string">W0000004219</value>
+            </item>
+        </item>
+    </args>
+</mag:call>

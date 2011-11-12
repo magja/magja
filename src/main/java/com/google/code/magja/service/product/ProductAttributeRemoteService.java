@@ -91,6 +91,10 @@ public interface ProductAttributeRemoteService extends
 	public abstract boolean exists(String attributeName)
 			throws ServiceException;
 
+    public Integer AddOptions(String code,
+                           String option) throws ServiceException;
+
+
 	/**
 	 * get Product Attribute by code
 	 *

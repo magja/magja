@@ -4,106 +4,64 @@
  */
 package com.google.code.magja.model.product;
 
-import com.google.code.magja.model.BaseMagentoModel;
+public class ProductType {
 
-public class ProductType extends BaseMagentoModel {
+    private String name;
+    private String code;
 
-	private static final long serialVersionUID=-8248925608465129613L;
+    public static ProductType SIMPLE = new ProductType("Simple Product", "simple");
+    public static ProductType GROUPED = new ProductType("Grouped Product", "grouped");
+    public static ProductType CONFIGURABLE = new ProductType("Configurable Product", "configurable");
+    public static ProductType VIRTUAL = new ProductType("Virtual Product", "virtual");
+    public static ProductType BUNDLE = new ProductType("Bundle Product", "bundle");
+    public static ProductType DOWNLOADABLE = new ProductType("Downloadable Product", "downloadable");
 
-	public ProductType(String label, String type) {
-		this.label = label;
-		this.type = type;
-	}
+    public static ProductType getType(String code) {
+        if (code.equals(SIMPLE.getCode())) return SIMPLE;
+        else if (code.equals(GROUPED.getCode())) return GROUPED;
+        else if (code.equals(CONFIGURABLE.getCode())) return CONFIGURABLE;
+        else if (code.equals(VIRTUAL.getCode())) return VIRTUAL;
+        else if (code.equals(BUNDLE.getCode())) return BUNDLE;
+        else if (code.equals(DOWNLOADABLE.getCode())) return DOWNLOADABLE;
 
-	public ProductType() {
-		super();
-	}
+        return SIMPLE;
+    }
 
-	private String label;
+    public ProductType(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
 
-	private String type;
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @param label the label to set
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductType)) return false;
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((label == null) ? 0 : label.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
+        ProductType that = (ProductType) o;
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ProductType other = (ProductType) obj;
-		if (label == null) {
-			if (other.label != null)
-				return false;
-		} else if (!label.equals(other.label))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
-	}
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "ProductType [label=" + label + ", type=" + type + "]";
-	}
+        return true;
+    }
 
-	/**
-	 * there is not need to use that method due
-	 * to we cannot save ProductType to Magento API
-	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
-	 */
-	@Override
-	public Object serializeToApi() {
-		return null;
-	}
-
+    @Override
+    public int hashCode() {
+        return code != null ? code.hashCode() : 0;
+    }
 }

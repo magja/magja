@@ -64,7 +64,7 @@ public class PropertyLoader {
 		InputStream in = null;
 		try	{
 			if(loader == null)
-				loader = PropertyLoader.class.getClassLoader();
+				loader = ClassLoader.getSystemClassLoader();
 
 			if(LOAD_AS_RESOURCE_BUNDLE)	{
 
@@ -111,7 +111,7 @@ public class PropertyLoader {
 			throw new IllegalArgumentException("could not load [" + name + "]" +
 				" as " + (LOAD_AS_RESOURCE_BUNDLE
 						? "a resource bundle"
-						: "a classloader resource") + " using " + loader);
+						: "a classloader resource"));
 		}
 
 		return result;
@@ -119,23 +119,12 @@ public class PropertyLoader {
 
 	/**
 	 * A convenience overload of {@link #loadProperties(String, ClassLoader)}
-	 * that uses the {@link PropertyLoader}'s own classloader, so it works well
-	 * in Scala Console and OSGi environments.
-	 * A better strategy would be to use techniques shown in
-	 * http://www.javaworld.com/javaworld/javaqa/2003-06/01-qa-0606-load.html
-	 */
-	public static Properties loadProperties(final String name){
-		return loadProperties(name, PropertyLoader.class.getClassLoader());
-	}
-
-	/**
-	 * A version of {@link #loadProperties(String, ClassLoader)}
 	 * that uses the current thread's context classloader. A better strategy
 	 * would be to use techniques shown in
 	 * http://www.javaworld.com/javaworld/javaqa/2003-06/01-qa-0606-load.html
 	 */
-	public static Properties loadPropertiesContext(final String name){
+	public static Properties loadProperties(final String name){
 		return loadProperties(name,	Thread.currentThread().getContextClassLoader());
 	}
-	
+
 }

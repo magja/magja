@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="PropertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location"
+                  value="classpath:${com.wonder.configuration}_${com.wonder.integration.environment}.properties"/>
+    </bean>
+
+
+    <bean id="soapConfig" class="com.google.code.magja.soap.SoapConfig">
+        <property name="apiUser" value="${com.wonder.integration.service.website.apiuser}"/>
+        <property name="apiKey" value="${com.wonder.integration.service.website.apiKey}"/>
+        <property name="remoteHost" value="${com.wonder.integration.service.website.remotehost}"/>
+        <property name="defaultAttributeSetId" value="${com.wonder.integration.service.website.defaultattributeset}"/>
+        <property name="defaultRootCategoryId" value="${com.wonder.integration.service.website.defaultrootcateogry}"/>
+    </bean>
+
+</beans>

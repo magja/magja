@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.model.order;
 
 import com.google.code.magja.model.BaseMagentoModel;
@@ -9,9 +5,8 @@ import com.google.code.magja.model.BaseMagentoModel;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShipmentItem extends BaseMagentoModel {
+public class InvoiceItem extends BaseMagentoModel {
 
-    private static final long serialVersionUID = 77324223587425476L;
 
     private String sku;
 
@@ -28,11 +23,10 @@ public class ShipmentItem extends BaseMagentoModel {
     private Double qty;
 
     /* (non-Javadoc)
-      * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
-      */
+     * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
+     */
     @Override
     public Object serializeToApi() {
-
 
         Map<Integer, Integer> item = new HashMap<Integer, Integer>();
         item.put(orderItemId, qty.intValue());
@@ -139,8 +133,8 @@ public class ShipmentItem extends BaseMagentoModel {
     }
 
     /* (non-Javadoc)
-      * @see java.lang.Object#hashCode()
-      */
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -158,8 +152,8 @@ public class ShipmentItem extends BaseMagentoModel {
     }
 
     /* (non-Javadoc)
-      * @see java.lang.Object#equals(java.lang.Object)
-      */
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -168,7 +162,7 @@ public class ShipmentItem extends BaseMagentoModel {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ShipmentItem other = (ShipmentItem) obj;
+        InvoiceItem other = (InvoiceItem) obj;
         if (name == null) {
             if (other.name != null)
                 return false;
@@ -208,13 +202,14 @@ public class ShipmentItem extends BaseMagentoModel {
     }
 
     /* (non-Javadoc)
-      * @see java.lang.Object#toString()
-      */
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        return "ShipmentItem [name=" + name + ", orderItemId=" + orderItemId
+        return "InvoiceItem [name=" + name + ", orderItemId=" + orderItemId
                 + ", price=" + price + ", productId=" + productId + ", qty="
                 + qty + ", sku=" + sku + ", weight=" + weight + ", id=" + id
                 + ", properties=" + properties + "]";
     }
+
 }

@@ -35,7 +35,10 @@ public class SoapConfig implements Serializable {
 		this.defaultRootCategoryId = 2;
 	}
 
-	public SoapConfig(Properties properties) {
+    public SoapConfig() {
+    }
+
+    public SoapConfig(Properties properties) {
 		this.apiUser = properties.getProperty(MAGENTO_API_USERNAME);
 		this.apiKey = properties.getProperty(MAGENTO_API_PASSWORD);
 		this.remoteHost = properties.getProperty(MAGENTO_API_URL);

@@ -4,189 +4,201 @@
  */
 package com.google.code.magja.model.product;
 
+import com.google.code.magja.model.BaseMagentoModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.code.magja.model.BaseMagentoModel;
-
 public class ConfigurableProductData extends BaseMagentoModel {
 
-	private static final long serialVersionUID=-4140349719003168632L;
+    private static final long serialVersionUID = -4140349719003168632L;
 
-	private Product product;
+    private Product product;
 
-	private List<ConfigurableData> data = new ArrayList<ConfigurableData>();
+    private Product existingProduct;
 
-	@Override
-	public Map<String, Object> serializeToApi() {
+    private List<ConfigurableData> data = new ArrayList<ConfigurableData>();
 
-		if (data != null) {
-			Integer i = 0;
-			Map<String, Object> result = new HashMap<String, Object>();
-			for (ConfigurableData conf : data) {
-				result.put(i.toString(), conf.serializeToApi());
-				i++;
-			}
-			return result;
-		}
+    @Override
+    public Map<String, Object> serializeToApi() {
 
-		return null;
-	}
+        if (data != null) {
+            Integer i = 0;
+            Map<String, Object> result = new HashMap<String, Object>();
+            for (ConfigurableData conf : data) {
+                result.put(i.toString(), conf.serializeToApi());
+                i++;
+            }
+            return result;
+        }
 
-	/**
-	 * Create a simple product with default properties from super product and
-	 * add the specified options
-	 *
-	 * @param superprd
-	 * @param qty
-	 * @param weight
-	 * @throws ConfigurableDataException
-	 */
-	public void configurateProduct(Product superprd, Double qty, Double weight)
-			throws ConfigurableDataException {
+        return null;
+    }
 
-		if (data == null)
-			throw new ConfigurableDataException(
-					"You have to put some ConfigurableData first");
-		if (data.isEmpty())
-			throw new ConfigurableDataException(
-					"You have to put some ConfigurableData first");
-		if (superprd.getConfigurableAttributesData() == null)
-			throw new ConfigurableDataException(
-					"You have to put some ConfigurableAttributesData in your super product first");
+    /**
+     * Create a simple product with default properties from super product and
+     * add the specified options
+     *
+     * @param superprd
+     * @param qty
+     * @param weight
+     * @throws ConfigurableDataException
+     */
+    public void configurateProduct(Product superprd, Double qty, Double weight, String sku)
+            throws ConfigurableDataException {
 
-		StringBuffer sufix = new StringBuffer("");
+        if (data == null)
+            throw new ConfigurableDataException(
+                    "You have to put some ConfigurableData first");
+        if (data.isEmpty())
+            throw new ConfigurableDataException(
+                    "You have to put some ConfigurableData first");
+        if (superprd.getConfigurableAttributesData() == null)
+            throw new ConfigurableDataException(
+                    "You have to put some ConfigurableAttributesData in your super product first");
 
-		// get the options to use on sku and product name
-		for (ConfigurableData cnfdata : data)
-			sufix.append("-" + cnfdata.getLabel());
+        StringBuffer sufix = new StringBuffer("");
 
-		product = new Product();
-		product.setAttributeSet(superprd.getAttributeSet());
-		product.setName(superprd.getName() + sufix.toString());
-		product.setShortDescription(superprd.getShortDescription());
-		product.setDescription(superprd.getDescription());
-		product.setPrice(superprd.getPrice());
-		product.setCost(superprd.getCost());
-		product.setEnabled(superprd.getEnabled());
-		product.setWeight(weight);
-		product.setSku(superprd.getSku() + sufix.toString());
+        // get the options to use on sku and product name
+        for (ConfigurableData cnfdata : data)
+            sufix.append("-" + cnfdata.getLabel());
 
-		// defaul visibility for subproduct its not visible individually
-		product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
+        product = new Product();
+        product.setAttributeSet(superprd.getAttributeSet());
+        product.setName(superprd.getName() + sufix.toString());
+        product.setShortDescription(superprd.getShortDescription());
+        product.setDescription(superprd.getDescription());
+        product.setPrice(superprd.getPrice());
+        product.setCost(superprd.getCost());
+        product.setEnabled(superprd.getEnabled());
+        product.setWeight(weight);
+        product.setSku(sku);
+        product.setTaxClassId(superprd.getTaxClassId());
 
-		// inventory
-		product.setQty(qty);
-		if (qty > 0)
-			product.setInStock(true);
-		else
-			product.setInStock(false);
+        // defaul visibility for subproduct its not visible individually
+        product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
 
-		// only simple products
-		product.setType(ProductTypeEnum.SIMPLE.getProductType());
 
-		// set the attributes to the product
-		for (ConfigurableData cnfdata : data) {
+        // inventory
+        product.setQty(qty);
+        if (qty > 0)
+            product.setInStock(true);
+        else
+            product.setInStock(false);
 
-			ConfigurableAttributeData cnfAttData = null;
 
-			// find the attribute code on the ConfigurableAttributeData from
-			// super product
-			for (ConfigurableAttributeData attrData : superprd
-					.getConfigurableAttributesData()) {
-				if (attrData.getAttributeId().equals(cnfdata.getAttributeId())) {
-					cnfAttData = attrData;
-					break;
-				}
-			}
+        // only simple products
+        product.setType(ProductType.SIMPLE);
 
-			if (cnfAttData != null)
-				product.set(cnfAttData.getAttributeCode(),
-						cnfdata.getValueIndex());
-		}
-	}
+        // set the attributes to the product
+        for (ConfigurableData cnfdata : data) {
 
-	/**
-	 * @return the product
-	 */
-	public Product getProduct() {
-		return product;
-	}
+            ConfigurableAttributeData cnfAttData = null;
 
-	/**
-	 * @param product
-	 *            the product to set
-	 */
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+            // find the attribute code on the ConfigurableAttributeData from
+            // super product
+            for (ConfigurableAttributeData attrData : superprd
+                    .getConfigurableAttributesData()) {
+                if (attrData.getAttributeId().equals(cnfdata.getAttributeId())) {
+                    cnfAttData = attrData;
+                    break;
+                }
+            }
 
-	/**
-	 * @return the data
-	 */
-	public List<ConfigurableData> getData() {
-		return data;
-	}
+            if (cnfAttData != null)
+                product.set(cnfAttData.getAttributeCode(),
+                        cnfdata.getValueIndex());
+        }
+    }
 
-	/**
-	 * @param data
-	 *            the data to set
-	 */
-	public void setData(List<ConfigurableData> data) {
-		this.data = data;
-	}
+    /**
+     * @return the product
+     */
+    public Product getProduct() {
+        return product;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((data == null) ? 0 : data.hashCode());
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
-		return result;
-	}
+    /**
+     * @param product the product to set
+     */
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ConfigurableProductData other = (ConfigurableProductData) obj;
-		if (data == null) {
-			if (other.data != null)
-				return false;
-		} else if (!data.equals(other.data))
-			return false;
-		if (product == null) {
-			if (other.product != null)
-				return false;
-		} else if (!product.equals(other.product))
-			return false;
-		return true;
-	}
+    /**
+     * @return the data
+     */
+    public List<ConfigurableData> getData() {
+        return data;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "ConfigurableProductsData [product=" + product + ", data="
-				+ data + "]";
-	}
+    /**
+     * @param data the data to set
+     */
+    public void setData(List<ConfigurableData> data) {
+        this.data = data;
+    }
+
+    /*
+      * (non-Javadoc)
+      *
+      * @see java.lang.Object#hashCode()
+      */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + ((product == null) ? 0 : product.hashCode());
+        return result;
+    }
+
+    /*
+      * (non-Javadoc)
+      *
+      * @see java.lang.Object#equals(java.lang.Object)
+      */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ConfigurableProductData other = (ConfigurableProductData) obj;
+        if (data == null) {
+            if (other.data != null)
+                return false;
+        } else if (!data.equals(other.data))
+            return false;
+        if (product == null) {
+            if (other.product != null)
+                return false;
+        } else if (!product.equals(other.product))
+            return false;
+        return true;
+    }
+
+    /*
+      * (non-Javadoc)
+      *
+      * @see java.lang.Object#toString()
+      */
+    @Override
+    public String toString() {
+        return "ConfigurableProductsData [product=" + product + ", data="
+                + data + "]";
+    }
+
+
+    public Product getExistingProduct() {
+        return existingProduct;
+    }
+
+    public void setExistingProduct(Product existingProduct) {
+        this.existingProduct = existingProduct;
+    }
 }

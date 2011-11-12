@@ -7,6 +7,7 @@ package com.google.code.magja.service.customer;
 import java.util.List;
 
 import com.google.code.magja.model.customer.Customer;
+import com.google.code.magja.model.customer.CustomerFilter;
 import com.google.code.magja.model.customer.CustomerGroup;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
@@ -40,6 +41,15 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
 	public abstract List<Customer> list(Customer filter)
 			throws ServiceException;
 
+	/**
+	 * List customers based of the filter specified
+	 *
+	 * @param filter
+	 * @return List<Customer>
+	 * @throws ServiceException
+	 */	public abstract List<Customer> list2(CustomerFilter filter) 
+			throws ServiceException;
+	
 	/**
 	 * List all customers on magento
 	 *

@@ -12,317 +12,349 @@ import com.google.code.magja.service.customer.CustomerAddressRemoteService;
 import com.google.code.magja.service.customer.CustomerAddressRemoteServiceImpl;
 import com.google.code.magja.service.customer.CustomerRemoteService;
 import com.google.code.magja.service.customer.CustomerRemoteServiceImpl;
-import com.google.code.magja.service.order.OrderRemoteService;
-import com.google.code.magja.service.order.OrderRemoteServiceImpl;
-import com.google.code.magja.service.order.ShipmentRemoteService;
-import com.google.code.magja.service.order.ShipmentRemoteServiceImpl;
-import com.google.code.magja.service.product.ProductAttributeRemoteService;
-import com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl;
-import com.google.code.magja.service.product.ProductLinkRemoteService;
-import com.google.code.magja.service.product.ProductLinkRemoteServiceImpl;
-import com.google.code.magja.service.product.ProductMediaRemoteService;
-import com.google.code.magja.service.product.ProductMediaRemoteServiceImpl;
-import com.google.code.magja.service.product.ProductRemoteService;
-import com.google.code.magja.service.product.ProductRemoteServiceImpl;
+import com.google.code.magja.service.order.*;
+import com.google.code.magja.service.product.*;
 import com.google.code.magja.service.region.RegionRemoteService;
 import com.google.code.magja.service.region.RegionRemoteServiceImpl;
+import com.google.code.magja.service.registry.RegistryRemoteService;
+import com.google.code.magja.service.registry.RegistryRemoteServiceImpl;
 import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.code.magja.soap.SoapConfig;
 
 /**
  * @author andre.fabbro
- * 
  */
 public abstract class RemoteServiceFactory {
 
-	/**
-	 * @return the shipmentRemoteService
-	 */
-	public static ShipmentRemoteService getShipmentRemoteService() {
-		return getShipmentRemoteService(null);
-	}
+    /**
+     * @return the shipmentRemoteService
+     */
+    public static InvoiceRemoteService getInvoiceRemoteService() {
+        return getInvoiceRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the shipmentRemoteService
-	 */
-	public static ShipmentRemoteService getShipmentRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the shipmentRemoteService
+     */
+    public static InvoiceRemoteService getInvoiceRemoteService(
+            SoapConfig soapConfig) {
 
-		ShipmentRemoteService shipmentRemoteService = new ShipmentRemoteServiceImpl();
-		shipmentRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        InvoiceRemoteService invoiceRemoteService = new InvoiceRemoteServiceImpl();
+        invoiceRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return shipmentRemoteService;
-	}
+        return invoiceRemoteService;
+    }
 
-	/**
-	 * @return the orderRemoteService
-	 */
-	public static OrderRemoteService getOrderRemoteService() {
-		return getOrderRemoteService(null);
-	}
+    /**
+     * @return the shipmentRemoteService
+     */
+    public static RegistryRemoteService getRegistryRemoteService() {
+        return getRegistryRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the orderRemoteService
-	 */
-	public static OrderRemoteService getOrderRemoteService(SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the shipmentRemoteService
+     */
+    public static RegistryRemoteService getRegistryRemoteService(
+            SoapConfig soapConfig) {
 
-		OrderRemoteService orderRemoteService = new OrderRemoteServiceImpl();
-		orderRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        RegistryRemoteService registryRemoteService = new RegistryRemoteServiceImpl();
+        registryRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return orderRemoteService;
-	}
+        return registryRemoteService;
+    }
 
-	/**
-	 * @return the regionRemoteService
-	 */
-	public static RegionRemoteService getRegionRemoteService() {
-		return getRegionRemoteService(null);
-	}
+    /**
+     * @return the shipmentRemoteService
+     */
+    public static ShipmentRemoteService getShipmentRemoteService() {
+        return getShipmentRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the regionRemoteService
-	 */
-	public static RegionRemoteService getRegionRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @return the shipmentRemoteService
+     */
+    public static ShipmentRemoteService getShipmentRemoteService(
+            SoapConfig soapConfig) {
 
-		RegionRemoteService regionRemoteService = new RegionRemoteServiceImpl();
-		regionRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        ShipmentRemoteService shipmentRemoteService = new ShipmentRemoteServiceImpl();
+        shipmentRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return regionRemoteService;
-	}
+        return shipmentRemoteService;
+    }
 
-	/**
-	 * @return the countryRemoteService
-	 */
-	public static CountryRemoteService getCountryRemoteService() {
-		return getCountryRemoteService(null);
-	}
+    /**
+     * @return the orderRemoteService
+     */
+    public static OrderRemoteService getOrderRemoteService() {
+        return getOrderRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the countryRemoteService
-	 */
-	public static CountryRemoteService getCountryRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the orderRemoteService
+     */
+    public static OrderRemoteService getOrderRemoteService(SoapConfig soapConfig) {
 
-		CountryRemoteService countryRemoteService = new CountryRemoteServiceImpl();
-		countryRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        OrderRemoteService orderRemoteService = new OrderRemoteServiceImpl();
+        orderRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return countryRemoteService;
-	}
+        return orderRemoteService;
+    }
 
-	/**
-	 * @return the customerAddressRemoteService
-	 */
-	public static CustomerAddressRemoteService getCustomerAddressRemoteService() {
-		return getCustomerAddressRemoteService(null);
-	}
+    /**
+     * @return the regionRemoteService
+     */
+    public static RegionRemoteService getRegionRemoteService() {
+        return getRegionRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the customerAddressRemoteService
-	 */
-	public static CustomerAddressRemoteService getCustomerAddressRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the regionRemoteService
+     */
+    public static RegionRemoteService getRegionRemoteService(
+            SoapConfig soapConfig) {
 
-		CustomerAddressRemoteService customerAddressRemoteService = new CustomerAddressRemoteServiceImpl();
-		customerAddressRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        RegionRemoteService regionRemoteService = new RegionRemoteServiceImpl();
+        regionRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return customerAddressRemoteService;
-	}
+        return regionRemoteService;
+    }
 
-	/**
-	 * @return the customerRemoteService
-	 */
-	public static CustomerRemoteService getCustomerRemoteService() {
-		return getCustomerRemoteService(null);
-	}
+    /**
+     * @return the countryRemoteService
+     */
+    public static CountryRemoteService getCountryRemoteService() {
+        return getCountryRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the customerRemoteService
-	 */
-	public static CustomerRemoteService getCustomerRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the countryRemoteService
+     */
+    public static CountryRemoteService getCountryRemoteService(
+            SoapConfig soapConfig) {
 
-		CustomerRemoteService customerRemoteService = new CustomerRemoteServiceImpl();
-		customerRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        CountryRemoteService countryRemoteService = new CountryRemoteServiceImpl();
+        countryRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return customerRemoteService;
-	}
+        return countryRemoteService;
+    }
 
-	/**
-	 * @return the productLinkRemoteService
-	 */
-	public static ProductLinkRemoteService getProductLinkRemoteService() {
-		return getProductLinkRemoteService(null);
-	}
+    /**
+     * @return the customerAddressRemoteService
+     */
+    public static CustomerAddressRemoteService getCustomerAddressRemoteService() {
+        return getCustomerAddressRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the productLinkRemoteService
-	 */
-	public static ProductLinkRemoteService getProductLinkRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the customerAddressRemoteService
+     */
+    public static CustomerAddressRemoteService getCustomerAddressRemoteService(
+            SoapConfig soapConfig) {
 
-		ProductLinkRemoteService productLinkRemoteService = new ProductLinkRemoteServiceImpl();
-		productLinkRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        CustomerAddressRemoteService customerAddressRemoteService = new CustomerAddressRemoteServiceImpl();
+        customerAddressRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return productLinkRemoteService;
-	}
+        return customerAddressRemoteService;
+    }
 
-	/**
-	 * @return the productMediaRemoteService
-	 */
-	public static ProductMediaRemoteService getProductMediaRemoteService() {
-		return getProductMediaRemoteService(null);
-	}
+    /**
+     * @return the customerRemoteService
+     */
+    public static CustomerRemoteService getCustomerRemoteService() {
+        return getCustomerRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the productMediaRemoteService
-	 */
-	public static ProductMediaRemoteService getProductMediaRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the customerRemoteService
+     */
+    public static CustomerRemoteService getCustomerRemoteService(
+            SoapConfig soapConfig) {
 
-		ProductMediaRemoteService productMediaRemoteService = new ProductMediaRemoteServiceImpl();
-		productMediaRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        CustomerRemoteService customerRemoteService = new CustomerRemoteServiceImpl();
+        customerRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return productMediaRemoteService;
-	}
+        return customerRemoteService;
+    }
 
-	/**
-	 * @return the productAttributeRemoteService
-	 */
-	public static ProductAttributeRemoteService getProductAttributeRemoteService() {
-		return getProductAttributeRemoteService(null);
-	}
+    /**
+     * @return the productLinkRemoteService
+     */
+    public static ProductLinkRemoteService getProductLinkRemoteService() {
+        return getProductLinkRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the productAttributeRemoteService
-	 */
-	public static ProductAttributeRemoteService getProductAttributeRemoteService(
-			SoapConfig soapConfig) {
+    /**
+     * @param soapConfig
+     * @return the productLinkRemoteService
+     */
+    public static ProductLinkRemoteService getProductLinkRemoteService(
+            SoapConfig soapConfig) {
 
-		ProductAttributeRemoteService productAttributeRemoteService = new ProductAttributeRemoteServiceImpl();
-		productAttributeRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        ProductLinkRemoteService productLinkRemoteService = new ProductLinkRemoteServiceImpl();
+        productLinkRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return productAttributeRemoteService;
-	}
+        return productLinkRemoteService;
+    }
 
-	/**
-	 * @return the productRemoteService
-	 */
-	public static ProductRemoteService getProductRemoteService() {
-		return getProductRemoteService(null, getCategoryRemoteService());
-	}
+    /**
+     * @return the productMediaRemoteService
+     */
+    public static ProductMediaRemoteService getProductMediaRemoteService() {
+        return getProductMediaRemoteService(null);
+    }
 
-	/**
-	 * @param soapConfig
-	 * @return the productRemoteService
-	 */
-	public static ProductRemoteService getProductRemoteService(
-			SoapConfig soapConfig) {
-		return getProductRemoteService(soapConfig,
-				getCategoryRemoteService(soapConfig));
-	}
+    /**
+     * @param soapConfig
+     * @return the productMediaRemoteService
+     */
+    public static ProductMediaRemoteService getProductMediaRemoteService(
+            SoapConfig soapConfig) {
 
-	/**
-	 * @param soapConfig
-	 * @param categoryRemoteService
-	 * @return the productRemoteService
-	 */
-	public static ProductRemoteService getProductRemoteService(
-			SoapConfig soapConfig, CategoryRemoteService categoryRemoteService) {
+        ProductMediaRemoteService productMediaRemoteService = new ProductMediaRemoteServiceImpl();
+        productMediaRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		ProductRemoteService productRemoteService = new ProductRemoteServiceImpl();
-		productRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        return productMediaRemoteService;
+    }
 
-		productRemoteService.setCategoryRemoteService(categoryRemoteService);
-		productRemoteService
-				.setProductMediaRemoteService(getProductMediaRemoteService(soapConfig));
-		productRemoteService
-				.setProductLinkRemoteService(getProductLinkRemoteService(soapConfig));
+    /**
+     * @return the productAttributeRemoteService
+     */
+    public static ProductAttributeRemoteService getProductAttributeRemoteService() {
+        return getProductAttributeRemoteService(null);
+    }
 
-		return productRemoteService;
-	}
+    /**
+     * @param soapConfig
+     * @return the productAttributeRemoteService
+     */
+    public static ProductAttributeRemoteService getProductAttributeRemoteService(
+            SoapConfig soapConfig) {
 
-	/**
-	 * @return the categoryRemoteService
-	 */
-	public static CategoryRemoteService getCategoryRemoteService() {
-		return getCategoryRemoteService(null);
-	}
+        ProductAttributeRemoteService productAttributeRemoteService = new ProductAttributeRemoteServiceImpl();
+        productAttributeRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-	/**
-	 * @param soapConfig
-	 * @return the categoryRemoteService
-	 */
-	public static CategoryRemoteService getCategoryRemoteService(
-			SoapConfig soapConfig) {
+        return productAttributeRemoteService;
+    }
 
-		CategoryRemoteService categoryRemoteService = new CategoryRemoteServiceImpl();
-		categoryRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+    /**
+     * @return the productRemoteService
+     */
+    public static ProductRemoteService getProductRemoteService() {
+        return getProductRemoteService(null, getCategoryRemoteService());
+    }
 
-		ProductRemoteService productRemoteService = getProductRemoteService(
-				soapConfig, categoryRemoteService);
-		categoryRemoteService.setProductRemoteService(productRemoteService);
+    /**
+     * @param soapConfig
+     * @return the productRemoteService
+     */
+    public static ProductRemoteService getProductRemoteService(
+            SoapConfig soapConfig) {
+        return getProductRemoteService(soapConfig,
+                getCategoryRemoteService(soapConfig));
+    }
 
-		return categoryRemoteService;
-	}
+    /**
+     * @param soapConfig
+     * @param categoryRemoteService
+     * @return the productRemoteService
+     */
+    public static ProductRemoteService getProductRemoteService(
+            SoapConfig soapConfig, CategoryRemoteService categoryRemoteService) {
 
-	/**
-	 * @return the categoryAttributeRemoteService
-	 */
-	public static CategoryAttributeRemoteService getCategoryAttributeRemoteService() {
-		return getCategoryAttributeRemoteService(null);
-	}
+        ProductRemoteService productRemoteService = new ProductRemoteServiceImpl();
+        productRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-	/**
-	 * @param soapConfig
-	 * @return the categoryAttributeRemoteService
-	 */
-	public static CategoryAttributeRemoteService getCategoryAttributeRemoteService(
-			SoapConfig soapConfig) {
+        productRemoteService.setCategoryRemoteService(categoryRemoteService);
+        productRemoteService
+                .setProductMediaRemoteService(getProductMediaRemoteService(soapConfig));
+        productRemoteService
+                .setProductLinkRemoteService(getProductLinkRemoteService(soapConfig));
 
-		CategoryAttributeRemoteService categoryAttributeRemoteService = new CategoryAttributeRemoteServiceImpl();
-		categoryAttributeRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        return productRemoteService;
+    }
 
-		return categoryAttributeRemoteService;
-	}
+    /**
+     * @return the categoryRemoteService
+     */
+    public static CategoryRemoteService getCategoryRemoteService() {
+        return getCategoryRemoteService(null);
+    }
 
-	/**
-	 * @return the cartRemoteService
-	 */
-	public static CartRemoteService getCartRemoteService() {
-		return getCartRemoteService(null);
-	}
+    /**
+     * @param soapConfig
+     * @return the categoryRemoteService
+     */
+    public static CategoryRemoteService getCategoryRemoteService(
+            SoapConfig soapConfig) {
 
-	/**
-	 * @param soapConfig
-	 * @return the cartRemoteService
-	 */
-	public static CartRemoteService getCartRemoteService(SoapConfig soapConfig) {
-		CartRemoteService cartRemoteService = new CartRemoteServiceImpl();
-		cartRemoteService.setSoapClient(MagentoSoapClient
-				.getInstance(soapConfig));
+        CategoryRemoteService categoryRemoteService = new CategoryRemoteServiceImpl();
+        categoryRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
 
-		return cartRemoteService;
-	}
+        ProductRemoteService productRemoteService = getProductRemoteService(
+                soapConfig, categoryRemoteService);
+        categoryRemoteService.setProductRemoteService(productRemoteService);
+
+        return categoryRemoteService;
+    }
+
+    /**
+     * @return the categoryAttributeRemoteService
+     */
+    public static CategoryAttributeRemoteService getCategoryAttributeRemoteService() {
+        return getCategoryAttributeRemoteService(null);
+    }
+
+    /**
+     * @param soapConfig
+     * @return the categoryAttributeRemoteService
+     */
+    public static CategoryAttributeRemoteService getCategoryAttributeRemoteService(
+            SoapConfig soapConfig) {
+
+        CategoryAttributeRemoteService categoryAttributeRemoteService = new CategoryAttributeRemoteServiceImpl();
+        categoryAttributeRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
+
+        return categoryAttributeRemoteService;
+    }
+
+    /**
+     * @return the cartRemoteService
+     */
+    public static CartRemoteService getCartRemoteService() {
+        return getCartRemoteService(null);
+    }
+
+    /**
+     * @param soapConfig
+     * @return the cartRemoteService
+     */
+    public static CartRemoteService getCartRemoteService(SoapConfig soapConfig) {
+        CartRemoteService cartRemoteService = new CartRemoteServiceImpl();
+        cartRemoteService.setSoapClient(MagentoSoapClient
+                .getInstance(soapConfig));
+
+        return cartRemoteService;
+    }
 }
