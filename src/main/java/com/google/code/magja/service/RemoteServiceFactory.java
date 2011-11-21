@@ -16,8 +16,6 @@ import com.google.code.magja.service.order.*;
 import com.google.code.magja.service.product.*;
 import com.google.code.magja.service.region.RegionRemoteService;
 import com.google.code.magja.service.region.RegionRemoteServiceImpl;
-import com.google.code.magja.service.registry.RegistryRemoteService;
-import com.google.code.magja.service.registry.RegistryRemoteServiceImpl;
 import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.code.magja.soap.SoapConfig;
 
