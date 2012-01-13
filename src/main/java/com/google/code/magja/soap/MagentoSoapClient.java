@@ -20,6 +20,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.xml.namespace.QName;
+
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -135,8 +137,8 @@ public class MagentoSoapClient implements SoapClient {
         login();
     }
 
-    /*
-      * (non-Javadoc)
+    /**
+      * Public version of call.
       *
       * @see
       * com.google.code.magja.soap.SoapClient#call(com.google.code.magja.magento
@@ -144,9 +146,26 @@ public class MagentoSoapClient implements SoapClient {
       */
     @Override
     public Object call(ResourcePath path, Object args) throws AxisFault {
+    	final String pathString = path.getPath();
+        return call(pathString, args);
+    }
 
-        lastCall = new Date().getTime();
-        OMElement method = callFactory.createCall(sessionId, path.getPath(),
+	/**
+	 * Dynamic version of call.
+	 * 
+	 * @param pathString
+	 * @param args
+	 * @return
+	 * @throws AxisFault
+	 */
+	public Object call(final String pathString, Object args) throws AxisFault {
+		lastCall = new Date().getTime();
+		
+		// Convert array input to List<Object>
+		if (args != null && args.getClass().isArray())
+			args = Arrays.asList((Object[])args);
+        
+		OMElement method = callFactory.createCall(sessionId, pathString,
                 args);
         OMElement result = null;
         try {
@@ -162,7 +181,7 @@ public class MagentoSoapClient implements SoapClient {
         }
 
         return returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
-    }
+	}
 
     /*
 
