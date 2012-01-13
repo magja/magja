@@ -6,9 +6,12 @@ package com.google.code.magja.soap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.axis2.AxisFault;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -107,6 +110,32 @@ public class MagentoSoapClientTest {
 		System.out.println(remote_list2);
 		
 		System.out.println("Finished - " + System.currentTimeMillis());
+	}
+	
+	/**
+	 * catalog_category.level
+	 * 
+	 * Retrieve one level of categories by website/store view/parent category
+	 * 
+	 * Return: array
+	 * 
+	 * Arguments:
+	 * 
+	 *     mixed website - website code or Id (optional)
+	 *     mixed storeView - store view code or Id (optional)
+	 *     mixed parentCategory - parent category Id (optional)
+	 *     
+	 * @throws AxisFault 
+	 */
+	@Test @Ignore
+	public void testCategoryLevelBlank() throws AxisFault {
+		SoapConfig annafiSoap = new SoapConfig("sysadmin", "",
+				"http://ceefour.annafi/demo/api/soap");
+		MagentoSoapClient client = MagentoSoapClient.getInstance(annafiSoap);
+		List<Map<String, Object>> categories = (List<Map<String, Object>>)client.call(ResourcePath.CategoryLevel,
+				Arrays.asList(null, null, 45) );
+//		log.info( mapper.writeValueAsString(categories) );
+		assertEquals(0, categories.size());
 	}
 
 }

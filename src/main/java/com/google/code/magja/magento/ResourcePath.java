@@ -16,6 +16,7 @@ package com.google.code.magja.magento;
 public enum ResourcePath {
 
     CategoryTree("catalog_category.tree"),
+    CategoryLevel("catalog_category.level"),
     CategoryInfo("catalog_category.info"),
     CategoryCreate("catalog_category.create"),
     CategoryDelete("catalog_category.delete"),

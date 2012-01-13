@@ -249,6 +249,14 @@ public class SoapCallFactory {
                 mapArg.addChild(keyValue(key, argMap.get(key)));
             }
             return mapArg;
+        } else if (value == null) {
+            /*
+            * <category_id xsi:nil="true"/>
+            * http://zvon.org/xxl/XMLSchemaTutorial/Output/ser_over_st0.html
+            */
+            OMElement element = fac.createOMElement(name, elementNs);
+            element.addAttribute("nil", "true", xsi);
+            return element;
         }
         throw new RuntimeException("keyValue not implemented for "
                 + value.getClass().toString());
