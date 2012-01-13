@@ -165,6 +165,13 @@
 				<version>${logback.version}</version>
 				<scope>runtime</scope>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.axis2</groupId>
+				<artifactId>axis2-kernel</artifactId>
+				<version>1.6.1</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -196,100 +203,28 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Beware of https://issues.apache.org/jira/browse/AXIS2-2972 -->
         <dependency>
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-        <!-- Doesn't seem to require the whole axis2 shebang -->
-<!--         <dependency> -->
-<!--             <groupId>org.apache.axis2</groupId> -->
-<!--             <artifactId>axis2-transport-local</artifactId> -->
-<!--             <version>1.5.1</version> -->
-<!--         </dependency> -->
-<!--         <dependency> -->
-<!--             <groupId>org.apache.axis2</groupId> -->
-<!--             <artifactId>axis2-transport-http</artifactId> -->
-<!--             <version>1.5.1</version> -->
-<!--         </dependency> -->
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-local</artifactId>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.0.1</version>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-http</artifactId>
+            <version>1.6.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.woden</groupId>
-            <artifactId>woden-api</artifactId>
-            <version>1.0M8</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.ws.commons.schema</groupId>
-                    <artifactId>XmlSchema</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.ws.commons.axiom</groupId>
-            <artifactId>axiom-api</artifactId>
-            <version>1.2.8</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.ws.commons.axiom</groupId>
-            <artifactId>axiom-impl</artifactId>
-            <version>1.2.8</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>wsdl4j</groupId>
-            <artifactId>wsdl4j</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.ws.commons.schema</groupId>
-            <artifactId>XmlSchema</artifactId>
-            <version>1.4.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.neethi</groupId>
-            <artifactId>neethi</artifactId>
-            <version>2.0.4</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.3</version>
+            <version>2.6</version>
         </dependency>
     </dependencies>
 
