@@ -170,21 +170,24 @@
 
     <dependencies>
 
-		<!-- Spring used by MagentoSoapClient class -->
+		<!-- Spring can used by MagentoSoapClient, but must be provided separately -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring-version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring-version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring-version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -195,19 +198,20 @@
         </dependency>
         <dependency>
             <groupId>org.apache.axis2</groupId>
-            <artifactId>axis2</artifactId>
+            <artifactId>axis2-kernel</artifactId>
             <version>1.5.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.axis2</groupId>
-            <artifactId>axis2-transport-local</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.axis2</groupId>
-            <artifactId>axis2-transport-http</artifactId>
-            <version>1.5.1</version>
-        </dependency>
+        <!-- Doesn't seem to require the whole axis2 shebang -->
+<!--         <dependency> -->
+<!--             <groupId>org.apache.axis2</groupId> -->
+<!--             <artifactId>axis2-transport-local</artifactId> -->
+<!--             <version>1.5.1</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.apache.axis2</groupId> -->
+<!--             <artifactId>axis2-transport-http</artifactId> -->
+<!--             <version>1.5.1</version> -->
+<!--         </dependency> -->
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
