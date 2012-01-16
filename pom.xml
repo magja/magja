@@ -4,7 +4,7 @@
     <groupId>com.google.code.magja</groupId>
     <artifactId>magja</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>magja</name>
     <description>
         Magja is a java connector for access the Magento API (http://www.magentocommerce.com/support/magento_core_api),
