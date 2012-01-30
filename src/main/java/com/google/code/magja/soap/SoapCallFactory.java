@@ -1,14 +1,14 @@
 package com.google.code.magja.soap;
 
-import org.apache.axiom.om.OMAbstractFactory;
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.OMFactory;
-import org.apache.axiom.om.OMNamespace;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.axiom.om.OMAbstractFactory;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.OMNamespace;
 
 public class SoapCallFactory {
 
@@ -165,6 +165,14 @@ public class SoapCallFactory {
                 */
             return this.typedElement(elementNs, name,
                     ((Integer) value).toString(), xsd.getPrefix() + ":int");
+        } else if (value instanceof Long) {
+            /*
+                * Simple key-value map <item><key
+                * xsi:type="xsd:string">name</key><value
+                * xsi:type="xsd:long">value</value></item>
+                */
+            return this.typedElement(elementNs, name,
+                    ((Long) value).toString(), xsd.getPrefix() + ":long");
         } else if (value instanceof Boolean) {
             /*
                 * Simple key-value map <item><key
@@ -258,8 +266,8 @@ public class SoapCallFactory {
             element.addAttribute("nil", "true", xsi);
             return element;
         }
-        throw new RuntimeException("keyValue not implemented for "
-                + value.getClass().toString());
+        throw new MagentoSoapException("keyValue not implemented for "
+                + value.getClass().toString() + " " + name + "=" + value);
     }
 
     /**
