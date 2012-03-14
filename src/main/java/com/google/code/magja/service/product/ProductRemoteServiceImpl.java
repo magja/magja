@@ -4,21 +4,37 @@
  */
 package com.google.code.magja.service.product;
 
-import com.google.code.magja.magento.ResourcePath;
-import com.google.code.magja.model.category.Category;
-import com.google.code.magja.model.product.*;
-import com.google.code.magja.service.GeneralServiceImpl;
-import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.service.category.CategoryRemoteService;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.category.Category;
+import com.google.code.magja.model.product.ConfigurableAttributeData;
+import com.google.code.magja.model.product.ConfigurableProductData;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.model.product.ProductLink;
+import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.Visibility;
+import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.service.category.CategoryRemoteService;
 
-public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
-        implements ProductRemoteService {
+public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implements
+        ProductRemoteService {
 
     private static final long serialVersionUID = -3943518467672208326L;
 
@@ -31,48 +47,46 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     private static final Log log = LogFactory.getLog(ProductRemoteServiceImpl.class);
 
     /*
-      * (non-Javadoc)
-      *
-      * @seecom.google.code.magja.service.product.ProductRemoteService#
-      * setCategoryRemoteService
-      * (com.google.code.magja.service.category.CategoryRemoteService)
-      */
+     * (non-Javadoc)
+     * 
+     * @seecom.google.code.magja.service.product.ProductRemoteService#
+     * setCategoryRemoteService
+     * (com.google.code.magja.service.category.CategoryRemoteService)
+     */
     @Override
-    public void setCategoryRemoteService(
-            CategoryRemoteService categoryRemoteService) {
+    public void setCategoryRemoteService(CategoryRemoteService categoryRemoteService) {
         this.categoryRemoteService = categoryRemoteService;
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @seecom.google.code.magja.service.product.ProductRemoteService#
-      * setProductMediaRemoteService
-      * (com.google.code.magja.service.product.ProductMediaRemoteService)
-      */
+     * (non-Javadoc)
+     * 
+     * @seecom.google.code.magja.service.product.ProductRemoteService#
+     * setProductMediaRemoteService
+     * (com.google.code.magja.service.product.ProductMediaRemoteService)
+     */
     @Override
-    public void setProductMediaRemoteService(
-            ProductMediaRemoteService productMediaRemoteService) {
+    public void setProductMediaRemoteService(ProductMediaRemoteService productMediaRemoteService) {
         this.productMediaRemoteService = productMediaRemoteService;
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @seecom.google.code.magja.service.product.ProductRemoteService#
-      * setProductLinkRemoteService
-      * (com.google.code.magja.service.product.ProductLinkRemoteService)
-      */
+     * (non-Javadoc)
+     * 
+     * @seecom.google.code.magja.service.product.ProductRemoteService#
+     * setProductLinkRemoteService
+     * (com.google.code.magja.service.product.ProductLinkRemoteService)
+     */
     @Override
-    public void setProductLinkRemoteService(
-            ProductLinkRemoteService productLinkRemoteService) {
+    public void setProductLinkRemoteService(ProductLinkRemoteService productLinkRemoteService) {
         this.productLinkRemoteService = productLinkRemoteService;
     }
 
     /**
      * Create a object product with basic fields from the attribute map
-     *
-     * @param mpp - the attribute map
+     * 
+     * @param mpp
+     *            - the attribute map
      * @return Product
      */
     private Product buildProductBasic(Map<String, Object> mpp) {
@@ -94,23 +108,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         }
     }
 
-    private Product buildProductWithCategories(Map<String, Object> mpp)
-            throws ServiceException {
+    private Product buildProductWithCategories(Map<String, Object> mpp) throws ServiceException {
         return buildProduct(mpp, true, false, false, false, false, false);
     }
 
-
     /**
      * Build the object Product with your dependencies, for the queries
-     *
+     * 
      * @param mpp
      * @return Product
      * @throws ServiceException
      */
     private Product buildProduct(Map<String, Object> mpp, boolean loadCategories,
-                                 boolean loadMedia, boolean loadLinks, boolean loadTypes,
-                                 boolean loadAttributeSet, boolean loadInventory)
-            throws ServiceException {
+            boolean loadMedia, boolean loadLinks, boolean loadTypes, boolean loadAttributeSet,
+            boolean loadInventory) throws ServiceException {
 
         Product product = buildProductBasic(mpp);
 
@@ -118,35 +129,34 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         if (mpp.get("visibility") != null) {
             Integer visi = new Integer(mpp.get("visibility").toString());
             switch (visi) {
-                case 1:
-                    product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
-                    break;
-                case 2:
-                    product.setVisibility(Visibility.CATALOG);
-                    break;
-                case 3:
-                    product.setVisibility(Visibility.SEARCH);
-                    break;
-                case 4:
-                    product.setVisibility(Visibility.CATALOG_SEARCH);
-                    break;
-                default:
-                    product.setVisibility(Visibility.CATALOG_SEARCH);
-                    break;
+            case 1:
+                product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
+                break;
+            case 2:
+                product.setVisibility(Visibility.CATALOG);
+                break;
+            case 3:
+                product.setVisibility(Visibility.SEARCH);
+                break;
+            case 4:
+                product.setVisibility(Visibility.CATALOG_SEARCH);
+                break;
+            default:
+                product.setVisibility(Visibility.CATALOG_SEARCH);
+                break;
             }
         }
 
         // set product type
         if (mpp.get("type") != null) {
 
-            ProductType type = ProductType.getType((String) mpp
-                    .get("type"));
+            ProductType type = ProductType.getType((String) mpp.get("type"));
 
             if (type == null && loadTypes) {
                 /*
-                     * means its a type not covered by the enum, so we have to look
-                     * in magento api to get this type
-                     */
+                 * means its a type not covered by the enum, so we have to look
+                 * in magento api to get this type
+                 */
                 List<ProductType> types = listAllProductTypes();
                 for (ProductType productType : types) {
                     type = productType.getType((String) mpp.get("type"));
@@ -162,13 +172,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         if (mpp.get("set") != null && loadAttributeSet)
             product.setAttributeSet(
 
-                    getAttributeSet((String) mpp
+            getAttributeSet((String) mpp
 
-                            .
+            .
 
-                                    get("set")
+            get("set")
 
-                    ));
+            ));
 
         // categories - dont get the full tree, only basic info of categories
         if (mpp.get("categories") != null)
@@ -176,8 +186,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         {
             if (loadCategories) {
                 product.getCategories().addAll(
-                        getCategoriesBasicInfo((List<Object>) mpp
-                                .get("categories")));
+                        getCategoriesBasicInfo((List<Object>) mpp.get("categories")));
             } else {
                 List<Category> categories = new ArrayList<Category>();
                 for (Object obj : (List<Object>) mpp.get("categories")) {
@@ -213,8 +222,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
      * @return list of categories with specified ids, just the basic info
      * @throws ServiceException
      */
-    private List<Category> getCategoriesBasicInfo(List<Object> ids)
-            throws ServiceException {
+    private List<Category> getCategoriesBasicInfo(List<Object> ids) throws ServiceException {
         List<Category> categories = new ArrayList<Category>();
         for (Object obj : ids) {
             Integer id = Integer.parseInt((String) obj);
@@ -229,8 +237,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
      * @return the ProductAttributeSet with the specified id
      * @throws ServiceException
      */
-    private ProductAttributeSet getAttributeSet(String id)
-            throws ServiceException {
+    private ProductAttributeSet getAttributeSet(String id) throws ServiceException {
 
         ProductAttributeSet prdAttSet = new ProductAttributeSet();
         Integer set_id = Integer.parseInt(id);
@@ -271,7 +278,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
     /**
      * Delete a product by your id (prefered) or your sku
-     *
+     * 
      * @param id
      * @param sku
      * @throws ServiceException
@@ -281,11 +288,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         Boolean success = false;
         try {
             if (id != null) {
-                success = (Boolean) soapClient.call(ResourcePath.ProductDelete,
-                        id);
+                success = (Boolean) soapClient.call(ResourcePath.ProductDelete, id);
             } else if (sku != null) {
-                success = (Boolean) soapClient.call(ResourcePath.ProductDelete,
-                        sku);
+                success = (Boolean) soapClient.call(ResourcePath.ProductDelete, sku);
             }
 
         } catch (AxisFault e) {
@@ -300,10 +305,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
     /**
      * Delete a product by sku and category if empty
-     *
+     * 
      * @param sku
      * @throws ServiceException
      */
+    @Override
     public void deleteWithEmptyCategory(String sku) throws ServiceException {
         Product product = getBySku(sku);
         List<Category> categories = product.getCategories();
@@ -320,7 +326,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     /**
      * List the products, if dependencies is true, the products will be
      * populated with all your dependencies, otherwise, no.
-     *
+     * 
      * @param dependencies
      * @return List<Product>
      * @throws ServiceException
@@ -331,8 +337,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         List<Map<String, Object>> productList;
 
         try {
-            productList = (List<Map<String, Object>>) soapClient.call(
-                    ResourcePath.ProductList, "");
+            productList = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductList, "");
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -349,12 +354,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#getBySku(java.
-      * lang.String)
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#getBySku(java.
+     * lang.String)
+     */
     @Override
     public Product getBySku(String sku) throws ServiceException {
         return getBySku(sku, true);
@@ -371,8 +376,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         }
     }
 
-    public Product getBySku(String sku, boolean dependencies)
-            throws ServiceException {
+    @Override
+    public Product getBySku(String sku, boolean dependencies) throws ServiceException {
 
         Map<String, Object> mpp = loadBaseProduct(sku);
 
@@ -386,8 +391,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     private Map<String, Object> loadBaseProduct(String sku) throws ServiceException {
         Map<String, Object> mpp;
         try {
-            mpp = (Map<String, Object>) soapClient.call(
-                    ResourcePath.ProductInfo, sku);
+            mpp = (Map<String, Object>) soapClient.call(ResourcePath.ProductInfo, sku);
         } catch (AxisFault e) {
             if (e.getMessage().indexOf("Product not exists") >= 0) {
                 mpp = null;
@@ -402,19 +406,18 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#getById(java
-      * .lang .Integer)
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#getById(java
+     * .lang .Integer)
+     */
     @Override
     public Product getById(Integer id) throws ServiceException {
 
         Map<String, Object> mpp;
         try {
-            mpp = (Map<String, Object>) soapClient.call(
-                    ResourcePath.ProductInfo, id);
+            mpp = (Map<String, Object>) soapClient.call(ResourcePath.ProductInfo, id);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -428,39 +431,42 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see com.google.code.magja.service.product.ProductRemoteService#listAll()
-      */
+     * (non-Javadoc)
+     * 
+     * @see com.google.code.magja.service.product.ProductRemoteService#listAll()
+     */
     @Override
     public List<Product> listAll() throws ServiceException {
         return list(true);
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#listAllNoDep()
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#listAllNoDep()
+     */
     @Override
     public List<Product> listAllNoDep() throws ServiceException {
         return list(false);
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#create(code.
-      * google .magja.model.product.Product)
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#create(code.
+     * google .magja.model.product.Product)
+     */
     @Override
-    public void save(Product product, Product existingProduct) throws ServiceException, NoSuchAlgorithmException {
+    public void save(Product product, Product existingProduct) throws ServiceException,
+            NoSuchAlgorithmException {
         save(product, existingProduct, "");
     }
 
-    public void save(Product product, Product existingProduct, String storeView) throws ServiceException, NoSuchAlgorithmException {
+    @Override
+    public void save(Product product, Product existingProduct, String storeView)
+            throws ServiceException, NoSuchAlgorithmException {
 
         if (existingProduct == null) {
             existingProduct = getBySku(product.getSku());
@@ -485,8 +491,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
                 log.info("Updating '" + product.getSku() + "'");
 
-                soapClient.call(ResourcePath.ProductUpdate,
-                        newProduct);
+                soapClient.call(ResourcePath.ProductUpdate, newProduct);
 
                 if (product.getType().equals(ProductType.CONFIGURABLE))
                     handleConfigurableForNewProducts(product);
@@ -509,12 +514,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
             try {
 
-                List<Object> newProduct = (LinkedList<Object>) product
-                        .serializeToApi();
+                List<Object> newProduct = (LinkedList<Object>) product.serializeToApi();
 
                 log.info("Creating '" + product.getSku() + "'");
-                int id = Integer.parseInt((String) soapClient.call(
-                        ResourcePath.ProductCreate, newProduct));
+                int id = Integer.parseInt((String) soapClient.call(ResourcePath.ProductCreate,
+                        newProduct));
                 if (id > 0)
                     product.setId(id);
                 else
@@ -535,7 +539,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
         if (product.getQty() != null)
             updateInventory(product);
-
 
         assignProductMedia(product);
         assignProductLinks(product);
@@ -564,14 +567,15 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
                 }
             }
             if (!found) {
-                log.info("Adding '" + product.getSku() + " to category " + cat.getName() + " with position " + cat.getPosition());
+                log.info("Adding '" + product.getSku() + " to category " + cat.getName()
+                        + " with position " + cat.getPosition());
                 categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
             } else {
-                log.info("Updating '" + product.getSku() + " to category " + cat.getName() + " with position " + cat.getPosition());
+                log.info("Updating '" + product.getSku() + " to category " + cat.getName()
+                        + " with position " + cat.getPosition());
                 categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
             }
         }
-
 
         List<Category> toBeDeleted = new ArrayList<Category>();
         if (existingProduct != null) {
@@ -598,8 +602,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
     }
 
-
-    private void assignProductMedia(Product product) throws ServiceException, NoSuchAlgorithmException {
+    private void assignProductMedia(Product product) throws ServiceException,
+            NoSuchAlgorithmException {
         // if have media, create it too
         boolean found;
         List<String> mediaFound = new ArrayList<String>();
@@ -623,13 +627,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
                     }
 
                     if (!found) {
-                        if (media.getImage() != null
-                                && media.getImage().getData() != null)
+                        if (media.getImage() != null && media.getImage().getData() != null)
                             log.info("Adding image : " + media.getLabel());
                         productMediaRemoteService.create(media);
                     }
                 }
-
 
             }
         }
@@ -675,8 +677,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
                     found = false;
                     for (ProductLink existingLink : existingLinks) {
-                        if (existingLink.getSku().equals(link.getSku()) &&
-                                existingLink.getLinkType().equals(link.getLinkType())) {
+                        if (existingLink.getSku().equals(link.getSku())
+                                && existingLink.getLinkType().equals(link.getLinkType())) {
                             found = true;
                             break;
                         }
@@ -685,10 +687,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
                     if (!found) {
                         if (link.getLinkType() != null
                                 && (link.getId() != null || link.getSku() != null))
-                            log.info("Assigning " + link.getLinkType() + " Link with product : " + link.getSku());
+                            log.info("Assigning " + link.getLinkType() + " Link with product : "
+                                    + link.getSku());
                         productLinkRemoteService.assign(product, link);
                     }
-
 
                 }
             }
@@ -698,8 +700,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
             found = false;
             if (product.getLinks() != null) {
                 for (ProductLink link : product.getLinks()) {
-                    if (existingLink.getSku().equals(link.getSku()) &&
-                            existingLink.getLinkType().equals(link.getLinkType())) {
+                    if (existingLink.getSku().equals(link.getSku())
+                            && existingLink.getLinkType().equals(link.getLinkType())) {
                         found = true;
                         break;
                     }
@@ -718,9 +720,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
     }
 
-
     @Override
-    public void setConfigurableAttributes(String productSku, Map<String, String> attributeNames) throws ServiceException {
+    public void setConfigurableAttributes(String productSku, Map<String, String> attributeNames)
+            throws ServiceException {
 
         try {
             List<Object> args = new ArrayList<Object>();
@@ -736,14 +738,14 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     @Override
-    public void setAssociatedProducts(String productSku, Map<String, String> childProducts) throws ServiceException {
+    public void setAssociatedProducts(String productSku, Map<String, String> childProducts)
+            throws ServiceException {
 
         try {
             List<Object> args = new ArrayList<Object>();
             args.add(productSku);
             args.add(childProducts);
-            String results = (String) soapClient.call(ResourcePath.ProductAssociateChildren,
-                    args);
+            String results = (String) soapClient.call(ResourcePath.ProductAssociateChildren, args);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -752,12 +754,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
     }
 
-
     /*
-      * Handle configurable products just for insert new products
-      */
-    private void handleConfigurableForNewProducts(Product product)
-            throws ServiceException, NoSuchAlgorithmException {
+     * Handle configurable products just for insert new products
+     */
+    private void handleConfigurableForNewProducts(Product product) throws ServiceException,
+            NoSuchAlgorithmException {
 
         // if isn't a configurable product, stop the execution
         if (!product.getType().equals(ProductType.CONFIGURABLE))
@@ -780,8 +781,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
             if (product.getConfigurableProductsData() == null)
                 product.setConfigurableProductsData(new HashMap<String, Map<String, Object>>());
 
-            for (ConfigurableProductData prdData : product
-                    .getConfigurableSubProducts()) {
+            for (ConfigurableProductData prdData : product.getConfigurableSubProducts()) {
 
                 Product subprd = prdData.getProduct();
 
@@ -803,11 +803,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see com.google.code.magja.service.product.ProductRemoteService#
-      * listAllProductTypes ()
-      */
+     * (non-Javadoc)
+     * 
+     * @see com.google.code.magja.service.product.ProductRemoteService#
+     * listAllProductTypes ()
+     */
     @Override
     public List<ProductType> listAllProductTypes() throws ServiceException {
 
@@ -838,35 +838,35 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#delete(java
-      * .lang .Integer)
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#delete(java
+     * .lang .Integer)
+     */
     @Override
     public void delete(Integer id) throws ServiceException {
         delete(id, null);
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#delete(java
-      * .lang .String)
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#delete(java
+     * .lang .String)
+     */
     @Override
     public void delete(String sku) throws ServiceException {
         delete(null, sku);
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#deleteAll()
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#deleteAll()
+     */
     @Override
     public void deleteAll() throws ServiceException {
         List<Product> products = listAllNoDep();
@@ -876,12 +876,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#getInventoryInfo
-      * (java.util.Set)
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#getInventoryInfo
+     * (java.util.Set)
+     */
     @Override
     public void getInventoryInfo(Set<Product> products) throws ServiceException {
 
@@ -895,8 +895,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
         List<Map<String, Object>> resultList = null;
         try {
-            resultList = (List<Map<String, Object>>) soapClient.call(
-                    ResourcePath.ProductStockList, param);
+            resultList = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductStockList,
+                    param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -905,16 +905,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
 
         for (Map<String, Object> iv : resultList) {
             for (Product product : products) {
-                if (product.getId().equals(
-                        Integer.parseInt((String) iv.get("product_id")))) {
+                if (product.getId().equals(Integer.parseInt((String) iv.get("product_id")))) {
                     if (iv.get("qty") != null || !"".equals(iv.get("qty")))
-                        product.setQty(Double.parseDouble((String) iv
-                                .get("qty")));
-                    if (iv.get("is_in_stock") != null
-                            || !"".equals(iv.get("is_in_stock"))) {
+                        product.setQty(Double.parseDouble((String) iv.get("qty")));
+                    if (iv.get("is_in_stock") != null || !"".equals(iv.get("is_in_stock"))) {
                         if (iv.get("is_in_stock").toString().equals("0")
-                                || iv.get("is_in_stock").toString()
-                                .equals("false"))
+                                || iv.get("is_in_stock").toString().equals("false"))
                             product.setInStock(false);
                         else
                             product.setInStock(true);
@@ -925,12 +921,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.product.ProductRemoteService#updateInventory
-      * (com.google.code.magja.model.product.Product)
-      */
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.code.magja.service.product.ProductRemoteService#updateInventory
+     * (com.google.code.magja.model.product.Product)
+     */
     @Override
     public void updateInventory(Product product) throws ServiceException {
 
@@ -1014,13 +1010,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         }
     }
 
-
     /**
      * Get products without category
-     *
+     * 
      * @return List<Product>
      * @throws ServiceException
      */
+    @Override
     public List<Product> getWithoutCategory() throws ServiceException {
         List<Product> withoutCategory = new ArrayList<Product>();
 
@@ -1032,5 +1028,31 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product>
         }
 
         return withoutCategory;
+    }
+
+    @Override
+    public List<Product> listUpdatedBetween(Date from, Date to) throws ServiceException {
+        Map<String, Object> param = new HashMap<String, Object>();
+        List<Product> products = new ArrayList<Product>();
+        Map<String, String> values = new HashMap<String, String>();
+
+        values.put("from", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(from));
+        values.put("to", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(to));
+        param.put("updated_at", values);
+
+        try {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> productList = (List<Map<String, Object>>) soapClient.call(
+                    ResourcePath.ProductList, param);
+            if (productList != null) {
+                for (Map<String, Object> mpp : productList)
+                    products.add(buildProduct(mpp, false));
+            }
+        } catch (AxisFault e) {
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        }
+        return products;
     }
 }

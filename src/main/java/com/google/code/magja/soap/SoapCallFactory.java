@@ -56,18 +56,15 @@ public class SoapCallFactory {
         mag = fac.createOMNamespace("urn:Magento", "mag");
 
         // General namespaces, needed for soap
-        xsi = fac.createOMNamespace(
-                "http://www.w3.org/2001/XMLSchema-instance", "xsi");
+        xsi = fac.createOMNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi");
         xsd = fac.createOMNamespace("http://www.w3.org/2001/XMLSchema", "xsd");
-        soapXml = fac.createOMNamespace("http://xml.apache.org/xml-soap",
-                "SOAP-XML");
-        soapEnc = fac.createOMNamespace(
-                "http://schemas.xmlsoap.org/soap/encoding/", "SOAP-ENC");
+        soapXml = fac.createOMNamespace("http://xml.apache.org/xml-soap", "SOAP-XML");
+        soapEnc = fac.createOMNamespace("http://schemas.xmlsoap.org/soap/encoding/", "SOAP-ENC");
     }
 
     /**
      * Creates a Soap method for login
-     *
+     * 
      * @param user
      * @param password
      * @return the created method as axiom element
@@ -87,7 +84,7 @@ public class SoapCallFactory {
 
     /**
      * Creates a soap method to end a session
-     *
+     * 
      * @param sessionId
      * @return the created method as axiom element
      */
@@ -121,17 +118,22 @@ public class SoapCallFactory {
         if (arg instanceof List) {
             List<Object> args = (List<Object>) arg;
             paramArgs = fac.createOMElement(ARGUMENTS, noNs);
-            paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
-                    + args.size() + "]", soapEnc);
+            paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + args.size() + "]",
+                    soapEnc);
             paramArgs.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
 
             for (Object argument : args) {
                 paramArgs.addChild(typedElement(noNs, "item", argument));
             }
+        } else if (arg instanceof Map) {
+            Map<String, Object> args = (Map<String, Object>) arg;
+            paramArgs = typedElement(noNs, ARGUMENTS, arg);
+            paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":Map[" + args.size() + "]",
+                    soapEnc);
+            paramArgs.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
         } else {
-            paramArgs = this.typedElement(noNs, ARGUMENTS, arg);
+            paramArgs = typedElement(noNs, ARGUMENTS, arg);
         }
-        // paramArgs.addChild(itemArg);
         method.addChild(paramArgs);
 
         return method;
@@ -140,76 +142,74 @@ public class SoapCallFactory {
     /**
      * Dispatcher function which decides, how the axiom subtree for a value is
      * created.
-     *
+     * 
      * @param elementNs
      * @param name
      * @param value
      * @return
      */
     @SuppressWarnings("unchecked")
-    private OMElement typedElement(OMNamespace elementNs, String name,
-                                   Object value) {
+    private OMElement typedElement(OMNamespace elementNs, String name, Object value) {
         if (value instanceof String) {
             /*
-                * Simple key-value map <item><key
-                * xsi:type="xsd:string">name</key><value
-                * xsi:type="xsd:string">value</value></item>
-                */
-            return this.typedElement(elementNs, name, (String) value,
-                    xsd.getPrefix() + ":string");
+             * Simple key-value map <item><key
+             * xsi:type="xsd:string">name</key><value
+             * xsi:type="xsd:string">value</value></item>
+             */
+            return this.typedElement(elementNs, name, (String) value, xsd.getPrefix() + ":string");
         } else if (value instanceof Integer) {
             /*
-                * Simple key-value map <item><key
-                * xsi:type="xsd:string">name</key><value
-                * xsi:type="xsd:int">value</value></item>
-                */
-            return this.typedElement(elementNs, name,
-                    ((Integer) value).toString(), xsd.getPrefix() + ":int");
+             * Simple key-value map <item><key
+             * xsi:type="xsd:string">name</key><value
+             * xsi:type="xsd:int">value</value></item>
+             */
+            return this.typedElement(elementNs, name, ((Integer) value).toString(), xsd.getPrefix()
+                    + ":int");
         } else if (value instanceof Long) {
             /*
-                * Simple key-value map <item><key
-                * xsi:type="xsd:string">name</key><value
-                * xsi:type="xsd:long">value</value></item>
-                */
-            return this.typedElement(elementNs, name,
-                    ((Long) value).toString(), xsd.getPrefix() + ":long");
+             * Simple key-value map <item><key
+             * xsi:type="xsd:string">name</key><value
+             * xsi:type="xsd:long">value</value></item>
+             */
+            return this.typedElement(elementNs, name, ((Long) value).toString(), xsd.getPrefix()
+                    + ":long");
         } else if (value instanceof Boolean) {
             /*
-                * Simple key-value map <item><key
-                * xsi:type="xsd:string">name</key><value
-                * xsi:type="xsd:int">value</value></item>
-                */
-            return this.typedElement(elementNs, name,
-                    ((Boolean) value).toString(), xsd.getPrefix() + ":boolean");
+             * Simple key-value map <item><key
+             * xsi:type="xsd:string">name</key><value
+             * xsi:type="xsd:int">value</value></item>
+             */
+            return this.typedElement(elementNs, name, ((Boolean) value).toString(), xsd.getPrefix()
+                    + ":boolean");
         } else if (value instanceof Date) {
             /*
-                * Simple key-value map <item><key
-                * xsi:type="xsd:string">name</key><value
-                * xsi:type="xsd:int">value</value></item>
-                */
+             * Simple key-value map <item><key
+             * xsi:type="xsd:string">name</key><value
+             * xsi:type="xsd:int">value</value></item>
+             */
             SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-            return this.typedElement(elementNs, name,
-                    formater.format((Date) value), xsd.getPrefix() + ":string");
+            return this.typedElement(elementNs, name, formater.format((Date) value),
+                    xsd.getPrefix() + ":string");
         } else if (value instanceof Double) {
             /*
-                * Simple key-value map <item><key
-                * xsi:type="xsd:string">name</key><value
-                * xsi:type="xsd:float">value</value></item>
-                */
-            return this.typedElement(elementNs, name,
-                    ((Double) value).toString(), xsd.getPrefix() + ":float");
+             * Simple key-value map <item><key
+             * xsi:type="xsd:string">name</key><value
+             * xsi:type="xsd:float">value</value></item>
+             */
+            return this.typedElement(elementNs, name, ((Double) value).toString(), xsd.getPrefix()
+                    + ":float");
         } else if (value instanceof String[]) {
             /*
-                * String Array is represented by a list of items <item
-                * SOAP-ENC:arrayType="xsd:string[length]"
-                * xsi:type="SOAP-ENC:Array"> <item
-                * xsi:type="xsd:string">string</item> <!-- more items if array
-                * contains more entries --> </item>
-                */
+             * String Array is represented by a list of items <item
+             * SOAP-ENC:arrayType="xsd:string[length]"
+             * xsi:type="SOAP-ENC:Array"> <item
+             * xsi:type="xsd:string">string</item> <!-- more items if array
+             * contains more entries --> </item>
+             */
             String[] stringArray = (String[]) value;
             OMElement arrayArg = fac.createOMElement(name, elementNs);
-            arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":string["
-                    + stringArray.length + "]", soapEnc);
+            arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":string[" + stringArray.length
+                    + "]", soapEnc);
             arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
             for (String item : stringArray) {
                 arrayArg.addChild(typedElement(elementNs, "item", item));
@@ -218,23 +218,22 @@ public class SoapCallFactory {
         } else if (value instanceof List) {
             List<Object> list = (List<Object>) value;
             OMElement arrayArg = fac.createOMElement(name, elementNs);
-            arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
-                    + list.size() + "]", soapEnc);
+            arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + list.size() + "]",
+                    soapEnc);
             arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
             for (Object item : list) {
                 arrayArg.addChild(typedElement(elementNs, "item", item));
             }
             return arrayArg;
 
-
         } else if (value instanceof ArrayItemMap) {
             /*
-                * Map is represented by a list of key-value pairs <item
-                * xsi:type="SOAP-XML:Map"> <item><key
-                * xsi:type="xsd:string">name-of-key</key><value
-                * xsi:type="xsd:XX">value</value></item> <!-- more items if map
-                * contains more entries--> </item>
-                */
+             * Map is represented by a list of key-value pairs <item
+             * xsi:type="SOAP-XML:Map"> <item><key
+             * xsi:type="xsd:string">name-of-key</key><value
+             * xsi:type="xsd:XX">value</value></item> <!-- more items if map
+             * contains more entries--> </item>
+             */
             ArrayItemMap argMap = (ArrayItemMap) value;
             OMElement mapArg = fac.createOMElement(name, elementNs);
             mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
@@ -244,24 +243,40 @@ public class SoapCallFactory {
             return mapArg;
         } else if (value instanceof Map) {
             /*
-                * Map is represented by a list of key-value pairs <item
-                * xsi:type="SOAP-XML:Map"> <item><key
-                * xsi:type="xsd:string">name-of-key</key><value
-                * xsi:type="xsd:XX">value</value></item> <!-- more items if map
-                * contains more entries--> </item>
-                */
-            Map<Object, Object> argMap = (Map<Object, Object>) value;
+             * Map is represented by a list of key-value pairs <item
+             * xsi:type="SOAP-XML:Map"> <item><key
+             * xsi:type="xsd:string">name-of-key</key><value
+             * xsi:type="xsd:XX">value</value></item> <!-- more items if map
+             * contains more entries--> </item>
+             */
+            // Map<Object, Object> argMap = (Map<Object, Object>) value;
+            // OMElement mapArg = fac.createOMElement(name, elementNs);
+            // mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
+            // for (Object key : argMap.keySet()) {
+            // mapArg.addChild(keyValue(key, argMap.get(key)));
+            // }
+
+            Map<String, Object> argMap = (Map<String, Object>) value;
             OMElement mapArg = fac.createOMElement(name, elementNs);
             mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
-            for (Object key : argMap.keySet()) {
-                mapArg.addChild(keyValue(key, argMap.get(key)));
+            for (String key : argMap.keySet()) {
+                if (argMap.get(key) instanceof Map) {
+                    // Add an extra item element of type Map
+                    OMElement item = fac.createOMElement("item", noNs);
+                    item.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
+                    item.addChild(keyValue(key, argMap.get(key)));
+                    mapArg.addChild(item);
+                } else {
+                    mapArg.addChild(keyValue(key, argMap.get(key)));
+                }
             }
             return mapArg;
+
         } else if (value == null) {
             /*
-            * <category_id xsi:nil="true"/>
-            * http://zvon.org/xxl/XMLSchemaTutorial/Output/ser_over_st0.html
-            */
+             * <category_id xsi:nil="true"/>
+             * http://zvon.org/xxl/XMLSchemaTutorial/Output/ser_over_st0.html
+             */
             OMElement element = fac.createOMElement(name, elementNs);
             element.addAttribute("nil", "true", xsi);
             return element;
@@ -272,15 +287,15 @@ public class SoapCallFactory {
 
     /**
      * Create a simple element with a xsi:type attribute
-     *
+     * 
      * @param elementNs
      * @param name
      * @param value
      * @param valueType
      * @return
      */
-    private OMElement typedElement(OMNamespace elementNs, String name,
-                                   String value, String valueType) {
+    private OMElement typedElement(OMNamespace elementNs, String name, String value,
+            String valueType) {
         OMElement element = fac.createOMElement(name, elementNs);
         element.addAttribute("type", valueType, xsi);
         element.addChild(fac.createOMText(element, value));
@@ -289,7 +304,7 @@ public class SoapCallFactory {
 
     /**
      * Creates an key-value elements contained by an item-element
-     *
+     * 
      * @param key
      * @param value
      * @return
