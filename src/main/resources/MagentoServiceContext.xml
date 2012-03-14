@@ -7,16 +7,16 @@
     <bean id="PropertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location"
-                  value="classpath:${com.wonder.configuration}_${com.wonder.integration.environment}.properties"/>
+                  value="classpath:magento-api.properties"/>
     </bean>
 
 
     <bean id="soapConfig" class="com.google.code.magja.soap.SoapConfig">
-        <property name="apiUser" value="${com.wonder.integration.service.website.apiuser}"/>
-        <property name="apiKey" value="${com.wonder.integration.service.website.apiKey}"/>
-        <property name="remoteHost" value="${com.wonder.integration.service.website.remotehost}"/>
-        <property name="defaultAttributeSetId" value="${com.wonder.integration.service.website.defaultattributeset}"/>
-        <property name="defaultRootCategoryId" value="${com.wonder.integration.service.website.defaultrootcateogry}"/>
+        <property name="apiUser" value="${magento-api-username}"/>
+        <property name="apiKey" value="${magento-api-password}"/>
+        <property name="remoteHost" value="${magento-api-url}"/>
+        <property name="defaultAttributeSetId" value="${default-attribute-set-id}"/>
+        <property name="defaultRootCategoryId" value="${default-root-category-id}"/>
     </bean>
 
 </beans>
