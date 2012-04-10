@@ -177,6 +177,12 @@
 
     <dependencies>
 
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-core</artifactId>
+			<version>5.1.3.FINAL</version>
+		</dependency>
+		
 		<!-- Spring can used by MagentoSoapClient, but must be provided separately -->
         <dependency>
             <groupId>org.springframework</groupId>

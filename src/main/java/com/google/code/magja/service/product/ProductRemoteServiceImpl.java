@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.axis2.AxisFault;
+import org.infinispan.Cache;
+import org.infinispan.manager.DefaultCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +47,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     private ProductLinkRemoteService productLinkRemoteService;
 
     private transient final Logger log = LoggerFactory.getLogger(ProductRemoteServiceImpl.class);
-
+ 
+    Cache<String, Object> cache = new DefaultCacheManager().getCache();
+    
     /*
      * (non-Javadoc)
      * 
@@ -239,44 +243,55 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      */
     // TODO: this is called multiple times by ProductService.listAll(), please cache this
     private ProductAttributeSet getAttributeSet(String id) throws ServiceException {
-
-        ProductAttributeSet prdAttSet = new ProductAttributeSet();
-        Integer set_id = Integer.parseInt(id);
-
-        // if are the default attribute set, that not list on the api, so we
-        // have to set manually
-        if (set_id.equals(soapClient.getConfig().getDefaultAttributeSetId())) {
-
-            prdAttSet.setId(set_id);
-            prdAttSet.setName("Default");
-
-        } else {
-            List<Map<String, Object>> setList;
-            try {
-                setList = (List<Map<String, Object>>) soapClient.call(
-                        ResourcePath.ProductAttributeSetList, "");
-                log.debug("{} returned {}", ResourcePath.ProductAttributeSetList.getPath(), setList);
-            } catch (AxisFault e) {
-                if (debug)
-                    e.printStackTrace();
-                throw new ServiceException(e.getMessage());
-            }
-
-            if (setList != null) {
-                for (Map<String, Object> set : setList) {
-                	// Workaround: Some Magento version (or the magja-catalog-ext extension?) return "set_id",
-                	// while the other returns "attribute_set_id". Let's accept both.
-                	String setId = (String) (set.containsKey("set_id") ? set.get("set_id") : set.get("attribute_set_id")); 
-                    if (setId.equals(set_id.toString())) {
-
-                        for (Map.Entry<String, Object> att : set.entrySet())
-                            prdAttSet.set(att.getKey(), att.getValue());
-
-                        break;
-                    }
-                }
-            }
-        }
+    	String cacheKey = "attributeSet." + id;
+    	ProductAttributeSet prdAttSet = (ProductAttributeSet) cache.get(cacheKey);
+    	if (prdAttSet != null) {
+    		log.trace("Returning cached ProductAttributeSet {}: {}", id, prdAttSet);
+    	} else {
+	        prdAttSet = new ProductAttributeSet();
+	        Integer set_id = Integer.parseInt(id);
+	
+	        // if are the default attribute set, that not list on the api, so we
+	        // have to set manually
+	        if (set_id.equals(soapClient.getConfig().getDefaultAttributeSetId())) {
+	
+	            prdAttSet.setId(set_id);
+	            prdAttSet.setName("Default");
+	
+	        } else {
+	            List<Map<String, Object>> setList;
+	            try {
+	                setList = (List<Map<String, Object>>) soapClient.call(
+	                        ResourcePath.ProductAttributeSetList, "");
+	                log.debug("{} returned {}", ResourcePath.ProductAttributeSetList.getPath(), setList);
+	            } catch (AxisFault e) {
+	            	log.error("Error getting attribute set " + id, e);
+	                if (debug)
+	                    e.printStackTrace();
+	                throw new ServiceException(e.getMessage());
+	            }
+	
+	            if (setList != null) {
+	                for (Map<String, Object> set : setList) {
+	                	// Workaround: Some Magento version (or the magja-catalog-ext extension?) return "set_id",
+	                	// while the other returns "attribute_set_id". Let's accept both.
+	                	String setId = (String) (set.containsKey("set_id") ? set.get("set_id") : set.get("attribute_set_id")); 
+	                	String setName = (String) (set.containsKey("set_name") ? set.get("set_name") : set.get("attribute_set_name"));
+	                    if (setId.equals(set_id.toString())) {
+	                    	prdAttSet.setId(Integer.valueOf(setId));
+	                    	prdAttSet.setName(setName);
+	                        for (Map.Entry<String, Object> att : set.entrySet())
+	                            prdAttSet.set(att.getKey(), att.getValue());
+	
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	        
+	        log.trace("Caching ProductAttributeSet {} as {}: {}", new Object[] { id, cacheKey, prdAttSet });
+	        cache.put(cacheKey, prdAttSet);
+    	}
 
         return prdAttSet;
     }
