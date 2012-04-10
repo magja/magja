@@ -226,6 +226,15 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+        
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-api</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>
