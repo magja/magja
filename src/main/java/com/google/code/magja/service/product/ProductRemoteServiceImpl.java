@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.axis2.AxisFault;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.category.Category;
@@ -44,7 +44,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
     private ProductLinkRemoteService productLinkRemoteService;
 
-    private static final Log log = LogFactory.getLog(ProductRemoteServiceImpl.class);
+    private transient final Logger log = LoggerFactory.getLogger(ProductRemoteServiceImpl.class);
 
     /*
      * (non-Javadoc)
@@ -237,6 +237,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      * @return the ProductAttributeSet with the specified id
      * @throws ServiceException
      */
+    // TODO: this is called multiple times by ProductService.listAll(), please cache this
     private ProductAttributeSet getAttributeSet(String id) throws ServiceException {
 
         ProductAttributeSet prdAttSet = new ProductAttributeSet();
@@ -254,6 +255,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             try {
                 setList = (List<Map<String, Object>>) soapClient.call(
                         ResourcePath.ProductAttributeSetList, "");
+                log.debug("{} returned {}", ResourcePath.ProductAttributeSetList.getPath(), setList);
             } catch (AxisFault e) {
                 if (debug)
                     e.printStackTrace();
@@ -262,7 +264,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
             if (setList != null) {
                 for (Map<String, Object> set : setList) {
-                    if (set.get("set_id").equals(set_id.toString())) {
+                	// Workaround: Some Magento version (or the magja-catalog-ext extension?) return "set_id",
+                	// while the other returns "attribute_set_id". Let's accept both.
+                	String setId = (String) (set.containsKey("set_id") ? set.get("set_id") : set.get("attribute_set_id")); 
+                    if (setId.equals(set_id.toString())) {
 
                         for (Map.Entry<String, Object> att : set.entrySet())
                             prdAttSet.set(att.getKey(), att.getValue());
