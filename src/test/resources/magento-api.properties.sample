@@ -1,7 +1,7 @@
 # connection parameters
-magento-api-username=sysadmin
-magento-api-password=admin123
-magento-api-url=http\://rudi.rudi.dev/berbatik/api/soap/
+magento-api-username=soap
+magento-api-password=test123
+magento-api-url=http://localhost.blackhawk/magento/index.php/api/soap/
 
 # the ID of the default attribute set
 default-attribute-set-id=4

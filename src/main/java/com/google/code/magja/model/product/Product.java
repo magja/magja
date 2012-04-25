@@ -16,6 +16,10 @@ public class Product extends BaseMagentoModel {
     public static int NON_TAXABLE = 0;
 
     private static final long serialVersionUID = -8639442403416399439L;
+    
+    private String shop_id;
+    
+    private String local_sku;
 
     private String sku;
 
@@ -65,8 +69,10 @@ public class Product extends BaseMagentoModel {
 
     private List<ConfigurableAttributeData> configurableAttributesData;
 
-    protected void loadMappings() {
+	protected void loadMappings() {
         this.mapping = new Properties();
+        mapping.setProperty("shop_id", "shop_id");
+        mapping.setProperty("local_sku", "local_sku");
         mapping.setProperty("product_id", "id");
         mapping.setProperty("sku", "sku");
         mapping.setProperty("name", "name");
@@ -118,8 +124,38 @@ public class Product extends BaseMagentoModel {
 
         return newProduct;
     }
+    
+    
 
     /**
+	 * @return the shop_id
+	 */
+	public String getShop_id() {
+		return shop_id;
+	}
+
+	/**
+	 * @param shop_id the shop_id to set
+	 */
+	public void setShop_id(String shop_id) {
+		this.shop_id = shop_id;
+	}
+
+	/**
+	 * @return the local_sku
+	 */
+	public String getLocal_sku() {
+		return local_sku;
+	}
+
+	/**
+	 * @param local_sku the local_sku to set
+	 */
+	public void setLocal_sku(String local_sku) {
+		this.local_sku = local_sku;
+	}
+
+	/**
      * @return the sku
      */
     public String getSku() {
@@ -636,25 +672,41 @@ public class Product extends BaseMagentoModel {
                 return false;
         } else if (!weight.equals(other.weight))
             return false;
+        
+        if (shop_id == null) {
+            if (other.shop_id != null)
+                return false;
+        } else if (!shop_id.equals(other.shop_id))
+            return false;
+        if (local_sku == null) {
+            if (other.local_sku != null)
+                return false;
+        } else if (!local_sku.equals(other.local_sku))
+            return false;
+        
         return true;
     }
 
-    /*
-      * (non-Javadoc)
-      *
-      * @see java.lang.Object#toString()
-      */
-    @Override
-    public String toString() {
-        return "Product [attributeSet=" + attributeSet + ", categories="
-                + categories + ", cost=" + cost + ", description="
-                + description + ", enabled=" + enabled + ", googleCheckout="
-                + googleCheckout + ", inStock=" + inStock + ", links=" + links
-                + ", medias=" + medias + ", metaDescription=" + metaDescription
-                + ", name=" + name + ", price=" + price + ", qty=" + qty
-                + ", shortDescription=" + shortDescription + ", sku=" + sku
-                + ", taxClassId=" + taxClassId + ", type=" + type
-                + ", websites=" + Arrays.toString(websites) + ", weight="
-                + weight + ", id=" + id + ", properties=" + properties + "]";
-    }
+    /* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Product [shop_id=" + shop_id + ", local_sku=" + local_sku
+				+ ", sku=" + sku + ", attributeSet=" + attributeSet + ", type="
+				+ type + ", name=" + name + ", price=" + price + ", cost="
+				+ cost + ", shortDescription=" + shortDescription
+				+ ", description=" + description + ", enabled=" + enabled
+				+ ", weight=" + weight + ", taxClassId=" + taxClassId
+				+ ", websites=" + Arrays.toString(websites) + ", categories="
+				+ categories + ", qty=" + qty + ", inStock=" + inStock
+				+ ", medias=" + medias + ", links=" + links
+				+ ", metaDescription=" + metaDescription + ", googleCheckout="
+				+ googleCheckout + ", visibility=" + visibility
+				+ ", configurableProductsData=" + configurableProductsData
+				+ ", configurableSubProducts=" + configurableSubProducts
+				+ ", configurableAttributesData=" + configurableAttributesData
+				+ "]";
+	}
+    
 }

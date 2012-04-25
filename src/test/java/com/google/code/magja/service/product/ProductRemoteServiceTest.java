@@ -298,12 +298,14 @@ public class ProductRemoteServiceTest {
      */
     public static Product generateProductWithoutImage() {
         Product product = new Product();
-        product.setSku(MagjaStringUtils.randomString(3, 10).toUpperCase());
-        product.setName(MagjaStringUtils.randomString(3, 5) + " Product Test");
+        product.setShop_id("zibalabel");
+        product.setLocal_sku("zibalabel_t03");
+        product.setSku("T03");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
+        product.setName("Tas T03");//(MagjaStringUtils.randomString(3, 5) + " Product Test");
         product.setShortDescription("this is a short description");
         product.setDescription("this is a description");
-        product.setPrice(new Double(230.23));
-        product.setCost(new Double(120.22));
+        product.setPrice(new Double(10000.00));//(new Double(230.23));
+        product.setCost(new Double(9500.00));//(new Double(120.22));
         product.setEnabled(true);
         product.setWeight(new Double(0.100));
         Integer[] websites = {1};
