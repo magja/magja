@@ -5,7 +5,14 @@
  */
 package com.google.code.magja.soap;
 
-import com.google.code.magja.magento.ResourcePath;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
+
 import org.apache.axiom.om.OMElement;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.Constants;
@@ -15,17 +22,11 @@ import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.xml.namespace.QName;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.code.magja.magento.ResourcePath;
 
 public class MagentoSoapClient implements SoapClient {
 
@@ -53,7 +54,7 @@ public class MagentoSoapClient implements SoapClient {
 
     private Long lastCall = new Date().getTime();
 
-    private static final Log log = LogFactory.getLog(MagentoSoapClient.class);
+    private static final Logger log = LoggerFactory.getLogger(MagentoSoapClient.class);
 
 
     // holds all the created instances by creation order, Multiton Pattern
@@ -165,6 +166,8 @@ public class MagentoSoapClient implements SoapClient {
 		if (args != null && args.getClass().isArray())
 			args = Arrays.asList((Object[])args);
         
+		log.info("Calling {} {} at {}@{} with session {}", new Object[] {
+			pathString, args, config.getApiUser(), config.getRemoteHost(), sessionId }); 	
 		OMElement method = callFactory.createCall(sessionId, pathString,
                 args);
         OMElement result = null;

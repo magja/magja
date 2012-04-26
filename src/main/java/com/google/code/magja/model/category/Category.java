@@ -55,28 +55,40 @@ public class Category extends BaseMagentoModel {
         mapping.setProperty("level", "level");
     }
 
-    /*
-      * create empty category
-      */
+    /**
+     * create empty category
+     **/
     public Category() {
         super();
     }
 
-    /*
-      * create category with id
-      */
+    /**
+     * create category with id
+     */
     public Category(Integer id) {
         super();
 
         setId(id);
     }
 
-    /*
-      * create category with name
-      */
+    /**
+     * create category with name
+     */
     public Category(String name) {
         super();
 
+        setName(name);
+    }
+    
+    /**
+     * Create category with ID and name.
+     * @param id
+     * @param name
+     */
+    public Category(Integer id, String name) {
+        super();
+
+        setId(id);
         setName(name);
     }
 
