@@ -9,7 +9,7 @@ import static java.lang.Math.min;
 import static java.lang.Math.pow;
 import static java.lang.Math.random;
 import static java.lang.Math.round;
-import static org.apache.commons.lang.StringUtils.leftPad;
+import static org.apache.commons.lang3.StringUtils.leftPad;
 
 public class MagjaStringUtils {
 
