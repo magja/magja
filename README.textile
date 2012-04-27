@@ -118,3 +118,10 @@ h3. Customer
 bc. val customerRemoteService = RemoteServiceFactory.getCustomerRemoteService
 val customers = customerRemoteService.list
 customers.foreach(c => println(c.getFirstName + " " + c.getEmail))
+
+
+h2. Acknowledgments
+
+Bandung Everlasting Beauty logo downloaded from "Info Bandung CodePlex project":http://infobandung.codeplex.com/
+designed by Achmad Sutarjono.
+ 

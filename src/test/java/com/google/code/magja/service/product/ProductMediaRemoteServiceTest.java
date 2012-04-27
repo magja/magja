@@ -1,22 +1,25 @@
 package com.google.code.magja.service.product;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.google.code.magja.model.media.Media;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class ProductMediaRemoteServiceTest {
 
@@ -110,13 +113,13 @@ public class ProductMediaRemoteServiceTest {
             product = ProductRemoteServiceTest.generateProduct();
             productService.save(product, null);
 
-            // get some image from internet
-            byte[] data = MagjaFileUtils
-                    .getBytesFromFileURL("http://www.rockstore.com.br/store/catalog/hp-177_foto.jpg");
+            // get some image from classpath
+            InputStream imageStream = getClass().getResourceAsStream("bandung-everlasting-beauty_notext.png");
+            byte[] data = IOUtils.toByteArray(imageStream);
 
             // create the media contents
             Media image = new Media();
-            image.setName("guevara");
+            image.setName("bandung-everlasting-beauty");
             image.setMime("image/jpeg");
             image.setData(data);
 
