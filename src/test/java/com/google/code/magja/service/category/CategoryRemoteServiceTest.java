@@ -8,8 +8,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.model.category.Category;
 import com.google.code.magja.service.RemoteServiceFactory;
@@ -20,6 +24,7 @@ import com.google.code.magja.service.RemoteServiceFactory;
  */
 public class CategoryRemoteServiceTest {
 
+	private transient Logger log = LoggerFactory.getLogger(CategoryRemoteServiceTest.class);
     private CategoryRemoteService service;
 
     /**
@@ -34,9 +39,22 @@ public class CategoryRemoteServiceTest {
      * Test method for {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#getByIdClean(java.lang.Integer)}.
      */
     @Test
-    public void testGetByIdClean() throws Exception {
+    public void testGetByIdClean1() throws Exception {
+        Category category = service.getByIdClean(new Integer(1));
+        log.info("testGetByIdClean1 returns {}", category);
+        Assert.assertNotNull(category);
+        Assert.assertEquals((Integer)1, category.getId());
+    }
+
+    /**
+     * Test method for {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#getByIdClean(java.lang.Integer)}.
+     */
+    @Test
+    public void testGetByIdClean2() throws Exception {
         Category category = service.getByIdClean(new Integer(2));
-        if(category != null) System.out.println(category.toString());
+        log.info("testGetByIdClean2 returns {}", category);
+        Assert.assertNotNull(category);
+        Assert.assertEquals((Integer)2, category.getId());
     }
 
     /**

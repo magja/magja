@@ -4,22 +4,26 @@
  */
 package com.google.code.magja.service.category;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.axis2.AxisFault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.product.ProductRemoteService;
-import org.apache.axis2.AxisFault;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         implements CategoryRemoteService {
 
+	private transient Logger log = LoggerFactory.getLogger(CategoryRemoteServiceImpl.class);
     private static final long serialVersionUID = 5806879316902937610L;
 
     private ProductRemoteService productRemoteService;
@@ -79,7 +83,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
       */
     @Override
     public Category getByIdClean(Integer id) throws ServiceException {
-
+    	log.info("getIdByClean {}", id);
         Category category = new Category();
 
         if (id == null)
@@ -99,9 +103,10 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         if (cat == null)
             return null;
 
+        log.debug("Mappping to Category #{} from {}", id, cat);
         for (Map.Entry<String, Object> attribute : cat.entrySet()) {
             if (attribute.getKey().equals("available_sort_by")) {
-                category.set(attribute.getKey(), attribute.getValue().toString());
+                category.set(attribute.getKey(), (String)attribute.getValue());
             } else {
                 category.set(attribute.getKey(), attribute.getValue());
             }
