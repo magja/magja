@@ -4,10 +4,17 @@
  */
 package com.google.code.magja.model.product;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.media.Media;
-
-import java.util.*;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 
 public class ProductMedia extends BaseMagentoModel {
 
@@ -61,19 +68,19 @@ public class ProductMedia extends BaseMagentoModel {
         Map<String, Object> props = getAllProperties();
         props.remove("url");
 
-        String[] str_types = new String[types.size()];
-        int i = 0;
-        for (Type type : types)
-            str_types[i++] = type.toString().toLowerCase();
-
-        if (str_types.length > 0)
+        if (!types.isEmpty()) {
+            List<String> str_types = Lists.newArrayList( Iterators.transform(types.iterator(), new Function<Type, String>() {
+            	@Override
+            	public String apply(Type input) {
+            		return input.toString().toLowerCase();
+            	}
+			}) );
             props.put("types", str_types);
+        }
 
         props.put("file", image.serializeToApi());
 
-        List<Object> newMedia = new LinkedList<Object>();
-        newMedia.add(product.getSku());
-        newMedia.add(props);
+        List<Object> newMedia = ImmutableList.of( product.getSku(), props );
 
         return newMedia;
     }

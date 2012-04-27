@@ -3,22 +3,36 @@
  */
 package com.google.code.magja.service.product;
 
-import com.google.code.magja.model.category.Category;
-import com.google.code.magja.model.media.Media;
-import com.google.code.magja.model.product.*;
-import com.google.code.magja.service.RemoteServiceFactory;
-import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.utils.MagjaFileUtils;
-import com.google.code.magja.utils.MagjaStringUtils;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import com.google.code.magja.model.category.Category;
+import com.google.code.magja.model.media.Media;
+import com.google.code.magja.model.product.ConfigurableAttributeData;
+import com.google.code.magja.model.product.ConfigurableData;
+import com.google.code.magja.model.product.ConfigurableDataException;
+import com.google.code.magja.model.product.ConfigurableProductData;
+import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.Visibility;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.utils.MagjaFileUtils;
+import com.google.code.magja.utils.MagjaStringUtils;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * @author andre
@@ -299,8 +313,8 @@ public class ProductRemoteServiceTest {
     public static Product generateProductWithoutImage() {
         Product product = new Product();
         product.setShop_id("zibalabel");
-        product.setLocal_sku("zibalabel_t03");
-        product.setSku("T03");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
+        product.setLocal_sku("T03");
+        product.setSku("zibalabel_t03");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
         product.setName("Tas T03");//(MagjaStringUtils.randomString(3, 5) + " Product Test");
         product.setShortDescription("this is a short description");
         product.setDescription("this is a description");
@@ -348,9 +362,9 @@ public class ProductRemoteServiceTest {
             image.setMime("image/jpeg");
             image.setData(data);
 
-            Set<ProductMedia.Type> types = new HashSet<ProductMedia.Type>();
-            types.add(ProductMedia.Type.IMAGE);
-            types.add(ProductMedia.Type.SMALL_IMAGE);
+            Set<ProductMedia.Type> types = ImmutableSet.of(ProductMedia.Type.SMALL_IMAGE);
+//            types.add(ProductMedia.Type.IMAGE);
+//            types.add(ProductMedia.Type.SMALL_IMAGE);
 
             ProductMedia media = new ProductMedia();
             media.setExclude(false);

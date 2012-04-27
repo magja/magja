@@ -20,6 +20,7 @@ import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;
+import com.google.common.collect.ImmutableSet;
 
 public class ProductMediaRemoteServiceTest {
 
@@ -124,8 +125,7 @@ public class ProductMediaRemoteServiceTest {
             image.setData(data);
 
             // options for the product media
-            Set<ProductMedia.Type> types = new HashSet<ProductMedia.Type>();
-            types.add(ProductMedia.Type.IMAGE);
+            Set<ProductMedia.Type> types = ImmutableSet.of(ProductMedia.Type.IMAGE);
 
             // finally, creates the product media and persists
             ProductMedia prd_media = new ProductMedia();
