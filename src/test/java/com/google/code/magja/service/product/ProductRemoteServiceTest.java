@@ -359,12 +359,10 @@ public class ProductRemoteServiceTest {
 
             Media image = new Media();
             image.setName("google");
-            image.setMime("image/jpeg");
+            image.setMime("image/png");
             image.setData(data);
 
-            Set<ProductMedia.Type> types = ImmutableSet.of(ProductMedia.Type.SMALL_IMAGE);
-//            types.add(ProductMedia.Type.IMAGE);
-//            types.add(ProductMedia.Type.SMALL_IMAGE);
+            Set<ProductMedia.Type> types = ImmutableSet.of(ProductMedia.Type.IMAGE, ProductMedia.Type.SMALL_IMAGE);
 
             ProductMedia media = new ProductMedia();
             media.setExclude(false);

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -123,7 +124,7 @@ public class SoapCallFactory {
             paramArgs.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
 
             for (Object argument : args) {
-                paramArgs.addChild(typedElement(noNs, "item", argument));
+        		paramArgs.addChild(typedElement(noNs, "item", argument));
             }
         } else if (arg instanceof Map) {
             Map<String, Object> args = (Map<String, Object>) arg;
@@ -259,15 +260,32 @@ public class SoapCallFactory {
             Map<String, Object> argMap = (Map<String, Object>) value;
             OMElement mapArg = fac.createOMElement(name, elementNs);
             mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
-            for (String key : argMap.keySet()) {
-                if (argMap.get(key) instanceof Map) {
+            for (Entry<String, Object> entry : argMap.entrySet()) {
+                if (entry.getValue() instanceof Map) {
                     // Add an extra item element of type Map
                     OMElement item = fac.createOMElement("item", noNs);
                     item.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
-                    item.addChild(keyValue(key, argMap.get(key)));
+                    item.addChild(keyValue(entry.getKey(), entry.getValue()));
                     mapArg.addChild(item);
+                } else if (entry.getValue() instanceof String[]) {
+                    /*
+                     * String Array is represented by a list of items <item
+                     * SOAP-ENC:arrayType="xsd:string[length]"
+                     * xsi:type="SOAP-ENC:Array"> <item
+                     * xsi:type="xsd:string">string</item> <!-- more items if array
+                     * contains more entries --> </item>
+                     */
+                    String[] stringArray = (String[]) entry.getValue();
+                    OMElement arrayItem = fac.createOMElement("item", noNs);
+                    arrayItem.addAttribute("arrayType", xsd.getPrefix() + ":string[" + stringArray.length
+                            + "]", soapEnc);
+                    arrayItem.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
+                    for (String item : stringArray) {
+                        arrayItem.addChild(typedElement(elementNs, "item", item));
+                    }
+                    mapArg.addChild(arrayItem);
                 } else {
-                    mapArg.addChild(keyValue(key, argMap.get(key)));
+                    mapArg.addChild(keyValue(entry.getKey(), entry.getValue()));
                 }
             }
             return mapArg;

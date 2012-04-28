@@ -75,7 +75,7 @@ public class ProductMedia extends BaseMagentoModel {
             		return input.toString().toLowerCase();
             	}
 			}) );
-            props.put("types", str_types);
+            props.put("types", str_types.toArray(new String[] { }));
         }
 
         props.put("file", image.serializeToApi());
