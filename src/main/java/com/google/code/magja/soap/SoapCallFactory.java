@@ -243,53 +243,25 @@ public class SoapCallFactory {
             }
             return mapArg;
         } else if (value instanceof Map) {
-            /*
-             * Map is represented by a list of key-value pairs <item
-             * xsi:type="SOAP-XML:Map"> <item><key
-             * xsi:type="xsd:string">name-of-key</key><value
-             * xsi:type="xsd:XX">value</value></item> <!-- more items if map
-             * contains more entries--> </item>
+            /**
+             * Map is represented by a list of key-value pairs.
+             * 
+             * <pre>
+             * <item xsi:type="SOAP-XML:Map">
+             * 		<item>
+             * 			<key xsi:type="xsd:string">name-of-key</key>
+             * 			<value xsi:type="xsd:XX">value</value>
+             * 		</item> <!-- more items if map contains more entries-->
+             * </item>
+             * </pre>
              */
-            // Map<Object, Object> argMap = (Map<Object, Object>) value;
-            // OMElement mapArg = fac.createOMElement(name, elementNs);
-            // mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
-            // for (Object key : argMap.keySet()) {
-            // mapArg.addChild(keyValue(key, argMap.get(key)));
-            // }
-
             Map<String, Object> argMap = (Map<String, Object>) value;
             OMElement mapArg = fac.createOMElement(name, elementNs);
             mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
             for (Entry<String, Object> entry : argMap.entrySet()) {
-                if (entry.getValue() instanceof Map) {
-                    // Add an extra item element of type Map
-                    OMElement item = fac.createOMElement("item", noNs);
-                    item.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
-                    item.addChild(keyValue(entry.getKey(), entry.getValue()));
-                    mapArg.addChild(item);
-                } else if (entry.getValue() instanceof String[]) {
-                    /*
-                     * String Array is represented by a list of items <item
-                     * SOAP-ENC:arrayType="xsd:string[length]"
-                     * xsi:type="SOAP-ENC:Array"> <item
-                     * xsi:type="xsd:string">string</item> <!-- more items if array
-                     * contains more entries --> </item>
-                     */
-                    String[] stringArray = (String[]) entry.getValue();
-                    OMElement arrayItem = fac.createOMElement("item", noNs);
-                    arrayItem.addAttribute("arrayType", xsd.getPrefix() + ":string[" + stringArray.length
-                            + "]", soapEnc);
-                    arrayItem.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
-                    for (String item : stringArray) {
-                        arrayItem.addChild(typedElement(elementNs, "item", item));
-                    }
-                    mapArg.addChild(arrayItem);
-                } else {
-                    mapArg.addChild(keyValue(entry.getKey(), entry.getValue()));
-                }
+                mapArg.addChild(keyValue(entry.getKey(), entry.getValue()));
             }
             return mapArg;
-
         } else if (value == null) {
             /*
              * <category_id xsi:nil="true"/>

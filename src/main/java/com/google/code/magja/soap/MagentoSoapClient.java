@@ -12,14 +12,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLOutputFactory;
 
 import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMOutputFormat;
+import org.apache.axiom.om.util.StAXWriterConfiguration;
+import org.apache.axiom.util.stax.dialect.StAXDialect;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.Constants;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.transport.http.HttpTransportProperties;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.slf4j.Logger;
@@ -170,9 +175,17 @@ public class MagentoSoapClient implements SoapClient {
 			pathString, args, config.getApiUser(), config.getRemoteHost(), sessionId }); 	
 		OMElement method = callFactory.createCall(sessionId, pathString,
                 args);
+		
         OMElement result = null;
         try {
-            result = sender.sendReceive(method);
+        	// Useful during HTTP debugging
+//			HttpTransportProperties.ProxyProperties proxyProps = new HttpTransportProperties.ProxyProperties();
+//			proxyProps.setProxyName("localhost");
+//			proxyProps.setProxyPort(8008);
+//			proxyProps.setUserName("guest");
+//			proxyProps.setPassWord("guest");
+//			sender.getOptions().setProperty(HTTPConstants.PROXY, proxyProps);
+			result = sender.sendReceive(method);
         } catch (AxisFault axisFault) {
         	if (axisFault.getMessage().toUpperCase().indexOf("SESSION EXPIRED") >= 0) {
                 log.info("call session expired: ", axisFault);
