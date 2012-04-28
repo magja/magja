@@ -14,6 +14,7 @@
   <logger name="org.apache.axiom.om.util" level="INFO" />
   <logger name="org.apache.axiom.om.impl" level="INFO" />
   <logger name="org.apache.axiom.soap.impl.llom" level="INFO" />
+  <logger name="org.apache.axiom.soap.impl.builder" level="INFO" />
   <logger name="org.apache.axis2.engine" level="INFO" />
   <logger name="org.apache.axis2.context" level="INFO" />
   <logger name="org.apache.axis2.client" level="INFO" />

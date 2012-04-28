@@ -186,6 +186,17 @@
         </dependency>
 
         <!-- Beware of https://issues.apache.org/jira/browse/AXIS2-2972 -->
+		<dependency>
+			<groupId>net.java.dev.stax-utils</groupId>
+			<artifactId>stax-utils</artifactId>
+			<version>20060502</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsr173-ri</artifactId>
+					<groupId>com.bea.xml</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
         <dependency>
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2-transport-local</artifactId>

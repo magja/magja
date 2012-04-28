@@ -11,6 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javanet.staxutils.StaxUtilsXMLOutputFactory;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLOutputFactory;
 
@@ -23,8 +25,9 @@ import org.apache.axis2.Constants;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
+import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.axis2.transport.http.HttpTransportProperties;
+import org.apache.axis2.transport.http.SOAPMessageFormatter;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.slf4j.Logger;
@@ -178,13 +181,6 @@ public class MagentoSoapClient implements SoapClient {
 		
         OMElement result = null;
         try {
-        	// Useful during HTTP debugging
-//			HttpTransportProperties.ProxyProperties proxyProps = new HttpTransportProperties.ProxyProperties();
-//			proxyProps.setProxyName("localhost");
-//			proxyProps.setProxyPort(8008);
-//			proxyProps.setUserName("guest");
-//			proxyProps.setPassWord("guest");
-//			sender.getOptions().setProperty(HTTPConstants.PROXY, proxyProps);
 			result = sender.sendReceive(method);
         } catch (AxisFault axisFault) {
         	if (axisFault.getMessage().toUpperCase().indexOf("SESSION EXPIRED") >= 0) {
@@ -225,6 +221,8 @@ public class MagentoSoapClient implements SoapClient {
         connectOptions.setTo(new EndpointReference(config.getRemoteHost()));
         connectOptions.setTransportInProtocol(Constants.TRANSPORT_HTTP);
         connectOptions.setTimeOutInMilliSeconds(60000);
+        connectOptions.setProperty(HTTPConstants.MC_GZIP_REQUEST, true);
+        connectOptions.setProperty(HTTPConstants.MC_ACCEPT_GZIP, true);
 
         // to use the same tcp connection for multiple calls
         // workaround:
@@ -238,9 +236,34 @@ public class MagentoSoapClient implements SoapClient {
         connectOptions.setProperty(HTTPConstants.HTTP_PROTOCOL_VERSION,
                 HTTPConstants.HEADER_PROTOCOL_10);
 
+    	// Useful during HTTP debugging
+//		HttpTransportProperties.ProxyProperties proxyProps = new HttpTransportProperties.ProxyProperties();
+//		proxyProps.setProxyName("localhost");
+//		proxyProps.setProxyPort(8008);
+//		proxyProps.setUserName("guest");
+//		proxyProps.setPassWord("guest");
+//		connectOptions.setProperty(HTTPConstants.PROXY, proxyProps);
+        
         sender = new ServiceClient();
         sender.setOptions(connectOptions);
 
+    	sender.getServiceContext().setProperty(Constants.Configuration.MESSAGE_FORMATTER, new SOAPMessageFormatter() {
+    		@Override
+    		public String formatSOAPAction(MessageContext msgCtxt,
+    				OMOutputFormat format, String soapActionString) {
+    			format.setStAXWriterConfiguration(new StAXWriterConfiguration() {
+					@Override
+					public XMLOutputFactory configure(XMLOutputFactory factory,
+							StAXDialect dialect) {
+						StaxUtilsXMLOutputFactory indentingFactory = new StaxUtilsXMLOutputFactory(factory);
+						indentingFactory.setProperty(StaxUtilsXMLOutputFactory.INDENTING, true);
+						return indentingFactory;
+					}
+				});
+    			return super.formatSOAPAction(msgCtxt, format, soapActionString);
+    		}
+    	});
+        
         OMElement loginMethod = callFactory.createLoginCall(
                 this.config.getApiUser(), this.config.getApiKey());
         log.info("====================================== Logging in user: " + this.config.getApiUser());
