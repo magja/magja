@@ -68,6 +68,29 @@ public class Product extends BaseMagentoModel {
     private List<ConfigurableProductData> configurableSubProducts;
 
     private List<ConfigurableAttributeData> configurableAttributesData;
+    
+    /**
+     * @param sku
+     */
+    public Product() {
+    	super();
+    }
+
+    /**
+     * @param sku
+     */
+    public Product(String sku) {
+    	super();
+    	this.sku = sku;
+    }
+
+    /**
+     * @param id
+     */
+    public Product(Integer id) {
+    	super();
+    	this.id = id;
+    }
 
 	protected void loadMappings() {
         this.mapping = new Properties();
@@ -125,9 +148,7 @@ public class Product extends BaseMagentoModel {
         return newProduct;
     }
     
-    
-
-    /**
+	/**
 	 * @return the shop_id
 	 */
 	public String getShop_id() {

@@ -13,6 +13,8 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.model.media.Media;
 import com.google.code.magja.model.product.Product;
@@ -23,6 +25,8 @@ import com.google.code.magja.utils.MagjaFileUtils;
 import com.google.common.collect.ImmutableSet;
 
 public class ProductMediaRemoteServiceTest {
+	
+	private transient Logger log = LoggerFactory.getLogger(ProductMediaRemoteServiceTest.class);
 
     private ProductMediaRemoteService service;
 
@@ -115,7 +119,7 @@ public class ProductMediaRemoteServiceTest {
             productService.save(product, null);
 
             // get some image from classpath
-            InputStream imageStream = getClass().getResourceAsStream("bandung-everlasting-beauty_notext.png");
+            InputStream imageStream = getClass().getResourceAsStream("/bandung-everlasting-beauty_notext.png");
             byte[] data = IOUtils.toByteArray(imageStream);
 
             // create the media contents
@@ -198,10 +202,12 @@ public class ProductMediaRemoteServiceTest {
     public void testListByProduct() {
         try {
 
-            testSave();
+//            testSave();
+        	product = new Product();
+        	product.setSku("zibalabel_t09");
             List<ProductMedia> medias = service.listByProduct(product);
             for (ProductMedia media : medias)
-                System.out.println(media.toString());
+                log.info("Media: {}", media);
 
         } catch (ServiceException e) {
             fail(e.getMessage());
