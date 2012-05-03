@@ -588,12 +588,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 }
             }
             if (!found) {
-                log.info("Adding '" + product.getSku() + " to category " + cat.getName()
-                        + " with position " + cat.getPosition());
+                log.debug("Adding '{}' to category #{} ({}) with position {}", new Object[] {
+                    	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
                 categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
             } else {
-                log.info("Updating '" + product.getSku() + " to category " + cat.getName()
-                        + " with position " + cat.getPosition());
+                log.debug("Updating '{}' to category #{} ({}) with position {}", new Object[] {
+                	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
                 categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
             }
         }
@@ -635,13 +635,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
             if (!product.getMedias().isEmpty()) {
                 for (ProductMedia media : product.getMedias()) {
+                	if (media.getImage() == null) {
+                		log.debug("Skipping media '{}' from product #{} ({}) because image is empty", new Object[] {
+                				media.getLabel(), product.getId(), product.getSku() });
+                		continue;
+                	}
+                	
                     found = false;
                     for (ProductMedia existingMedia : existingMedias) {
                         if (existingMedia.getLabel().equals(media.getLabel())) {
                             found = true;
                             existingMedia.setTypes(media.getTypes());
                             existingMedia.setImage(media.getImage());
-                            log.info("Updating image : " + existingMedia.getLabel());
+                            log.info("Updating media '{}' in product #{} ({}) ", new Object[] {
+                            		existingMedia.getLabel(), product.getId(), product.getSku() });
                             productMediaRemoteService.update(existingMedia);
                             break;
                         }
@@ -649,7 +656,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
                     if (!found) {
                         if (media.getImage() != null && media.getImage().getData() != null)
-                            log.info("Adding image : " + media.getLabel());
+                            log.info("Adding media '{}' to product #{} ({}) ", new Object[] {
+                            		media.getLabel(), product.getId(), product.getSku() });
                         productMediaRemoteService.create(media);
                     }
                 }
@@ -680,7 +688,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         }
 
         for (ProductMedia existingMedia : toBeDeleted) {
-            log.info("Removing image : " + existingMedia.getLabel());
+            log.info("Deleting media '{}' from product #{} ({}) ", new Object[] {
+            		existingMedia.getLabel(), product.getId(), product.getSku() });
             productMediaRemoteService.delete(existingMedia);
         }
 

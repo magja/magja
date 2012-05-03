@@ -312,10 +312,11 @@ public class ProductRemoteServiceTest {
      */
     public static Product generateProductWithoutImage() {
         Product product = new Product();
+        product.setAttributeSet(new ProductAttributeSet(9, "Default"));
         product.setShop_id("zibalabel");
-        product.setLocal_sku("T03");
-        product.setSku("zibalabel_t03");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
-        product.setName("Tas T03");//(MagjaStringUtils.randomString(3, 5) + " Product Test");
+        product.setLocal_sku("T09");
+        product.setSku("zibalabel_t09");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
+        product.setName("Tas T09");//(MagjaStringUtils.randomString(3, 5) + " Product Test");
         product.setShortDescription("this is a short description");
         product.setDescription("this is a description");
         product.setPrice(new Double(10000.00));//(new Double(230.23));
@@ -337,7 +338,7 @@ public class ProductRemoteServiceTest {
 
         // add category
         List<Category> categorys = new ArrayList<Category>();
-        categorys.add(new Category(2));
+        categorys.add(new Category(3));
         product.setCategories(categorys);
 
         //product.set("options_container", "container2");

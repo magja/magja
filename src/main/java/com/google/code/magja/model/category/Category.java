@@ -69,6 +69,7 @@ public class Category extends BaseMagentoModel {
         super();
 
         setId(id);
+        setPosition(0);
     }
 
     /**
@@ -78,6 +79,7 @@ public class Category extends BaseMagentoModel {
         super();
 
         setName(name);
+        setPosition(0);
     }
     
     /**
@@ -90,6 +92,21 @@ public class Category extends BaseMagentoModel {
 
         setId(id);
         setName(name);
+        setPosition(0);
+    }
+
+    /**
+     * Create category with ID, name, and position.
+     * @param id
+     * @param name
+     * @param position Position of the assigned product in this category.
+     */
+    public Category(Integer id, String name, Integer position) {
+        super();
+
+        setId(id);
+        setName(name);
+        setPosition(position);
     }
 
     /*
