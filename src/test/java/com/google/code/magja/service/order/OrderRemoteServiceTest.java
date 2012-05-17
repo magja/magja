@@ -97,16 +97,17 @@ public class OrderRemoteServiceTest {
 	 */
 	@Test
 	public void testHold() {
-		/*
+		
 		Order order = new Order();
 		order.setId(100000003);
+//		order.set
 
 		try {
 			service.hold(order);
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
-		*/
+		
 	}
 
 	/**
