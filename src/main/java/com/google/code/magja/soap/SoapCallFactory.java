@@ -262,6 +262,32 @@ public class SoapCallFactory {
                 mapArg.addChild(keyValue(entry.getKey(), entry.getValue()));
             }
             return mapArg;
+		} else if (value instanceof sun.org.mozilla.javascript.internal.NativeArray) {
+			/*
+			 * Handle javascript native array object, known issue in MacOS JDK, behaviour is the same as List object
+			 */
+			sun.org.mozilla.javascript.internal.NativeArray jsArray = (sun.org.mozilla.javascript.internal.NativeArray) value;
+			OMElement arrayArg = fac.createOMElement(name, elementNs);
+			arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
+					+ jsArray.getLength() + "]", soapEnc);
+			arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
+			for (int i = 0; i < jsArray.getLength(); i++) {
+				arrayArg.addChild(typedElement(elementNs, "item",
+						jsArray.get(i, jsArray)));
+			}
+			return arrayArg;
+		} else if (value instanceof sun.org.mozilla.javascript.internal.NativeObject) {
+			/*
+			 * Handle map object in javascript
+			 */
+			sun.org.mozilla.javascript.internal.NativeObject natObj = (sun.org.mozilla.javascript.internal.NativeObject)value;
+
+			OMElement mapArg = fac.createOMElement(name, elementNs);
+			mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
+			for(Object obj: natObj.getAllIds()){
+				mapArg.addChild(keyValue(obj.toString(), natObj.get(obj.toString(), null)));
+			}
+			return mapArg;
         } else if (value == null) {
             /*
              * <category_id xsi:nil="true"/>
