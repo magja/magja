@@ -100,7 +100,6 @@ public class OrderRemoteServiceTest {
 		
 		Order order = new Order();
 		order.setId(100000003);
-//		order.set
 
 		try {
 			service.hold(order);
