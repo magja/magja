@@ -1,5 +1,6 @@
 package com.google.code.magja.soap;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -208,6 +209,16 @@ public class SoapCallFactory {
              * xsi:type="xsd:float">value</value></item>
              */
             return this.typedElement(elementNs, name, ((Double) value).toString(), xsd.getPrefix()
+                    + ":float");
+        } else if (value instanceof BigDecimal) {
+            /*
+             * Simple key-value map with xsd:long value 
+             * <item>
+             *   <key xsi:type="xsd:string">price</key>
+             *   <value xsi:type="xsd:float">9.2843</value>
+             * </item>
+             */
+            return this.typedElement(elementNs, name, value.toString(), xsd.getPrefix()
                     + ":float");
         } else if (value instanceof String[]) {
             /*

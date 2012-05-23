@@ -6,16 +6,23 @@ package com.google.code.magja.service.order;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.util.Assert;
 
 import com.google.code.magja.model.order.Order;
 import com.google.code.magja.model.order.OrderFilter;
 import com.google.code.magja.model.order.OrderFilterItem;
+import com.google.code.magja.model.order.OrderForm;
+import com.google.code.magja.model.order.OrderFormItem;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 /**
  * @author andre
@@ -153,6 +160,33 @@ public class OrderRemoteServiceTest {
 		}
 	}
 
+	@Test
+	public void createValidOrderFormShouldSucceed() throws ServiceException {
+		ImmutableList<OrderFormItem> items = ImmutableList.of(
+				new OrderFormItem(194L, new BigDecimal(3)),
+				new OrderFormItem(195L, new BigDecimal(2)));
+		OrderForm orderForm = new OrderForm(3L, items);
+		Object order = service.create(orderForm);
+		Assert.notNull(order);
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void createWithNullCustomerIdShouldFail() throws ServiceException {
+		ImmutableList<OrderFormItem> items = ImmutableList.of(
+				new OrderFormItem(194L, new BigDecimal(3)),
+				new OrderFormItem(195L, new BigDecimal(2)));
+		OrderForm orderForm = new OrderForm(null, items);
+		Object order = service.create(orderForm);
+		Assert.isNull(order);
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void createWithNoItemsShouldFail() throws ServiceException {
+		List<OrderFormItem> items = new ArrayList<OrderFormItem>();
+		OrderForm orderForm = new OrderForm(3L, items);
+		Object order = service.create(orderForm);
+		Assert.isNull(order);
+	}
 
 
 }

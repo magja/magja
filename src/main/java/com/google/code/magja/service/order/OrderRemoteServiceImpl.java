@@ -4,25 +4,30 @@
  */
 package com.google.code.magja.service.order;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.axis2.AxisFault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.customer.Customer;
 import com.google.code.magja.model.customer.Customer.Gender;
 import com.google.code.magja.model.order.Order;
 import com.google.code.magja.model.order.OrderAddress;
 import com.google.code.magja.model.order.OrderFilter;
+import com.google.code.magja.model.order.OrderForm;
 import com.google.code.magja.model.order.OrderItem;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import org.apache.axis2.AxisFault;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
         OrderRemoteService {
 
+	private transient Logger log = LoggerFactory.getLogger(OrderRemoteServiceImpl.class);
     private static final long serialVersionUID = 8734041145563577985L;
 
     /**
@@ -280,5 +285,19 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
         }
 
     }
+
+    /**
+     * Create an {@link Order} from an {@link OrderForm}.
+     */
+	@Override
+	public Order create(OrderForm orderForm) throws ServiceException {
+        try {
+            Object result = soapClient.call(ResourcePath.SalesOrderCreate, orderForm.serializeToApi());
+            return new Order();  
+        } catch (AxisFault e) {
+        	log.debug("Error when creating OrderForm " + orderForm, e);
+            throw new ServiceException("Error when creating OrderForm " + orderForm, e);
+        }
+	}
 
 }

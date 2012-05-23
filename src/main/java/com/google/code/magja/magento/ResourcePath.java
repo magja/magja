@@ -78,6 +78,7 @@ public enum ResourcePath {
     SalesOrderHold("sales_order.hold"),
     SalesOrderUnhold("sales_order.unhold"),
     SalesOrderCancel("sales_order.cancel"),
+    SalesOrderCreate("sales_order.create"),
     SalesOrderShipmentList("sales_order_shipment.list"),
     SalesOrderShipmentInfo("sales_order_shipment.info"),
     SalesOrderShipmentCreate("sales_order_shipment.create"),

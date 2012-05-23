@@ -6,6 +6,7 @@ package com.google.code.magja.service.order;
 
 import com.google.code.magja.model.order.Order;
 import com.google.code.magja.model.order.OrderFilter;
+import com.google.code.magja.model.order.OrderForm;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
@@ -26,4 +27,6 @@ public interface OrderRemoteService extends GeneralService<Order> {
     public abstract void cancel(Order order) throws ServiceException;
 
     Order getById(String id) throws ServiceException;
+
+	public abstract Order create(OrderForm orderForm) throws ServiceException;
 }
