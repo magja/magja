@@ -22,7 +22,6 @@ import com.google.code.magja.model.order.OrderFormItem;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 
 /**
  * @author andre
