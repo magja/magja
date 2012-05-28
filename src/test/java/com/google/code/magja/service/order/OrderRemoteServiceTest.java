@@ -162,8 +162,8 @@ public class OrderRemoteServiceTest {
 	@Test
 	public void createValidOrderFormShouldSucceed() throws ServiceException {
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
-				new OrderFormItem(194L, new BigDecimal(3)),
-				new OrderFormItem(195L, new BigDecimal(2)));
+				new OrderFormItem(194L, 3.0),
+				new OrderFormItem(195L, 2.0));
 		OrderForm orderForm = new OrderForm(3L, items);
 		Object order = service.create(orderForm);
 		Assert.notNull(order);
@@ -172,8 +172,8 @@ public class OrderRemoteServiceTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void createWithNullCustomerIdShouldFail() throws ServiceException {
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
-				new OrderFormItem(194L, new BigDecimal(3)),
-				new OrderFormItem(195L, new BigDecimal(2)));
+				new OrderFormItem(194L, 1.0),
+				new OrderFormItem(195L, 3.0));
 		OrderForm orderForm = new OrderForm(null, items);
 		Object order = service.create(orderForm);
 		Assert.isNull(order);

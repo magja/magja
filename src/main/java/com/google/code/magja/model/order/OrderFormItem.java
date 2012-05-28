@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class OrderFormItem implements Serializable {
 	
 	private Long productId;
-	private BigDecimal qty;
+	private Double qty;
 
 	public OrderFormItem() {
 		super();
@@ -20,7 +20,7 @@ public class OrderFormItem implements Serializable {
 	 * @param productId
 	 * @param qty
 	 */
-	public OrderFormItem(Long productId, BigDecimal qty) {
+	public OrderFormItem(Long productId, Double qty) {
 		super();
 		this.productId = productId;
 		this.qty = qty;
@@ -43,14 +43,14 @@ public class OrderFormItem implements Serializable {
 	/**
 	 * @return the qty
 	 */
-	public BigDecimal getQty() {
+	public Double getQty() {
 		return qty;
 	}
 
 	/**
 	 * @param qty the qty to set
 	 */
-	public void setQty(BigDecimal qty) {
+	public void setQty(Double qty) {
 		this.qty = qty;
 	}
 
