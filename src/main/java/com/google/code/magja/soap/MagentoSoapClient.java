@@ -5,6 +5,8 @@
  */
 package com.google.code.magja.soap;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -94,11 +96,14 @@ public class MagentoSoapClient implements SoapClient {
 
         synchronized (INSTANCES) {
 
-
             if (soapConfig == null) {
-                ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/MagentoServiceContext.xml", MagentoSoapClient.class);
-                soapConfig = (SoapConfig) context.getBean("soapConfig");
-
+            	if (MagentoSoapClient.class.getResource("/MagentoServiceContext.xml") != null) {
+            		log.info("/MagentoServiceContext.xml found in classpath, trying to load using Spring");
+                    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/MagentoServiceContext.xml", MagentoSoapClient.class);
+                    soapConfig = (SoapConfig) context.getBean("soapConfig");
+            	} else {
+            		log.info("/MagentoServiceContext.xml not found in classpath, not loading using Spring");
+            	}
             }
 
             MagentoSoapClient instance = INSTANCES.get(soapConfig);
