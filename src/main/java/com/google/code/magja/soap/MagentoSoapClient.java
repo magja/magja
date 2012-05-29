@@ -122,7 +122,7 @@ public class MagentoSoapClient implements SoapClient {
 	                		props.getProperty("magento-api-password"),
 	                		props.getProperty("magento-api-url") );
 	        	} else {
-	        		log.info("/MagentoServiceContext.xml not found in classpath, not loading using Spring");
+	        		log.info("/magento-api.properties not found in classpath, not loading using Spring");
 	        	}
             }
             
