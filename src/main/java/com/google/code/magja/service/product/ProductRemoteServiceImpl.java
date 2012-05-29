@@ -383,7 +383,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      */
     @Override
     public Product getBySku(String sku) throws ServiceException {
-        return getBySku(sku, true);
+        return getBySku(sku, false);
     }
 
     @Override
