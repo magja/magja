@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javanet.staxutils.StaxUtilsXMLOutputFactory;
 
@@ -106,6 +107,25 @@ public class MagentoSoapClient implements SoapClient {
             	}
             }
 
+            if (soapConfig == null) {
+            	InputStream configStream = MagentoSoapClient.class.getResourceAsStream("/magento-api.properties");
+	        	if (configStream != null) {
+	        		log.info("/magento-api.properties found in classpath, trying to load using java.util.Properties");
+	        		Properties props = new Properties();
+	        		try {
+						props.load(configStream);
+					} catch (IOException e) {
+						log.error("Cannot load /magento-api.properties from classpath", e);
+					}
+	                soapConfig = new SoapConfig(
+	                		props.getProperty("magento-api-username"), 
+	                		props.getProperty("magento-api-password"),
+	                		props.getProperty("magento-api-url") );
+	        	} else {
+	        		log.info("/MagentoServiceContext.xml not found in classpath, not loading using Spring");
+	        	}
+            }
+            
             MagentoSoapClient instance = INSTANCES.get(soapConfig);
             if (instance == null) {
                 instance = new MagentoSoapClient(soapConfig);
