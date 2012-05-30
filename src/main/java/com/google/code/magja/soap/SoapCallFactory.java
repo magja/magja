@@ -11,6 +11,7 @@ import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
+import org.mozilla.javascript.Scriptable;
 
 public class SoapCallFactory {
 
@@ -133,7 +134,7 @@ public class SoapCallFactory {
             paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":Map[" + args.size() + "]",
                     soapEnc);
             paramArgs.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
-        } else if (arg != null && arg.getClass().isArray()) {
+        } else if (arg != null && ( arg.getClass().isArray() || arg.getClass().getName().equals("sun.org.mozilla.javascript.internal.NativeArray")) ) {
         	Object[] args = (Object[]) arg;
             paramArgs = fac.createOMElement(ARGUMENTS, noNs);
             paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + args.length + "]",
@@ -283,32 +284,33 @@ public class SoapCallFactory {
                 mapArg.addChild(keyValue(entry.getKey(), entry.getValue()));
             }
             return mapArg;
-//		} else if (value instanceof sun.org.mozilla.javascript.internal.NativeArray) {
-//			/*
-//			 * Handle javascript native array object, known issue in MacOS JDK, behaviour is the same as List object
-//			 */
+		} else if (value instanceof Scriptable && value.getClass().getSimpleName().equals("NativeArray")) {
+			/*
+			 * Handle javascript native array object, known issue in MacOS JDK, behaviour is the same as List object
+			 */
 //			sun.org.mozilla.javascript.internal.NativeArray jsArray = (sun.org.mozilla.javascript.internal.NativeArray) value;
-//			OMElement arrayArg = fac.createOMElement(name, elementNs);
-//			arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
-//					+ jsArray.getLength() + "]", soapEnc);
-//			arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
-//			for (int i = 0; i < jsArray.getLength(); i++) {
-//				arrayArg.addChild(typedElement(elementNs, "item",
-//						jsArray.get(i, jsArray)));
-//			}
-//			return arrayArg;
-//		} else if (value instanceof sun.org.mozilla.javascript.internal.NativeObject) {
-//			/*
-//			 * Handle map object in javascript
-//			 */
-//			sun.org.mozilla.javascript.internal.NativeObject natObj = (sun.org.mozilla.javascript.internal.NativeObject)value;
-//
-//			OMElement mapArg = fac.createOMElement(name, elementNs);
-//			mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
-//			for(Object obj: natObj.getAllIds()){
-//				mapArg.addChild(keyValue(obj.toString(), natObj.get(obj.toString(), null)));
-//			}
-//			return mapArg;
+			Scriptable jsArray = (Scriptable)value;
+			OMElement arrayArg = fac.createOMElement(name, elementNs);
+			arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
+					+ jsArray.getIds().length + "]", soapEnc);
+			arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
+			for (int i = 0; i < jsArray.getIds().length; i++) {
+				arrayArg.addChild(typedElement(elementNs, "item",
+						jsArray.get(i, jsArray)));
+			}
+			return arrayArg;
+		} else if (value instanceof Scriptable) {
+			/*
+			 * Handle map object in javascript
+			 */
+			Scriptable natObj = (Scriptable)value;
+
+			OMElement mapArg = fac.createOMElement(name, elementNs);
+			mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
+			for(Object obj: natObj.getIds()) {
+				mapArg.addChild(keyValue(obj.toString(), natObj.get(obj.toString(), null)));
+			}
+			return mapArg;
         } else if (value == null) {
             /*
              * <category_id xsi:nil="true"/>
@@ -319,7 +321,7 @@ public class SoapCallFactory {
             return element;
         }
         throw new MagentoSoapException("keyValue not implemented for "
-                + value.getClass().toString() + " " + name + "=" + value);
+                + value.getClass().getName() + " " + name + "=" + value);
     }
 
     /**
