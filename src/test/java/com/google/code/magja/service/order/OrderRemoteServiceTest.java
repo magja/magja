@@ -38,6 +38,7 @@ public class OrderRemoteServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		service = RemoteServiceFactory.getOrderRemoteService();
+		
 	}
 
 	/**
@@ -162,9 +163,10 @@ public class OrderRemoteServiceTest {
 	@Test
 	public void createValidOrderFormShouldSucceed() throws ServiceException {
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
-				new OrderFormItem(194L, 3.0),
-				new OrderFormItem(195L, 2.0));
-		OrderForm orderForm = new OrderForm(3L, items);
+				new OrderFormItem(167L, 3.0),
+				new OrderFormItem(166L, 2.0));
+		long customerId = 2L;
+		OrderForm orderForm = new OrderForm(customerId, items);
 		Object order = service.create(orderForm);
 		Assert.notNull(order);
 	}
