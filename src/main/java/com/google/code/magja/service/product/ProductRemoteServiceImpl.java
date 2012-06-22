@@ -14,10 +14,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
-import org.infinispan.Cache;
-import org.infinispan.manager.DefaultCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,7 @@ import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
+import com.google.common.cache.*;
 
 public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implements
         ProductRemoteService {
@@ -48,7 +50,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
     private transient final Logger log = LoggerFactory.getLogger(ProductRemoteServiceImpl.class);
  
-    Cache<String, Object> cache = new DefaultCacheManager().getCache();
+    /**
+     * Cache that caches all objects for 10 minutes after last access
+     */
+    Cache<String, ProductAttributeSet> cache = CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).build();
     
     /*
      * (non-Javadoc)
@@ -245,7 +250,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     // TODO: this is called multiple times by ProductService.listAll(), please cache this
     private ProductAttributeSet getAttributeSet(String id) throws ServiceException {
     	String cacheKey = "attributeSet." + id;
-    	ProductAttributeSet prdAttSet = (ProductAttributeSet) cache.get(cacheKey);
+    	ProductAttributeSet prdAttSet;
+    	try{
+    		prdAttSet = cache.get(cacheKey, new Callable<ProductAttributeSet>() { @Override public ProductAttributeSet call() throws Exception{ throw new Exception(); } });
+    	}
+    	catch(ExecutionException e){
+    		prdAttSet = null;
+    	}
     	if (prdAttSet != null) {
     		log.trace("Returning cached ProductAttributeSet {}: {}", id, prdAttSet);
     	} else {
