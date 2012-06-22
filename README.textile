@@ -120,8 +120,17 @@ val customers = customerRemoteService.list
 customers.foreach(c => println(c.getFirstName + " " + c.getEmail))
 
 
+h2. Continuous Integration Build
+
+Magja automated integration builds are provided here:
+
+https://buildhive.cloudbees.com/job/magja/job/magja/
+
+Continuous Integration service provided by "CloudBees":http://www.cloudbees.com/.
+
+
 h2. Acknowledgments
 
 Bandung Everlasting Beauty logo downloaded from "Info Bandung CodePlex project":http://infobandung.codeplex.com/
 designed by Achmad Sutarjono.
- 
+
