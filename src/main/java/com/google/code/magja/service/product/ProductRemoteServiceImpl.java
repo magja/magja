@@ -250,13 +250,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     // TODO: this is called multiple times by ProductService.listAll(), please cache this
     private ProductAttributeSet getAttributeSet(String id) throws ServiceException {
     	String cacheKey = "attributeSet." + id;
-    	ProductAttributeSet prdAttSet;
-    	try{
-    		prdAttSet = cache.get(cacheKey, new Callable<ProductAttributeSet>() { @Override public ProductAttributeSet call() throws Exception{ throw new Exception(); } });
-    	}
-    	catch(ExecutionException e){
-    		prdAttSet = null;
-    	}
+    	ProductAttributeSet prdAttSet = cache.getIfPresent(cacheKey);
     	if (prdAttSet != null) {
     		log.trace("Returning cached ProductAttributeSet {}: {}", id, prdAttSet);
     	} else {
