@@ -17,6 +17,10 @@ public class Product extends BaseMagentoModel {
 
     private static final long serialVersionUID = -8639442403416399439L;
     
+    private String shipping_policy;
+    
+    private Double local_price;
+    
     private String shop_id;
     
     private String local_sku;
@@ -94,6 +98,8 @@ public class Product extends BaseMagentoModel {
 
 	protected void loadMappings() {
         this.mapping = new Properties();
+        mapping.setProperty("shipping_policy", "shipping_policy");
+        mapping.setProperty("local_price", "local_price");
         mapping.setProperty("shop_id", "shop_id");
         mapping.setProperty("local_sku", "local_sku");
         mapping.setProperty("product_id", "id");
@@ -728,6 +734,34 @@ public class Product extends BaseMagentoModel {
 				+ ", configurableSubProducts=" + configurableSubProducts
 				+ ", configurableAttributesData=" + configurableAttributesData
 				+ "]";
+	}
+
+	/**
+	 * @return the shipping_policy
+	 */
+	public String getShipping_policy() {
+		return shipping_policy;
+	}
+
+	/**
+	 * @param shipping_policy the shipping_policy to set
+	 */
+	public void setShipping_policy(String shipping_policy) {
+		this.shipping_policy = shipping_policy;
+	}
+
+	/**
+	 * @return the local_price
+	 */
+	public Double getLocal_price() {
+		return local_price;
+	}
+
+	/**
+	 * @param local_price the local_price to set
+	 */
+	public void setLocal_price(Double local_price) {
+		this.local_price = local_price;
 	}
     
 }

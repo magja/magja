@@ -315,7 +315,7 @@ public class ProductRemoteServiceTest {
         product.setAttributeSet(new ProductAttributeSet(9, "Default"));
         product.setShop_id("zibalabel");
         product.setLocal_sku("T09");
-        product.setSku("zibalabel_t09");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
+        product.setSku("zibalabel_t10");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
         product.setName("Tas T09");//(MagjaStringUtils.randomString(3, 5) + " Product Test");
         product.setShortDescription("this is a short description");
         product.setDescription("this is a description");
@@ -323,6 +323,8 @@ public class ProductRemoteServiceTest {
         product.setCost(new Double(9500.00));//(new Double(120.22));
         product.setEnabled(true);
         product.setWeight(new Double(0.100));
+        product.setLocal_price(new Double(8000.00));
+        product.setShipping_policy("normal");
         Integer[] websites = {1};
         product.setWebsites(websites);
 
