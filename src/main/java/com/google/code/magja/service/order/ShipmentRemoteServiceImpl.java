@@ -61,7 +61,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     public void addTrack(Shipment shipment, ShipmentTrack track)
             throws ServiceException {
 
-        List<Object> params = new LinkedList<Object>();
+        List<Object> params = new ArrayList<Object>();
         params.add(shipment.getId());
         params.add(track.getCarrier());
         params.add(track.getTitle());
@@ -149,7 +149,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     public void save(Shipment shipment, String comment, Boolean email,
                      Boolean includeComment) throws ServiceException {
 
-        List<Object> params = (LinkedList<Object>) shipment.serializeToApi();
+        List<Object> params = (List<Object>) shipment.serializeToApi();
         params.add((comment != null ? comment : ""));
         params.add((email ? "1" : "0"));
         params.add((includeComment ? "1" : "0"));

@@ -18,4 +18,13 @@ public class ArrayItemMap {
     public void setItems(Map<Object, Object> items) {
         this.items = items;
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format("ArrayItemMap %s", items);
+	}
+    
 }

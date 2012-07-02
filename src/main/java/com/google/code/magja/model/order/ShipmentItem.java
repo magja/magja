@@ -40,7 +40,19 @@ public class ShipmentItem extends BaseMagentoModel {
         return item;
     }
 
-    /**
+    public ShipmentItem(String sku, String name, Integer orderItemId,
+			Integer productId, Double weight, Double price, Double qty) {
+		super();
+		this.sku = sku;
+		this.name = name;
+		this.orderItemId = orderItemId;
+		this.productId = productId;
+		this.weight = weight;
+		this.price = price;
+		this.qty = qty;
+	}
+
+	/**
      * @return the sku
      */
     public String getSku() {
