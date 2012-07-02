@@ -28,5 +28,5 @@ public interface OrderRemoteService extends GeneralService<Order> {
 
     Order getById(String id) throws ServiceException;
 
-	public abstract Order create(OrderForm orderForm) throws ServiceException;
+	public abstract String create(OrderForm orderForm) throws ServiceException;
 }
