@@ -48,7 +48,7 @@ public class OrderRemoteServiceTest {
 	public void testAddComment() {
 
 		Order order = new Order();
-		order.setId(100000001);
+		order.setId(100000017);
 
 		try {
 			service.addComment(order, "pending", "Hello World", false);
