@@ -29,7 +29,7 @@ public enum ResourcePath {
     CategoryAttributeOptions("category_attribute.options"),
     ProductList("catalog_product.list"),
     ProductInfo("catalog_product.info"),
-
+    ProductGetRefs("catalog_product.get_refs"),
 
     ProductConfigurableAttributes("catalog_product_configurable.setConfigurableAttributes"),
     ProductAssociateChildren("catalog_product_configurable.associateSimpleChildren"),

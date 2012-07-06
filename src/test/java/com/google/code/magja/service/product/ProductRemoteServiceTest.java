@@ -11,11 +11,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.media.Media;
@@ -26,12 +30,14 @@ import com.google.code.magja.model.product.ConfigurableProductData;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.model.product.ProductRefMagja;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;
 import com.google.code.magja.utils.MagjaStringUtils;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -39,6 +45,7 @@ import com.google.common.collect.ImmutableSet;
  */
 public class ProductRemoteServiceTest {
 
+	private transient Logger log = LoggerFactory.getLogger(ProductRemoteServiceTest.class);
     private ProductRemoteService service;
 
     private String productSku;
@@ -382,4 +389,26 @@ public class ProductRemoteServiceTest {
         return product;
     }
 
+    @Test
+    public void getRefsMapShouldWork() throws ServiceException {
+    	Map<String, Map<String, String>> productRefs = service.getRefsMap(ImmutableList.of(
+    			"zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"));
+    	log.info("Refs: {}", productRefs);
+    	Assert.assertNotNull(productRefs);
+    	Assert.assertEquals(2, productRefs.size());
+    	Assert.assertEquals(ImmutableSet.of("zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"),
+    			productRefs.keySet());
+    }
+    
+    @Test
+    public void getRefsShouldWork() throws ServiceException {
+    	Map<String, ProductRefMagja> productRefs = service.getRefs(ImmutableList.of(
+    			"zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"));
+    	log.info("Refs: {}", productRefs);
+    	Assert.assertNotNull(productRefs);
+    	Assert.assertEquals(2, productRefs.size());
+    	Assert.assertEquals(ImmutableSet.of("zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"),
+    			productRefs.keySet());
+    }
+    
 }

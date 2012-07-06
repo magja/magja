@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.code.magja.model.product.Product;
+import com.google.code.magja.model.product.ProductRefMagja;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
@@ -175,4 +176,20 @@ public interface ProductRemoteService extends GeneralService<Product> {
      * @throws ServiceException
      */
     public abstract List<Product> listUpdatedBetween(Date from, Date to) throws ServiceException;
+
+	/**
+	 * Retrieve the URL Path, Name, and 50x50 image for
+	 * a list of products.
+	 * @param array $skus Array of SKUs.
+	 * @return array Associative array containing url_path, name, image_50x50, shop_id.
+	 */
+    public Map<String, ProductRefMagja> getRefs(List<String> skus) throws ServiceException;
+    
+	/**
+	 * Retrieve the URL Path, Name, and 50x50 image for
+	 * a list of products.
+	 * @param array $skus Array of SKUs.
+	 * @return array Associative array containing url_path, name, image_50x50, shop_id.
+	 */
+	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException;
 }

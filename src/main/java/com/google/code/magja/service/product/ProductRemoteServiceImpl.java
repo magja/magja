@@ -14,8 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
@@ -30,12 +28,16 @@ import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductLink;
 import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.model.product.ProductRefMagja;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
-import com.google.common.cache.*;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Maps.EntryTransformer;
 
 public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implements
         ProductRemoteService {
@@ -429,6 +431,35 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         }
 
         return mpp;
+    }
+
+    @Override
+	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException {
+        Map<String, Map<String, String>> mpp;
+        try {
+            mpp = (Map<String, Map<String, String>>) soapClient.call(ResourcePath.ProductGetRefs, new Object[] { skus });
+        } catch (AxisFault e) {
+        	log.error("Cannot call product.get_refs for " + skus, e);
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        }
+
+        return mpp;
+    }
+
+    @Override
+	public Map<String, ProductRefMagja> getRefs(List<String> skus) throws ServiceException {
+    	Map<String, Map<String, String>> refsMap = getRefsMap(skus);
+    	Map<String, ProductRefMagja> refs = Maps.transformEntries(refsMap, new Maps.EntryTransformer<String, Map<String, String>, ProductRefMagja>() {
+    		@Override
+    		public ProductRefMagja transformEntry(String key,
+    				Map<String, String> value) {
+    			return new ProductRefMagja(key, value.get("url_path"), value.get("name"),
+    					value.get("image_50x50"), value.get("shop_id"));
+    		}
+    	});
+        return refs;
     }
 
     /*
