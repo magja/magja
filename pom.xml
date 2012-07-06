@@ -84,6 +84,21 @@
     </licenses>
 
     <build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>magento-api.properties</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/test/resources</directory>
+				<excludes>
+					<exclude>magento-api.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
