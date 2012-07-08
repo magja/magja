@@ -91,13 +91,15 @@
 					<exclude>magento-api.properties</exclude>
 				</excludes>
 			</resource>
-			<resource>
+		</resources>
+		<testResources>
+			<testResource>
 				<directory>src/test/resources</directory>
 				<excludes>
 					<exclude>magento-api.properties</exclude>
 				</excludes>
-			</resource>
-		</resources>
+			</testResource>
+		</testResources>
 
         <plugins>
             <plugin>
