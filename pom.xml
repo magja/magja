@@ -233,7 +233,17 @@
             <artifactId>axis2-kernel</artifactId>
             <version>${axis2.version}</version>
         </dependency>
-        
+<!--         <dependency> -->
+<!--         	<groupId>org.apache.httpcomponents</groupId> -->
+<!--         	<artifactId>httpclient</artifactId> -->
+<!--         	<version>4.2.1</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--         	<groupId>org.apache.httpcomponents</groupId> -->
+<!--         	<artifactId>httpcore</artifactId> -->
+<!--         	<version>4.2.1</version> -->
+<!--         </dependency> -->
+
         <dependency>
         	<groupId>commons-io</groupId>
         	<artifactId>commons-io</artifactId>
