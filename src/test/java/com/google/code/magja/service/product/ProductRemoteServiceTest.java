@@ -37,8 +37,12 @@ import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;
 import com.google.code.magja.utils.MagjaStringUtils;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 
 /**
  * @author andre
@@ -250,6 +254,23 @@ public class ProductRemoteServiceTest {
     public void testListAllNoDep() throws ServiceException {
         List<Product> products = service.listAllNoDep();
         for (Product product : products) System.out.println(product.toString());
+    }
+
+    /**
+     * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl#listAllPlus()}.
+     */
+    @Test
+    public void testListAllPlus() throws ServiceException {
+        List<Product> products = service.listAllPlus(ImmutableSet.of("status"));
+        Assert.assertNotNull(products);
+        log.info("Got {} products", products.size());
+        Assert.assertTrue(products.size() > 0);
+        for (Product product : products) {
+        	Assert.assertNotNull(product.getAttributes());
+        	Assert.assertNotNull(product.getAttributes().get("status"));
+        }
+        for (Product product : products)
+        	log.info("{}", product);
     }
 
     /**

@@ -86,6 +86,17 @@ public interface ProductRemoteService extends GeneralService<Product> {
     public abstract List<Product> listAllNoDep() throws ServiceException;
 
     /**
+     * Use this to list all product, just the basic attributes, without any
+     * dependencies (Categories, Inventory, etc), more performance.
+     * Similar to listAllNoDep() but you can specify manually more attributes to select.
+     * Additional attribute values will be saved inside Product.getAttributes() property.
+     * 
+     * @return List<Product>
+     * @throws ServiceException
+     */
+    public abstract List<Product> listAllPlus(Set<String> attributesToSelect) throws ServiceException;
+
+    /**
      * Save a product to the Magento, if the id attribute is null, then will
      * create a new product, otherwise will update the product with that id
      * 
