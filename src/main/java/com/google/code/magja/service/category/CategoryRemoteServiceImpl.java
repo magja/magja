@@ -108,7 +108,8 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         log.debug("Mappping to Category #{} from {}", id, cat);
         for (Map.Entry<String, Object> attribute : cat.entrySet()) {
             if (attribute.getKey().equals("available_sort_by")) {
-                category.set(attribute.getKey(), (String)attribute.getValue());
+//                category.set(attribute.getKey(), attribute.getValue());
+            	category.set(attribute.getKey(), (String)attribute.getValue());
             } else {
                 category.set(attribute.getKey(), attribute.getValue());
             }

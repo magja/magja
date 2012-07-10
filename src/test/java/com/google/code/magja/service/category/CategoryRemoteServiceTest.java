@@ -41,7 +41,7 @@ public class CategoryRemoteServiceTest {
      */
     @Test
     public void testGetByIdClean1() throws Exception {
-        Category category = service.getByIdClean(new Integer(1));
+        Category category = service.getByIdClean(new Integer(81));
         log.info("testGetByIdClean1 returns {}", category);
         Assert.assertNotNull(category);
         Assert.assertEquals((Integer)1, category.getId());
@@ -63,7 +63,7 @@ public class CategoryRemoteServiceTest {
      */
     @Test
     public void testGetByIdWithChildren() throws Exception {
-        Category category = service.getByIdWithChildren(new Integer(2));
+        Category category = service.getByIdWithChildren(new Integer(81));
         for (Category child : category.getChildren()) {
             assertTrue(child.getId() != null);
         }
@@ -74,7 +74,7 @@ public class CategoryRemoteServiceTest {
      */
     @Test
     public void testGetByIdWithParent() throws Exception {
-        Category category = service.getByIdWithParent(new Integer(2));
+        Category category = service.getByIdWithParent(new Integer(81));
         if (category != null) if (category.getParent() != null) System.out.println(category.getParent().toString());
     }
 
@@ -83,7 +83,7 @@ public class CategoryRemoteServiceTest {
      */
     @Test
     public void testGetByIdWithParentAndChildren() throws Exception {
-        Category category = service.getByIdWithParentAndChildren(new Integer(2));
+        Category category = service.getByIdWithParentAndChildren(new Integer(81));
         if(category != null) {
             if (category.getParent() != null) System.out.println("parent: " + category.getParent().toString());
             if (category.getChildren() != null) {
@@ -99,8 +99,9 @@ public class CategoryRemoteServiceTest {
 	 */
 	@Test
 	public void testGetTree() throws Exception {
-		Category category = service.getTree(new Integer(2));
+		Category category = service.getTree(new Integer(87));
 		if(category != null) System.out.println(category.getName());
+		log.debug("Category 87: {}", category);
 	}
 	
 	/**
