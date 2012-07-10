@@ -21,12 +21,15 @@ public enum ResourcePath {
     CategoryCreate("catalog_category.create"),
     CategoryDelete("catalog_category.delete"),
     CategoryUpdate("catalog_category.update"),
+    CategoryListPaths("catalog_category.list_paths"),
+
     CategoryRemoveProduct("catalog_category.removeProduct"),
     CategoryAssignProduct("catalog_category.assignProduct"),
     CategoryAssignedProducts("catalog_category.assignedProducts"),
     CategoryAttributeCurrentStore("category_attribute.currentStore"),
     CategoryAttributeList("category_attribute.list"),
     CategoryAttributeOptions("category_attribute.options"),
+    
     ProductList("catalog_product.list"),
     ProductListPlus("catalog_product.list_plus"),
     ProductInfo("catalog_product.info"),

@@ -19,6 +19,8 @@ import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.product.ProductRemoteService;
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 
 public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         implements CategoryRemoteService {
@@ -188,9 +190,10 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
             cat = (Map<String, Object>) soapClient.call(
                     ResourcePath.CategoryTree, id);
         } catch (AxisFault e) {
+        	log.error("Error calling CategoryRemoteServiceImpl.getTree()", e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Error calling CategoryRemoteServiceImpl.getTree()", e);
         }
 
         if (cat == null)
@@ -747,4 +750,32 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
             return false;
         }
     }
+
+    /**
+	 * Return map of categories where the key
+	 * is category URL path (e.g. "accessories/bb-pouch")
+	 * and the value is a map of [id, name]. 
+     */
+    @Override
+	public Map<String, Category> listPaths()
+            throws ServiceException {
+    	try {
+			Map<String, Map<String, Object>> soapResult = (Map<String, Map<String, Object>>) soapClient.call(
+			        ResourcePath.CategoryListPaths, "");
+			log.debug("{} returned {} categories", ResourcePath.CategoryListPaths, soapResult.size());
+			
+			Map<String, Category> result = Maps.transformValues(soapResult, new Function<Map<String, Object>, Category>() {
+				@Override
+				public Category apply(Map<String, Object> input) {
+					return new Category(Integer.valueOf((String) input.get("id")),
+							(String) input.get("name"));
+				}
+			});
+			return result;
+		} catch (AxisFault e) {
+			log.error("CategoryListPaths error", e);
+			throw new ServiceException("CategoryListPaths error", e);
+		}
+    }
+
 }

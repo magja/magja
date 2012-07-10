@@ -3,28 +3,35 @@
  */
 package com.google.code.magja.service.product;
 
-import com.google.code.magja.model.product.ProductAttribute;
-import com.google.code.magja.model.product.ProductAttributeSet;
-import com.google.code.magja.model.product.ProductType;
-import com.google.code.magja.service.RemoteServiceFactory;
-import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.utils.MagjaStringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.code.magja.model.product.ProductAttribute;
+import com.google.code.magja.model.product.ProductAttributeSet;
+import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.service.RemoteServiceFactory;
+import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.utils.MagjaStringUtils;
 
 /**
  * @author andre
  */
 public class ProductAttributeRemoteServiceTest {
 
+	private transient Logger log = LoggerFactory
+			.getLogger(ProductAttributeRemoteServiceTest.class);
     private ProductAttributeRemoteService service;
 
     private ProductAttributeSet defaultAttributeSet;
@@ -112,7 +119,9 @@ public class ProductAttributeRemoteServiceTest {
     public void testListAllProductAttributeSet() {
         try {
             List<ProductAttributeSet> sets = service.listAllProductAttributeSet();
-            for (ProductAttributeSet set : sets) System.out.println(set.toString());
+            Assert.assertNotNull(sets);
+            log.info("Got {} attribute sets: {}", sets.size(), sets);
+            Assert.assertTrue(sets.size() > 0);
         } catch (ServiceException e) {
             fail(e.getMessage());
         }

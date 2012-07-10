@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -201,4 +202,17 @@ public class CategoryRemoteServiceTest {
     	
     	service.linkCategory(categories);
     }
+
+	/**
+	 * Test method for
+	 * {@link com.google.code.magja.service.category.CategoryRemoteServiceImpl#listPaths()}.
+	 */
+	@Test
+	public void testListPaths() throws Exception {
+		Map<String, Category> paths = service.listPaths();
+		log.info("Category paths: {}", paths.keySet());
+		log.info("Category objects: {}", paths);
+		Assert.assertNotNull(paths);
+	}
+	
 }
