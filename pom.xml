@@ -143,11 +143,11 @@
         </snapshotRepository>
         -->
 		<snapshotRepository>
-			<id>bippo.snapshots</id>
+			<id>bippo-snapshots</id>
 			<url>http://nexus.bippo.co.id/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 		<repository>
-			<id>bippo.releases</id>
+			<id>bippo-releases</id>
 			<url>http://nexus.bippo.co.id/nexus/content/repositories/releases/</url>
 		</repository>
     </distributionManagement>
