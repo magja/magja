@@ -4,13 +4,14 @@
  */
 package com.google.code.magja.service.category;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.product.ProductRemoteService;
-
-import java.util.List;
 
 public interface CategoryRemoteService extends GeneralService<Category> {
 
@@ -78,4 +79,12 @@ public interface CategoryRemoteService extends GeneralService<Category> {
 
     void removeProduct(Category category, Product product)
             throws ServiceException;
+
+    /**
+	 * Return map of categories where the key
+	 * is category URL path (e.g. "accessories/bb-pouch")
+	 * and the value is a map of [id, name]. 
+     */
+	public Map<String, Category> listPaths() throws ServiceException;
+
 }
