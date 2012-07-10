@@ -168,6 +168,7 @@ public class OrderRemoteServiceTest {
 		long customerId = 2L;
 		OrderForm orderForm = new OrderForm(customerId, items);
 		Object order = service.create(orderForm);
+		System.out.println("Order Id "+ order);
 		Assert.notNull(order);
 	}
 
