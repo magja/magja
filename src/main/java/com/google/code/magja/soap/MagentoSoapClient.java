@@ -254,6 +254,9 @@ public class MagentoSoapClient implements SoapClient {
         // http://amilachinthaka.blogspot.com/2009/05/improving-axis2-client-http-transport.html
         MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
         HttpClient httpClient = new HttpClient(httpConnectionManager);
+        // prepare for Axis2 1.7+ / HttpClient 4.2+
+//        ClientConnectionManager httpConnectionManager = new PoolingClientConnectionManager();
+//        HttpClient httpClient = new DefaultHttpClient(httpConnectionManager);
         connectOptions.setProperty(HTTPConstants.REUSE_HTTP_CLIENT,
                 Constants.VALUE_TRUE);
         connectOptions

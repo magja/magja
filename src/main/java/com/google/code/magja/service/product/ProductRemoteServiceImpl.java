@@ -14,8 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
@@ -30,12 +28,19 @@ import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductLink;
 import com.google.code.magja.model.product.ProductMedia;
+import com.google.code.magja.model.product.ProductRefMagja;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
-import com.google.common.cache.*;
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implements
         ProductRemoteService {
@@ -431,6 +436,35 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         return mpp;
     }
 
+    @Override
+	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException {
+        Map<String, Map<String, String>> mpp;
+        try {
+            mpp = (Map<String, Map<String, String>>) soapClient.call(ResourcePath.ProductGetRefs, new Object[] { skus });
+        } catch (AxisFault e) {
+        	log.error("Cannot call product.get_refs for " + skus, e);
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        }
+
+        return mpp;
+    }
+
+    @Override
+	public Map<String, ProductRefMagja> getRefs(List<String> skus) throws ServiceException {
+    	Map<String, Map<String, String>> refsMap = getRefsMap(skus);
+    	Map<String, ProductRefMagja> refs = Maps.transformEntries(refsMap, new Maps.EntryTransformer<String, Map<String, String>, ProductRefMagja>() {
+    		@Override
+    		public ProductRefMagja transformEntry(String key,
+    				Map<String, String> value) {
+    			return new ProductRefMagja(key, value.get("url_path"), value.get("name"),
+    					value.get("image_50x50"), value.get("shop_id"));
+    		}
+    	});
+        return refs;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -475,6 +509,38 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     @Override
     public List<Product> listAllNoDep() throws ServiceException {
         return list(false);
+    }
+    
+    public List<Product> listAllPlus(final Set<String> attributesToSelect) throws ServiceException {
+        try {
+        	final List<Map<String, Object>> productListPlusResult = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductListPlus,
+        			new Object[] { null, null, attributesToSelect.toArray(new String[] {}) });
+			List<Map<String, Object>> productMapList = Optional.fromNullable(productListPlusResult)
+        			.or(new ArrayList<Map<String, Object>>());
+            List<Product> products = Lists.transform(productMapList, new Function<Map<String, Object>, Product>() {
+            	@Override
+            	public Product apply(Map<String, Object> mpp) {
+                	try {
+						Product product = buildProduct(mpp, false);
+						Map<String, Object> attributes = new HashMap<String, Object>();
+						for (String attrCode : attributesToSelect) {
+							Object attrValue = mpp.get(attrCode);
+							attributes.put(attrCode, attrValue);
+						}
+						product.setAttributes(attributes);
+						return product;
+					} catch (ServiceException e) {
+						throw new RuntimeException("Cannot map to Product: " + mpp, e);
+					}
+            	}
+            });
+            return products;
+        } catch (AxisFault e) {
+            if (debug)
+                e.printStackTrace();
+            log.error("listAllPlus error " + attributesToSelect, e);
+            throw new ServiceException("listAllPlus error " + attributesToSelect, e);
+        }
     }
 
     /*

@@ -64,6 +64,10 @@ public class Product extends BaseMagentoModel {
     private Boolean googleCheckout;
 
     private Visibility visibility = Visibility.CATALOG_SEARCH;
+    
+    // for use with listAllPlus()
+    
+    private Map<String, Object> attributes;
 
     // for use with CONFIGURABLE products
 
@@ -762,6 +766,14 @@ public class Product extends BaseMagentoModel {
 	 */
 	public void setLocal_price(Double local_price) {
 		this.local_price = local_price;
+	}
+
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(Map<String, Object> attributes) {
+		this.attributes = attributes;
 	}
     
 }

@@ -28,8 +28,9 @@ public enum ResourcePath {
     CategoryAttributeList("category_attribute.list"),
     CategoryAttributeOptions("category_attribute.options"),
     ProductList("catalog_product.list"),
+    ProductListPlus("catalog_product.list_plus"),
     ProductInfo("catalog_product.info"),
-
+    ProductGetRefs("catalog_product.get_refs"),
 
     ProductConfigurableAttributes("catalog_product_configurable.setConfigurableAttributes"),
     ProductAssociateChildren("catalog_product_configurable.associateSimpleChildren"),
@@ -37,7 +38,9 @@ public enum ResourcePath {
     ProductCreate("catalog_product.create"),
     ProductUpdate("catalog_product.update"),
     ProductDelete("catalog_product.delete"),
+
     ProductTypeList("catalog_product_type.list"),
+
     ProductAttributeSetList("catalog_product_attribute_set.list"),
     ProductAttributeList("catalog_product_attribute.list"),
     ProductAttributeInfo("catalog_product_attribute.info"),
@@ -46,6 +49,7 @@ public enum ResourcePath {
     ProductAttributeDelete("catalog_product_attribute.delete"),
     ProductAttributeOptions("catalog_product_attribute.options"),
     ProductAttributeAddOptions("catalog_product_attribute.addoptions"),
+
     ProductAttributeMediaList("catalog_product_attribute_media.list"),
     ProductAttributeMediaInfo("catalog_product_attribute_media.info"),
     ProductAttributeMediaMd5("catalog_product_attribute_media.md5"),
@@ -53,14 +57,17 @@ public enum ResourcePath {
     ProductAttributeMediaCreate("catalog_product_attribute_media.create"),
     ProductAttributeMediaUpdate("catalog_product_attribute_media.update"),
     ProductAttributeMediaRemove("catalog_product_attribute_media.remove"),
+
     ProductStockList("product_stock.list"),
     ProductStockUpdate("product_stock.update"),
+
     ProductLinkList("product_link.list"),
     ProductLinkAssign("product_link.assign"),
     ProductLinkUpdate("product_link.update"),
     ProductLinkRemove("product_link.remove"),
     ProductLinkTypes("product_link.types"),
     ProductLinkAttributes("product_link.attributes"),
+
     CustomerList("customer.list"),
     CustomerCreate("customer.create"),
     CustomerInfo("customer.info"),
@@ -72,6 +79,7 @@ public enum ResourcePath {
     CustomerAddressUpdate("customer_address.update"),
     CustomerAddressDelete("customer_address.delete"),
     CustomerGroupList("customer_group.list"),
+
     SalesOrderList("sales_order.list"),
     SalesOrderInfo("sales_order.info"),
     SalesOrderAddComment("sales_order.addComment"),
@@ -98,7 +106,6 @@ public enum ResourcePath {
     RegsitryAddItem("list_item.create"),
     RegsitryUpdateItem("list_item.update"),
     RegsitryRemoveItem("list_item.remove"),
-
 
     CountryList("country.list"),
     RegionList("region.list"),

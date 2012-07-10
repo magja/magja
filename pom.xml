@@ -84,6 +84,23 @@
     </licenses>
 
     <build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>magento-api.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<excludes>
+					<exclude>magento-api.properties</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -218,11 +235,21 @@
             <artifactId>axis2-kernel</artifactId>
             <version>${axis2.version}</version>
         </dependency>
-        
+<!--         <dependency> -->
+<!--         	<groupId>org.apache.httpcomponents</groupId> -->
+<!--         	<artifactId>httpclient</artifactId> -->
+<!--         	<version>4.2.1</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--         	<groupId>org.apache.httpcomponents</groupId> -->
+<!--         	<artifactId>httpcore</artifactId> -->
+<!--         	<version>4.2.1</version> -->
+<!--         </dependency> -->
+
         <dependency>
         	<groupId>commons-io</groupId>
         	<artifactId>commons-io</artifactId>
-        	<version>2.3</version>
+        	<version>2.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -95,7 +95,7 @@ public class ShipmentRemoteServiceTest {
 //		shipment.setId(1);
 		
 		List<ShipmentItem> shipmentItems = new ArrayList<ShipmentItem>();
-		shipmentItems.add(new ShipmentItem("zibalabel_t13", "Baju T13", 104, 199, 10.0, 11000.0, 1.0));
+		shipmentItems.add(new ShipmentItem("parang_kencana_anggun-houseware-56", "Anggun Houseware 56", 104, 199, 10.0, 11000.0, 1.0));
 		shipmentItems.add(new ShipmentItem("zibalabel_t14", "Bag T14", 105, 200, 3.0, 1650000.0, 1.0));
 		
 		shipment.setItems(shipmentItems);
