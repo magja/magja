@@ -130,6 +130,7 @@
     </issueManagement>
 
     <distributionManagement>
+    	<!-- 
         <repository>
             <id>sonatype-nexus-staging</id>
             <name>Sonatype Nexus Staging</name>
@@ -140,6 +141,15 @@
             <name>Sonatype Nexus Snapshots</name>
             <url>http://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        -->
+		<snapshotRepository>
+			<id>bippo.snapshots</id>
+			<url>http://nexus.bippo.co.id/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>bippo.releases</id>
+			<url>http://nexus.bippo.co.id/nexus/content/repositories/releases/</url>
+		</repository>
     </distributionManagement>
 
 	<dependencyManagement>
