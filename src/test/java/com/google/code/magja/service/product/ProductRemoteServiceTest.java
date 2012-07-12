@@ -432,4 +432,11 @@ public class ProductRemoteServiceTest {
     			productRefs.keySet());
     }
     
+    @Test
+    public void updatePrice() throws NoSuchAlgorithmException, ServiceException {
+    	Product product = new Product("ajah_a");
+    	product.setPrice(200000.0);
+    	service.save(product, product);
+    }
+    
 }

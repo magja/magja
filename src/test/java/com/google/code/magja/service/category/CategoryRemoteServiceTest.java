@@ -110,7 +110,7 @@ public class CategoryRemoteServiceTest {
 	 */
 	@Test
 	public void testSearch() throws Exception {
-		Category category = service.getTree(new Integer(2));
+		Category category = service.getTree(new Integer(81));
 
 		if (category != null) {
 			if(category.getChildren() != null) {
