@@ -1,7 +1,6 @@
 package com.google.code.magja.model.order;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * An individual item in an {@link OrderForm}.

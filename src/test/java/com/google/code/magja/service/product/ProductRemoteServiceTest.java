@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
@@ -37,12 +34,8 @@ import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;
 import com.google.code.magja.utils.MagjaStringUtils;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 
 /**
  * @author andre
@@ -340,7 +333,7 @@ public class ProductRemoteServiceTest {
      */
     public static Product generateProductWithoutImage() {
         Product product = new Product();
-        product.setAttributeSet(new ProductAttributeSet(9, "Default"));
+        product.setAttributeSet(new ProductAttributeSet(93, "Kain/Fabric"));
         product.setShop_id("zibalabel");
         product.setLocal_sku("T09");
         product.setSku("zibalabel_t10");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
@@ -353,6 +346,17 @@ public class ProductRemoteServiceTest {
         product.setWeight(new Double(0.100));
         product.setLocal_price(new Double(8000.00));
         product.setShipping_policy("normal");
+        product.setLength(3.0);
+        product.setWidth(2.0);
+        product.setHeight(4.0);
+        product.setMaterial_value("Spandex");
+        product.setMotif_value("Gelaran");
+        product.setSignature_value("Oey");
+        product.setBatik_technique_value("Kombinasi colek");
+        product.setOrigin_value("Bandung");
+        product.setBatik_age_value("Baru");
+        product.setCondition_value("Mulus");
+        product.setItem_color_value("Biru");
         Integer[] websites = {1};
         product.setWebsites(websites);
 

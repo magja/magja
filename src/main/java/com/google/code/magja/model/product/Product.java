@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.model.product;
 
 import com.google.code.magja.model.BaseMagentoModel;
@@ -24,6 +20,28 @@ public class Product extends BaseMagentoModel {
     private String shop_id;
     
     private String local_sku;
+    
+    private Double length;
+    
+    private Double width;
+    
+    private Double height;
+    
+    private String material_value;
+    
+    private String motif_value;
+    
+    private String signature_value;
+    
+    private String batik_technique_value;
+    
+    private String origin_value;
+    
+    private String batik_age_value;
+    
+    private String condition_value;
+    
+    private String item_color_value;
 
     private String sku;
 
@@ -106,6 +124,17 @@ public class Product extends BaseMagentoModel {
         mapping.setProperty("local_price", "local_price");
         mapping.setProperty("shop_id", "shop_id");
         mapping.setProperty("local_sku", "local_sku");
+        mapping.setProperty("length", "length");
+        mapping.setProperty("width", "width");
+        mapping.setProperty("height", "height");
+        mapping.setProperty("material_value", "material_value");
+        mapping.setProperty("motif_value", "motif_value");
+        mapping.setProperty("signature_value", "signature_value");
+        mapping.setProperty("batik_technique_value", "batik_technique_value");
+        mapping.setProperty("origin_value", "origin_value");
+        mapping.setProperty("batik_age_value", "batik_age_value");
+        mapping.setProperty("condition_value", "condition_value");
+        mapping.setProperty("item_color_value", "item_color_value");
         mapping.setProperty("product_id", "id");
         mapping.setProperty("sku", "sku");
         mapping.setProperty("name", "name");
@@ -184,6 +213,160 @@ public class Product extends BaseMagentoModel {
 	 */
 	public void setLocal_sku(String local_sku) {
 		this.local_sku = local_sku;
+	}
+
+	/**
+	 * @return the length
+	 */
+	public Double getLength() {
+		return length;
+	}
+
+	/**
+	 * @param length the length to set
+	 */
+	public void setLength(Double length) {
+		this.length = length;
+	}
+
+	/**
+	 * @return the width
+	 */
+	public Double getWidth() {
+		return width;
+	}
+
+	/**
+	 * @param width the width to set
+	 */
+	public void setWidth(Double width) {
+		this.width = width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public Double getHeight() {
+		return height;
+	}
+
+	/**
+	 * @param height the height to set
+	 */
+	public void setHeight(Double height) {
+		this.height = height;
+	}
+
+	/**
+	 * @return the material_value
+	 */
+	public String getMaterial_value() {
+		return material_value;
+	}
+
+	/**
+	 * @param material_value the material_value to set
+	 */
+	public void setMaterial_value(String material_value) {
+		this.material_value = material_value;
+	}
+
+	/**
+	 * @return the motif_value
+	 */
+	public String getMotif_value() {
+		return motif_value;
+	}
+
+	/**
+	 * @param motif_value the motif_value to set
+	 */
+	public void setMotif_value(String motif_value) {
+		this.motif_value = motif_value;
+	}
+
+	/**
+	 * @return the signature_value
+	 */
+	public String getSignature_value() {
+		return signature_value;
+	}
+
+	/**
+	 * @param signature_value the signature_value to set
+	 */
+	public void setSignature_value(String signature_value) {
+		this.signature_value = signature_value;
+	}
+
+	/**
+	 * @return the batik_technique_value
+	 */
+	public String getBatik_technique_value() {
+		return batik_technique_value;
+	}
+
+	/**
+	 * @param batik_technique_value the batik_technique_value to set
+	 */
+	public void setBatik_technique_value(String batik_technique_value) {
+		this.batik_technique_value = batik_technique_value;
+	}
+
+	/**
+	 * @return the origin_value
+	 */
+	public String getOrigin_value() {
+		return origin_value;
+	}
+
+	/**
+	 * @param origin_value the origin_value to set
+	 */
+	public void setOrigin_value(String origin_value) {
+		this.origin_value = origin_value;
+	}
+
+	/**
+	 * @return the batik_age_value
+	 */
+	public String getBatik_age_value() {
+		return batik_age_value;
+	}
+
+	/**
+	 * @param batik_age_value the batik_age_value to set
+	 */
+	public void setBatik_age_value(String batik_age_value) {
+		this.batik_age_value = batik_age_value;
+	}
+
+	/**
+	 * @return the condition_value
+	 */
+	public String getCondition_value() {
+		return condition_value;
+	}
+
+	/**
+	 * @param condition_value the condition_value to set
+	 */
+	public void setCondition_value(String condition_value) {
+		this.condition_value = condition_value;
+	}
+
+	/**
+	 * @return the item_color_value
+	 */
+	public String getItem_color_value() {
+		return item_color_value;
+	}
+
+	/**
+	 * @param item_color_value the item_color_value to set
+	 */
+	public void setItem_color_value(String item_color_value) {
+		this.item_color_value = item_color_value;
 	}
 
 	/**
@@ -718,28 +901,6 @@ public class Product extends BaseMagentoModel {
         return true;
     }
 
-    /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Product [shop_id=" + shop_id + ", local_sku=" + local_sku
-				+ ", sku=" + sku + ", attributeSet=" + attributeSet + ", type="
-				+ type + ", name=" + name + ", price=" + price + ", cost="
-				+ cost + ", shortDescription=" + shortDescription
-				+ ", description=" + description + ", enabled=" + enabled
-				+ ", weight=" + weight + ", taxClassId=" + taxClassId
-				+ ", websites=" + Arrays.toString(websites) + ", categories="
-				+ categories + ", qty=" + qty + ", inStock=" + inStock
-				+ ", medias=" + medias + ", links=" + links
-				+ ", metaDescription=" + metaDescription + ", googleCheckout="
-				+ googleCheckout + ", visibility=" + visibility
-				+ ", configurableProductsData=" + configurableProductsData
-				+ ", configurableSubProducts=" + configurableSubProducts
-				+ ", configurableAttributesData=" + configurableAttributesData
-				+ "]";
-	}
-
 	/**
 	 * @return the shipping_policy
 	 */
@@ -774,6 +935,25 @@ public class Product extends BaseMagentoModel {
 
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return String
+				.format("Product [shipping_policy=%s, local_price=%s, shop_id=%s, local_sku=%s, length=%s, width=%s, height=%s, material_value=%s, motif_value=%s, signature_value=%s, batik_technique_value=%s, origin_value=%s, batik_age_value=%s, condition_value=%s, item_color_value=%s, sku=%s, attributeSet=%s, type=%s, name=%s, price=%s, cost=%s, shortDescription=%s, description=%s, enabled=%s, weight=%s, websites=%s, categories=%s, qty=%s, inStock=%s, medias=%s, visibility=%s, attributes=%s, configurableProductsData=%s, configurableSubProducts=%s, configurableAttributesData=%s]",
+						shipping_policy, local_price, shop_id, local_sku,
+						length, width, height, material_value, motif_value,
+						signature_value, batik_technique_value, origin_value,
+						batik_age_value, condition_value, item_color_value,
+						sku, attributeSet, type, name, price, cost,
+						shortDescription, description, enabled, weight,
+						Arrays.toString(websites), categories, qty, inStock,
+						medias, visibility, attributes,
+						configurableProductsData, configurableSubProducts,
+						configurableAttributesData);
 	}
     
 }
