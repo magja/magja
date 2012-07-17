@@ -203,4 +203,5 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @return array Associative array containing url_path, name, image_50x50, shop_id.
 	 */
 	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException;
+	
 }

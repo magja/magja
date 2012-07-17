@@ -1,6 +1,7 @@
 package com.google.code.magja.model.product;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author atang
