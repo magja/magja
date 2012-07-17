@@ -1,5 +1,9 @@
 package com.google.code.magja.soap;
 
+import java.beans.PropertyDescriptor;
+import java.io.Serializable;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,10 +11,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javanet.staxutils.IndentingXMLStreamWriter;
+import javanet.staxutils.StaxUtilsXMLOutputFactory;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
+import org.apache.axiom.om.OMOutputFormat;
+import org.apache.axiom.om.util.StAXWriterConfiguration;
+import org.apache.axiom.util.stax.dialect.StAXDialect;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.mozilla.javascript.Scriptable;
 
 public class SoapCallFactory {
@@ -319,6 +333,32 @@ public class SoapCallFactory {
             OMElement element = fac.createOMElement(name, elementNs);
             element.addAttribute("nil", "true", xsi);
             return element;
+        } else if (value instanceof Serializable) {
+            /**
+             * Map is represented by a list of key-value pairs.
+             * 
+             * <pre>
+             * <item xsi:type="SOAP-XML:Map">
+             * 		<item>
+             * 			<key xsi:type="xsd:string">name-of-key</key>
+             * 			<value xsi:type="xsd:XX">value</value>
+             * 		</item> <!-- more items if map contains more entries-->
+             * </item>
+             * </pre>
+             */
+            OMElement mapArg = fac.createOMElement(name, elementNs);
+            mapArg.addAttribute("type", soapXml.getPrefix() + ":Map", xsi);
+            PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(value);
+            for (PropertyDescriptor property : properties) {
+            	if (property.getName().equals("class"))
+            		continue;
+                try {
+					mapArg.addChild(keyValue(property.getName(), 
+							PropertyUtils.getProperty(value, property.getName())));
+				} catch (Exception e) {
+				}
+            }
+            return mapArg;
         }
         throw new MagentoSoapException("keyValue not implemented for "
                 + value.getClass().getName() + " " + name + "=" + value);

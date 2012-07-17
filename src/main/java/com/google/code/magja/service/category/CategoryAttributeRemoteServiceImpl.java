@@ -38,7 +38,7 @@ public class CategoryAttributeRemoteServiceImpl extends
 
 		List<Map<String, Object>> attributes = null;
 		try {
-			attributes = (List<Map<String, Object>>) soapClient.call(
+			attributes = (List<Map<String, Object>>) soapClient.callSingle(
 					ResourcePath.CategoryAttributeList, "");
 		} catch (AxisFault e) {
 			if(debug) e.printStackTrace();
@@ -66,7 +66,7 @@ public class CategoryAttributeRemoteServiceImpl extends
 
 					List<Map<String, Object>> optList = null;
 					try {
-						optList = (List<Map<String, Object>>) soapClient.call(
+						optList = (List<Map<String, Object>>) soapClient.callSingle(
 								ResourcePath.CategoryAttributeOptions,
 								optParamList);
 					} catch (AxisFault e) {

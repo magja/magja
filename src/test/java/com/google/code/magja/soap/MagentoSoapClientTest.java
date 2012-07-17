@@ -99,14 +99,14 @@ public class MagentoSoapClientTest {
 
 		MagentoSoapClient soapClient = MagentoSoapClient.getInstance();
 
-		List<Map<String, Object>> remote_list = (List<Map<String, Object>>) soapClient.call(ResourcePath.CountryList, "");
+		List<Map<String, Object>> remote_list = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.CountryList, "");
 		
 		System.out.println(remote_list);
 		
 		System.out.println("Wait 1 min - " + System.currentTimeMillis());
 		Thread.sleep(60000);
 		
-		List<Map<String, Object>> remote_list2 = (List<Map<String, Object>>) soapClient.call(ResourcePath.CountryList, "");
+		List<Map<String, Object>> remote_list2 = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.CountryList, "");
 		System.out.println(remote_list2);
 		
 		System.out.println("Finished - " + System.currentTimeMillis());
@@ -132,7 +132,7 @@ public class MagentoSoapClientTest {
 		SoapConfig annafiSoap = new SoapConfig("sysadmin", "",
 				"http://ceefour.annafi/demo/api/soap");
 		MagentoSoapClient client = MagentoSoapClient.getInstance(annafiSoap);
-		List<Map<String, Object>> categories = (List<Map<String, Object>>)client.call(ResourcePath.CategoryLevel,
+		List<Map<String, Object>> categories = (List<Map<String, Object>>)client.callSingle(ResourcePath.CategoryLevel,
 				Arrays.asList(null, null, 45) );
 //		log.info( mapper.writeValueAsString(categories) );
 		assertEquals(0, categories.size());

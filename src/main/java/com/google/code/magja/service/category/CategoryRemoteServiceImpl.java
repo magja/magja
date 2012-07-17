@@ -94,7 +94,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         Map<String, Object> cat;
 
         try {
-            cat = (Map<String, Object>) soapClient.call(
+            cat = (Map<String, Object>) soapClient.callSingle(
                     ResourcePath.CategoryInfo, id);
         } catch (AxisFault e) {
             if (debug)
@@ -188,7 +188,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         Map<String, Object> cat;
 
         try {
-            cat = (Map<String, Object>) soapClient.call(
+            cat = (Map<String, Object>) soapClient.callSingle(
                     ResourcePath.CategoryTree, id);
         } catch (AxisFault e) {
         	log.error("Error calling CategoryRemoteServiceImpl.getTree()", e);
@@ -322,7 +322,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
             // means its a new category
             try {
-                Integer id = Integer.parseInt((String) soapClient.call(
+                Integer id = Integer.parseInt((String) soapClient.callSingle(
                         ResourcePath.CategoryCreate, newCategory));
                 if (id > -1) {
                     category.setId(id);
@@ -354,7 +354,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
                 newCategory.add(storeView);
             }
             try {
-                Boolean sucessed = (Boolean) soapClient.call(
+                Boolean sucessed = (Boolean) soapClient.callSingle(
                         ResourcePath.CategoryUpdate, newCategory);
                 if (!sucessed) {
                     throw new ServiceException("Error on update Category");
@@ -378,7 +378,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         Boolean success = false;
         try {
             success = (Boolean) soapClient
-                    .call(ResourcePath.CategoryDelete, id);
+                    .callSingle(ResourcePath.CategoryDelete, id);
         } catch (AxisFault e) {
             System.out.println(e.getMessage());
             throw new ServiceException(e.getMessage());
@@ -551,7 +551,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.call(
+            success = (Boolean) soapClient.callSingle(
                     ResourcePath.CategoryAssignProduct, list);
         } catch (AxisFault e) {
             System.out.println(e.getMessage());
@@ -576,7 +576,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.call(
+            success = (Boolean) soapClient.callSingle(
                     ResourcePath.CategoryRemoveProduct, list);
         } catch (AxisFault e) {
             System.out.println(e.getMessage());
@@ -602,7 +602,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.call(
+            success = (Boolean) soapClient.callSingle(
                     ResourcePath.CategoryAssignProduct, list);
         } catch (AxisFault e) {
             throw new ServiceException(e.getMessage());
@@ -640,7 +640,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         List<Map<String, Object>> productList;
 
         try {
-            productList = (List<Map<String, Object>>) soapClient.call(
+            productList = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.CategoryAssignedProducts, list);
         } catch (AxisFault e) {
             if (debug)
@@ -761,7 +761,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 	public Map<String, Category> listPaths()
             throws ServiceException {
     	try {
-			Map<String, Map<String, Object>> soapResult = (Map<String, Map<String, Object>>) soapClient.call(
+			Map<String, Map<String, Object>> soapResult = (Map<String, Map<String, Object>>) soapClient.callSingle(
 			        ResourcePath.CategoryListPaths, "");
 			log.debug("{} returned {} categories", ResourcePath.CategoryListPaths, soapResult.size());
 			

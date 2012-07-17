@@ -67,7 +67,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
     public void delete(Integer id) throws ServiceException {
 
         try {
-            Boolean success = (Boolean) soapClient.call(
+            Boolean success = (Boolean) soapClient.callSingle(
                     ResourcePath.CustomerDelete, id);
             if (!success)
                 throw new ServiceException("Error deleting the Customer");
@@ -104,7 +104,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 
         Map<String, Object> remote_result = null;
         try {
-            remote_result = (Map<String, Object>) soapClient.call(
+            remote_result = (Map<String, Object>) soapClient.callSingle(
                     ResourcePath.CustomerInfo, id);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -143,7 +143,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 
         List<Map<String, Object>> resultList = null;
         try {
-            resultList = (List<Map<String, Object>>) soapClient.call(
+            resultList = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.CustomerList, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -182,7 +182,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
        
        List<Map<String, Object>> resultList = null;
        try {
-           resultList = (List<Map<String, Object>>) soapClient.call(
+           resultList = (List<Map<String, Object>>) soapClient.callSingle(
                    ResourcePath.CustomerList, params);
        } catch (AxisFault e) {
            if (debug) e.printStackTrace();
@@ -221,7 +221,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
         if (customer.getId() == null) {
             try {
                 Integer id = Integer
-                        .parseInt((String) soapClient.call(
+                        .parseInt((String) soapClient.callSingle(
                                 ResourcePath.CustomerCreate, customer
                                 .serializeToApi()));
                 customer.setId(id);
@@ -234,7 +234,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
             }
         } else {
             try {
-                Boolean success = (Boolean) soapClient.call(
+                Boolean success = (Boolean) soapClient.callSingle(
                         ResourcePath.CustomerUpdate, customer.serializeToApi());
                 if (!success)
                     throw new ServiceException("Error updating Customer");
@@ -258,7 +258,7 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
 
         List<Map<String, Object>> list = null;
         try {
-            list = (List<Map<String, Object>>) soapClient.call(
+            list = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.CustomerGroupList, "");
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();

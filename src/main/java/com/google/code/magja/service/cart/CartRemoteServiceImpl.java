@@ -44,7 +44,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 	@Override
 	public Cart create(Integer storeId) throws ServiceException {
 		try {
-			Integer id = (Integer) soapClient.call(
+			Integer id = (Integer) soapClient.callSingle(
 					ResourcePath.ShoppingCartCreate, storeId);
 			Cart cart = new Cart();
 			cart.setId(id);
@@ -80,7 +80,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			callParams.put("customer", customerProps);
 			callParams.put("storeId", cart.getStoreId());
 
-			Boolean success = (Boolean) soapClient.call(
+			Boolean success = (Boolean) soapClient.callSingle(
 					ResourcePath.ShoppingCartCustomerSet, callParams);
 			if (!success) {
 				throw new ServiceException("Could not set customer");
@@ -102,7 +102,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			Map<String, Object> callParams = new HashMap<String, Object>();
 			callParams.put("quoteId", cart.getId());
 			callParams.put("storeId", cart.getStoreId());
-			result = (LinkedList<Object>) soapClient.call(
+			result = (LinkedList<Object>) soapClient.callSingle(
 					ResourcePath.ShoppingCartLicenseAgreement, callParams);
 		} catch (AxisFault e) {
 			if (debug) {
@@ -124,7 +124,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			Map<String, Object> callParams = new HashMap<String, Object>();
 			callParams.put("quoteId", cart.getId());
 			callParams.put("storeId", cart.getStoreId());
-			result = (LinkedList<Object>) soapClient.call(
+			result = (LinkedList<Object>) soapClient.callSingle(
 					ResourcePath.ShoppingCartTotals, callParams);
 		} catch (AxisFault e) {
 			if (debug) {
@@ -146,7 +146,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			Map<String, Object> callParams = new HashMap<String, Object>();
 			callParams.put("quoteId", id);
 			callParams.put("storeId", storeId.toString());
-			result = (Map<String, Object>) soapClient.call(
+			result = (Map<String, Object>) soapClient.callSingle(
 					ResourcePath.ShoppingCartInfo, callParams);
 		} catch (AxisFault e) {
 			if (debug) {
@@ -168,7 +168,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			callParams.put("quoteId", cart.getId());
 			callParams.put("storeId", cart.getStoreId());
 
-			Boolean success = (Boolean) soapClient.call(
+			Boolean success = (Boolean) soapClient.callSingle(
 					ResourcePath.ShoppingCartOrder, callParams);
 			// FIXME: getOrder...
 			if (!success) {
@@ -196,7 +196,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			params.add(list);
 			params.add(cart.getStoreId());
 
-			Boolean success = (Boolean) soapClient.call(
+			Boolean success = (Boolean) soapClient.callSingle(
 					ResourcePath.ShoppingCartCustomerAddresses, params);
 			if (!success) {
 				throw new ServiceException(
@@ -226,7 +226,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 
 			params.add(cart.getStoreId());
 
-			Boolean success = (Boolean) soapClient.call(
+			Boolean success = (Boolean) soapClient.callSingle(
 					ResourcePath.ShoppingCartProductAdd, params);
 			if (!success) {
 				throw new ServiceException("Could not add product");

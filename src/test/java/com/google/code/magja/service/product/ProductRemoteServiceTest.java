@@ -3,6 +3,7 @@ package com.google.code.magja.service.product;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.model.product.ProductRefMagja;
 import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
@@ -438,9 +440,11 @@ public class ProductRemoteServiceTest {
     
     @Test
     public void updatePrice() throws NoSuchAlgorithmException, ServiceException {
-    	Product product = new Product("ajah_a");
-    	product.setPrice(200000.0);
-    	service.save(product, product);
+    	ImmutableList<ProductUpdatePrice> products = ImmutableList.of(
+				new ProductUpdatePrice("ajah_a", new BigDecimal(200000), new BigDecimal(300000)),
+				new ProductUpdatePrice("zibalabel_b_06", new BigDecimal(300000), new BigDecimal(400000)));
+    	
+    	service.updatePrice(products);
     }
     
 }

@@ -46,7 +46,7 @@ public class ProductAttributeRemoteServiceImpl extends
     public void delete(String attributeName) throws ServiceException {
 
         try {
-            if (!(Boolean) soapClient.call(ResourcePath.ProductAttributeDelete,
+            if (!(Boolean) soapClient.callSingle(ResourcePath.ProductAttributeDelete,
                     attributeName))
                 throw new ServiceException("Error deleting product attribute.");
         } catch (AxisFault e) {
@@ -74,7 +74,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
         List<Map<String, Object>> options;
         try {
-            options = (List<Map<String, Object>>) soapClient.call(
+            options = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.ProductAttributeOptions, (productAttribute
                     .getId() != null ? productAttribute.getId()
                     : productAttribute.getCode()));
@@ -112,7 +112,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
         List<Map<String, Object>> attSetList;
         try {
-            attSetList = (List<Map<String, Object>>) soapClient.call(
+            attSetList = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.ProductAttributeSetList, "");
         } catch (AxisFault e) {
             if (debug)
@@ -148,7 +148,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
         List<Map<String, Object>> prd_attributes = null;
         try {
-            prd_attributes = (List<Map<String, Object>>) soapClient.call(
+            prd_attributes = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.ProductAttributeList, set.getId());
         } catch (AxisFault e) {
             if (debug)
@@ -218,7 +218,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.call(
+            id = Integer.parseInt((String) soapClient.callSingle(
                     ResourcePath.ProductAttributeCreate,
                     productAttribute.serializeToApi()));
         } catch (AxisFault e) {
@@ -247,7 +247,7 @@ public class ProductAttributeRemoteServiceImpl extends
                 params.add(options);
 
                 try {
-                    if (!(Boolean) soapClient.call(
+                    if (!(Boolean) soapClient.callSingle(
                             ResourcePath.ProductAttributeAddOptions, params))
                         throw new ServiceException(
                                 "The product attribute was saved, but had error "
@@ -286,7 +286,7 @@ public class ProductAttributeRemoteServiceImpl extends
                 params.add(options);
 
                 try {
-                    if (!(Boolean) soapClient.call(
+                    if (!(Boolean) soapClient.callSingle(
                             ResourcePath.ProductAttributeAddOptions, params))
                         throw new ServiceException(
                                 "The product attribute was saved, but had error "
@@ -311,7 +311,7 @@ public class ProductAttributeRemoteServiceImpl extends
         params.add(option);
 
         try {
-            LinkedList list = (LinkedList) soapClient.call(
+            LinkedList list = (LinkedList) soapClient.callSingle(
                     ResourcePath.ProductAttributeAdd, params);
             if (list.size() > 0) {
                 Map id = (Map) list.get(0);
@@ -357,7 +357,7 @@ public class ProductAttributeRemoteServiceImpl extends
 
         Map<String, Object> remote_result = null;
         try {
-            remote_result = (Map<String, Object>) soapClient.call(
+            remote_result = (Map<String, Object>) soapClient.callSingle(
                     ResourcePath.ProductAttributeInfo, code);
 
         } catch (AxisFault e) {

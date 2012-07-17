@@ -32,7 +32,7 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
 
 		List<Map<String, Object>> remote_list = null;
 		try {
-			remote_list = (List<Map<String, Object>>) soapClient.call(
+			remote_list = (List<Map<String, Object>>) soapClient.callSingle(
 					ResourcePath.CountryList, "");
 		} catch (AxisFault e) {
 			if(debug) e.printStackTrace();

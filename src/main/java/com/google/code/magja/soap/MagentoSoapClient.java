@@ -7,6 +7,7 @@ package com.google.code.magja.soap;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -14,10 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javanet.staxutils.IndentingXMLStreamWriter;
 import javanet.staxutils.StaxUtilsXMLOutputFactory;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMOutputFormat;
@@ -175,13 +178,19 @@ public class MagentoSoapClient implements SoapClient {
       * Public version of call.
       *
       * @see
-      * com.google.code.magja.soap.SoapClient#call(com.google.code.magja.magento
-      * .ResourcePath, java.lang.Object)
+      * com.google.code.magja.soap.SoapClient#callArgs(com.google.code.magja.magento
+      * .ResourcePath, Object[])
       */
     @Override
-    public Object call(ResourcePath path, Object args) throws AxisFault {
+    public <R> R callArgs(ResourcePath path, Object[] args) throws AxisFault {
     	final String pathString = path.getPath();
         return call(pathString, args);
+    }
+
+    @Override
+    public <T, R> R callSingle(ResourcePath path, T arg) throws AxisFault {
+    	final String pathString = path.getPath();
+        return call(pathString, new Object[] { arg });
     }
 
 	/**
@@ -192,7 +201,7 @@ public class MagentoSoapClient implements SoapClient {
 	 * @return
 	 * @throws AxisFault
 	 */
-	public Object call(final String pathString, Object args) throws AxisFault {
+	public <R> R call(final String pathString, Object args) throws AxisFault {
 		lastCall = new Date().getTime();
 		
 		// Convert array input to List<Object>
@@ -204,6 +213,15 @@ public class MagentoSoapClient implements SoapClient {
 		OMElement method = callFactory.createCall(sessionId, pathString,
                 args);
 		
+//		try {
+//			final StringWriter stringWriter = new StringWriter();
+//			IndentingXMLStreamWriter xmlWriter = new IndentingXMLStreamWriter(StaxUtilsXMLOutputFactory.newInstance().createXMLStreamWriter(stringWriter));
+//			method.serialize(xmlWriter);
+//			log.debug("Calling {}: {}", pathString, stringWriter);
+//		} catch (Exception e) {
+//			log.warn("Cannot serialize SOAP call XML {}", method);
+//		}
+
         OMElement result = null;
         try {
 			result = sender.sendReceive(method);
@@ -217,7 +235,7 @@ public class MagentoSoapClient implements SoapClient {
             }
         }
 
-        return returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
+        return (R)returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
 	}
 
     /*

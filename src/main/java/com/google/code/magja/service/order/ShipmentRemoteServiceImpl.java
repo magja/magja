@@ -47,7 +47,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
         params.add((includeComment ? "1" : "0"));
 
         try {
-            soapClient.call(ResourcePath.SalesOrderShipmentAddComment, params);
+            soapClient.callSingle(ResourcePath.SalesOrderShipmentAddComment, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -69,7 +69,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.call(ResourcePath.SalesOrderShipmentAddTrack, params));
+            id = Integer.parseInt((String) soapClient.callSingle(ResourcePath.SalesOrderShipmentAddTrack, params));
         } catch (NumberFormatException e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -91,7 +91,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         Map<String, Object> result = null;
         try {
-            result = (Map<String, Object>) soapClient.call(ResourcePath.SalesOrderShipmentInfo, id);
+            result = (Map<String, Object>) soapClient.callSingle(ResourcePath.SalesOrderShipmentInfo, id);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -110,7 +110,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         List<Map<String, Object>> results = null;
         try {
-            results = (List<Map<String, Object>>) soapClient.call(ResourcePath.SalesOrderShipmentList, filter);
+            results = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.SalesOrderShipmentList, filter);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -134,7 +134,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
         params.add(track.getId());
 
         try {
-            soapClient.call(ResourcePath.SalesOrderShipmentRemoveTrack, params);
+            soapClient.callSingle(ResourcePath.SalesOrderShipmentRemoveTrack, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -156,7 +156,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.call(ResourcePath.SalesOrderShipmentCreate, params));
+            id = Integer.parseInt((String) soapClient.callSingle(ResourcePath.SalesOrderShipmentCreate, params));
         } catch (NumberFormatException e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -177,7 +177,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     public Map<String, String> getCarriers(Integer orderId) throws ServiceException {
 
         try {
-            Map<String, String> carriers = (Map<String, String>) soapClient.call(ResourcePath.SalesOrderShipmentGetCarriers, orderId);
+            Map<String, String> carriers = (Map<String, String>) soapClient.callSingle(ResourcePath.SalesOrderShipmentGetCarriers, orderId);
             return carriers;
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();

@@ -13,6 +13,7 @@ import java.util.Set;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductRefMagja;
 import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
@@ -203,5 +204,7 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	 * @return array Associative array containing url_path, name, image_50x50, shop_id.
 	 */
 	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException;
+
+	void updatePrice(List<ProductUpdatePrice> products) throws ServiceException;
 	
 }
