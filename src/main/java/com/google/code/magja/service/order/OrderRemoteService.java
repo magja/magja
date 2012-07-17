@@ -28,5 +28,16 @@ public interface OrderRemoteService extends GeneralService<Order> {
 
     Order getById(String id) throws ServiceException;
 
+    /**
+     * Create an {@link Order} from an {@link OrderForm},
+     * with address from Customer data.
+     */
 	public abstract String create(OrderForm orderForm) throws ServiceException;
+	
+    /**
+     * Create an {@link Order} from an {@link OrderForm},
+     * with custom addresses.
+     */
+	public abstract String createEx(OrderForm orderForm) throws ServiceException;
+	
 }

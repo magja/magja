@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -187,6 +189,32 @@ public class OrderRemoteServiceTest {
 		OrderForm orderForm = new OrderForm(3L, items);
 		Object order = service.create(orderForm);
 		Assert.isNull(order);
+	}
+	
+	@Test
+	public void createNewOrderWithCustomAddress() throws ServiceException {
+		/*
+		 * set address
+		 */
+		Map<String, Object> mapAddress = new HashMap<String, Object>();
+		mapAddress.put("firstName", "Kang");
+		mapAddress.put("lastName", "Entis");
+		mapAddress.put("street", "Jl. Setiabudi NO.6c");
+		mapAddress.put("city", "Bandung");
+		mapAddress.put("postCode", "1234");
+		mapAddress.put("region", "Jawa Barat");
+		mapAddress.put("countryCode", "IND");
+		mapAddress.put("telephone", "0856-2295-5112");
+		mapAddress.entrySet();
+		
+		ImmutableList<OrderFormItem> items = ImmutableList.of(
+				new OrderFormItem(999L, 1.0),
+				new OrderFormItem(998L, 1.0));
+		OrderForm orderForm = new OrderForm(4L, items);
+		orderForm.setShippingAddress(mapAddress);
+		orderForm.setBillingAddress(mapAddress);
+		Object order = service.createEx(orderForm);
+		Assert.notNull(order);
 	}
 
 
