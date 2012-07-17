@@ -202,6 +202,8 @@ public class OrderRemoteServiceTest {
 		 * set address
 		 */
 		CustomerAddress customerAddress = new CustomerAddress();
+		customerAddress.setDefaultBilling(true);
+        customerAddress.setDefaultShipping(false);
 		customerAddress.setFirstName("Atang");
 		customerAddress.setLastName("Sutisna");
 		customerAddress.setStreet("Jl. Setiabudi Bandung No.6c");

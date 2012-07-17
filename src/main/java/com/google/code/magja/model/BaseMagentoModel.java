@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
-public abstract class BaseMagentoModel implements Serializable {
+public abstract class BaseMagentoModel<S> implements Serializable {
 
     private static final long serialVersionUID = 1904599004777705000L;
 
@@ -244,7 +244,7 @@ public abstract class BaseMagentoModel implements Serializable {
     /**
      * @return serialize the object to interchange with Magento API
      */
-    public abstract Object serializeToApi();
+    public abstract S serializeToApi();
 
 
     /* (non-Javadoc)

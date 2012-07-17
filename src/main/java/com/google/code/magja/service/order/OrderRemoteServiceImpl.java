@@ -292,8 +292,8 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	@Override
 	public String create(OrderForm orderForm) throws ServiceException {
         try {
-            Object result = soapClient.call(ResourcePath.SalesOrderCreate, orderForm.serializeToApi());
-            return String.valueOf(result);  
+            Object result = soapClient.callSingle(ResourcePath.SalesOrderCreate, orderForm.serializeToApi());
+            return String.valueOf(result);
         } catch (AxisFault e) {
         	log.debug("Error when creating OrderForm " + orderForm, e);
             throw new ServiceException("Error when creating OrderForm " + orderForm, e);

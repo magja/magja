@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.google.code.magja.model.BaseMagentoModel;
-import com.google.code.magja.model.address.Address;
 import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
@@ -17,7 +16,7 @@ import com.google.common.collect.Lists;
  * @author rudi
  */
 @SuppressWarnings("serial")
-public class OrderForm extends BaseMagentoModel {
+public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 
 	private Long customerId;
 	private List<OrderFormItem> items;
@@ -54,13 +53,15 @@ public class OrderForm extends BaseMagentoModel {
 	protected void loadMappings() {
 		mapping = new Properties();
 		mapping.putAll( ImmutableMap.of("customer_id", (Object)"customerId") );
+		mapping.putAll( ImmutableMap.of("billingAddress", (Object)"billingAddress"));
+		mapping.putAll( ImmutableMap.of("shippingAddress", (Object)"shippingAddress") );
 	}
 
 	/* (non-Javadoc)
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
-	public Object serializeToApi() {
+	public Map<String, Object> serializeToApi() {
 		Map<String, Object> props = getAllProperties();
 		List<Map<String, ?>> itemsApi = Lists.transform(items,	new Function<OrderFormItem, Map<String, ?>>() {
 			@Override
@@ -74,7 +75,7 @@ public class OrderForm extends BaseMagentoModel {
 		props.put("items", itemsApi);
 		props.put("billingAddress", billingAddress.serializeToApi());
 		props.put("shippingAddress", shippingAddress.serializeToApi());
-		return new Map[] { props };
+		return props;
 	}
 
 	/* (non-Javadoc)
@@ -82,8 +83,9 @@ public class OrderForm extends BaseMagentoModel {
 	 */
 	@Override
 	public String toString() {
-		return "OrderForm [customerId=" + customerId + ", items=" + items + "]";
+		return "OrderForm [customerId=" + customerId + ", items=" + items + ", shippingAddress="+ shippingAddress + ", billingAddress="+ billingAddress + "]";
 	}
+	
 
 	/**
 	 * @return the customerId
