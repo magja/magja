@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.google.code.magja.model.BaseMagentoModel;
+import com.google.code.magja.model.address.Address;
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
@@ -20,6 +20,8 @@ public class OrderForm extends BaseMagentoModel {
 
 	private Long customerId;
 	private List<OrderFormItem> items;
+	private Address billingAddress;
+	private Address shippingAddress;
 	
 	public OrderForm() {
 		super();
@@ -93,6 +95,34 @@ public class OrderForm extends BaseMagentoModel {
 	 */
 	public void setItems(List<OrderFormItem> items) {
 		this.items = items;
+	}
+
+	/**
+	 * @return the billingAddress
+	 */
+	public Address getBillingAddress() {
+		return billingAddress;
+	}
+
+	/**
+	 * @param billingAddress the billingAddress to set
+	 */
+	public void setBillingAddress(Map<String, Object> billingAddress) {
+		Address.fromAttributes(this.billingAddress, billingAddress);
+	}
+
+	/**
+	 * @return the shippingAddress
+	 */
+	public Address getShippingAddress() {
+		return shippingAddress;
+	}
+
+	/**
+	 * @param shippingAddress the shippingAddress to set
+	 */
+	public void setShippingAddress(Map<String, Object> shippingAddress) {
+		Address.fromAttributes(this.shippingAddress, shippingAddress);
 	}
 
 }
