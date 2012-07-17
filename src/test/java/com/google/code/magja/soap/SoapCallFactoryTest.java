@@ -1,6 +1,7 @@
 package com.google.code.magja.soap;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.script.ScriptEngine;
@@ -16,6 +17,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterators;
@@ -100,6 +103,22 @@ public class SoapCallFactoryTest {
 		log.info("createCallJavascriptIntArray {}", element);
 		Assert.assertNotNull(element);
 		Assert.assertEquals(3, Iterators.size(element.getChildElements()));
+	}
+
+	/**
+	 * Test method for {@link com.google.code.magja.soap.SoapCallFactory#createCall(java.lang.String, java.lang.String, java.lang.Object)}.
+	 * @throws ScriptException 
+	 */
+	@Test
+	public void createCallProductUpdatePrice() throws ScriptException {
+    	ImmutableList<ProductUpdatePrice> products = ImmutableList.of(
+				new ProductUpdatePrice("ajah_a", new BigDecimal(500000), new BigDecimal(600000)),
+				new ProductUpdatePrice("zibalabel_b_06", new BigDecimal(500000), new BigDecimal(600000)));
+		OMElement element = soapCallFactory.createCall("abc", ResourcePath.ProductUpdatePrice.getPath(),
+				new Object[] { products });
+		log.info("createCallProductUpdatePrice {}", element);
+		Assert.assertNotNull(element);
+		Assert.assertEquals(1, Iterators.size(element.getChildElements()));
 	}
 
 }

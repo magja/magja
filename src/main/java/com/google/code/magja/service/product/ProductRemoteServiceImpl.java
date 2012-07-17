@@ -30,6 +30,7 @@ import com.google.code.magja.model.product.ProductLink;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.model.product.ProductRefMagja;
 import com.google.code.magja.model.product.ProductType;
+import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
@@ -271,7 +272,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 	        } else {
 	            List<Map<String, Object>> setList;
 	            try {
-	                setList = (List<Map<String, Object>>) soapClient.call(
+	                setList = (List<Map<String, Object>>) soapClient.callSingle(
 	                        ResourcePath.ProductAttributeSetList, "");
 	                log.debug("{} returned {}", ResourcePath.ProductAttributeSetList.getPath(), setList);
 	            } catch (AxisFault e) {
@@ -318,9 +319,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         Boolean success = false;
         try {
             if (id != null) {
-                success = (Boolean) soapClient.call(ResourcePath.ProductDelete, id);
+                success = (Boolean) soapClient.callSingle(ResourcePath.ProductDelete, id);
             } else if (sku != null) {
-                success = (Boolean) soapClient.call(ResourcePath.ProductDelete, sku);
+                success = (Boolean) soapClient.callSingle(ResourcePath.ProductDelete, sku);
             }
 
         } catch (AxisFault e) {
@@ -367,7 +368,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         List<Map<String, Object>> productList;
 
         try {
-            productList = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductList, "");
+            productList = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.ProductList, "");
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -421,7 +422,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     private Map<String, Object> loadBaseProduct(String sku) throws ServiceException {
         Map<String, Object> mpp;
         try {
-            mpp = (Map<String, Object>) soapClient.call(ResourcePath.ProductInfo, sku);
+            mpp = (Map<String, Object>) soapClient.callSingle(ResourcePath.ProductInfo, sku);
         } catch (AxisFault e) {
             if (e.getMessage().indexOf("Product not exists") >= 0) {
                 mpp = null;
@@ -435,38 +436,25 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         return mpp;
     }
     
-//    @Override
-//	public Map<String, ProductRefMagja> updatePrice(Map<String, V> skus) throws ServiceException {
-//    	Map<String, Map<String, String>> mpp;
-//        try {
-//            mpp = (Map<String, Map<String, String>>) soapClient.call(ResourcePath.ProductUpdate, new Object[] { skus });
-//        } catch (AxisFault e) {
-//        	log.error("Cannot call product.get_refs for " + skus, e);
-//            if (debug)
-//                e.printStackTrace();
-//            throw new ServiceException(e.getMessage());
-//        }
-//
-//        return mpp;
-//    	
-//    	Map<String, Map<String, String>> refsMap = getRefsMap(skus);
-//    	Map<String, ProductRefMagja> refs = Maps.transformEntries(refsMap, new Maps.EntryTransformer<String, Map<String, String>, ProductRefMagja>() {
-//    		@Override
-//    		public ProductRefMagja transformEntry(String key,
-//    				Map<String, String> value) {
-//    			return new ProductRefMagja(key, value.get("url_path"), value.get("name"),
-//    					value.get("image_50x50"), value.get("shop_id"));
-//    		}
-//    	});
-//        return refs;
-//    }
-
+    @Override
+	public void updatePrice(List<ProductUpdatePrice> products) throws ServiceException {
+    	log.info("Updating products price for {}.", products);
+    	
+        try {
+        	soapClient.callSingle(ResourcePath.ProductUpdatePrice, products);
+        } catch (AxisFault e) {
+        	log.error("Cannot call product.ProductUpdatePrice for " + products, e);
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        }
+    }
 
     @Override
 	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException {
         Map<String, Map<String, String>> mpp;
         try {
-            mpp = (Map<String, Map<String, String>>) soapClient.call(ResourcePath.ProductGetRefs, new Object[] { skus });
+            mpp = soapClient.callSingle(ResourcePath.ProductGetRefs, skus);
         } catch (AxisFault e) {
         	log.error("Cannot call product.get_refs for " + skus, e);
             if (debug)
@@ -503,7 +491,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         Map<String, Object> mpp;
         try {
-            mpp = (Map<String, Object>) soapClient.call(ResourcePath.ProductInfo, id);
+            mpp = (Map<String, Object>) soapClient.callSingle(ResourcePath.ProductInfo, id);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -539,7 +527,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     
     public List<Product> listAllPlus(final Set<String> attributesToSelect) throws ServiceException {
         try {
-        	final List<Map<String, Object>> productListPlusResult = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductListPlus,
+        	final List<Map<String, Object>> productListPlusResult = (List<Map<String, Object>>) soapClient.callArgs(ResourcePath.ProductListPlus,
         			new Object[] { null, null, attributesToSelect.toArray(new String[] {}) });
 			List<Map<String, Object>> productMapList = Optional.fromNullable(productListPlusResult)
         			.or(new ArrayList<Map<String, Object>>());
@@ -609,7 +597,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
                 log.info("Updating '" + product.getSku() + "'");
 
-                soapClient.call(ResourcePath.ProductUpdate, newProduct);
+                soapClient.callSingle(ResourcePath.ProductUpdate, newProduct);
 
                 if (product.getType().equals(ProductType.CONFIGURABLE))
                     handleConfigurableForNewProducts(product);
@@ -635,7 +623,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 List<Object> newProduct = (LinkedList<Object>) product.serializeToApi();
 
                 log.info("Creating '" + product.getSku() + "'");
-                int id = Integer.parseInt((String) soapClient.call(ResourcePath.ProductCreate,
+                int id = Integer.parseInt((String) soapClient.callSingle(ResourcePath.ProductCreate,
                         newProduct));
                 if (id > 0)
                     product.setId(id);
@@ -855,7 +843,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             List<Object> args = new ArrayList<Object>();
             args.add(productSku);
             args.add(attributeNames);
-            String results = (String) soapClient.call(ResourcePath.ProductConfigurableAttributes,
+            String results = (String) soapClient.callSingle(ResourcePath.ProductConfigurableAttributes,
                     args);
         } catch (AxisFault e) {
             e.printStackTrace();
@@ -872,7 +860,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             List<Object> args = new ArrayList<Object>();
             args.add(productSku);
             args.add(childProducts);
-            String results = (String) soapClient.call(ResourcePath.ProductAssociateChildren, args);
+            String results = (String) soapClient.callSingle(ResourcePath.ProductAssociateChildren, args);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -942,7 +930,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         List<Map<String, Object>> productTypes;
         try {
-            productTypes = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductTypeList, "");
+            productTypes = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.ProductTypeList, "");
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1021,7 +1009,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         List<Map<String, Object>> resultList = null;
         try {
-            resultList = (List<Map<String, Object>>) soapClient.call(ResourcePath.ProductStockList, param);
+            resultList = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.ProductStockList, param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1072,7 +1060,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         param.add(properties);
 
         try {
-            soapClient.call(ResourcePath.ProductStockUpdate, param);
+            soapClient.callSingle(ResourcePath.ProductStockUpdate, param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1097,7 +1085,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         param.add(properties);
 
         try {
-            soapClient.call(ResourcePath.ProductStockUpdate, param);
+            soapClient.callSingle(ResourcePath.ProductStockUpdate, param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1127,7 +1115,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         param.add(properties);
 
         try {
-            soapClient.call(ResourcePath.ProductStockUpdate, param);
+            soapClient.callSingle(ResourcePath.ProductStockUpdate, param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1167,7 +1155,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         try {
             @SuppressWarnings("unchecked")
-            List<Map<String, Object>> productList = (List<Map<String, Object>>) soapClient.call(
+            List<Map<String, Object>> productList = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.ProductList, param);
             if (productList != null) {
                 for (Map<String, Object> mpp : productList)

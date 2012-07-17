@@ -46,7 +46,7 @@ public class CustomerAddressRemoteServiceImpl extends
     public void delete(Integer id) throws ServiceException {
 
         try {
-            Boolean success = (Boolean) soapClient.call(
+            Boolean success = (Boolean) soapClient.callSingle(
                     ResourcePath.CustomerAddressDelete, id);
             if (!success)
                 throw new ServiceException(
@@ -84,7 +84,7 @@ public class CustomerAddressRemoteServiceImpl extends
 
         Map<String, Object> remote_result = null;
         try {
-            remote_result = (Map<String, Object>) soapClient.call(
+            remote_result = (Map<String, Object>) soapClient.callSingle(
                     ResourcePath.CustomerAddressInfo, id);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -113,7 +113,7 @@ public class CustomerAddressRemoteServiceImpl extends
 
         List<Map<String, Object>> resultList = null;
         try {
-            resultList = (List<Map<String, Object>>) soapClient.call(
+            resultList = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.CustomerAddressList, customerId);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -141,7 +141,7 @@ public class CustomerAddressRemoteServiceImpl extends
 
         if (customerAddress.getId() == null) {
             try {
-                Integer id = Integer.parseInt((String) soapClient.call(
+                Integer id = Integer.parseInt((String) soapClient.callSingle(
                         ResourcePath.CustomerAddressCreate, customerAddress
                         .serializeToApi()));
                 customerAddress.setId(id);
@@ -154,7 +154,7 @@ public class CustomerAddressRemoteServiceImpl extends
             }
         } else {
             try {
-                Boolean success = (Boolean) soapClient.call(
+                Boolean success = (Boolean) soapClient.callSingle(
                         ResourcePath.CustomerAddressUpdate, customerAddress
                         .serializeToApi());
                 if (!success)

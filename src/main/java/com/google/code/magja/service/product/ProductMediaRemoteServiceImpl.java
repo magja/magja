@@ -61,7 +61,7 @@ public class ProductMediaRemoteServiceImpl extends
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.call(
+            success = (Boolean) soapClient.callSingle(
                     ResourcePath.ProductAttributeMediaRemove, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -94,7 +94,7 @@ public class ProductMediaRemoteServiceImpl extends
 
         Map<String, Object> media = null;
         try {
-            media = (Map<String, Object>) soapClient.call(
+            media = (Map<String, Object>) soapClient.callSingle(
                     ResourcePath.ProductAttributeMediaInfo, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -117,7 +117,7 @@ public class ProductMediaRemoteServiceImpl extends
 
         String media = null;
         try {
-            media = (String) soapClient.call(
+            media = (String) soapClient.callSingle(
                     ResourcePath.ProductAttributeMediaMd5, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -146,7 +146,7 @@ public class ProductMediaRemoteServiceImpl extends
 
         List<Map<String, Object>> medias = null;
         try {
-            medias = (List<Map<String, Object>>) soapClient.call(
+            medias = (List<Map<String, Object>>) soapClient.callSingle(
                     ResourcePath.ProductAttributeMediaList,
                     (product.getId() != null ? product.getId() : product
                             .getSku()));
@@ -187,7 +187,7 @@ public class ProductMediaRemoteServiceImpl extends
             throw new ServiceException("invalid binary data for the image.");
 
         try {
-            String result = (String) soapClient.call(
+            String result = (String) soapClient.callSingle(
                     ResourcePath.ProductAttributeMediaCreate, productMedia
                     .serializeToApi());
 
@@ -231,7 +231,7 @@ public class ProductMediaRemoteServiceImpl extends
 
 
         try {
-            Boolean result = (Boolean) soapClient.call(
+            Boolean result = (Boolean) soapClient.callSingle(
                     ResourcePath.ProductAttributeMediaUpdate, newMedia);
             return result;
         } catch (AxisFault e) {

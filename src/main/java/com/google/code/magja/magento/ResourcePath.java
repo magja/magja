@@ -41,6 +41,7 @@ public enum ResourcePath {
     ProductCreate("catalog_product.create"),
     ProductUpdate("catalog_product.update"),
     ProductDelete("catalog_product.delete"),
+    ProductUpdatePrice("catalog_product.update_price"),
 
     ProductTypeList("catalog_product_type.list"),
 

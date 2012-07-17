@@ -6,7 +6,6 @@ import java.util.Properties;
 
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 

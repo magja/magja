@@ -23,7 +23,7 @@ public class ConnectionTest {
 	public void testProductType() throws Exception {
 		ConnectionMock conn = new ConnectionMock();
 		SoapClient client = conn.getClient();
-		List<Map<String, Object>> productList = (List<Map<String, Object>>) client.call(ResourcePath.ProductTypeList, "");
+		List<Map<String, Object>> productList = (List<Map<String, Object>>) client.callSingle(ResourcePath.ProductTypeList, "");
 
 		for (Map<String, Object> map : productList) {
 			System.out.println(map.toString());
@@ -41,19 +41,19 @@ public class ConnectionTest {
 		try {
 
 			System.out.println("*** DEBUG *** Perform test 1");
-			Object res1 = client.call(ResourcePath.ProductList, "");
+			Object res1 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 1: " + res1.toString());
 
 			System.out.println("*** DEBUG *** Perform test 2");
-			Object res2 = client.call(ResourcePath.ProductList, "");
+			Object res2 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 2: " + res2.toString());
 
 			System.out.println("*** DEBUG *** Perform test 3");
-			Object res3 = client.call(ResourcePath.ProductList, "");
+			Object res3 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 3: " + res3.toString());
 
 			System.out.println("*** DEBUG *** Perform test 4");
-			Object res4 = client.call(ResourcePath.ProductList, "");
+			Object res4 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 4: " + res4.toString());
 
 
@@ -72,19 +72,19 @@ public class ConnectionTest {
 		try {
 
 			System.out.println("*** DEBUG *** Perform test 1");
-			Object res1 = client.call(ResourcePath.ProductList, "");
+			Object res1 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 1: " + res1.toString());
 
 			System.out.println("*** DEBUG *** Perform test 2");
-			Object res2 = client.call(ResourcePath.ProductList, "");
+			Object res2 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 2: " + res2.toString());
 
 			System.out.println("*** DEBUG *** Perform test 3");
-			Object res3 = client.call(ResourcePath.ProductList, "");
+			Object res3 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 3: " + res3.toString());
 
 			System.out.println("*** DEBUG *** Perform test 4");
-			Object res4 = client.call(ResourcePath.ProductList, "");
+			Object res4 = client.callSingle(ResourcePath.ProductList, "");
 			System.out.println("*** DEBUG *** result 4: " + res4.toString());
 
 		} catch (AxisFault e) {
