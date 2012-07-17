@@ -6,15 +6,20 @@ package com.google.code.magja.service.order;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.code.magja.model.order.Order;
 import com.google.code.magja.model.order.OrderFilter;
 import com.google.code.magja.model.order.OrderFilterItem;
@@ -30,7 +35,7 @@ import com.google.common.collect.ImmutableList;
  *
  */
 public class OrderRemoteServiceTest {
-
+	private transient Logger log = LoggerFactory.getLogger(OrderRemoteService.class);
 	private OrderRemoteService service;
 
 	/**
@@ -196,23 +201,25 @@ public class OrderRemoteServiceTest {
 		/*
 		 * set address
 		 */
-		Map<String, Object> mapAddress = new HashMap<String, Object>();
-		mapAddress.put("firstName", "Kang");
-		mapAddress.put("lastName", "Entis");
-		mapAddress.put("street", "Jl. Setiabudi NO.6c");
-		mapAddress.put("city", "Bandung");
-		mapAddress.put("postCode", "1234");
-		mapAddress.put("region", "Jawa Barat");
-		mapAddress.put("countryCode", "IND");
-		mapAddress.put("telephone", "0856-2295-5112");
-		mapAddress.entrySet();
+		CustomerAddress customerAddress = new CustomerAddress();
+		customerAddress.setFirstName("Atang");
+		customerAddress.setLastName("Sutisna");
+		customerAddress.setStreet("Jl. Setiabudi Bandung No.6c");
+		customerAddress.setCity("Bandung");
+		customerAddress.setRegion("Jawa Barat");
+		customerAddress.setPostCode("41123");
+		customerAddress.setCountryCode("IND");
+		customerAddress.setCompany("Atang Sutisna");
 		
+		log.info("customer address {}", customerAddress);
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
 				new OrderFormItem(999L, 1.0),
 				new OrderFormItem(998L, 1.0));
-		OrderForm orderForm = new OrderForm(4L, items);
-		orderForm.setShippingAddress(mapAddress);
-		orderForm.setBillingAddress(mapAddress);
+		OrderForm orderForm = new OrderForm(4L, items, customerAddress, customerAddress);
+		
+		log.info("orderform {}", orderForm);
+		log.info("shippingAddress {}", orderForm.getShippingAddress());
+		log.info("billingAddress {}", orderForm.getBillingAddress());
 		Object order = service.createEx(orderForm);
 		Assert.notNull(order);
 	}

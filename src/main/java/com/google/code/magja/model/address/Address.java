@@ -42,7 +42,7 @@ public abstract class Address extends BaseMagentoModel {
 			Map<String, Object> attrs) {
 		if (address == null)
 			return null;
-
+		
 		for (Map.Entry<String, Object> attr : attrs.entrySet())
 			address.set(attr.getKey(), attr.getValue());
 

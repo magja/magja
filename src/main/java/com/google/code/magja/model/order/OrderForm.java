@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.address.Address;
+import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -20,8 +21,8 @@ public class OrderForm extends BaseMagentoModel {
 
 	private Long customerId;
 	private List<OrderFormItem> items;
-	private Address billingAddress;
-	private Address shippingAddress;
+	private CustomerAddress billingAddress;
+	private CustomerAddress shippingAddress;
 	
 	public OrderForm() {
 		super();
@@ -35,6 +36,18 @@ public class OrderForm extends BaseMagentoModel {
 		super();
 		this.customerId = customerId;
 		this.items = items;
+	}
+	
+	/**
+	 * @param customerId
+	 * @param items
+	 */
+	public OrderForm(Long customerId, List<OrderFormItem> items, CustomerAddress billingAddress, CustomerAddress shippingAddress) {
+		super();
+		this.customerId = customerId;
+		this.items = items;
+		this.billingAddress = billingAddress;
+		this.shippingAddress = shippingAddress;
 	}
 	
 	@Override
@@ -57,7 +70,10 @@ public class OrderForm extends BaseMagentoModel {
 						"qty", input.getQty());
 			}
 		});
+		
 		props.put("items", itemsApi);
+		props.put("billingAddress", billingAddress.serializeToApi());
+		props.put("shippingAddress", shippingAddress.serializeToApi());
 		return new Map[] { props };
 	}
 
@@ -100,29 +116,29 @@ public class OrderForm extends BaseMagentoModel {
 	/**
 	 * @return the billingAddress
 	 */
-	public Address getBillingAddress() {
+	public CustomerAddress getBillingAddress() {
 		return billingAddress;
 	}
 
 	/**
 	 * @param billingAddress the billingAddress to set
 	 */
-	public void setBillingAddress(Map<String, Object> billingAddress) {
-		Address.fromAttributes(this.billingAddress, billingAddress);
+	public void setBillingAddress(CustomerAddress billingAddress) {
+		this.billingAddress = billingAddress;
 	}
 
 	/**
 	 * @return the shippingAddress
 	 */
-	public Address getShippingAddress() {
+	public CustomerAddress getShippingAddress() {
 		return shippingAddress;
 	}
 
 	/**
 	 * @param shippingAddress the shippingAddress to set
 	 */
-	public void setShippingAddress(Map<String, Object> shippingAddress) {
-		Address.fromAttributes(this.shippingAddress, shippingAddress);
+	public void setShippingAddress(CustomerAddress shippingAddress) {
+		this.shippingAddress = shippingAddress;
 	}
 
 }
