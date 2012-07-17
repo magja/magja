@@ -177,7 +177,15 @@ public class SoapCallFactory {
      */
     @SuppressWarnings("unchecked")
     private OMElement typedElement(OMNamespace elementNs, String name, Object value) {
-        if (value instanceof String) {
+    	if (value == null) {
+	        /*
+	         * <category_id xsi:nil="true"/>
+	         * http://zvon.org/xxl/XMLSchemaTutorial/Output/ser_over_st0.html
+	         */
+	        OMElement element = fac.createOMElement(name, elementNs);
+	        element.addAttribute("nil", "true", xsi);
+	        return element;
+    	} else if (value instanceof String) {
             /*
              * Simple key-value map <item><key
              * xsi:type="xsd:string">name</key><value
@@ -302,7 +310,7 @@ public class SoapCallFactory {
 			/*
 			 * Handle javascript native array object, known issue in MacOS JDK, behaviour is the same as List object
 			 */
-//			sun.org.mozilla.javascript.internal.NativeArray jsArray = (sun.org.mozilla.javascript.internal.NativeArray) value;
+//				sun.org.mozilla.javascript.internal.NativeArray jsArray = (sun.org.mozilla.javascript.internal.NativeArray) value;
 			Scriptable jsArray = (Scriptable)value;
 			OMElement arrayArg = fac.createOMElement(name, elementNs);
 			arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type["
@@ -325,15 +333,7 @@ public class SoapCallFactory {
 				mapArg.addChild(keyValue(obj.toString(), natObj.get(obj.toString(), null)));
 			}
 			return mapArg;
-        } else if (value == null) {
-            /*
-             * <category_id xsi:nil="true"/>
-             * http://zvon.org/xxl/XMLSchemaTutorial/Output/ser_over_st0.html
-             */
-            OMElement element = fac.createOMElement(name, elementNs);
-            element.addAttribute("nil", "true", xsi);
-            return element;
-        } else if (value instanceof Serializable) {
+		} else if (value instanceof Serializable) {
             /**
              * Map is represented by a list of key-value pairs.
              * 
@@ -355,8 +355,9 @@ public class SoapCallFactory {
                 try {
 					mapArg.addChild(keyValue(property.getName(), 
 							PropertyUtils.getProperty(value, property.getName())));
-				} catch (Exception e) {
-				}
+    			} catch (Exception e) {
+    				throw new MagentoSoapException("Cannot convert JavaBean property " + property.getName() + " to Map entry", e);
+    			}
             }
             return mapArg;
         }

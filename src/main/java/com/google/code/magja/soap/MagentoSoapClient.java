@@ -7,7 +7,6 @@ package com.google.code.magja.soap;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -15,12 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javanet.staxutils.IndentingXMLStreamWriter;
 import javanet.staxutils.StaxUtilsXMLOutputFactory;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
 
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMOutputFormat;
@@ -238,14 +235,12 @@ public class MagentoSoapClient implements SoapClient {
         return (R)returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
 	}
 
-    /*
-
-
-      * (non-Javadoc)
-      *
-      * @see com.google.code.magja.soap.SoapClient#multiCall(java.util.List,
-      * java.util.List)
-      */
+	/**
+     * (non-Javadoc)
+     *
+     * @see com.google.code.magja.soap.SoapClient#multiCall(java.util.List,
+     * java.util.List)
+     */
     @Override
     public Object multiCall(List<ResourcePath> path, List<Object> args)
             throws AxisFault {

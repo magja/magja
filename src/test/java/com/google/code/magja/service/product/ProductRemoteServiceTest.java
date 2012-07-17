@@ -441,7 +441,7 @@ public class ProductRemoteServiceTest {
     @Test
     public void updatePrice() throws NoSuchAlgorithmException, ServiceException {
     	ImmutableList<ProductUpdatePrice> products = ImmutableList.of(
-				new ProductUpdatePrice("ajah_a", new BigDecimal(200000), new BigDecimal(300000)),
+				new ProductUpdatePrice("ajah_a", new BigDecimal(1000000), new BigDecimal(2000000)),
 				new ProductUpdatePrice("zibalabel_b_06", new BigDecimal(300000), new BigDecimal(400000)));
     	
     	service.updatePrice(products);
