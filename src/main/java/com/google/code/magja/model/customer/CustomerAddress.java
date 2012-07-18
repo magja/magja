@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.google.code.magja.model.address.Address;
 
-public class CustomerAddress extends Address {
+public class CustomerAddress extends Address<List<Object>> {
 
 	private static final long serialVersionUID=-7194400140257435078L;
 
@@ -24,7 +24,7 @@ public class CustomerAddress extends Address {
 	 * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
 	 */
 	@Override
-	public Object serializeToApi() {
+	public List<Object> serializeToApi() {
 
 		Map<String, Object> props = getAllProperties();
 		props.remove("customer_address_id");

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.google.code.magja.model.BaseMagentoModel;
-import com.google.code.magja.model.customer.CustomerAddress;
+import com.google.code.magja.model.address.BasicAddress;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -20,8 +20,8 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 
 	private Long customerId;
 	private List<OrderFormItem> items;
-	private CustomerAddress billingAddress;
-	private CustomerAddress shippingAddress;
+	private BasicAddress billingAddress;
+	private BasicAddress shippingAddress;
 	
 	public OrderForm() {
 		super();
@@ -41,7 +41,7 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 	 * @param customerId
 	 * @param items
 	 */
-	public OrderForm(Long customerId, List<OrderFormItem> items, CustomerAddress billingAddress, CustomerAddress shippingAddress) {
+	public OrderForm(Long customerId, List<OrderFormItem> items, BasicAddress billingAddress, BasicAddress shippingAddress) {
 		super();
 		this.customerId = customerId;
 		this.items = items;
@@ -118,28 +118,28 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 	/**
 	 * @return the billingAddress
 	 */
-	public CustomerAddress getBillingAddress() {
+	public BasicAddress getBillingAddress() {
 		return billingAddress;
 	}
 
 	/**
 	 * @param billingAddress the billingAddress to set
 	 */
-	public void setBillingAddress(CustomerAddress billingAddress) {
+	public void setBillingAddress(BasicAddress billingAddress) {
 		this.billingAddress = billingAddress;
 	}
 
 	/**
 	 * @return the shippingAddress
 	 */
-	public CustomerAddress getShippingAddress() {
+	public BasicAddress getShippingAddress() {
 		return shippingAddress;
 	}
 
 	/**
 	 * @param shippingAddress the shippingAddress to set
 	 */
-	public void setShippingAddress(CustomerAddress shippingAddress) {
+	public void setShippingAddress(BasicAddress shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
 

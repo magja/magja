@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.google.code.magja.model.BaseMagentoModel;
 
-public abstract class Address extends BaseMagentoModel {
+public abstract class Address<S> extends BaseMagentoModel<S> {
 
 	private static final long serialVersionUID = 4478193199848784303L;
 
@@ -356,7 +356,7 @@ public abstract class Address extends BaseMagentoModel {
 			return false;
 		return true;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -28,6 +28,10 @@ public abstract class BaseMagentoModel<S> implements Serializable {
         loadMappings();
     }
 
+    /**
+     * Load JavaBean property <-> Magento API mapping from .properties file.
+     * See *.properties files in src/main/resources/com/google/code/magja/model folders.
+     */
     protected void loadMappings() {
         String className = getClass().getSimpleName();
         className = className.substring(0, 1).toLowerCase() + className.substring(1);

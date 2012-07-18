@@ -6,20 +6,16 @@ package com.google.code.magja.service.order;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.logging.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.google.code.magja.model.customer.CustomerAddress;
+import com.google.code.magja.model.address.BasicAddress;
 import com.google.code.magja.model.order.Order;
 import com.google.code.magja.model.order.OrderFilter;
 import com.google.code.magja.model.order.OrderFilterItem;
@@ -201,17 +197,16 @@ public class OrderRemoteServiceTest {
 		/*
 		 * set address
 		 */
-		CustomerAddress customerAddress = new CustomerAddress();
-		customerAddress.setDefaultBilling(true);
-        customerAddress.setDefaultShipping(false);
+		BasicAddress customerAddress = new BasicAddress();
 		customerAddress.setFirstName("Atang");
 		customerAddress.setLastName("Sutisna");
 		customerAddress.setStreet("Jl. Setiabudi Bandung No.6c");
 		customerAddress.setCity("Bandung");
 		customerAddress.setRegion("Jawa Barat");
 		customerAddress.setPostCode("41123");
-		customerAddress.setCountryCode("IND");
-		customerAddress.setCompany("Atang Sutisna");
+		customerAddress.setCountryCode("ID");
+		customerAddress.setTelephone("022-09898989898");
+		customerAddress.setCompany("Rachmart Family");
 		
 		log.info("customer address {}", customerAddress);
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
