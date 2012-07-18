@@ -195,7 +195,6 @@
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
 			<version>1.7R3</version>
-			<scope>provided</scope>
 		</dependency>
 		
 		<!-- Spring can used by MagentoSoapClient, but must be provided separately -->

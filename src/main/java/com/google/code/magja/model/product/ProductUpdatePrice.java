@@ -65,7 +65,7 @@ public class ProductUpdatePrice implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"ProductUpdatePrice [id=%s, local_price=%s, price=%s]", sku,
+				"ProductUpdatePrice [sku=%s, local_price=%s, price=%s]", sku,
 				local_price, price);
 	}
 

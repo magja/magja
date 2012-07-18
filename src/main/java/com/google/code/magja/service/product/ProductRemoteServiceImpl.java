@@ -422,14 +422,14 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     private Map<String, Object> loadBaseProduct(String sku) throws ServiceException {
         Map<String, Object> mpp;
         try {
-            mpp = (Map<String, Object>) soapClient.callSingle(ResourcePath.ProductInfo, sku);
+            mpp = soapClient.callSingle(ResourcePath.ProductInfo, sku);
         } catch (AxisFault e) {
             if (e.getMessage().indexOf("Product not exists") >= 0) {
                 mpp = null;
             } else {
                 if (debug)
                     e.printStackTrace();
-                throw new ServiceException(e.getMessage());
+                throw new ServiceException("Cannot loadBaseProduct", e);
             }
         }
 
@@ -446,7 +446,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         	log.error("Cannot call product.ProductUpdatePrice for " + products, e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot call product.ProductUpdatePrice for " + products, e);
         }
     }
 
@@ -459,7 +459,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         	log.error("Cannot call product.get_refs for " + skus, e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot call product.get_refs for " + skus, e);
         }
 
         return mpp;
