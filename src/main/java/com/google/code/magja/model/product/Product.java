@@ -1,10 +1,17 @@
 package com.google.code.magja.model.product;
 
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.category.Category;
-
-import java.security.InvalidParameterException;
-import java.util.*;
 
 public class Product extends BaseMagentoModel {
 
@@ -27,21 +34,21 @@ public class Product extends BaseMagentoModel {
     
     private Double height;
     
-    private String material_value;
+    private Long material;
     
-    private String motif_value;
+    private Long motif;
     
-    private String signature_value;
+    private Long signature;
     
-    private String batik_technique_value;
+    private Long batik_technique;
     
-    private String origin_value;
+    private Long origin;
     
-    private String batik_age_value;
+    private Long batik_age;
     
-    private String condition_value;
+    private Long condition;
     
-    private String item_color_value;
+    private Long item_color;
 
     private String sku;
 
@@ -127,14 +134,14 @@ public class Product extends BaseMagentoModel {
         mapping.setProperty("length", "length");
         mapping.setProperty("width", "width");
         mapping.setProperty("height", "height");
-        mapping.setProperty("material_value", "material_value");
-        mapping.setProperty("motif_value", "motif_value");
-        mapping.setProperty("signature_value", "signature_value");
-        mapping.setProperty("batik_technique_value", "batik_technique_value");
-        mapping.setProperty("origin_value", "origin_value");
-        mapping.setProperty("batik_age_value", "batik_age_value");
-        mapping.setProperty("condition_value", "condition_value");
-        mapping.setProperty("item_color_value", "item_color_value");
+        mapping.setProperty("material", "material");
+        mapping.setProperty("motif", "motif");
+        mapping.setProperty("signature", "signature");
+        mapping.setProperty("batik_technique", "batik_technique");
+        mapping.setProperty("origin", "origin");
+        mapping.setProperty("batik_age", "batik_age");
+        mapping.setProperty("condition", "condition");
+        mapping.setProperty("item_color", "item_color");
         mapping.setProperty("product_id", "id");
         mapping.setProperty("sku", "sku");
         mapping.setProperty("name", "name");
@@ -256,117 +263,117 @@ public class Product extends BaseMagentoModel {
 	public void setHeight(Double height) {
 		this.height = height;
 	}
-
+	
 	/**
-	 * @return the material_value
+	 * @return the material
 	 */
-	public String getMaterial_value() {
-		return material_value;
+	public Long getMaterial() {
+		return material;
 	}
 
 	/**
-	 * @param material_value the material_value to set
+	 * @param material the material to set
 	 */
-	public void setMaterial_value(String material_value) {
-		this.material_value = material_value;
+	public void setMaterial(Long material) {
+		this.material = material;
 	}
 
 	/**
-	 * @return the motif_value
+	 * @return the motif
 	 */
-	public String getMotif_value() {
-		return motif_value;
+	public Long getMotif() {
+		return motif;
 	}
 
 	/**
-	 * @param motif_value the motif_value to set
+	 * @param motif the motif to set
 	 */
-	public void setMotif_value(String motif_value) {
-		this.motif_value = motif_value;
+	public void setMotif(Long motif) {
+		this.motif = motif;
 	}
 
 	/**
-	 * @return the signature_value
+	 * @return the signature
 	 */
-	public String getSignature_value() {
-		return signature_value;
+	public Long getSignature() {
+		return signature;
 	}
 
 	/**
-	 * @param signature_value the signature_value to set
+	 * @param signature the signature to set
 	 */
-	public void setSignature_value(String signature_value) {
-		this.signature_value = signature_value;
+	public void setSignature(Long signature) {
+		this.signature = signature;
 	}
 
 	/**
-	 * @return the batik_technique_value
+	 * @return the batik_technique
 	 */
-	public String getBatik_technique_value() {
-		return batik_technique_value;
+	public Long getBatik_technique() {
+		return batik_technique;
 	}
 
 	/**
-	 * @param batik_technique_value the batik_technique_value to set
+	 * @param batik_technique the batik_technique to set
 	 */
-	public void setBatik_technique_value(String batik_technique_value) {
-		this.batik_technique_value = batik_technique_value;
+	public void setBatik_technique(Long batik_technique) {
+		this.batik_technique = batik_technique;
 	}
 
 	/**
-	 * @return the origin_value
+	 * @return the origin
 	 */
-	public String getOrigin_value() {
-		return origin_value;
+	public Long getOrigin() {
+		return origin;
 	}
 
 	/**
-	 * @param origin_value the origin_value to set
+	 * @param origin the origin to set
 	 */
-	public void setOrigin_value(String origin_value) {
-		this.origin_value = origin_value;
+	public void setOrigin(Long origin) {
+		this.origin = origin;
 	}
 
 	/**
-	 * @return the batik_age_value
+	 * @return the batik_age
 	 */
-	public String getBatik_age_value() {
-		return batik_age_value;
+	public Long getBatik_age() {
+		return batik_age;
 	}
 
 	/**
-	 * @param batik_age_value the batik_age_value to set
+	 * @param batik_age the batik_age to set
 	 */
-	public void setBatik_age_value(String batik_age_value) {
-		this.batik_age_value = batik_age_value;
+	public void setBatik_age(Long batik_age) {
+		this.batik_age = batik_age;
 	}
 
 	/**
-	 * @return the condition_value
+	 * @return the condition
 	 */
-	public String getCondition_value() {
-		return condition_value;
+	public Long getCondition() {
+		return condition;
 	}
 
 	/**
-	 * @param condition_value the condition_value to set
+	 * @param condition the condition to set
 	 */
-	public void setCondition_value(String condition_value) {
-		this.condition_value = condition_value;
+	public void setCondition(Long condition) {
+		this.condition = condition;
 	}
 
 	/**
-	 * @return the item_color_value
+	 * @return the item_color
 	 */
-	public String getItem_color_value() {
-		return item_color_value;
+	public Long getItem_color() {
+		return item_color;
 	}
 
 	/**
-	 * @param item_color_value the item_color_value to set
+	 * @param item_color the item_color to set
 	 */
-	public void setItem_color_value(String item_color_value) {
-		this.item_color_value = item_color_value;
+	public void setItem_color(Long item_color) {
+		this.item_color = item_color;
 	}
 
 	/**
@@ -936,24 +943,18 @@ public class Product extends BaseMagentoModel {
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return String
-				.format("Product [shipping_policy=%s, local_price=%s, shop_id=%s, local_sku=%s, length=%s, width=%s, height=%s, material_value=%s, motif_value=%s, signature_value=%s, batik_technique_value=%s, origin_value=%s, batik_age_value=%s, condition_value=%s, item_color_value=%s, sku=%s, attributeSet=%s, type=%s, name=%s, price=%s, cost=%s, shortDescription=%s, description=%s, enabled=%s, weight=%s, websites=%s, categories=%s, qty=%s, inStock=%s, medias=%s, visibility=%s, attributes=%s, configurableProductsData=%s, configurableSubProducts=%s, configurableAttributesData=%s]",
+				.format("Product [shipping_policy=%s, local_price=%s, shop_id=%s, local_sku=%s, length=%s, width=%s, height=%s, material=%s, motif=%s, signature=%s, batik_technique=%s, origin=%s, batik_age=%s, condition=%s, item_color=%s, sku=%s, name=%s, price=%s, qty=%s]",
 						shipping_policy, local_price, shop_id, local_sku,
-						length, width, height, material_value, motif_value,
-						signature_value, batik_technique_value, origin_value,
-						batik_age_value, condition_value, item_color_value,
-						sku, attributeSet, type, name, price, cost,
-						shortDescription, description, enabled, weight,
-						Arrays.toString(websites), categories, qty, inStock,
-						medias, visibility, attributes,
-						configurableProductsData, configurableSubProducts,
-						configurableAttributesData);
+						length, width, height, material, motif, signature,
+						batik_technique, origin, batik_age, condition,
+						item_color, sku, name, price, qty);
 	}
     
 }

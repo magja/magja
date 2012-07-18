@@ -44,7 +44,7 @@ import com.google.common.collect.ImmutableSet;
  */
 public class ProductRemoteServiceTest {
 
-	private transient Logger log = LoggerFactory.getLogger(ProductRemoteServiceTest.class);
+	private transient static Logger log = LoggerFactory.getLogger(ProductRemoteServiceTest.class);
     private ProductRemoteService service;
 
     private String productSku;
@@ -335,10 +335,10 @@ public class ProductRemoteServiceTest {
      */
     public static Product generateProductWithoutImage() {
         Product product = new Product();
-        product.setAttributeSet(new ProductAttributeSet(93, "Kain/Fabric"));
+        product.setAttributeSet(new ProductAttributeSet(81, "Kain/Fabric"));
         product.setShop_id("zibalabel");
-        product.setLocal_sku("T09");
-        product.setSku("zibalabel_t10");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
+        product.setLocal_sku("T13");
+        product.setSku("zibalabel_t13");//(MagjaStringUtils.randomString(3, 10).toUpperCase());
         product.setName("Tas T09");//(MagjaStringUtils.randomString(3, 5) + " Product Test");
         product.setShortDescription("this is a short description");
         product.setDescription("this is a description");
@@ -351,14 +351,14 @@ public class ProductRemoteServiceTest {
         product.setLength(3.0);
         product.setWidth(2.0);
         product.setHeight(4.0);
-        product.setMaterial_value("Spandex");
-        product.setMotif_value("Gelaran");
-        product.setSignature_value("Oey");
-        product.setBatik_technique_value("Kombinasi colek");
-        product.setOrigin_value("Bandung");
-        product.setBatik_age_value("Baru");
-        product.setCondition_value("Mulus");
-        product.setItem_color_value("Biru");
+        product.setMaterial(1L);
+        product.setMotif(1L);
+        product.setSignature(1L);
+        product.setBatik_technique(1L);
+        product.setOrigin(1L);
+        product.setBatik_age(1L);
+        product.setCondition(1L);
+        product.setItem_color(1L);
         Integer[] websites = {1};
         product.setWebsites(websites);
 
@@ -379,6 +379,8 @@ public class ProductRemoteServiceTest {
 
         //product.set("options_container", "container2");
 
+        log.debug("Product without image is {}", product);
+        
         return product;
     }
 
