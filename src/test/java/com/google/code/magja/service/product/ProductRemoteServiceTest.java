@@ -1,7 +1,6 @@
 package com.google.code.magja.service.product;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
@@ -199,6 +198,19 @@ public class ProductRemoteServiceTest {
         assertTrue(product.get("subproduct_ids") != null);
     }
 
+    @Test
+    public void createOneSimpleProductWithoutImageWithMaterialAttribute() throws ServiceException, NoSuchAlgorithmException {
+        Product product = generateProductWithoutImage();
+        product.setMaterial(383);
+        service.save(product, null);
+
+        assertNotNull(product.getId());
+
+        // set up the id and sku for use in other methods
+        productId = product.getId();
+        productSku = product.getSku();
+    }
+    
     /**
      * Test method for {@link com.google.code.magja.service.product.ProductRemoteServiceImpl
      * #save(com.google.code.magja.model.product.Product)}.
