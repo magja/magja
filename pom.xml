@@ -73,6 +73,26 @@
                 <role>developer</role>
             </roles>
         </developer>
+		<developer>
+			<id>rudi</id>
+			<name>Rudi Wijaya</name>
+			<email>rudi@berbatik.com</email>
+			<organization>Bippo</organization>
+			<organizationUrl>http://www.bippo.co.id/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+		</developer>
+		<developer>
+			<id>atang</id>
+			<name>Atang Sutisna</name>
+			<email>atang@berbatik.com</email>
+			<organization>Berbatik</organization>
+			<organizationUrl>http://www.berbatik.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+		</developer>
     </developers>
 
     <licenses>
@@ -180,6 +200,12 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-ext</artifactId>
 				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.geronimo.specs</groupId>
+				<artifactId>geronimo-activation_1.1_spec</artifactId>
+				<version>1.1</version>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
