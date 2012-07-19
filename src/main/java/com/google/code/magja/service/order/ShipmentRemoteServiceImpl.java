@@ -40,14 +40,14 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     public void addComment(Shipment shipment, String comment, Boolean email,
                            Boolean includeComment) throws ServiceException {
 
-        List<Object> params = new LinkedList<Object>();
-        params.add(shipment.getId());
-        params.add((comment != null ? comment : ""));
-        params.add((email ? "1" : "0"));
-        params.add((includeComment ? "1" : "0"));
+        Object[] params = new Object[] {
+        	shipment.getId(),
+        	(comment != null ? comment : ""),
+        	(email ? "1" : "0"),
+        	(includeComment ? "1" : "0") };
 
         try {
-            soapClient.callSingle(ResourcePath.SalesOrderShipmentAddComment, params);
+            soapClient.callArgs(ResourcePath.SalesOrderShipmentAddComment, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -69,7 +69,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.callSingle(ResourcePath.SalesOrderShipmentAddTrack, params));
+            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderShipmentAddTrack, params));
         } catch (NumberFormatException e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -91,7 +91,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         Map<String, Object> result = null;
         try {
-            result = (Map<String, Object>) soapClient.callSingle(ResourcePath.SalesOrderShipmentInfo, id);
+            result = soapClient.callSingle(ResourcePath.SalesOrderShipmentInfo, id);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -110,7 +110,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         List<Map<String, Object>> results = null;
         try {
-            results = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.SalesOrderShipmentList, filter);
+            results = soapClient.callSingle(ResourcePath.SalesOrderShipmentList, filter);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -134,7 +134,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
         params.add(track.getId());
 
         try {
-            soapClient.callSingle(ResourcePath.SalesOrderShipmentRemoveTrack, params);
+            soapClient.callArgs(ResourcePath.SalesOrderShipmentRemoveTrack, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -156,7 +156,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
 
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.callSingle(ResourcePath.SalesOrderShipmentCreate, params));
+            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderShipmentCreate, params));
         } catch (NumberFormatException e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -177,7 +177,7 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     public Map<String, String> getCarriers(Integer orderId) throws ServiceException {
 
         try {
-            Map<String, String> carriers = (Map<String, String>) soapClient.callSingle(ResourcePath.SalesOrderShipmentGetCarriers, orderId);
+            Map<String, String> carriers = soapClient.callSingle(ResourcePath.SalesOrderShipmentGetCarriers, orderId);
             return carriers;
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();

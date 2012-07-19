@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.code.magja.magento.ResourcePath;
+import com.google.code.magja.service.ServiceException;
 
 public class MagentoSoapClient implements SoapClient {
 
@@ -182,6 +183,12 @@ public class MagentoSoapClient implements SoapClient {
     public <R> R callArgs(ResourcePath path, Object[] args) throws AxisFault {
     	final String pathString = path.getPath();
         return call(pathString, args);
+    }
+
+    @Override @Deprecated
+    public <R> R callArgs(ResourcePath path, List<Object> args) throws AxisFault {
+    	final String pathString = path.getPath();
+        return call(pathString, args.toArray());
     }
 
     @Override
@@ -374,4 +381,9 @@ public class MagentoSoapClient implements SoapClient {
     public void setConfigFile(String configFile) {
         this.configFile = configFile;
     }
+
+    @Override
+	public <R> R callNoArgs(ResourcePath path) throws AxisFault {
+		return callSingle(path, null);
+	}
 }

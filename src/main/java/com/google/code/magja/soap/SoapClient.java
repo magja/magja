@@ -1,6 +1,7 @@
 package com.google.code.magja.soap;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 
@@ -15,7 +16,18 @@ public interface SoapClient {
 	 * @return
 	 * @throws AxisFault
 	 */
-	public abstract <R> R callArgs(ResourcePath path, Object[] args) throws AxisFault;
+	<R> R callArgs(ResourcePath path, Object[] args) throws AxisFault;
+	
+    /**
+     * Please use callArgs(ResourcePath, Object[])
+     * @param path
+     * @param args
+     * @return
+     * @throws AxisFault
+     */
+	@Deprecated
+	<R> R callArgs(ResourcePath path, List<Object> args) throws AxisFault;
+
 	/**
 	 * Call Magento API with single argument.
 	 * @param path
@@ -23,7 +35,10 @@ public interface SoapClient {
 	 * @return
 	 * @throws AxisFault
 	 */
-	public abstract <T, R> R callSingle(ResourcePath path, T arg) throws AxisFault;
+	<T, R> R callSingle(ResourcePath path, T arg) throws AxisFault;
 
-	public abstract Object multiCall(List<ResourcePath> path, List<Object> args) throws AxisFault;
+	<R> R callNoArgs(ResourcePath path) throws AxisFault;
+	
+	Object multiCall(List<ResourcePath> path, List<Object> args) throws AxisFault;
+
 }

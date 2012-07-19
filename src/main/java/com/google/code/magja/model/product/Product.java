@@ -13,7 +13,7 @@ import java.util.Set;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.category.Category;
 
-public class Product extends BaseMagentoModel {
+public class Product extends BaseMagentoModel<Object[]> {
 
     public static int TAXABLE = 2;
     public static int NON_TAXABLE = 0;
@@ -163,7 +163,7 @@ public class Product extends BaseMagentoModel {
     * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
     */
     @Override
-    public Object serializeToApi() {
+    public Object[] serializeToApi() {
 
         Integer attributeId;
         // set the attributSet
@@ -182,16 +182,13 @@ public class Product extends BaseMagentoModel {
         if (this.visibility != null)
             set("visibility", this.visibility.getValue());
 
-        List<Object> newProduct = new LinkedList<Object>();
-        newProduct.add(type.getCode());
-        newProduct.add(attributeId);
-        newProduct.add(sku);
+        Object[] newProductArgs = new Object[] {
+    		type.getCode(),
+    		attributeId,
+    		sku,
+    		getAllProperties() };
 
-        Map<String, Object> props = getAllProperties();
-
-        newProduct.add(props);
-
-        return newProduct;
+        return newProductArgs;
     }
     
 	/**

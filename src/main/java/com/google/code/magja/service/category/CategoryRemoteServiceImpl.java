@@ -377,8 +377,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
     public void delete(Integer id) throws ServiceException {
         Boolean success = false;
         try {
-            success = (Boolean) soapClient
-                    .callSingle(ResourcePath.CategoryDelete, id);
+            success = soapClient.callSingle(ResourcePath.CategoryDelete, id);
         } catch (AxisFault e) {
             System.out.println(e.getMessage());
             throw new ServiceException(e.getMessage());

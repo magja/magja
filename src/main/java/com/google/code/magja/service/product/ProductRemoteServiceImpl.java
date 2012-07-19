@@ -39,6 +39,8 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -319,9 +321,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         Boolean success = false;
         try {
             if (id != null) {
-                success = (Boolean) soapClient.callSingle(ResourcePath.ProductDelete, id);
+                success = soapClient.callSingle(ResourcePath.ProductDelete, id);
             } else if (sku != null) {
-                success = (Boolean) soapClient.callSingle(ResourcePath.ProductDelete, sku);
+                success = soapClient.callSingle(ResourcePath.ProductDelete, sku);
             }
 
         } catch (AxisFault e) {
@@ -368,7 +370,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         List<Map<String, Object>> productList;
 
         try {
-            productList = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.ProductList, "");
+            productList = soapClient.callNoArgs(ResourcePath.ProductList);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -491,7 +493,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         Map<String, Object> mpp;
         try {
-            mpp = (Map<String, Object>) soapClient.callSingle(ResourcePath.ProductInfo, id);
+            mpp = soapClient.callSingle(ResourcePath.ProductInfo, id);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -527,7 +529,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     
     public List<Product> listAllPlus(final Set<String> attributesToSelect) throws ServiceException {
         try {
-        	final List<Map<String, Object>> productListPlusResult = (List<Map<String, Object>>) soapClient.callArgs(ResourcePath.ProductListPlus,
+        	final List<Map<String, Object>> productListPlusResult = soapClient.callArgs(ResourcePath.ProductListPlus,
         			new Object[] { null, null, attributesToSelect.toArray(new String[] {}) });
 			List<Map<String, Object>> productMapList = Optional.fromNullable(productListPlusResult)
         			.or(new ArrayList<Map<String, Object>>());
@@ -585,19 +587,17 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             // means its a existing product
             try {
 
-                List<Object> newProduct = new LinkedList<Object>();
-                newProduct.add(product.getId());
                 Map<String, Object> props = product.getAllProperties();
                 if (product.getVisibility() != null)
                     props.put("visibility", product.getVisibility().getValue());
-                newProduct.add(props);
-                if (!storeView.isEmpty()) {
-                    newProduct.add(storeView);
-                }
+                Object[] newProductArgs = new Object[] {
+                	product.getId(),
+                	props,
+                	!storeView.isEmpty() ? storeView : null };
 
                 log.info("Updating '" + product.getSku() + "'");
 
-                soapClient.callSingle(ResourcePath.ProductUpdate, newProduct);
+                soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
 
                 if (product.getType().equals(ProductType.CONFIGURABLE))
                     handleConfigurableForNewProducts(product);
@@ -620,11 +620,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
             try {
 
-                List<Object> newProduct = (LinkedList<Object>) product.serializeToApi();
+                Object[] newProductArgs = product.serializeToApi();
 
                 log.info("Creating '" + product.getSku() + "'");
-                int id = Integer.parseInt((String) soapClient.callSingle(ResourcePath.ProductCreate,
-                        newProduct));
+                int id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.ProductCreate,
+                        newProductArgs));
                 if (id > 0)
                     product.setId(id);
                 else
@@ -840,11 +840,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             throws ServiceException {
 
         try {
-            List<Object> args = new ArrayList<Object>();
-            args.add(productSku);
-            args.add(attributeNames);
-            String results = (String) soapClient.callSingle(ResourcePath.ProductConfigurableAttributes,
-                    args);
+            String results = soapClient.callArgs(ResourcePath.ProductConfigurableAttributes,
+                    new Object[] { productSku, attributeNames });
         } catch (AxisFault e) {
             e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -857,10 +854,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             throws ServiceException {
 
         try {
-            List<Object> args = new ArrayList<Object>();
-            args.add(productSku);
-            args.add(childProducts);
-            String results = (String) soapClient.callSingle(ResourcePath.ProductAssociateChildren, args);
+            String results = soapClient.callArgs(ResourcePath.ProductAssociateChildren,
+            		new Object[] { productSku, childProducts });
+            log.debug("setAssociated products {} returned {}", productSku, results);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -930,7 +926,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         List<Map<String, Object>> productTypes;
         try {
-            productTypes = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.ProductTypeList, "");
+            productTypes = soapClient.callNoArgs(ResourcePath.ProductTypeList);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -998,18 +994,16 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      */
     @Override
     public void getInventoryInfo(Set<Product> products) throws ServiceException {
-
-        String[] productIds = new String[products.size()];
-        int i = 0;
-        for (Product product : products)
-            productIds[i++] = product.getId().toString();
-
-        List<Object> param = new LinkedList<Object>();
-        param.add(productIds);
+    	List<Integer> productIds = ImmutableList.copyOf( Iterables.transform(products, new Function<Product, Integer>() {
+    		@Override
+    		public Integer apply(Product input) {
+    			return input.getId();
+    		}
+		}) );
 
         List<Map<String, Object>> resultList = null;
         try {
-            resultList = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.ProductStockList, param);
+            resultList = soapClient.callSingle(ResourcePath.ProductStockList, productIds);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1060,7 +1054,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         param.add(properties);
 
         try {
-            soapClient.callSingle(ResourcePath.ProductStockUpdate, param);
+            soapClient.callArgs(ResourcePath.ProductStockUpdate, param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1085,7 +1079,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         param.add(properties);
 
         try {
-            soapClient.callSingle(ResourcePath.ProductStockUpdate, param);
+            soapClient.callArgs(ResourcePath.ProductStockUpdate, param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1115,7 +1109,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         param.add(properties);
 
         try {
-            soapClient.callSingle(ResourcePath.ProductStockUpdate, param);
+            soapClient.callArgs(ResourcePath.ProductStockUpdate, param);
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();

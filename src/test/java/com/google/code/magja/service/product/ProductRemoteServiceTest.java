@@ -351,14 +351,14 @@ public class ProductRemoteServiceTest {
         product.setLength(3.0);
         product.setWidth(2.0);
         product.setHeight(4.0);
-        product.setMaterial(1L);
-        product.setMotif(1L);
-        product.setSignature(1L);
-        product.setBatik_technique(1L);
-        product.setOrigin(1L);
-        product.setBatik_age(1L);
-        product.setCondition(1L);
-        product.setItem_color(1L);
+//        product.setMaterial(1L);
+//        product.setMotif(1L);
+//        product.setSignature(1L);
+//        product.setBatik_technique(1L);
+//        product.setOrigin(1L);
+//        product.setBatik_age(1L);
+//        product.setCondition(1L);
+//        product.setItem_color(1L);
         Integer[] websites = {1};
         product.setWebsites(websites);
 

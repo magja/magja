@@ -33,7 +33,7 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
         params.add((includeComment ? "1" : "0"));
 
         try {
-            soapClient.callSingle(ResourcePath.SalesOrderInvoiceAddComment, params);
+            soapClient.callArgs(ResourcePath.SalesOrderInvoiceAddComment, params);
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -52,7 +52,7 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
 
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.callSingle(ResourcePath.SalesOrderInvoiceCreate, params));
+            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderInvoiceCreate, params));
         } catch (NumberFormatException e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -69,10 +69,9 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
 
     @Override
     public Invoice getById(Integer id) throws ServiceException {
-
         Map<String, Object> result = null;
         try {
-            result = (Map<String, Object>) soapClient.callSingle(ResourcePath.SalesOrderInvoiceInfo, id);
+            result = soapClient.callSingle(ResourcePath.SalesOrderInvoiceInfo, id);
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -89,7 +88,7 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
 
         List<Map<String, Object>> results = null;
         try {
-            results = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.SalesOrderInvoiceList, filter);
+            results = soapClient.callSingle(ResourcePath.SalesOrderInvoiceList, filter);
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -105,12 +104,8 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
     @Override
     public void capture(Invoice invoice)
             throws ServiceException {
-
-        List<Object> params = new LinkedList<Object>();
-        params.add(invoice.getId());
-
         try {
-            soapClient.callSingle(ResourcePath.SalesOrderInvoiceCapture, params);
+            soapClient.callSingle(ResourcePath.SalesOrderInvoiceCapture, invoice.getId());
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -126,7 +121,7 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
         params.add(invoice.getId());
 
         try {
-            soapClient.callSingle(ResourcePath.SalesOrderInvoiceVoid, params);
+            soapClient.callArgs(ResourcePath.SalesOrderInvoiceVoid, params);
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -142,7 +137,7 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
         params.add(invoice.getId());
 
         try {
-            soapClient.callSingle(ResourcePath.SalesOrderInvoiceCancel, params);
+            soapClient.callArgs(ResourcePath.SalesOrderInvoiceCancel, params);
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());

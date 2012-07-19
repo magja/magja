@@ -138,7 +138,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
         params.add((notify ? new Integer(1) : new Integer(0)));
 
         try {
-            soapClient.callSingle(ResourcePath.SalesOrderAddComment, params);
+            soapClient.callArgs(ResourcePath.SalesOrderAddComment, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -176,7 +176,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 
         Map<String, Object> order_remote = null;
         try {
-            order_remote = (Map<String, Object>) soapClient.callSingle(
+            order_remote = soapClient.callSingle(
                     ResourcePath.SalesOrderInfo, id);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -221,14 +221,12 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
       */
     @Override
     public void hold(Order order) throws ServiceException {
-
         try {
             soapClient.callSingle(ResourcePath.SalesOrderHold, order.getOrderNumber());
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
         }
-
     }
 
     /*
@@ -292,7 +290,8 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	@Override
 	public String create(OrderForm orderForm) throws ServiceException {
         try {
-            String result = soapClient.callSingle(ResourcePath.SalesOrderCreate, orderForm.serializeToApi());
+            String result = soapClient.callSingle(ResourcePath.SalesOrderCreate,
+            		orderForm.serializeToApi());
             return result;
         } catch (AxisFault e) {
         	log.debug("Error when creating OrderForm " + orderForm, e);
@@ -307,7 +306,8 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 	@Override
 	public String createEx(OrderForm orderForm) throws ServiceException {
         try {
-            String result = soapClient.callSingle(ResourcePath.SalesOrderCreateEx, orderForm.serializeToApi());
+            String result = soapClient.callSingle(ResourcePath.SalesOrderCreateEx,
+            		orderForm.serializeToApi());
             return result;  
         } catch (AxisFault e) {
         	log.debug("Error when creating OrderForm " + orderForm, e);

@@ -80,7 +80,7 @@ public class ProductLinkRemoteServiceImpl extends
                     "you must specify the products to be assigned.");
 
         try {
-            soapClient.callSingle(ResourcePath.ProductLinkAssign, buildLinkToPersist(
+            soapClient.callArgs(ResourcePath.ProductLinkAssign, buildLinkToPersist(
                     product, link));
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
@@ -175,7 +175,7 @@ public class ProductLinkRemoteServiceImpl extends
         params.add(link.getId() != null ? link.getId() : link.getSku());
 
         try {
-            soapClient.callSingle(ResourcePath.ProductLinkRemove, params);
+            soapClient.callArgs(ResourcePath.ProductLinkRemove, params);
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -202,7 +202,7 @@ public class ProductLinkRemoteServiceImpl extends
                     "you must specify the products to be assigned");
 
         try {
-            soapClient.callSingle(ResourcePath.ProductLinkUpdate, buildLinkToPersist(
+            soapClient.callArgs(ResourcePath.ProductLinkUpdate, buildLinkToPersist(
                     product, link));
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();

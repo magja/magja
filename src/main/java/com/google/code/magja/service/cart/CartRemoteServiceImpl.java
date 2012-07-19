@@ -44,7 +44,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 	@Override
 	public Cart create(Integer storeId) throws ServiceException {
 		try {
-			Integer id = (Integer) soapClient.callSingle(
+			Integer id = soapClient.callSingle(
 					ResourcePath.ShoppingCartCreate, storeId);
 			Cart cart = new Cart();
 			cart.setId(id);
