@@ -17,16 +17,6 @@ public interface SoapClient {
 	 * @throws AxisFault
 	 */
 	<R> R callArgs(ResourcePath path, Object[] args) throws AxisFault;
-	
-    /**
-     * Please use callArgs(ResourcePath, Object[])
-     * @param path
-     * @param args
-     * @return
-     * @throws AxisFault
-     */
-	@Deprecated
-	<R> R callArgs(ResourcePath path, List<Object> args) throws AxisFault;
 
 	/**
 	 * Call Magento API with single argument.

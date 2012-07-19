@@ -130,15 +130,10 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
     @Override
     public void addComment(Order order, String status, String comment,
                            Boolean notify) throws ServiceException {
-
-        List<Object> params = new LinkedList<Object>();
-        params.add(order.getOrderNumber());
-        params.add(status);
-        params.add(comment);
-        params.add((notify ? new Integer(1) : new Integer(0)));
-
         try {
-            soapClient.callArgs(ResourcePath.SalesOrderAddComment, params);
+            soapClient.callArgs(ResourcePath.SalesOrderAddComment, new Object[] {
+            		order.getOrderNumber(), status, comment,
+            		notify ? 1 : 0 });
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());

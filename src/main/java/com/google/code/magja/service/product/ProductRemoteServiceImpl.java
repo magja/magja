@@ -40,6 +40,7 @@ import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1041,20 +1042,15 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             throw new ServiceException(
                     "The product must have the id or the sku seted for update inventory");
 
-        Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put("qty", product.getQty());
-
         if (product.getInStock() == null)
             product.setInStock(product.getQty() > 0);
-
-        properties.put("is_in_stock", (product.getInStock() ? "1" : "0"));
-
-        List<Object> param = new LinkedList<Object>();
-        param.add((product.getId() != null ? product.getId() : product.getSku()));
-        param.add(properties);
-
+        ImmutableMap<String, ? extends Object> properties = ImmutableMap.of(
+        		"qty", product.getQty(),
+        		"is_in_stock", (product.getInStock() ? "1" : "0"));
         try {
-            soapClient.callArgs(ResourcePath.ProductStockUpdate, param);
+            soapClient.callArgs(ResourcePath.ProductStockUpdate, new Object[] {
+        		product.getId() != null ? product.getId() : product.getSku(),
+				properties });
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1069,17 +1065,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             throw new ServiceException(
                     "The product must have the id or the sku seted for update inventory");
 
-        Map<String, Object> properties = new HashMap<String, Object>();
-
-        properties.put("use_config_manage_stock", "1");
-        properties.put("manage_stock", "1");
-
-        List<Object> param = new LinkedList<Object>();
-        param.add((product.getId() != null ? product.getId() : product.getSku()));
-        param.add(properties);
-
+        Map<String, String> properties = ImmutableMap.of(
+        		"use_config_manage_stock", "1",
+        		"manage_stock", "1");
         try {
-            soapClient.callArgs(ResourcePath.ProductStockUpdate, param);
+            soapClient.callArgs(ResourcePath.ProductStockUpdate, new Object[] {
+            		product.getId() != null ? product.getId() : product.getSku(),
+            				properties });
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();
@@ -1104,12 +1096,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             properties.put("manage_stock", "0");
         }
 
-        List<Object> param = new LinkedList<Object>();
-        param.add((product.getId() != null ? product.getId() : product.getSku()));
-        param.add(properties);
-
         try {
-            soapClient.callArgs(ResourcePath.ProductStockUpdate, param);
+            soapClient.callArgs(ResourcePath.ProductStockUpdate, new Object[] {
+            		product.getId() != null ? product.getId() : product.getSku(),
+    				properties });
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();

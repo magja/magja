@@ -60,16 +60,11 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     @Override
     public void addTrack(Shipment shipment, ShipmentTrack track)
             throws ServiceException {
-
-        List<Object> params = new ArrayList<Object>();
-        params.add(shipment.getId());
-        params.add(track.getCarrier());
-        params.add(track.getTitle());
-        params.add(track.getNumber());
-
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderShipmentAddTrack, params));
+            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderShipmentAddTrack, 
+            		new Object[] { shipment.getId(), track.getCarrier(),
+            			track.getTitle(), track.getNumber() }));
         } catch (NumberFormatException e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -128,13 +123,9 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     @Override
     public void removeTrack(Shipment shipment, ShipmentTrack track)
             throws ServiceException {
-
-        List<Object> params = new LinkedList<Object>();
-        params.add(shipment.getId());
-        params.add(track.getId());
-
         try {
-            soapClient.callArgs(ResourcePath.SalesOrderShipmentRemoveTrack, params);
+            soapClient.callArgs(ResourcePath.SalesOrderShipmentRemoveTrack, new Object[] {
+            		shipment.getId(), track.getId() });
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -148,15 +139,10 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     @Override
     public void save(Shipment shipment, String comment, Boolean email,
                      Boolean includeComment) throws ServiceException {
-
-        List<Object> params = (List<Object>) shipment.serializeToApi();
-        params.add((comment != null ? comment : ""));
-        params.add((email ? "1" : "0"));
-        params.add((includeComment ? "1" : "0"));
-
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderShipmentCreate, params));
+            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderShipmentCreate, new Object[] {
+            		comment != null ? comment : "", email ? 1 : 0, includeComment ? 1 : 0 }));
         } catch (NumberFormatException e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());

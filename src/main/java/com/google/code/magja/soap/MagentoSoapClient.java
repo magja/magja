@@ -185,12 +185,6 @@ public class MagentoSoapClient implements SoapClient {
         return call(pathString, args);
     }
 
-    @Override @Deprecated
-    public <R> R callArgs(ResourcePath path, List<Object> args) throws AxisFault {
-    	final String pathString = path.getPath();
-        return call(pathString, args.toArray());
-    }
-
     @Override
     public <T, R> R callSingle(ResourcePath path, T arg) throws AxisFault {
     	final String pathString = path.getPath();

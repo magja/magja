@@ -34,7 +34,7 @@ public class ProductLinkRemoteServiceImpl extends
         return link;
     }
 
-    private Boolean validadeProductLink(ProductLink link) {
+    private Boolean validateProductLink(ProductLink link) {
         if (link == null)
             return false;
         else if (link.getLinkType() != null
@@ -44,21 +44,18 @@ public class ProductLinkRemoteServiceImpl extends
             return false;
     }
 
-    private List<Object> buildLinkToPersist(Product product, ProductLink link) {
-
-        List<Object> params = new LinkedList<Object>();
-        params.add(link.getLinkType().toString().toLowerCase());
-        params.add(product.getId() != null ? product.getId() : product.getSku());
-        params.add(link.getId() != null ? link.getId() : link.getSku());
-
+    private Object[] buildLinkToPersist(Product product, ProductLink link) {
         Map<String, Object> props = new HashMap<String, Object>();
         if (link.getPosition() != null)
             props.put("position", link.getPosition());
         if (link.getQty() != null)
             props.put("qty", link.getQty());
-        params.add(props);
 
-        return params;
+        return new Object[] {
+            link.getLinkType().toString().toLowerCase(),
+            product.getId() != null ? product.getId() : product.getSku(),
+            link.getId() != null ? link.getId() : link.getSku(),
+    		props };
     }
 
     /*
@@ -72,10 +69,9 @@ public class ProductLinkRemoteServiceImpl extends
     @Override
     public void assign(Product product, ProductLink link)
             throws ServiceException {
-
         if (!ProductServiceUtil.validateProduct(product))
             throw new ServiceException("the product id or sku must be setted.");
-        if (!validadeProductLink(link))
+        if (!validateProductLink(link))
             throw new ServiceException(
                     "you must specify the products to be assigned.");
 
@@ -162,20 +158,17 @@ public class ProductLinkRemoteServiceImpl extends
     @Override
     public void remove(Product product, ProductLink link)
             throws ServiceException {
-
         if (!ProductServiceUtil.validateProduct(product))
             throw new ServiceException("the product id or sku must be setted");
-        if (!validadeProductLink(link))
+        if (!validateProductLink(link))
             throw new ServiceException(
                     "you must specify the products to be assigned");
 
-        List<Object> params = new LinkedList<Object>();
-        params.add(link.getLinkType().toString().toLowerCase());
-        params.add(product.getId() != null ? product.getId() : product.getSku());
-        params.add(link.getId() != null ? link.getId() : link.getSku());
-
         try {
-            soapClient.callArgs(ResourcePath.ProductLinkRemove, params);
+            soapClient.callArgs(ResourcePath.ProductLinkRemove, new Object[] {
+            		link.getLinkType().toString().toLowerCase(),
+            		product.getId() != null ? product.getId() : product.getSku(),
+    				link.getId() != null ? link.getId() : link.getSku() });		
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -197,7 +190,7 @@ public class ProductLinkRemoteServiceImpl extends
 
         if (!ProductServiceUtil.validateProduct(product))
             throw new ServiceException("the product id or sku must be setted");
-        if (!validadeProductLink(link))
+        if (!validateProductLink(link))
             throw new ServiceException(
                     "you must specify the products to be assigned");
 

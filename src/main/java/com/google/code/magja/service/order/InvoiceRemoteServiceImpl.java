@@ -25,15 +25,10 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
     @Override
     public void addComment(Invoice invoice, String comment, Boolean email,
                            Boolean includeComment) throws ServiceException {
-
-        List<Object> params = new LinkedList<Object>();
-        params.add(invoice.getId());
-        params.add((comment != null ? comment : ""));
-        params.add((email ? "1" : "0"));
-        params.add((includeComment ? "1" : "0"));
-
         try {
-            soapClient.callArgs(ResourcePath.SalesOrderInvoiceAddComment, params);
+            soapClient.callArgs(ResourcePath.SalesOrderInvoiceAddComment, new Object[] {
+            		invoice.getId(), comment != null ? comment : "",
+    				email ? "1" : "0", includeComment ? "1" : "0" });
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -44,15 +39,11 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
     @Override
     public void save(Invoice invoice, String comment, Boolean email,
                      Boolean includeComment) throws ServiceException {
-
-        List<Object> params = (LinkedList<Object>) invoice.serializeToApi();
-        params.add((comment != null ? comment : ""));
-        params.add((email ? "1" : "0"));
-        params.add((includeComment ? "1" : "0"));
-
         Integer id = null;
         try {
-            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderInvoiceCreate, params));
+            id = Integer.parseInt((String)soapClient.callArgs(ResourcePath.SalesOrderInvoiceCreate,
+            		new Object[] { comment != null ? comment : "",
+            				email ? "1" : "0", includeComment ? "1" : "0" }));
         } catch (NumberFormatException e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -116,12 +107,8 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
     @Override
     public void voidInvoice(Invoice invoice)
             throws ServiceException {
-
-        List<Object> params = new LinkedList<Object>();
-        params.add(invoice.getId());
-
         try {
-            soapClient.callArgs(ResourcePath.SalesOrderInvoiceVoid, params);
+            soapClient.callSingle(ResourcePath.SalesOrderInvoiceVoid, invoice.getId());
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -132,12 +119,8 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
     @Override
     public void cancelInvoice(Invoice invoice)
             throws ServiceException {
-
-        List<Object> params = new LinkedList<Object>();
-        params.add(invoice.getId());
-
         try {
-            soapClient.callArgs(ResourcePath.SalesOrderInvoiceCancel, params);
+            soapClient.callSingle(ResourcePath.SalesOrderInvoiceCancel, invoice.getId());
         } catch (AxisFault e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
