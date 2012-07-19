@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -598,7 +597,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
                 log.info("Updating '" + product.getSku() + "'");
 
-                soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
+                Object callResult = soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
+                log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductUpdate,
+                	product.getId(), callResult });
 
                 if (product.getType().equals(ProductType.CONFIGURABLE))
                     handleConfigurableForNewProducts(product);
@@ -626,6 +627,8 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 log.info("Creating '" + product.getSku() + "'");
                 int id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.ProductCreate,
                         newProductArgs));
+                log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductCreate,
+                    	product.getSku(), id });
                 if (id > 0)
                     product.setId(id);
                 else

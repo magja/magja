@@ -4,14 +4,18 @@
  */
 package com.google.code.magja.service.product;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.axis2.AxisFault;
+
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import org.apache.axis2.AxisFault;
-
-import java.util.*;
 
 public class ProductMediaRemoteServiceImpl extends
         GeneralServiceImpl<ProductMedia> implements ProductMediaRemoteService {
@@ -54,15 +58,19 @@ public class ProductMediaRemoteServiceImpl extends
             throw new ServiceException(
                     "the product attribute for the media must be setted.");
 
-        List<Object> params = new LinkedList<Object>();
-        params.add((productMedia.getProduct().getId() != null ? productMedia
-                .getProduct().getId() : productMedia.getProduct().getSku()));
-        params.add(productMedia.getFile());
+//        List<Object> params = new LinkedList<Object>();
+//        params.add((productMedia.getProduct().getId() != null ? productMedia
+//                .getProduct().getId() : productMedia.getProduct().getSku()));
+//        params.add(productMedia.getFile());
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.callSingle(
-                    ResourcePath.ProductAttributeMediaRemove, params);
+            success = (Boolean) soapClient.callArgs(
+                    ResourcePath.ProductAttributeMediaRemove, new Object[] {
+                    		productMedia.getProduct().getId() != null ? 
+                    				productMedia.getProduct().getId() : productMedia.getProduct().getSku(),
+                                    productMedia.getFile()
+                    });
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -87,15 +95,19 @@ public class ProductMediaRemoteServiceImpl extends
             throw new ServiceException(
                     "the product for the media must be setted.");
 
-        List<Object> params = new LinkedList<Object>();
-        params.add((product.getId() != null ? product.getId() : product
-                .getSku()));
-        params.add(file);
+//        List<Object> params = new LinkedList<Object>();
+//        params.add((product.getId() != null ? product.getId() : product
+//                .getSku()));
+//        params.add(file);
 
         Map<String, Object> media = null;
         try {
-            media = (Map<String, Object>) soapClient.callSingle(
-                    ResourcePath.ProductAttributeMediaInfo, params);
+            media = soapClient.callArgs(
+                    ResourcePath.ProductAttributeMediaInfo, new Object[] {
+                    		product.getId() != null ? product.getId() : product
+                                    .getSku(),
+                                    file
+                    });
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -112,13 +124,15 @@ public class ProductMediaRemoteServiceImpl extends
       */
     @Override
     public String getMd5(String file) throws ServiceException {
-        List<Object> params = new LinkedList<Object>();
-        params.add(file);
+//        List<Object> params = new LinkedList<Object>();
+//        params.add(file);
 
         String media = null;
         try {
-            media = (String) soapClient.callSingle(
-                    ResourcePath.ProductAttributeMediaMd5, params);
+            media = (String) soapClient.callArgs(
+                    ResourcePath.ProductAttributeMediaMd5, new Object[] {
+                    		file
+                    });
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -146,7 +160,7 @@ public class ProductMediaRemoteServiceImpl extends
 
         List<Map<String, Object>> medias = null;
         try {
-            medias = (List<Map<String, Object>>) soapClient.callSingle(
+            medias = soapClient.callSingle(
                     ResourcePath.ProductAttributeMediaList,
                     (product.getId() != null ? product.getId() : product
                             .getSku()));
@@ -187,9 +201,9 @@ public class ProductMediaRemoteServiceImpl extends
             throw new ServiceException("invalid binary data for the image.");
 
         try {
-            String result = (String) soapClient.callSingle(
+            String result = (String) soapClient.callArgs(
                     ResourcePath.ProductAttributeMediaCreate, productMedia
-                    .serializeToApi());
+                    	.serializeToApi());
 
             productMedia.setFile(result);
 
@@ -221,18 +235,22 @@ public class ProductMediaRemoteServiceImpl extends
 
         props.put("file", productMedia.getImage().serializeToApi());
 
-        List<Object> newMedia = new LinkedList<Object>();
-        newMedia.add(productMedia.getProduct().getSku());
-        newMedia.add(productMedia.getFile());
-
-        props.remove("url");
-
-        newMedia.add(props);
+//        List<Object> newMedia = new LinkedList<Object>();
+//        newMedia.add(productMedia.getProduct().getSku());
+//        newMedia.add(productMedia.getFile());
+//
+//        props.remove("url");
+//
+//        newMedia.add(props);
 
 
         try {
-            Boolean result = (Boolean) soapClient.callSingle(
-                    ResourcePath.ProductAttributeMediaUpdate, newMedia);
+            Boolean result = (Boolean) soapClient.callArgs(
+                    ResourcePath.ProductAttributeMediaUpdate, new Object[] {
+                    		productMedia.getProduct().getSku(),
+                    		productMedia.getFile(),
+                    		props.remove("url")
+                    });
             return result;
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();

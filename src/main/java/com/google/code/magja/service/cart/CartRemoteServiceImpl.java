@@ -191,13 +191,15 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			list.add(cart.getShippingAddress().serializeToApi());
 			list.add(cart.getBillingAddress().serializeToApi());
 
-			List<Object> params = new LinkedList<Object>();
-			params.add(cart.getId());
-			params.add(list);
-			params.add(cart.getStoreId());
+//			List<Object> params = new LinkedList<Object>();
+//			params.add(cart.getId());
+//			params.add(list);
+//			params.add(cart.getStoreId());
 
-			Boolean success = (Boolean) soapClient.callSingle(
-					ResourcePath.ShoppingCartCustomerAddresses, params);
+			Boolean success = (Boolean) soapClient.callArgs(
+					ResourcePath.ShoppingCartCustomerAddresses, new Object[] {
+							cart.getId(), list, cart.getStoreId()
+					});
 			if (!success) {
 				throw new ServiceException(
 						"Could not set cart address information");
@@ -215,19 +217,21 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements
 			throws ServiceException {
 		// FIXME: product options
 		try {
-			List<Object> params = new LinkedList<Object>();
-
-			params.add(cart.getId());
-
+//			List<Object> params = new LinkedList<Object>();
+//
+//			params.add(cart.getId());
+//
 			Map<String, Object> props = new HashMap<String, Object>();
 			props.put("product_id", product.getId());
 			props.put("qty", quantity);
-			params.add(props);
+//			params.add(props);
+//
+//			params.add(cart.getStoreId());
 
-			params.add(cart.getStoreId());
-
-			Boolean success = (Boolean) soapClient.callSingle(
-					ResourcePath.ShoppingCartProductAdd, params);
+			Boolean success = (Boolean) soapClient.callArgs(
+					ResourcePath.ShoppingCartProductAdd, new Object[] {
+							cart.getId(), props, cart.getStoreId()
+					});
 			if (!success) {
 				throw new ServiceException("Could not add product");
 			}

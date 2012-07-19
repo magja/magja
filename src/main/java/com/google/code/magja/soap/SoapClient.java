@@ -30,5 +30,5 @@ public interface SoapClient {
 	<R> R callNoArgs(ResourcePath path) throws AxisFault;
 	
 	Object multiCall(List<ResourcePath> path, List<Object> args) throws AxisFault;
-
+	
 }

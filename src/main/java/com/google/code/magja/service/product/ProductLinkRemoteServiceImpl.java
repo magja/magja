@@ -125,14 +125,12 @@ public class ProductLinkRemoteServiceImpl extends
 
         Set<ProductLink> links = new HashSet<ProductLink>();
 
-        List<Object> params = new LinkedList<Object>();
-        params.add(linktype.toString().toLowerCase());
-        params.add(product.getId() != null ? product.getId() : product.getSku());
-
         List<Map<String, Object>> results = null;
         try {
-            results = (List<Map<String, Object>>) soapClient.callSingle(
-                    ResourcePath.ProductLinkList, params);
+            results = soapClient.callArgs(
+                    ResourcePath.ProductLinkList, new Object[] {
+                    		linktype.toString().toLowerCase(),
+                    		product.getId() != null ? product.getId() : product.getSku() });
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());

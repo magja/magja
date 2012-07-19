@@ -204,8 +204,7 @@ public class ProductRemoteServiceTest {
      * #save(com.google.code.magja.model.product.Product)}.
      */
     @Test
-    public void testSave() throws ServiceException, NoSuchAlgorithmException {
-
+    public void createOneSimpleProductWithImage() throws ServiceException, NoSuchAlgorithmException {
         Product product = generateProduct();
         service.save(product, null);
 
@@ -222,7 +221,7 @@ public class ProductRemoteServiceTest {
     @Test
     public void testGetByIdAndSku() throws ServiceException, NoSuchAlgorithmException {
 
-        testSave();
+        createOneSimpleProductWithImage();
 
         Product productById = service.getById(productId);
         assertTrue(productById != null);
@@ -285,13 +284,13 @@ public class ProductRemoteServiceTest {
     @Test
     public void testDelete() throws ServiceException, NoSuchAlgorithmException {
         // first create some product
-        testSave();
+        createOneSimpleProductWithImage();
 
         // then delete it by id
         service.delete(productId);
 
         // another product
-        testSave();
+        createOneSimpleProductWithImage();
 
         // delete it
         service.delete(productSku);
@@ -318,7 +317,7 @@ public class ProductRemoteServiceTest {
     @Test
     public void testUpdateInventory() throws ServiceException, NoSuchAlgorithmException {
 
-        testSave();
+        createOneSimpleProductWithImage();
 
         Product product = new Product();
         product.setId(productId);
@@ -335,7 +334,7 @@ public class ProductRemoteServiceTest {
      */
     public static Product generateProductWithoutImage() {
         Product product = new Product();
-        product.setAttributeSet(new ProductAttributeSet(81, "Kain/Fabric"));
+        product.setAttributeSet(new ProductAttributeSet(93, "Fabric"));
         product.setShop_id("zibalabel");
         product.setLocal_sku("T13");
         product.setSku("zibalabel_t13");//(MagjaStringUtils.randomString(3, 10).toUpperCase());

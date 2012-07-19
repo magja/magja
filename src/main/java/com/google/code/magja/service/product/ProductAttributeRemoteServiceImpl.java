@@ -4,14 +4,19 @@
  */
 package com.google.code.magja.service.product;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.axis2.AxisFault;
+
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.product.ProductAttribute;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import org.apache.axis2.AxisFault;
-
-import java.util.*;
 
 public class ProductAttributeRemoteServiceImpl extends
         GeneralServiceImpl<ProductAttribute> implements
@@ -242,13 +247,15 @@ public class ProductAttributeRemoteServiceImpl extends
                         .getOptions().entrySet())
                     options[i++] = option.getValue();
 
-                List<Object> params = new LinkedList<Object>();
-                params.add(productAttribute.getId());
-                params.add(options);
+//                List<Object> params = new LinkedList<Object>();
+//                params.add(productAttribute.getId());
+//                params.add(options);
 
                 try {
-                    if (!(Boolean) soapClient.callSingle(
-                            ResourcePath.ProductAttributeAddOptions, params))
+                    if (!(Boolean) soapClient.callArgs(
+                            ResourcePath.ProductAttributeAddOptions, new Object[] {
+                            		productAttribute.getId(), options
+                            }))
                         throw new ServiceException(
                                 "The product attribute was saved, but had error "
                                         + "on create the options for that");
@@ -281,13 +288,15 @@ public class ProductAttributeRemoteServiceImpl extends
                         .entrySet())
                     options[i++] = option.getValue();
 
-                List<Object> params = new LinkedList<Object>();
-                params.add(productAttribute.getId());
-                params.add(options);
+//                List<Object> params = new LinkedList<Object>();
+//                params.add(productAttribute.getId());
+//                params.add(options);
 
                 try {
-                    if (!(Boolean) soapClient.callSingle(
-                            ResourcePath.ProductAttributeAddOptions, params))
+                    if (!(Boolean) soapClient.callArgs(
+                            ResourcePath.ProductAttributeAddOptions, new Object[] {
+                            		productAttribute.getId(), options
+                            }))
                         throw new ServiceException(
                                 "The product attribute was saved, but had error "
                                         + "on create the options for that");
@@ -306,13 +315,15 @@ public class ProductAttributeRemoteServiceImpl extends
             throws ServiceException {
         // if has options, include this too
 
-        List<Object> params = new LinkedList<Object>();
-        params.add(code);
-        params.add(option);
+//        List<Object> params = new LinkedList<Object>();
+//        params.add(code);
+//        params.add(option);
 
         try {
-            LinkedList list = (LinkedList) soapClient.callSingle(
-                    ResourcePath.ProductAttributeAdd, params);
+            LinkedList list = (LinkedList) soapClient.callArgs(
+                    ResourcePath.ProductAttributeAdd, new Object[] {
+                    		code, option
+                    });
             if (list.size() > 0) {
                 Map id = (Map) list.get(0);
                 if (id != null) {

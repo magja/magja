@@ -38,7 +38,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.code.magja.magento.ResourcePath;
-import com.google.code.magja.service.ServiceException;
 
 public class MagentoSoapClient implements SoapClient {
 
@@ -187,6 +186,8 @@ public class MagentoSoapClient implements SoapClient {
 
     @Override
     public <T, R> R callSingle(ResourcePath path, T arg) throws AxisFault {
+    	if (arg != null && arg.getClass().isArray())
+    		log.warn("Passing array argument to callSingle {}, probably you want to call callArgs?", path);
     	final String pathString = path.getPath();
         return call(pathString, new Object[] { arg });
     }

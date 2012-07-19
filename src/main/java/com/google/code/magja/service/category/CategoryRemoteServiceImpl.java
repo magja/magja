@@ -316,14 +316,16 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
     public int save(Category category, String storeView) throws ServiceException {
         if (category.getId() == null) {
-            List<Object> newCategory = new LinkedList<Object>();
-            newCategory.add(category.getParent().getId());
-            newCategory.add(category.getAllProperties());
+//            List<Object> newCategory = new LinkedList<Object>();
+//            newCategory.add(category.getParent().getId());
+//            newCategory.add(category.getAllProperties());
 
             // means its a new category
             try {
-                Integer id = Integer.parseInt((String) soapClient.callSingle(
-                        ResourcePath.CategoryCreate, newCategory));
+                Integer id = Integer.parseInt((String) soapClient.callArgs(
+                        ResourcePath.CategoryCreate, new Object[] {
+                        		category.getParent().getId(), category.getAllProperties()
+                        }));
                 if (id > -1) {
                     category.setId(id);
                     return id;
@@ -347,15 +349,17 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
             }
         } else {
             // update existing category
-            List<Object> newCategory = new LinkedList<Object>();
-            newCategory.add(category.getId());
-            newCategory.add(category.getAllProperties());
+//            List<Object> newCategory = new LinkedList<Object>();
+//            newCategory.add(category.getId());
+//            newCategory.add(category.getAllProperties());
             if (!storeView.isEmpty()) {
-                newCategory.add(storeView);
+//                newCategory.add(storeView);
             }
             try {
-                Boolean sucessed = (Boolean) soapClient.callSingle(
-                        ResourcePath.CategoryUpdate, newCategory);
+                Boolean sucessed = (Boolean) soapClient.callArgs(
+                        ResourcePath.CategoryUpdate, new Object[] {
+                        		category.getId(), category.getAllProperties(), !storeView.isEmpty() ? storeView : null
+                        });
                 if (!sucessed) {
                     throw new ServiceException("Error on update Category");
                 }
@@ -544,14 +548,16 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
      */
     public void assignProduct(Category category, Product product)
             throws ServiceException {
-        List<Object> list = new LinkedList<Object>();
-        list.add(category.getId());
-        list.add(product.getId());
+//        List<Object> list = new LinkedList<Object>();
+//        list.add(category.getId());
+//        list.add(product.getId());
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.callSingle(
-                    ResourcePath.CategoryAssignProduct, list);
+            success = (Boolean) soapClient.callArgs(
+                    ResourcePath.CategoryAssignProduct, new Object[] {
+                    		category.getId(), product.getId()
+                    });
         } catch (AxisFault e) {
             System.out.println(e.getMessage());
             throw new ServiceException(e.getMessage());
@@ -569,14 +575,16 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
     @Override
     public void removeProduct(Category category, Product product)
             throws ServiceException {
-        List<Object> list = new LinkedList<Object>();
-        list.add(category.getId());
-        list.add(product.getId());
+//        List<Object> list = new LinkedList<Object>();
+//        list.add(category.getId());
+//        list.add(product.getId());
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.callSingle(
-                    ResourcePath.CategoryRemoveProduct, list);
+            success = (Boolean) soapClient.callArgs(
+                    ResourcePath.CategoryRemoveProduct, new Object[] {
+                    		category.getId(), product.getId()
+                    });
         } catch (AxisFault e) {
             System.out.println(e.getMessage());
             throw new ServiceException(e.getMessage());
@@ -594,15 +602,17 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
     @Override
     public void assignProductWithPosition(Category category, Product product, Integer position)
             throws ServiceException {
-        List<Object> list = new LinkedList<Object>();
-        list.add(category.getId());
-        list.add(product.getId());
-        list.add(position);
+//        List<Object> list = new LinkedList<Object>();
+//        list.add(category.getId());
+//        list.add(product.getId());
+//        list.add(position);
 
         Boolean success = false;
         try {
-            success = (Boolean) soapClient.callSingle(
-                    ResourcePath.CategoryAssignProduct, list);
+            success = (Boolean) soapClient.callArgs(
+                    ResourcePath.CategoryAssignProduct, new Object[] {
+                    		category.getId(), product.getId(), position
+                    });
         } catch (AxisFault e) {
             throw new ServiceException(e.getMessage());
         }
@@ -630,17 +640,19 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         if (category == null)
             return null;
 
-        List<Object> list = new LinkedList<Object>();
-        list.add(category.getId());
-        list.add(storeID);
+//        List<Object> list = new LinkedList<Object>();
+//        list.add(category.getId());
+//        list.add(storeID);
 
         List<Product> products = new ArrayList<Product>();
 
         List<Map<String, Object>> productList;
 
         try {
-            productList = (List<Map<String, Object>>) soapClient.callSingle(
-                    ResourcePath.CategoryAssignedProducts, list);
+            productList = soapClient.callArgs(
+                    ResourcePath.CategoryAssignedProducts, new Object[] {
+                    		category.getId(), storeID
+                    });
         } catch (AxisFault e) {
             if (debug)
                 e.printStackTrace();

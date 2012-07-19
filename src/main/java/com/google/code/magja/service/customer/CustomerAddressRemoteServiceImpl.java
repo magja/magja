@@ -141,9 +141,9 @@ public class CustomerAddressRemoteServiceImpl extends
 
         if (customerAddress.getId() == null) {
             try {
-                Integer id = Integer.parseInt((String) soapClient.callSingle(
-                        ResourcePath.CustomerAddressCreate, customerAddress
-                        .serializeToApi()));
+            	Object[] customerAddressObj = customerAddress.serializeToApi();
+                Integer id = Integer.parseInt((String) soapClient.callArgs(
+                        ResourcePath.CustomerAddressCreate, customerAddressObj));
                 customerAddress.setId(id);
             } catch (NumberFormatException e) {
                 if (debug) e.printStackTrace();
@@ -154,7 +154,7 @@ public class CustomerAddressRemoteServiceImpl extends
             }
         } else {
             try {
-                Boolean success = (Boolean) soapClient.callSingle(
+                Boolean success = (Boolean) soapClient.callArgs(
                         ResourcePath.CustomerAddressUpdate, customerAddress
                         .serializeToApi());
                 if (!success)

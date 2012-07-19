@@ -34,21 +34,21 @@ public class Product extends BaseMagentoModel<Object[]> {
     
     private Double height;
     
-    private Long material;
+    private Integer material;
     
-    private Long motif;
+    private Integer motif;
     
-    private Long signature;
+    private Integer signature;
     
-    private Long batik_technique;
+    private Integer batik_technique;
     
-    private Long origin;
+    private Integer origin;
     
-    private Long batik_age;
+    private Integer batik_age;
     
-    private Long condition;
+    private Integer condition;
     
-    private Long item_color;
+    private Integer item_color;
 
     private String sku;
 
@@ -264,112 +264,112 @@ public class Product extends BaseMagentoModel<Object[]> {
 	/**
 	 * @return the material
 	 */
-	public Long getMaterial() {
+	public Integer getMaterial() {
 		return material;
 	}
 
 	/**
 	 * @param material the material to set
 	 */
-	public void setMaterial(Long material) {
+	public void setMaterial(Integer material) {
 		this.material = material;
 	}
 
 	/**
 	 * @return the motif
 	 */
-	public Long getMotif() {
+	public Integer getMotif() {
 		return motif;
 	}
 
 	/**
 	 * @param motif the motif to set
 	 */
-	public void setMotif(Long motif) {
+	public void setMotif(Integer motif) {
 		this.motif = motif;
 	}
 
 	/**
 	 * @return the signature
 	 */
-	public Long getSignature() {
+	public Integer getSignature() {
 		return signature;
 	}
 
 	/**
 	 * @param signature the signature to set
 	 */
-	public void setSignature(Long signature) {
+	public void setSignature(Integer signature) {
 		this.signature = signature;
 	}
 
 	/**
 	 * @return the batik_technique
 	 */
-	public Long getBatik_technique() {
+	public Integer getBatik_technique() {
 		return batik_technique;
 	}
 
 	/**
 	 * @param batik_technique the batik_technique to set
 	 */
-	public void setBatik_technique(Long batik_technique) {
+	public void setBatik_technique(Integer batik_technique) {
 		this.batik_technique = batik_technique;
 	}
 
 	/**
 	 * @return the origin
 	 */
-	public Long getOrigin() {
+	public Integer getOrigin() {
 		return origin;
 	}
 
 	/**
 	 * @param origin the origin to set
 	 */
-	public void setOrigin(Long origin) {
+	public void setOrigin(Integer origin) {
 		this.origin = origin;
 	}
 
 	/**
 	 * @return the batik_age
 	 */
-	public Long getBatik_age() {
+	public Integer getBatik_age() {
 		return batik_age;
 	}
 
 	/**
 	 * @param batik_age the batik_age to set
 	 */
-	public void setBatik_age(Long batik_age) {
+	public void setBatik_age(Integer batik_age) {
 		this.batik_age = batik_age;
 	}
 
 	/**
 	 * @return the condition
 	 */
-	public Long getCondition() {
+	public Integer getCondition() {
 		return condition;
 	}
 
 	/**
 	 * @param condition the condition to set
 	 */
-	public void setCondition(Long condition) {
+	public void setCondition(Integer condition) {
 		this.condition = condition;
 	}
 
 	/**
 	 * @return the item_color
 	 */
-	public Long getItem_color() {
+	public Integer getItem_color() {
 		return item_color;
 	}
 
 	/**
 	 * @param item_color the item_color to set
 	 */
-	public void setItem_color(Long item_color) {
+	public void setItem_color(Integer item_color) {
 		this.item_color = item_color;
 	}
 

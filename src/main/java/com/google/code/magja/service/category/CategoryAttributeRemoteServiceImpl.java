@@ -60,15 +60,17 @@ public class CategoryAttributeRemoteServiceImpl extends
 				String type = (String) att.get("type");
 				if (type.equals("select") || type.equals("multiselect")) {
 
-					List<Object> optParamList = new LinkedList<Object>();
-					optParamList.add(att.get("attribute_id"));
-					optParamList.add(storeView);
+//					List<Object> optParamList = new LinkedList<Object>();
+//					optParamList.add(att.get("attribute_id"));
+//					optParamList.add(storeView);
 
 					List<Map<String, Object>> optList = null;
 					try {
-						optList = (List<Map<String, Object>>) soapClient.callSingle(
+						optList = soapClient.callArgs(
 								ResourcePath.CategoryAttributeOptions,
-								optParamList);
+								new Object[] {
+										att.get("attribute_id"), storeView
+								});
 					} catch (AxisFault e) {
 						if(debug) e.printStackTrace();
 						throw new ServiceException(e.getMessage());

@@ -16,7 +16,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
-public class ProductMedia extends BaseMagentoModel {
+public class ProductMedia extends BaseMagentoModel<Object[]> {
 
     private static final long serialVersionUID = -7705516482921672346L;
 
@@ -63,8 +63,7 @@ public class ProductMedia extends BaseMagentoModel {
       * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
       */
     @Override
-    public Object serializeToApi() {
-
+    public Object[] serializeToApi() {
         Map<String, Object> props = getAllProperties();
         props.remove("url");
 
@@ -80,9 +79,7 @@ public class ProductMedia extends BaseMagentoModel {
 
         props.put("file", image.serializeToApi());
 
-        List<Object> newMedia = ImmutableList.of( product.getSku(), props );
-
-        return newMedia;
+        return new Object[] { product.getSku(), props };
     }
 
     /**
