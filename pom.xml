@@ -162,14 +162,14 @@
             <url>http://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         -->
-		<snapshotRepository>
-			<id>bippo-snapshots</id>
-			<url>http://nexus.bippo.co.id/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
 		<repository>
-			<id>bippo-releases</id>
-			<url>http://nexus.bippo.co.id/nexus/content/repositories/releases/</url>
+			<id>bippo-private-releases</id>
+			<url>http://nexus.bippo.co.id/nexus/content/repositories/bippo-private-releases/</url>
 		</repository>
+		<snapshotRepository>
+			<id>bippo-private-snapshots</id>
+			<url>http://nexus.bippo.co.id/nexus/content/repositories/bippo-private-snapshots/</url>
+		</snapshotRepository>
     </distributionManagement>
 
 	<dependencyManagement>
