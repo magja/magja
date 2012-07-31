@@ -5,7 +5,7 @@
     <artifactId>magja</artifactId>
     <packaging>jar</packaging>
     <version>1.0.3-SNAPSHOT</version>
-    <name>magja</name>
+    <name>Magja Java Connector for Magento API</name>
     <description>
         Magja is a java connector for access the Magento API (http://www.magentocommerce.com/support/magento_core_api),
         with that you will be able to manipulate the magento products (images include), categories, customers, orders,
@@ -145,12 +145,11 @@
 
 
     <issueManagement>
-        <system>GoogleCode</system>
-        <url>http://code.google.com/p/magja/issues/list</url>
+        <system>GitHub</system>
+        <url>https://github.com/magja/magja/issues</url>
     </issueManagement>
 
     <distributionManagement>
-    	<!-- 
         <repository>
             <id>sonatype-nexus-staging</id>
             <name>Sonatype Nexus Staging</name>
@@ -161,15 +160,6 @@
             <name>Sonatype Nexus Snapshots</name>
             <url>http://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-        -->
-		<repository>
-			<id>bippo-private-releases</id>
-			<url>http://nexus.bippo.co.id/nexus/content/repositories/bippo-private-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>bippo-private-snapshots</id>
-			<url>http://nexus.bippo.co.id/nexus/content/repositories/bippo-private-snapshots/</url>
-		</snapshotRepository>
     </distributionManagement>
 
 	<dependencyManagement>
