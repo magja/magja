@@ -120,13 +120,21 @@ val customers = customerRemoteService.list
 customers.foreach(c => println(c.getFirstName + " " + c.getEmail))
 
 
-h2. Continuous Integration Build
+h2. Maven Dependency
 
-Magja automated integration builds are provided here:
+Magja continuous integration builds are automatically deployed to Sonatype OSS repository:
 
-https://buildhive.cloudbees.com/job/magja/job/magja/
+https://oss.sonatype.org/content/groups/public/
 
-Continuous Integration service provided by "CloudBees":http://www.cloudbees.com/.
+bc. <dependency>
+	<groupId>com.google.code.magja</groupId>
+	<artifactId>magja</artifactId>
+	<version>1.0.3-SNAPSHOT</version>
+</dependency>
+
+You can use the search UI from https://oss.sonatype.org/
+
+Snapshots will be deployed periodically from Jenkins CI provided by [Bippo](http://www.bippo.co.id/) & [Soluvas](http://www.soluvas.com/).
 
 
 h2. Acknowledgments
