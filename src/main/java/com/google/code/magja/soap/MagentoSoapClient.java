@@ -8,7 +8,6 @@ package com.google.code.magja.soap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,7 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.axis2.transport.http.SOAPMessageFormatter;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -49,24 +49,17 @@ public class MagentoSoapClient implements SoapClient {
 
     private static final QName CALL_RETURN = new QName("callReturn");
 
-    private String configFile;
-
     private SoapCallFactory callFactory;
 
     private SoapReturnParser returnParser;
 
     private SoapConfig config;
 
-    private Options connectOptions;
-
     private String sessionId;
 
     private ServiceClient sender;
 
-    private Long lastCall = new Date().getTime();
-
     private static final Logger log = LoggerFactory.getLogger(MagentoSoapClient.class);
-
 
     // holds all the created instances by creation order, Multiton Pattern
     private static final Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap<SoapConfig, MagentoSoapClient>();
@@ -141,10 +134,12 @@ public class MagentoSoapClient implements SoapClient {
      * @param soapConfig
      */
     private MagentoSoapClient(SoapConfig soapConfig) {
+    	super();
         config = soapConfig;
         callFactory = new SoapCallFactory();
         returnParser = new SoapReturnParser();
         try {
+        	prepareConnection(config.getHttpConnectionManagerParams());
             login();
         } catch (AxisFault e) {
             // do not swallow, rethrow as runtime
@@ -201,8 +196,6 @@ public class MagentoSoapClient implements SoapClient {
 	 * @throws AxisFault
 	 */
 	public <R> R call(final String pathString, Object args) throws AxisFault {
-		lastCall = new Date().getTime();
-		
 		// Convert array input to List<Object>
 		if (args != null && args.getClass().isArray())
 			args = Arrays.asList((Object[])args);
@@ -257,7 +250,20 @@ public class MagentoSoapClient implements SoapClient {
         if (isLoggedIn())
             logout();
 
-        connectOptions = new Options();
+        OMElement loginMethod = callFactory.createLoginCall(
+                this.config.getApiUser(), this.config.getApiKey());
+        log.info("====================================== Logging in user: " + this.config.getApiUser());
+        OMElement loginResult = sender.sendReceive(loginMethod);
+
+        sessionId = loginResult.getFirstChildWithName(LOGIN_RETURN).getText();
+        log.info("====================================== Logged in sessionId: " + sessionId);
+    }
+
+	/**
+	 * @throws AxisFault
+	 */
+	protected void prepareConnection(HttpConnectionManagerParams params) throws AxisFault {
+		Options connectOptions = new Options();
         connectOptions.setTo(new EndpointReference(config.getRemoteHost()));
         connectOptions.setTransportInProtocol(Constants.TRANSPORT_HTTP);
         connectOptions.setTimeOutInMilliSeconds(60000);
@@ -268,6 +274,7 @@ public class MagentoSoapClient implements SoapClient {
         // workaround:
         // http://amilachinthaka.blogspot.com/2009/05/improving-axis2-client-http-transport.html
         MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
+        httpConnectionManager.setParams(params);
         HttpClient httpClient = new HttpClient(httpConnectionManager);
         // prepare for Axis2 1.7+ / HttpClient 4.2+
 //        ClientConnectionManager httpConnectionManager = new PoolingClientConnectionManager();
@@ -306,16 +313,7 @@ public class MagentoSoapClient implements SoapClient {
     			return super.formatSOAPAction(msgCtxt, format, soapActionString);
     		}
     	});
-        
-        OMElement loginMethod = callFactory.createLoginCall(
-                this.config.getApiUser(), this.config.getApiKey());
-        log.info("====================================== Logging in user: " + this.config.getApiUser());
-        OMElement loginResult = sender.sendReceive(loginMethod);
-
-        sessionId = loginResult.getFirstChildWithName(LOGIN_RETURN).getText();
-        log.info("====================================== Logged in sessionId: " + sessionId);
-        lastCall = new Date().getTime();
-    }
+	}
 
     /**
      * Logout from service, throws logout exception if failed
@@ -371,10 +369,6 @@ public class MagentoSoapClient implements SoapClient {
             e.printStackTrace();
         }
         super.finalize();
-    }
-
-    public void setConfigFile(String configFile) {
-        this.configFile = configFile;
     }
 
     @Override

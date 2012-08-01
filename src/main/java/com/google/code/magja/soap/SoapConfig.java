@@ -3,6 +3,8 @@ package com.google.code.magja.soap;
 import java.io.Serializable;
 import java.util.Properties;
 
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+
 public class SoapConfig implements Serializable {
 
 	private static final long serialVersionUID = 6393846699827611865L;
@@ -26,7 +28,9 @@ public class SoapConfig implements Serializable {
 	private Integer defaultAttributeSetId;
 
 	private Integer defaultRootCategoryId;
-
+	
+	private HttpConnectionManagerParams httpConnectionManagerParams = new HttpConnectionManagerParams();
+	
 	public SoapConfig(String apiUser, String apiKey, String remoteHost) {
 		this.apiUser = apiUser;
 		this.apiKey = apiKey;
@@ -200,5 +204,14 @@ public class SoapConfig implements Serializable {
 				+ ", remoteHost=" + remoteHost + ", defaultAttributeSetId="
 				+ defaultAttributeSetId + ", defaultRootCategoryId="
 				+ defaultRootCategoryId + "]";
+	}
+
+	public HttpConnectionManagerParams getHttpConnectionManagerParams() {
+		return httpConnectionManagerParams;
+	}
+
+	public void setHttpConnectionManagerParams(
+			HttpConnectionManagerParams httpConnectionManagerParams) {
+		this.httpConnectionManagerParams = httpConnectionManagerParams;
 	}
 }
