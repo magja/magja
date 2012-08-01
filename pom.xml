@@ -16,7 +16,6 @@
 
 	<properties>
 		<axis2.version>1.6.2</axis2.version>
-        <spring-version>3.1.1.RELEASE</spring-version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<logback.version>1.0.6</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -213,26 +212,6 @@
 			<version>1.7R3</version>
 		</dependency>
 		
-		<!-- Spring can used by MagentoSoapClient, but must be provided separately -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring-version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring-version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring-version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Beware of https://issues.apache.org/jira/browse/AXIS2-2972 -->
 		<dependency>
 			<groupId>net.java.dev.stax-utils</groupId>

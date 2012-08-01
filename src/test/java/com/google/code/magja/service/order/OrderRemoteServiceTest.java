@@ -1,8 +1,7 @@
-/**
- *
- */
 package com.google.code.magja.service.order;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -13,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
 import com.google.code.magja.model.address.BasicAddress;
 import com.google.code.magja.model.order.Order;
@@ -171,7 +169,7 @@ public class OrderRemoteServiceTest {
 		OrderForm orderForm = new OrderForm(customerId, items);
 		Object order = service.create(orderForm);
 		System.out.println("Order Id "+ order);
-		Assert.notNull(order);
+		assertNotNull(order);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -181,7 +179,7 @@ public class OrderRemoteServiceTest {
 				new OrderFormItem(195L, 3.0));
 		OrderForm orderForm = new OrderForm(null, items);
 		Object order = service.create(orderForm);
-		Assert.isNull(order);
+		assertNull(order);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -189,7 +187,7 @@ public class OrderRemoteServiceTest {
 		List<OrderFormItem> items = new ArrayList<OrderFormItem>();
 		OrderForm orderForm = new OrderForm(3L, items);
 		Object order = service.create(orderForm);
-		Assert.isNull(order);
+		assertNull(order);
 	}
 	
 	@Test
@@ -218,7 +216,7 @@ public class OrderRemoteServiceTest {
 		log.info("shippingAddress {}", orderForm.getShippingAddress());
 		log.info("billingAddress {}", orderForm.getBillingAddress());
 		Object order = service.createEx(orderForm);
-		Assert.notNull(order);
+		assertNotNull(order);
 	}
 
 

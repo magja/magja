@@ -35,7 +35,6 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.code.magja.magento.ResourcePath;
 
@@ -89,16 +88,6 @@ public class MagentoSoapClient implements SoapClient {
             return INSTANCES.values().iterator().next();
 
         synchronized (INSTANCES) {
-
-            if (soapConfig == null) {
-            	if (MagentoSoapClient.class.getResource("/MagentoServiceContext.xml") != null) {
-            		log.info("/MagentoServiceContext.xml found in classpath, trying to load using Spring");
-                    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/MagentoServiceContext.xml", MagentoSoapClient.class);
-                    soapConfig = (SoapConfig) context.getBean("soapConfig");
-            	} else {
-            		log.info("/MagentoServiceContext.xml not found in classpath, not loading using Spring");
-            	}
-            }
 
             if (soapConfig == null) {
             	InputStream configStream = MagentoSoapClient.class.getResourceAsStream("/magento-api.properties");
