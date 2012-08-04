@@ -129,16 +129,24 @@ public class ProductAttributeRemoteServiceTest {
 
     /**
      * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#listByAttributeSet(com.google.code.magja.model.product.ProductAttributeSet)}.
+     * @throws ServiceException 
      */
     @Test
-    public void testListByAttributeSet() {
-        try {
-            List<ProductAttribute> results = service.listByAttributeSet(defaultAttributeSet);
-            for (ProductAttribute productAttribute : results)
-                System.out.println(productAttribute.toString());
-        } catch (ServiceException e) {
-            fail(e.getMessage());
-        }
+    public void testListByAttributeSet() throws ServiceException {
+        List<ProductAttribute> results = service.listByAttributeSet(defaultAttributeSet);
+        for (ProductAttribute productAttribute : results)
+        	log.info("{}", productAttribute);
+    }
+
+    /**
+     * Test method for {@link com.google.code.magja.service.product.ProductAttributeRemoteServiceImpl#listByAttributeSet(com.google.code.magja.model.product.ProductAttributeSet)}.
+     * @throws ServiceException 
+     */
+    @Test
+    public void testListByAttributeSet112() throws ServiceException {
+        List<ProductAttribute> results = service.listByAttributeSet(112);
+        for (ProductAttribute productAttribute : results)
+            log.info("{}", productAttribute);
     }
 
     /**

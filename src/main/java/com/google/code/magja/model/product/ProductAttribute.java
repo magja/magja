@@ -4,14 +4,13 @@
  */
 package com.google.code.magja.model.product;
 
-import com.google.code.magja.model.BaseMagentoModel;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class ProductAttribute extends BaseMagentoModel {
+import com.google.code.magja.model.BaseMagentoModel;
+
+public class ProductAttribute extends BaseMagentoModel<Object[]> {
 
     private static final long serialVersionUID = 7015962673006863327L;
 
@@ -91,6 +90,7 @@ public class ProductAttribute extends BaseMagentoModel {
     protected void loadMappings() {
         this.mapping = new Properties();
         mapping.setProperty("attribute_id", "id");
+        mapping.setProperty("code", "code");
         mapping.setProperty("type", "input");
         mapping.setProperty("backend", "backend");
         mapping.setProperty("frontend", "frontend");
@@ -118,12 +118,8 @@ public class ProductAttribute extends BaseMagentoModel {
       * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
       */
     @Override
-    public Object serializeToApi() {
+    public Object[] serializeToApi() {
         Map<String, Object> properties = getAllProperties();
-        List<Object> list = new LinkedList<Object>();
-
-        list.add(code);
-
         /*
            * When list the attributes, the type property its the input, and when
            * it create a attribute, the type property means varchar, int, etc, and
@@ -156,10 +152,7 @@ public class ProductAttribute extends BaseMagentoModel {
             }
         }
 
-        // finally, add the properties to parameters to create
-        list.add(properties);
-
-        return list;
+        return new Object[] { code, properties };
     }
 
     /**

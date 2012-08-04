@@ -139,6 +139,47 @@ public class ProductAttributeRemoteServiceImpl extends
     }
 
     /*
+     * (non-Javadoc)
+     *
+     * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
+     * listByAttributeSet
+     * (com.google.code.magja.model.product.ProductAttributeSet)
+     */
+   @Override
+   public List<ProductAttribute> listByAttributeSet(Integer setId)
+           throws ServiceException {
+
+       List<ProductAttribute> results = new ArrayList<ProductAttribute>();
+
+       List<Map<String, Object>> prd_attributes = null;
+       try {
+           prd_attributes = soapClient.callSingle(ResourcePath.ProductAttributeList, setId);
+       } catch (AxisFault e) {
+           if (debug)
+               e.printStackTrace();
+           throw new ServiceException(e.getMessage());
+       }
+
+       if (prd_attributes == null)
+           return results;
+
+       for (Map<String, Object> att : prd_attributes) {
+           ProductAttribute prd_attribute = new ProductAttribute();
+           for (Map.Entry<String, Object> attribute : att.entrySet()) {
+               if (!attribute.getKey().equals("scope"))
+                   prd_attribute.set(attribute.getKey(), attribute.getValue());
+           }
+
+           prd_attribute.setScope(ProductAttribute.Scope
+                   .getByName((String) att.get("scope")));
+
+           results.add(prd_attribute);
+       }
+
+       return results;
+   }
+
+    /*
       * (non-Javadoc)
       *
       * @see com.google.code.magja.service.product.ProductAttributeRemoteService#
@@ -148,36 +189,7 @@ public class ProductAttributeRemoteServiceImpl extends
     @Override
     public List<ProductAttribute> listByAttributeSet(ProductAttributeSet set)
             throws ServiceException {
-
-        List<ProductAttribute> results = new ArrayList<ProductAttribute>();
-
-        List<Map<String, Object>> prd_attributes = null;
-        try {
-            prd_attributes = (List<Map<String, Object>>) soapClient.callSingle(
-                    ResourcePath.ProductAttributeList, set.getId());
-        } catch (AxisFault e) {
-            if (debug)
-                e.printStackTrace();
-            throw new ServiceException(e.getMessage());
-        }
-
-        if (prd_attributes == null)
-            return results;
-
-        for (Map<String, Object> att : prd_attributes) {
-            ProductAttribute prd_attribute = new ProductAttribute();
-            for (Map.Entry<String, Object> attribute : att.entrySet()) {
-                if (!attribute.getKey().equals("scope"))
-                    prd_attribute.set(attribute.getKey(), attribute.getValue());
-            }
-
-            prd_attribute.setScope(ProductAttribute.Scope
-                    .getByName((String) att.get("scope")));
-
-            results.add(prd_attribute);
-        }
-
-        return results;
+    	return listByAttributeSet(set.getId());
     }
 
     /*

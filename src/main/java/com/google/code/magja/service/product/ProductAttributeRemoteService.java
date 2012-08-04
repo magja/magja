@@ -52,6 +52,15 @@ public interface ProductAttributeRemoteService extends
 			ProductAttributeSet set) throws ServiceException;
 
 	/**
+	 * List all product attributes of a attribute set from magento
+	 *
+	 * @param setId the attribute set ID
+	 * @return List<ProductAttribute>
+	 * @throws ServiceException
+	 */
+	public abstract List<ProductAttribute> listByAttributeSet(Integer setId) throws ServiceException;
+
+	/**
 	 * List all product attributes from all attribute sets from magento
 	 *
 	 * @throws ServiceException
