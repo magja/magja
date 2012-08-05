@@ -40,6 +40,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -567,130 +568,32 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      * google .magja.model.product.Product)
      */
     @Override
+    @Deprecated
     public void save(Product product, Product existingProduct) throws ServiceException,
             NoSuchAlgorithmException {
         save(product, existingProduct, "");
     }
 
     @Override
+    @Deprecated
     public void save(Product product, Product existingProduct, String storeView)
             throws ServiceException, NoSuchAlgorithmException {
-
-        if (existingProduct == null) {
-            existingProduct = getBySku(product.getSku());
-            if (existingProduct != null) {
-                product.setId(existingProduct.getId());
-            }
-        }
-
         if (product.getId() != null && product.getId() > 0) {
             // means its a existing product
-            try {
-
-                Map<String, Object> props = product.getAllProperties();
-                if (product.getVisibility() != null)
-                    props.put("visibility", product.getVisibility().getValue());
-                Object[] newProductArgs = new Object[] {
-                	product.getId(),
-                	props,
-                	!storeView.isEmpty() ? storeView : null };
-
-                log.info("Updating '" + product.getSku() + "'");
-
-                Object callResult = soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
-                log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductUpdate,
-                	product.getId(), callResult });
-
-                if (product.getType().equals(ProductType.CONFIGURABLE))
-                    handleConfigurableForNewProducts(product);
-
-            } catch (NumberFormatException e) {
-                if (debug)
-                    e.printStackTrace();
-                throw new ServiceException(e.getMessage());
-            } catch (AxisFault e) {
-                if (debug)
-                    e.printStackTrace();
-                throw new ServiceException(e.getMessage());
-            }
+        	update(product, existingProduct, storeView);
         } else {
             // means its a new product
-
-            // if is a configurable product, call the proper handle
-            if (product.getType().equals(ProductType.CONFIGURABLE))
-                handleConfigurableForNewProducts(product);
-
-            try {
-
-                Object[] newProductArgs = product.serializeToApi();
-
-                log.info("Creating '" + product.getSku() + "'");
-                int id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.ProductCreate,
-                        newProductArgs));
-                log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductCreate,
-                    	product.getSku(), id });
-                if (id > 0)
-                    product.setId(id);
-                else
-                    throw new ServiceException("Error inserting new Product");
-
-            } catch (NumberFormatException e) {
-                if (debug)
-                    e.printStackTrace();
-                throw new ServiceException(e.getMessage());
-            } catch (AxisFault e) {
-                if (debug)
-                    e.printStackTrace();
-                throw new ServiceException(e.getMessage());
-            }
+        	add(product, storeView);
         }
-
-        // inventory
-
-        if (product.getQty() != null)
-            updateInventory(product);
-
-        assignProductMedia(product);
-        assignProductLinks(product);
-        assignCategories(product, existingProduct);
-
     }
 
     private void assignCategories(Product product, Product existingProduct) throws ServiceException {
-        boolean found;
-        boolean positionDiff;
-
-        for (Category cat : product.getCategories()) {
-            found = false;
-            positionDiff = false;
-            if (existingProduct != null) {
-                for (Category category : existingProduct.getCategories()) {
-                    if (cat.getId().equals(category.getId())) {
-                        found = true;
-                        if (category.getPosition() != null && cat.getPosition() != null) {
-                            if (!cat.getPosition().equals(category.getPosition())) {
-                                positionDiff = true;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-            if (!found) {
-                log.debug("Adding '{}' to category #{} ({}) with position {}", new Object[] {
-                    	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
-                categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
-            } else {
-                log.debug("Updating '{}' to category #{} ({}) with position {}", new Object[] {
-                	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
-                categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
-            }
-        }
+        doAssignCategories(product, existingProduct != null ? existingProduct.getCategories() : ImmutableList.<Category>of());
 
         List<Category> toBeDeleted = new ArrayList<Category>();
         if (existingProduct != null) {
             for (Category category : existingProduct.getCategories()) {
-                found = false;
+                boolean found = false;
                 for (Category newCategory : product.getCategories()) {
                     if (newCategory.getId().equals(category.getId())) {
                         found = true;
@@ -709,53 +612,48 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 categoryRemoteService.removeProduct(category, product);
             }
         }
-
     }
 
-    private void assignProductMedia(Product product) throws ServiceException,
+	/**
+	 * @param product
+	 * @param existingProduct
+	 * @throws ServiceException
+	 */
+	protected void doAssignCategories(Product product, List<Category> existingCategories)
+			throws ServiceException {
+		for (Category cat : product.getCategories()) {
+			boolean found = false;
+            if (existingCategories != null) {
+                for (Category category : existingCategories) {
+                    if (cat.getId().equals(category.getId())) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                log.debug("Adding '{}' to category #{} ({}) with position {}", new Object[] {
+                    	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
+                categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
+            } else {
+                log.debug("Updating '{}' to category #{} ({}) with position {}", new Object[] {
+                	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
+                categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
+            }
+        }
+	}
+
+    private void assignProductMedias(Product product) throws ServiceException,
             NoSuchAlgorithmException {
         // if have media, create it too
-        boolean found;
         List<String> mediaFound = new ArrayList<String>();
         List<ProductMedia> toBeDeleted = new ArrayList<ProductMedia>();
         List<ProductMedia> existingMedias = productMediaRemoteService.listByProduct(product);
 
-        if (product.getMedias() != null) {
-
-            if (!product.getMedias().isEmpty()) {
-                for (ProductMedia media : product.getMedias()) {
-                	if (media.getImage() == null) {
-                		log.debug("Skipping media '{}' from product #{} ({}) because image is empty", new Object[] {
-                				media.getLabel(), product.getId(), product.getSku() });
-                		continue;
-                	}
-                	
-                    found = false;
-                    for (ProductMedia existingMedia : existingMedias) {
-                        if (existingMedia.getLabel().equals(media.getLabel())) {
-                            found = true;
-                            existingMedia.setTypes(media.getTypes());
-                            existingMedia.setImage(media.getImage());
-                            log.info("Updating media '{}' in product #{} ({}) ", new Object[] {
-                            		existingMedia.getLabel(), product.getId(), product.getSku() });
-                            productMediaRemoteService.update(existingMedia);
-                            break;
-                        }
-                    }
-
-                    if (!found) {
-                        if (media.getImage() != null && media.getImage().getData() != null)
-                            log.info("Adding media '{}' to product #{} ({}) ", new Object[] {
-                            		media.getLabel(), product.getId(), product.getSku() });
-                        productMediaRemoteService.create(media);
-                    }
-                }
-
-            }
-        }
+        doAssignProductMedias(product, existingMedias);
 
         for (ProductMedia existingMedia : existingMedias) {
-            found = false;
+            boolean found = false;
             if (product.getMedias() != null) {
                 for (ProductMedia media : product.getMedias()) {
                     if (existingMedia.getLabel().equals(media.getLabel())) {
@@ -784,39 +682,55 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
     }
 
-    private void assignProductLinks(Product product) throws ServiceException {
-
-        boolean found;
-        List<ProductLink> linksToBeDeleted = new ArrayList<ProductLink>();
-        Set<ProductLink> existingLinks = productLinkRemoteService.list(product);
-
-        if (product.getLinks() != null) {
-            if (!product.getLinks().isEmpty()) {
-                for (ProductLink link : product.getLinks()) {
-
-                    found = false;
-                    for (ProductLink existingLink : existingLinks) {
-                        if (existingLink.getSku().equals(link.getSku())
-                                && existingLink.getLinkType().equals(link.getLinkType())) {
+	/**
+	 * @param product
+	 * @param found
+	 * @param existingMedias
+	 * @throws ServiceException
+	 */
+	protected void doAssignProductMedias(Product product,
+			List<ProductMedia> existingMedias) throws ServiceException {
+		if (product.getMedias() != null) {
+            if (!product.getMedias().isEmpty()) {
+                for (ProductMedia media : product.getMedias()) {
+                	if (media.getImage() == null) {
+                		log.debug("Skipping media '{}' from product #{} ({}) because image is empty", new Object[] {
+                				media.getLabel(), product.getId(), product.getSku() });
+                		continue;
+                	}
+                	
+                    boolean found = false;
+                    for (ProductMedia existingMedia : existingMedias) {
+                        if (existingMedia.getLabel().equals(media.getLabel())) {
                             found = true;
+                            existingMedia.setTypes(media.getTypes());
+                            existingMedia.setImage(media.getImage());
+                            log.info("Updating media '{}' in product #{} ({}) ", new Object[] {
+                            		existingMedia.getLabel(), product.getId(), product.getSku() });
+                            productMediaRemoteService.update(existingMedia);
                             break;
                         }
                     }
 
                     if (!found) {
-                        if (link.getLinkType() != null
-                                && (link.getId() != null || link.getSku() != null))
-                            log.info("Assigning " + link.getLinkType() + " Link with product : "
-                                    + link.getSku());
-                        productLinkRemoteService.assign(product, link);
+                        if (media.getImage() != null && media.getImage().getData() != null)
+                            log.info("Adding media '{}' to product #{} ({}) ", new Object[] {
+                            		media.getLabel(), product.getId(), product.getSku() });
+                        productMediaRemoteService.create(media);
                     }
-
                 }
             }
         }
+	}
+
+    protected void assignProductLinks(Product product) throws ServiceException {
+        List<ProductLink> linksToBeDeleted = new ArrayList<ProductLink>();
+        Set<ProductLink> existingLinks = productLinkRemoteService.list(product);
+
+        doAssignProductLinks(product, existingLinks);
 
         for (ProductLink existingLink : existingLinks) {
-            found = false;
+            boolean found = false;
             if (product.getLinks() != null) {
                 for (ProductLink link : product.getLinks()) {
                     if (existingLink.getSku().equals(link.getSku())
@@ -836,8 +750,40 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             log.info("Removing " + link.getLinkType() + " Link with product : " + link.getSku());
             productLinkRemoteService.remove(product, link);
         }
-
     }
+
+	/**
+	 * @param product
+	 * @param existingLinks
+	 * @throws ServiceException
+	 */
+	protected void doAssignProductLinks(Product product,
+			Set<ProductLink> existingLinks) throws ServiceException {
+		if (product.getLinks() != null) {
+            if (!product.getLinks().isEmpty()) {
+                for (ProductLink link : product.getLinks()) {
+
+                    boolean found = false;
+                    for (ProductLink existingLink : existingLinks) {
+                        if (existingLink.getSku().equals(link.getSku())
+                                && existingLink.getLinkType().equals(link.getLinkType())) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        if (link.getLinkType() != null
+                                && (link.getId() != null || link.getSku() != null))
+                            log.info("Assigning " + link.getLinkType() + " Link with product : "
+                                    + link.getSku());
+                        productLinkRemoteService.assign(product, link);
+                    }
+
+                }
+            }
+        }
+	}
 
     @Override
     public void setConfigurableAttributes(String productSku, Map<String, String> attributeNames)
@@ -1155,5 +1101,97 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         }
         return products;
     }
+
+	@Override
+	public void add(Product product) throws ServiceException,
+			NoSuchAlgorithmException {
+		add(product, "");
+	}
+
+	@Override
+	public void add(Product product, String storeView) throws ServiceException,
+			NoSuchAlgorithmException {
+        // if is a configurable product, call the proper handle
+        if (product.getType().equals(ProductType.CONFIGURABLE))
+            handleConfigurableForNewProducts(product);
+
+        try {
+            Object[] newProductArgs = product.serializeToApi();
+
+            log.info("Creating '" + product.getSku() + "'");
+            int id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.ProductCreate,
+                    newProductArgs));
+            log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductCreate,
+                	product.getSku(), id });
+            if (id > 0)
+                product.setId(id);
+            else
+                throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName() +", returned Product ID is empty");
+        } catch (NumberFormatException e) {
+        	log.error("Error adding Product " + product.getSku() + ": " + product.getName(), e);
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName(), e);
+        } catch (AxisFault e) {
+        	log.error("Error adding Product " + product.getSku() + ": " + product.getName(), e);
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName(), e);
+        }
+
+        // inventory
+        if (product.getQty() != null)
+            updateInventory(product);
+
+        doAssignProductMedias(product, ImmutableList.<ProductMedia>of());
+        doAssignProductLinks(product, ImmutableSet.<ProductLink>of());
+        doAssignCategories(product, ImmutableList.<Category>of());
+	}
+
+	public void update(Product product, Product existingProduct) throws ServiceException,
+	NoSuchAlgorithmException {
+		update(product, existingProduct, "");
+	}
+
+	@Override
+	public void update(Product product, Product existingProduct, String storeView) throws ServiceException,
+			NoSuchAlgorithmException {
+        try {
+            Map<String, Object> props = product.getAllProperties();
+            if (product.getVisibility() != null)
+                props.put("visibility", product.getVisibility().getValue());
+            Object[] newProductArgs = new Object[] {
+            	product.getId(),
+            	props,
+            	!storeView.isEmpty() ? storeView : null };
+
+            log.info("Updating '" + product.getSku() + "'");
+
+            Object callResult = soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
+            log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductUpdate,
+            	product.getId(), callResult });
+
+            if (product.getType().equals(ProductType.CONFIGURABLE))
+                handleConfigurableForNewProducts(product);
+        } catch (NumberFormatException e) {
+        	log.error("Error updating Product " + product.getId(), e);
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException("Error updating Product " + product.getId(), e);
+        } catch (AxisFault e) {
+        	log.error("Error updating Product " + product.getId(), e);
+            if (debug)
+                e.printStackTrace();
+            throw new ServiceException("Error updating Product " + product.getId(), e);
+        }
+        // inventory
+
+        if (product.getQty() != null)
+            updateInventory(product);
+
+        assignProductMedias(product);
+        assignProductLinks(product);
+        assignCategories(product, existingProduct);
+	}
         
 }

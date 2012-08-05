@@ -3,8 +3,8 @@ package com.google.code.magja.model.product;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -20,36 +20,6 @@ public class Product extends BaseMagentoModel<Object[]> {
 
     private static final long serialVersionUID = -8639442403416399439L;
     
-    private String shipping_policy;
-    
-    private Double local_price;
-    
-    private String shop_id;
-    
-    private String local_sku;
-    
-    private Double length;
-    
-    private Double width;
-    
-    private Double height;
-    
-    private Integer material;
-    
-    private Integer motif;
-    
-    private Integer signature;
-    
-    private Integer batik_technique;
-    
-    private Integer origin;
-    
-    private Integer batik_age;
-    
-    private Integer condition;
-    
-    private Integer item_color;
-
     private String sku;
 
     private ProductAttributeSet attributeSet;
@@ -92,7 +62,7 @@ public class Product extends BaseMagentoModel<Object[]> {
     
     // for use with listAllPlus()
     
-    private Map<String, Object> attributes;
+    private Map<String, Object> attributes = new HashMap<String, Object>();
 
     // for use with CONFIGURABLE products
 
@@ -102,6 +72,37 @@ public class Product extends BaseMagentoModel<Object[]> {
 
     private List<ConfigurableAttributeData> configurableAttributesData;
     
+    @Deprecated
+    private String shipping_policy;
+    @Deprecated
+    private Double local_price;
+    @Deprecated
+    private String shop_id;
+    @Deprecated
+    private String local_sku;
+    @Deprecated
+    private Double length;
+    @Deprecated
+    private Double width;
+    @Deprecated
+    private Double height;
+    @Deprecated
+    private Integer material;
+    @Deprecated
+    private Integer motif;
+    @Deprecated
+    private Integer signature;
+    @Deprecated
+    private Integer batik_technique;
+    @Deprecated
+    private Integer origin;
+    @Deprecated
+    private Integer batik_age;
+    @Deprecated
+    private Integer condition;
+    @Deprecated
+    private Integer item_color;
+
     /**
      * @param sku
      */
@@ -127,6 +128,21 @@ public class Product extends BaseMagentoModel<Object[]> {
 
 	protected void loadMappings() {
         this.mapping = new Properties();
+        mapping.setProperty("product_id", "id");
+        mapping.setProperty("sku", "sku");
+        mapping.setProperty("name", "name");
+        mapping.setProperty("cost", "cost");
+        mapping.setProperty("status", "enabled");
+        mapping.setProperty("price", "price");
+        mapping.setProperty("short_description", "shortDescription");
+        mapping.setProperty("description", "description");
+        mapping.setProperty("weight", "weight");
+        mapping.setProperty("tax_class_id", "taxClassId");
+        mapping.setProperty("meta_description", "metaDescription");
+        mapping.setProperty("enable_googlecheckout", "googleCheckout");
+        mapping.setProperty("configurable_products_data", "configurableProductsData");
+        
+        // TODO: below are deprecated
         mapping.setProperty("shipping_policy", "shipping_policy");
         mapping.setProperty("local_price", "local_price");
         mapping.setProperty("shop_id", "shop_id");
@@ -142,19 +158,6 @@ public class Product extends BaseMagentoModel<Object[]> {
         mapping.setProperty("batik_age", "batik_age");
         mapping.setProperty("condition", "condition");
         mapping.setProperty("item_color", "item_color");
-        mapping.setProperty("product_id", "id");
-        mapping.setProperty("sku", "sku");
-        mapping.setProperty("name", "name");
-        mapping.setProperty("cost", "cost");
-        mapping.setProperty("status", "enabled");
-        mapping.setProperty("price", "price");
-        mapping.setProperty("short_description", "shortDescription");
-        mapping.setProperty("description", "description");
-        mapping.setProperty("weight", "weight");
-        mapping.setProperty("tax_class_id", "taxClassId");
-        mapping.setProperty("meta_description", "metaDescription");
-        mapping.setProperty("enable_googlecheckout", "googleCheckout");
-        mapping.setProperty("configurable_products_data", "configurableProductsData");
     }
 
     /*
@@ -182,197 +185,19 @@ public class Product extends BaseMagentoModel<Object[]> {
         if (this.visibility != null)
             set("visibility", this.visibility.getValue());
 
-        Object[] newProductArgs = new Object[] {
+        final Map<String, Object> productData = getAllProperties();
+        // combine static attributes with custom attributes
+        productData.putAll(attributes);
+        
+		Object[] newProductArgs = new Object[] {
     		type.getCode(),
     		attributeId,
     		sku,
-    		getAllProperties() };
+    		productData };
 
         return newProductArgs;
     }
     
-	/**
-	 * @return the shop_id
-	 */
-	public String getShop_id() {
-		return shop_id;
-	}
-
-	/**
-	 * @param shop_id the shop_id to set
-	 */
-	public void setShop_id(String shop_id) {
-		this.shop_id = shop_id;
-	}
-
-	/**
-	 * @return the local_sku
-	 */
-	public String getLocal_sku() {
-		return local_sku;
-	}
-
-	/**
-	 * @param local_sku the local_sku to set
-	 */
-	public void setLocal_sku(String local_sku) {
-		this.local_sku = local_sku;
-	}
-
-	/**
-	 * @return the length
-	 */
-	public Double getLength() {
-		return length;
-	}
-
-	/**
-	 * @param length the length to set
-	 */
-	public void setLength(Double length) {
-		this.length = length;
-	}
-
-	/**
-	 * @return the width
-	 */
-	public Double getWidth() {
-		return width;
-	}
-
-	/**
-	 * @param width the width to set
-	 */
-	public void setWidth(Double width) {
-		this.width = width;
-	}
-
-	/**
-	 * @return the height
-	 */
-	public Double getHeight() {
-		return height;
-	}
-
-	/**
-	 * @param height the height to set
-	 */
-	public void setHeight(Double height) {
-		this.height = height;
-	}
-	
-	/**
-	 * @return the material
-	 */
-	public Integer getMaterial() {
-		return material;
-	}
-
-	/**
-	 * @param material the material to set
-	 */
-	public void setMaterial(Integer material) {
-		this.material = material;
-	}
-
-	/**
-	 * @return the motif
-	 */
-	public Integer getMotif() {
-		return motif;
-	}
-
-	/**
-	 * @param motif the motif to set
-	 */
-	public void setMotif(Integer motif) {
-		this.motif = motif;
-	}
-
-	/**
-	 * @return the signature
-	 */
-	public Integer getSignature() {
-		return signature;
-	}
-
-	/**
-	 * @param signature the signature to set
-	 */
-	public void setSignature(Integer signature) {
-		this.signature = signature;
-	}
-
-	/**
-	 * @return the batik_technique
-	 */
-	public Integer getBatik_technique() {
-		return batik_technique;
-	}
-
-	/**
-	 * @param batik_technique the batik_technique to set
-	 */
-	public void setBatik_technique(Integer batik_technique) {
-		this.batik_technique = batik_technique;
-	}
-
-	/**
-	 * @return the origin
-	 */
-	public Integer getOrigin() {
-		return origin;
-	}
-
-	/**
-	 * @param origin the origin to set
-	 */
-	public void setOrigin(Integer origin) {
-		this.origin = origin;
-	}
-
-	/**
-	 * @return the batik_age
-	 */
-	public Integer getBatik_age() {
-		return batik_age;
-	}
-
-	/**
-	 * @param batik_age the batik_age to set
-	 */
-	public void setBatik_age(Integer batik_age) {
-		this.batik_age = batik_age;
-	}
-
-	/**
-	 * @return the condition
-	 */
-	public Integer getCondition() {
-		return condition;
-	}
-
-	/**
-	 * @param condition the condition to set
-	 */
-	public void setCondition(Integer condition) {
-		this.condition = condition;
-	}
-
-	/**
-	 * @return the item_color
-	 */
-	public Integer getItem_color() {
-		return item_color;
-	}
-
-	/**
-	 * @param item_color the item_color to set
-	 */
-	public void setItem_color(Integer item_color) {
-		this.item_color = item_color;
-	}
-
 	/**
      * @return the sku
      */
@@ -908,6 +733,7 @@ public class Product extends BaseMagentoModel<Object[]> {
 	/**
 	 * @return the shipping_policy
 	 */
+    @Deprecated
 	public String getShipping_policy() {
 		return shipping_policy;
 	}
@@ -915,6 +741,7 @@ public class Product extends BaseMagentoModel<Object[]> {
 	/**
 	 * @param shipping_policy the shipping_policy to set
 	 */
+	@Deprecated
 	public void setShipping_policy(String shipping_policy) {
 		this.shipping_policy = shipping_policy;
 	}
@@ -922,6 +749,7 @@ public class Product extends BaseMagentoModel<Object[]> {
 	/**
 	 * @return the local_price
 	 */
+	@Deprecated
 	public Double getLocal_price() {
 		return local_price;
 	}
@@ -929,6 +757,7 @@ public class Product extends BaseMagentoModel<Object[]> {
 	/**
 	 * @param local_price the local_price to set
 	 */
+	@Deprecated
 	public void setLocal_price(Double local_price) {
 		this.local_price = local_price;
 	}
@@ -941,17 +770,220 @@ public class Product extends BaseMagentoModel<Object[]> {
 		this.attributes = attributes;
 	}
 
+	/**
+	 * @return the shop_id
+	 */
+    @Deprecated
+	public String getShop_id() {
+		return shop_id;
+	}
+
+	/**
+	 * @param shop_id the shop_id to set
+	 */
+    @Deprecated
+	public void setShop_id(String shop_id) {
+		this.shop_id = shop_id;
+	}
+
+	/**
+	 * @return the local_sku
+	 */
+	@Deprecated
+	public String getLocal_sku() {
+		return local_sku;
+	}
+
+	/**
+	 * @param local_sku the local_sku to set
+	 */
+	@Deprecated
+	public void setLocal_sku(String local_sku) {
+		this.local_sku = local_sku;
+	}
+
+	/**
+	 * @return the length
+	 */
+	@Deprecated
+	public Double getLength() {
+		return length;
+	}
+
+	/**
+	 * @param length the length to set
+	 */
+	@Deprecated
+	public void setLength(Double length) {
+		this.length = length;
+	}
+
+	/**
+	 * @return the width
+	 */
+	public Double getWidth() {
+		return width;
+	}
+
+	/**
+	 * @param width the width to set
+	 */
+	@Deprecated
+	public void setWidth(Double width) {
+		this.width = width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	@Deprecated
+	public Double getHeight() {
+		return height;
+	}
+
+	/**
+	 * @param height the height to set
+	 */
+	@Deprecated
+	public void setHeight(Double height) {
+		this.height = height;
+	}
+	
+	/**
+	 * @return the material
+	 */
+	@Deprecated
+	public Integer getMaterial() {
+		return material;
+	}
+
+	/**
+	 * @param material the material to set
+	 */
+	@Deprecated
+	public void setMaterial(Integer material) {
+		this.material = material;
+	}
+
+	/**
+	 * @return the motif
+	 */
+	@Deprecated
+	public Integer getMotif() {
+		return motif;
+	}
+
+	/**
+	 * @param motif the motif to set
+	 */
+	@Deprecated
+	public void setMotif(Integer motif) {
+		this.motif = motif;
+	}
+
+	/**
+	 * @return the signature
+	 */
+	@Deprecated
+	public Integer getSignature() {
+		return signature;
+	}
+
+	/**
+	 * @param signature the signature to set
+	 */
+	@Deprecated
+	public void setSignature(Integer signature) {
+		this.signature = signature;
+	}
+
+	/**
+	 * @return the batik_technique
+	 */
+	@Deprecated
+	public Integer getBatik_technique() {
+		return batik_technique;
+	}
+
+	/**
+	 * @param batik_technique the batik_technique to set
+	 */
+	@Deprecated
+	public void setBatik_technique(Integer batik_technique) {
+		this.batik_technique = batik_technique;
+	}
+
+	/**
+	 * @return the origin
+	 */
+	@Deprecated
+	public Integer getOrigin() {
+		return origin;
+	}
+
+	/**
+	 * @param origin the origin to set
+	 */
+	@Deprecated
+	public void setOrigin(Integer origin) {
+		this.origin = origin;
+	}
+
+	/**
+	 * @return the batik_age
+	 */
+	@Deprecated
+	public Integer getBatik_age() {
+		return batik_age;
+	}
+
+	/**
+	 * @param batik_age the batik_age to set
+	 */
+	public void setBatik_age(Integer batik_age) {
+		this.batik_age = batik_age;
+	}
+
+	/**
+	 * @return the condition
+	 */
+	@Deprecated
+	public Integer getCondition() {
+		return condition;
+	}
+
+	/**
+	 * @param condition the condition to set
+	 */
+	@Deprecated
+	public void setCondition(Integer condition) {
+		this.condition = condition;
+	}
+
+	/**
+	 * @return the item_color
+	 */
+	@Deprecated
+	public Integer getItem_color() {
+		return item_color;
+	}
+
+	/**
+	 * @param item_color the item_color to set
+	 */
+	@Deprecated
+	public void setItem_color(Integer item_color) {
+		this.item_color = item_color;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return String
-				.format("Product [shipping_policy=%s, local_price=%s, shop_id=%s, local_sku=%s, length=%s, width=%s, height=%s, material=%s, motif=%s, signature=%s, batik_technique=%s, origin=%s, batik_age=%s, condition=%s, item_color=%s, sku=%s, name=%s, price=%s, qty=%s]",
-						shipping_policy, local_price, shop_id, local_sku,
-						length, width, height, material, motif, signature,
-						batik_technique, origin, batik_age, condition,
-						item_color, sku, name, price, qty);
+				.format("Product #%d %s: %s [price=%s, qty=%s]",
+						id, sku, name, price, qty);
 	}
     
 }

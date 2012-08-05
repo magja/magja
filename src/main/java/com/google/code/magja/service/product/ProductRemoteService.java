@@ -98,12 +98,47 @@ public interface ProductRemoteService extends GeneralService<Product> {
     public abstract List<Product> listAllPlus(Set<String> attributesToSelect) throws ServiceException;
 
     /**
+     * Create a product to Magento.
+     * 
+     * @param product
+     */
+    public abstract void add(Product product) throws ServiceException,
+    	NoSuchAlgorithmException;
+
+    /**
+     * Create a product to Magento.
+     * 
+     * @param product
+     */
+    public abstract void add(Product product, String storeView) throws ServiceException,
+    	NoSuchAlgorithmException;
+
+    /**
+     * Update a product.
+     * 
+     * @param product The new product data object.
+     * @param existingProduct  The old product data object. Used to compare which data needs to be updated.
+     */
+    public abstract void update(Product product, Product existingProduct) throws ServiceException,
+    	NoSuchAlgorithmException;
+    /**
+     * Update a product.
+     * 
+     * @param product The new product data object.
+     * @param existingProduct  The old product data object. Used to compare which data needs to be updated.
+     */
+    public abstract void update(Product product, Product existingProduct, String storeView) throws ServiceException,
+    	NoSuchAlgorithmException;
+
+    /**
      * Save a product to the Magento, if the id attribute is null, then will
      * create a new product, otherwise will update the product with that id
      * 
      * @param product
      * @throws ServiceException
+     * @deprecated Use either {@link ProductRemoteService#add(Product)} or {@link ProductRemoteService#update(Product)}.
      */
+    @Deprecated
     public abstract void save(Product product, Product existingProduct) throws ServiceException,
             NoSuchAlgorithmException;
 
@@ -114,7 +149,9 @@ public interface ProductRemoteService extends GeneralService<Product> {
      * @param product
      * @param storeView
      * @throws ServiceException
+     * @deprecated Use either {@link ProductRemoteService#add(Product)} or {@link ProductRemoteService#update(Product)}.
      */
+    @Deprecated
     public abstract void save(Product product, Product existingProduct, String storeView)
             throws ServiceException, NoSuchAlgorithmException;
 
