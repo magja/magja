@@ -36,6 +36,7 @@ import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.utils.MagjaFileUtils;
 import com.google.code.magja.utils.MagjaStringUtils;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -201,7 +202,7 @@ public class ProductRemoteServiceTest {
     @Test
     public void createOneSimpleProductWithoutImageWithMaterialAttribute() throws ServiceException, NoSuchAlgorithmException {
         Product product = generateProductWithoutImage();
-        product.setMaterial(383);
+        product.setAttributes(ImmutableMap.<String, Object>of("material", 383));
         service.save(product, null);
 
         assertNotNull(product.getId());
@@ -359,9 +360,10 @@ public class ProductRemoteServiceTest {
         product.setWeight(new Double(0.100));
         product.setLocal_price(new Double(8000.00));
         product.setShipping_policy("normal");
-        product.setLength(3.0);
-        product.setWidth(2.0);
-        product.setHeight(4.0);
+        product.setAttributes(ImmutableMap.<String, Object>of(
+        		"length", 3.0,
+        		"width", 2.0,
+        		"height", 4.0));
 //        product.setMaterial(1L);
 //        product.setMotif(1L);
 //        product.setSignature(1L);
