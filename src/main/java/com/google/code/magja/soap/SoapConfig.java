@@ -32,6 +32,7 @@ public class SoapConfig implements Serializable {
 	private HttpConnectionManagerParams httpConnectionManagerParams = new HttpConnectionManagerParams();
 	
 	public SoapConfig(String apiUser, String apiKey, String remoteHost) {
+		super();
 		this.apiUser = apiUser;
 		this.apiKey = apiKey;
 		this.remoteHost = remoteHost;
@@ -214,4 +215,9 @@ public class SoapConfig implements Serializable {
 			HttpConnectionManagerParams httpConnectionManagerParams) {
 		this.httpConnectionManagerParams = httpConnectionManagerParams;
 	}
+	
+	public void setDefaultMaxConnectionsPerHost(int maxConnectionsPerHost) {
+		getHttpConnectionManagerParams().setDefaultMaxConnectionsPerHost(maxConnectionsPerHost);		
+	}
+
 }
