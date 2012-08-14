@@ -32,8 +32,10 @@ import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.category.CategoryRemoteService;
+import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
@@ -49,56 +51,21 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         ProductRemoteService {
 
     private static final long serialVersionUID = -3943518467672208326L;
-
-    private CategoryRemoteService categoryRemoteService;
-
-    private ProductMediaRemoteService productMediaRemoteService;
-
-    private ProductLinkRemoteService productLinkRemoteService;
-
     private transient final Logger log = LoggerFactory.getLogger(ProductRemoteServiceImpl.class);
- 
-    /**
+    
+    private RemoteServiceFactory serviceFactory;
+    
+    public ProductRemoteServiceImpl(MagentoSoapClient soapClient,
+			RemoteServiceFactory serviceFactory) {
+		super(soapClient);
+		this.serviceFactory = serviceFactory;
+	}
+
+	/**
      * Cache that caches all objects for 10 minutes after last access
      */
-    Cache<String, ProductAttributeSet> cache = CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).build();
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.google.code.magja.service.product.ProductRemoteService#
-     * setCategoryRemoteService
-     * (com.google.code.magja.service.category.CategoryRemoteService)
-     */
-    @Override
-    public void setCategoryRemoteService(CategoryRemoteService categoryRemoteService) {
-        this.categoryRemoteService = categoryRemoteService;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.google.code.magja.service.product.ProductRemoteService#
-     * setProductMediaRemoteService
-     * (com.google.code.magja.service.product.ProductMediaRemoteService)
-     */
-    @Override
-    public void setProductMediaRemoteService(ProductMediaRemoteService productMediaRemoteService) {
-        this.productMediaRemoteService = productMediaRemoteService;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.google.code.magja.service.product.ProductRemoteService#
-     * setProductLinkRemoteService
-     * (com.google.code.magja.service.product.ProductLinkRemoteService)
-     */
-    @Override
-    public void setProductLinkRemoteService(ProductLinkRemoteService productLinkRemoteService) {
-        this.productLinkRemoteService = productLinkRemoteService;
-    }
-
+    private Cache<String, ProductAttributeSet> cache = CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).build();
+ 
     /**
      * Create a object product with basic fields from the attribute map
      * 
@@ -225,11 +192,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         // medias
         if (loadMedia)
-            product.setMedias(productMediaRemoteService.listByProduct(product));
+            product.setMedias(serviceFactory.getProductMediaRemoteService().listByProduct(product));
 
         // product links
         if (loadLinks)
-            product.setLinks(productLinkRemoteService.list(product));
+            product.setLinks(serviceFactory.getProductLinkRemoteService().list(product));
 
         return product;
     }
@@ -244,7 +211,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         List<Category> categories = new ArrayList<Category>();
         for (Object obj : ids) {
             Integer id = Integer.parseInt((String) obj);
-            Category category = categoryRemoteService.getByIdClean(id);
+            Category category = serviceFactory.getCategoryRemoteService().getByIdClean(id);
             categories.add(category);
         }
         return categories;
@@ -352,7 +319,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         if (categories != null) {
             for (Category category : categories) {
-                categoryRemoteService.deleteEmptyRecursive(category);
+                serviceFactory.getCategoryRemoteService().deleteEmptyRecursive(category);
             }
         }
     }
@@ -609,7 +576,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         if (toBeDeleted.size() > 0) {
             for (Category category : toBeDeleted) {
                 log.info("Removing '" + product.getSku() + " from category " + category.getName());
-                categoryRemoteService.removeProduct(category, product);
+                serviceFactory.getCategoryRemoteService().removeProduct(category, product);
             }
         }
     }
@@ -634,11 +601,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             if (!found) {
                 log.debug("Adding '{}' to category #{} ({}) with position {}", new Object[] {
                     	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
-                categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
+                serviceFactory.getCategoryRemoteService().assignProductWithPosition(cat, product, cat.getPosition());
             } else {
                 log.debug("Updating '{}' to category #{} ({}) with position {}", new Object[] {
                 	product.getSku(), cat.getId(), cat.getName(), cat.getPosition() });
-                categoryRemoteService.assignProductWithPosition(cat, product, cat.getPosition());
+                serviceFactory.getCategoryRemoteService().assignProductWithPosition(cat, product, cat.getPosition());
             }
         }
 	}
@@ -648,7 +615,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         // if have media, create it too
         List<String> mediaFound = new ArrayList<String>();
         List<ProductMedia> toBeDeleted = new ArrayList<ProductMedia>();
-        List<ProductMedia> existingMedias = productMediaRemoteService.listByProduct(product);
+        List<ProductMedia> existingMedias = serviceFactory.getProductMediaRemoteService().listByProduct(product);
 
         doAssignProductMedias(product, existingMedias);
 
@@ -677,7 +644,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         for (ProductMedia existingMedia : toBeDeleted) {
             log.info("Deleting media '{}' from product #{} ({}) ", new Object[] {
             		existingMedia.getLabel(), product.getId(), product.getSku() });
-            productMediaRemoteService.delete(existingMedia);
+            serviceFactory.getProductMediaRemoteService().delete(existingMedia);
         }
 
     }
@@ -707,7 +674,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                             existingMedia.setImage(media.getImage());
                             log.info("Updating media '{}' in product #{} ({}) ", new Object[] {
                             		existingMedia.getLabel(), product.getId(), product.getSku() });
-                            productMediaRemoteService.update(existingMedia);
+                            serviceFactory.getProductMediaRemoteService().update(existingMedia);
                             break;
                         }
                     }
@@ -716,7 +683,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                         if (media.getImage() != null && media.getImage().getData() != null)
                             log.info("Adding media '{}' to product #{} ({}) ", new Object[] {
                             		media.getLabel(), product.getId(), product.getSku() });
-                        productMediaRemoteService.create(media);
+                        serviceFactory.getProductMediaRemoteService().create(media);
                     }
                 }
             }
@@ -725,7 +692,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
     protected void assignProductLinks(Product product) throws ServiceException {
         List<ProductLink> linksToBeDeleted = new ArrayList<ProductLink>();
-        Set<ProductLink> existingLinks = productLinkRemoteService.list(product);
+        Set<ProductLink> existingLinks = serviceFactory.getProductLinkRemoteService().list(product);
 
         doAssignProductLinks(product, existingLinks);
 
@@ -748,7 +715,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
         for (ProductLink link : linksToBeDeleted) {
             log.info("Removing " + link.getLinkType() + " Link with product : " + link.getSku());
-            productLinkRemoteService.remove(product, link);
+            serviceFactory.getProductLinkRemoteService().remove(product, link);
         }
     }
 
@@ -777,7 +744,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                                 && (link.getId() != null || link.getSku() != null))
                             log.info("Assigning " + link.getLinkType() + " Link with product : "
                                     + link.getSku());
-                        productLinkRemoteService.assign(product, link);
+                        serviceFactory.getProductLinkRemoteService().assign(product, link);
                     }
 
                 }

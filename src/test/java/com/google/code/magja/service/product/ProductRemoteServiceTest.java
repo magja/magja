@@ -58,7 +58,7 @@ public class ProductRemoteServiceTest {
      */
     @Before
     public void setUp() throws Exception {
-        service = RemoteServiceFactory.getProductRemoteService();
+        service = RemoteServiceFactory.getSingleton().getProductRemoteService();
     }
 
     /**

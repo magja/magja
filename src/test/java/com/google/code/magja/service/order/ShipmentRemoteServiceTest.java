@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.google.code.magja.service.order;
 
 import java.util.ArrayList;
@@ -32,7 +29,7 @@ public class ShipmentRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getShipmentRemoteService();
+		service = RemoteServiceFactory.getSingleton().getShipmentRemoteService();
 	}
 
 	/**

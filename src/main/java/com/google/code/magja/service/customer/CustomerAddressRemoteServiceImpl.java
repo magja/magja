@@ -8,6 +8,8 @@ import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
+
 import org.apache.axis2.AxisFault;
 
 import java.util.ArrayList;
@@ -19,8 +21,12 @@ public class CustomerAddressRemoteServiceImpl extends
         CustomerAddressRemoteService {
 
     private static final long serialVersionUID = 2269696861048421719L;
+    
+    public CustomerAddressRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
-    /**
+	/**
      * Create a object CustomerAddress from the attributes map
      *
      * @param attributes

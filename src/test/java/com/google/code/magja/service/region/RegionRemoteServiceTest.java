@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.google.code.magja.service.region;
 
 import static org.junit.Assert.fail;
@@ -27,7 +24,7 @@ public class RegionRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getRegionRemoteService();
+		service = RemoteServiceFactory.getSingleton().getRegionRemoteService();
 	}
 
 	/**

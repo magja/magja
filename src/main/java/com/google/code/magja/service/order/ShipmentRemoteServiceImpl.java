@@ -9,6 +9,8 @@ import com.google.code.magja.model.order.Shipment;
 import com.google.code.magja.model.order.ShipmentTrack;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
+
 import org.apache.axis2.AxisFault;
 
 import java.util.ArrayList;
@@ -19,8 +21,12 @@ import java.util.Map;
 public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> implements ShipmentRemoteService {
 
     private static final long serialVersionUID = -830461835402137135L;
+    
+    public ShipmentRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
-    /**
+	/**
      * Build object Shipment from attributes map
      *
      * @param attributes

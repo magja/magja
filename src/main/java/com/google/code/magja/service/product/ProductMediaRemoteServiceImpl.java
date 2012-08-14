@@ -16,13 +16,18 @@ import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
 
 public class ProductMediaRemoteServiceImpl extends
         GeneralServiceImpl<ProductMedia> implements ProductMediaRemoteService {
 
     private static final long serialVersionUID = -1848723516561700531L;
 
-    /**
+    public ProductMediaRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
+
+	/**
      * Build the object ProductMedia with the Map returned by the api
      *
      * @param map

@@ -4,14 +4,13 @@
  */
 package com.google.code.magja.model.order;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.soap.ArrayItemMap;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-public class Invoice extends BaseMagentoModel {
+public class Invoice extends BaseMagentoModel<Object[]> {
 
     private static final long serialVersionUID = 1812284345946352134L;
 
@@ -29,24 +28,18 @@ public class Invoice extends BaseMagentoModel {
      * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
      */
     @Override
-    public Object serializeToApi() {
-
-        List<Object> params = new LinkedList<Object>();
-
+    public Object[] serializeToApi() {
         // only create for now
         if (id == null) {
-
-            params.add(orderNumber);
-
             ArrayItemMap map = new ArrayItemMap();
             for (InvoiceItem item : items) {
                 map.add(item.getOrderItemId(), item.getQty().intValue());
             }
 
-            params.add(map);
+            return new Object[] { orderNumber, map };
+        } else {
+        	return new Object[] { };
         }
-
-        return params;
     }
 
     /**

@@ -35,7 +35,7 @@ public class CustomerRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getCustomerRemoteService();
+		service = RemoteServiceFactory.getSingleton().getCustomerRemoteService();
 	}
 
 	public static Customer generateCustomer() {

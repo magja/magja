@@ -14,10 +14,15 @@ import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.region.Region;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
 
 public class RegionRemoteServiceImpl extends GeneralServiceImpl<Region> implements RegionRemoteService {
 
 	private static final long serialVersionUID=3543094741234701831L;
+	
+	public RegionRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.google.code.magja.service.region.RegionRemoteService#list(java.lang.String)

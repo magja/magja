@@ -27,7 +27,7 @@ public class CountryRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getCountryRemoteService();
+		service = RemoteServiceFactory.getSingleton().getCountryRemoteService();
 	}
 
 	/**

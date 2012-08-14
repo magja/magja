@@ -40,9 +40,9 @@ public class CartRemoteServiceTest {
      */
     @Before
     public void setUp() throws Exception {
-        service = RemoteServiceFactory.getCartRemoteService();
-        customerService = RemoteServiceFactory.getCustomerRemoteService();
-        customerAddressService = RemoteServiceFactory.getCustomerAddressRemoteService();
+        service = RemoteServiceFactory.getSingleton().getCartRemoteService();
+        customerService = RemoteServiceFactory.getSingleton().getCustomerRemoteService();
+        customerAddressService = RemoteServiceFactory.getSingleton().getCustomerAddressRemoteService();
     }
 
     @Test

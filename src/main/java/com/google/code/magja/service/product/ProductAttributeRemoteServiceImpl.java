@@ -17,6 +17,7 @@ import com.google.code.magja.model.product.ProductAttribute;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
 
 public class ProductAttributeRemoteServiceImpl extends
         GeneralServiceImpl<ProductAttribute> implements
@@ -24,7 +25,11 @@ public class ProductAttributeRemoteServiceImpl extends
 
     private static final long serialVersionUID = -1575503087022556608L;
 
-    /**
+    public ProductAttributeRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
+
+	/**
      * Create a object product attribute from the attributes map
      *
      * @param attributes

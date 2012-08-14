@@ -7,6 +7,7 @@ package com.google.code.magja.service;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.soap.MagentoSoapClient;
 
+@SuppressWarnings("rawtypes")
 public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements GeneralService<T> {
 
 	private static final long serialVersionUID=-7262909756654576277L;
@@ -14,12 +15,12 @@ public abstract class GeneralServiceImpl<T extends BaseMagentoModel> implements 
 	protected Boolean debug = false;
 
 	protected MagentoSoapClient soapClient;
-
-	@Override
-	public void setSoapClient(MagentoSoapClient soapClient) {
+	
+	public GeneralServiceImpl(MagentoSoapClient soapClient) {
+		super();
 		this.soapClient = soapClient;
 	}
-	
+
 	@Override
 	public MagentoSoapClient getSoapClient() {
 		return soapClient;

@@ -50,8 +50,8 @@ public class ProductLinkRemoteServiceTest {
      */
     @Before
     public void setUp() throws Exception {
-        service = RemoteServiceFactory.getProductLinkRemoteService();
-        productService = RemoteServiceFactory.getProductRemoteService();
+        service = RemoteServiceFactory.getSingleton().getProductLinkRemoteService();
+        productService = RemoteServiceFactory.getSingleton().getProductRemoteService();
     }
 
     /**

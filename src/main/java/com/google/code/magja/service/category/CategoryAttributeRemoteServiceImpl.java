@@ -16,12 +16,17 @@ import com.google.code.magja.model.category.CategoryAttribute;
 import com.google.code.magja.model.category.CategoryAttributeOption;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
 
 public class CategoryAttributeRemoteServiceImpl extends
 		GeneralServiceImpl<CategoryAttribute> implements
 		CategoryAttributeRemoteService {
 
 	private static final long serialVersionUID=-6950318891229060141L;
+	
+	public CategoryAttributeRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
 	/*
 	 * (non-Javadoc)

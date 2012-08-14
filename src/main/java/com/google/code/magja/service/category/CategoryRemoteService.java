@@ -11,7 +11,6 @@ import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.service.product.ProductRemoteService;
 
 public interface CategoryRemoteService extends GeneralService<Category> {
 
@@ -64,11 +63,6 @@ public interface CategoryRemoteService extends GeneralService<Category> {
     public abstract List<Category> findEmpty(Integer id) throws ServiceException;
 
     public abstract Integer deleteEmpty(Integer id) throws ServiceException;
-
-    /**
-     * @param productRemoteService the productRemoteService to set
-     */
-    public abstract void setProductRemoteService(ProductRemoteService productRemoteService);
 
     public abstract Boolean isEmpty(Category category) throws ServiceException;
 

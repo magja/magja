@@ -1,21 +1,25 @@
 package com.google.code.magja.service.order;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.axis2.AxisFault;
+
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.order.Invoice;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import org.apache.axis2.AxisFault;
+import com.google.code.magja.soap.MagentoSoapClient;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-
+@SuppressWarnings("serial")
 public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implements InvoiceRemoteService {
 
+	public InvoiceRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
-    private Invoice buildInvoice(Map<String, Object> attributes) throws ServiceException {
+	private Invoice buildInvoice(Map<String, Object> attributes) throws ServiceException {
         Invoice invoice = new Invoice();
         for (Map.Entry<String, Object> attr : attributes.entrySet()) invoice.set(attr.getKey(), attr.getValue());
         return invoice;

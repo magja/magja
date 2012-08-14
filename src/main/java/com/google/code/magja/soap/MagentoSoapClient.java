@@ -20,6 +20,7 @@ import javax.xml.stream.XMLOutputFactory;
 
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMOutputFormat;
+import org.apache.axiom.om.util.StAXUtils;
 import org.apache.axiom.om.util.StAXWriterConfiguration;
 import org.apache.axiom.util.stax.dialect.StAXDialect;
 import org.apache.axis2.AxisFault;
@@ -122,20 +123,29 @@ public class MagentoSoapClient implements SoapClient {
      *
      * @param soapConfig
      */
-    private MagentoSoapClient(SoapConfig soapConfig) {
+    public MagentoSoapClient(SoapConfig soapConfig, SoapCallFactory callFactory) {
     	super();
-        config = soapConfig;
-        callFactory = new SoapCallFactory();
-        returnParser = new SoapReturnParser();
+        this.config = soapConfig;
+        this.callFactory = callFactory;
+        this.returnParser = new SoapReturnParser();
         try {
         	prepareConnection(config.getHttpConnectionManagerParams());
             login();
         } catch (AxisFault e) {
             // do not swallow, rethrow as runtime
-            throw new RuntimeException(e);
+            throw new RuntimeException("Cannot connect to Magento", e);
         }
     }
 
+    /**
+     * Construct soap client using given configuration
+     *
+     * @param soapConfig
+     */
+    public MagentoSoapClient(SoapConfig soapConfig) {
+    	this(soapConfig, new SoapCallFactory());
+    }
+    
     /**
      * @return the config
      */
@@ -286,22 +296,30 @@ public class MagentoSoapClient implements SoapClient {
         sender = new ServiceClient();
         sender.setOptions(connectOptions);
 
-    	sender.getServiceContext().setProperty(Constants.Configuration.MESSAGE_FORMATTER, new SOAPMessageFormatter() {
-    		@Override
-    		public String formatSOAPAction(MessageContext msgCtxt,
-    				OMOutputFormat format, String soapActionString) {
-    			format.setStAXWriterConfiguration(new StAXWriterConfiguration() {
-					@Override
-					public XMLOutputFactory configure(XMLOutputFactory factory,
-							StAXDialect dialect) {
-						StaxUtilsXMLOutputFactory indentingFactory = new StaxUtilsXMLOutputFactory(factory);
-						indentingFactory.setProperty(StaxUtilsXMLOutputFactory.INDENTING, true);
-						return indentingFactory;
-					}
-				});
-    			return super.formatSOAPAction(msgCtxt, format, soapActionString);
-    		}
-    	});
+        // disable SOAP XML indenting for now, until I find out how to make it work on OSGi ~Hendy
+        // java.lang.ClassNotFoundException: javanet.staxutils.StaxUtilsXMLOutputFactory not found by org.apache.servicemix.bundles.stax-utils [115]
+//		StAXUtils.setFactoryPerClassLoader(false);
+//    	sender.getServiceContext().setProperty(Constants.Configuration.MESSAGE_FORMATTER, new SOAPMessageFormatter() {
+//    		@Override
+//    		public String formatSOAPAction(MessageContext msgCtxt,
+//    				OMOutputFormat format, String soapActionString) {
+//    			format.setStAXWriterConfiguration(new StAXWriterConfiguration() {
+//					@Override
+//					public XMLOutputFactory configure(XMLOutputFactory factory,
+//							StAXDialect dialect) {
+//						StaxUtilsXMLOutputFactory indentingFactory = new StaxUtilsXMLOutputFactory(factory);
+//						indentingFactory.setProperty(StaxUtilsXMLOutputFactory.INDENTING, true);
+//						return indentingFactory;
+//					}
+//					
+//					@Override
+//					public String toString() {
+//						return "StaxUtils";
+//					}
+//				});
+//    			return super.formatSOAPAction(msgCtxt, format, soapActionString);
+//    		}
+//    	});
 	}
 
     /**

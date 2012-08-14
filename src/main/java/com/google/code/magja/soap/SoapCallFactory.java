@@ -2,8 +2,6 @@ package com.google.code.magja.soap;
 
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,19 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javanet.staxutils.IndentingXMLStreamWriter;
-import javanet.staxutils.StaxUtilsXMLOutputFactory;
-
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-
-import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.OMMetaFactory;
 import org.apache.axiom.om.OMNamespace;
-import org.apache.axiom.om.OMOutputFormat;
-import org.apache.axiom.om.util.StAXWriterConfiguration;
-import org.apache.axiom.util.stax.dialect.StAXDialect;
+import org.apache.axiom.om.impl.llom.factory.OMLinkedListMetaFactory;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.mozilla.javascript.Scriptable;
 
@@ -61,8 +51,16 @@ public class SoapCallFactory {
 
     private static final String MULTI_CALL_OPTIONS = "options";
 
-    public SoapCallFactory() {
-        fac = OMAbstractFactory.getOMFactory();
+    /**
+     * 
+     * @param omMetaFactory Useful if you want to pass it from OSGi Service Reference
+     *   i.e. using:
+     *   
+     * <pre>&lt;reference interface="org.apache.axiom.om.OMMetaFactory"/&gt;</pre>
+     */
+    public SoapCallFactory(OMMetaFactory omMetaFactory) {
+    	super();
+        fac = omMetaFactory.getOMFactory();
 
         // Blank namespace for factory methods which require a namespace as
         // argument
@@ -77,6 +75,10 @@ public class SoapCallFactory {
         xsd = fac.createOMNamespace("http://www.w3.org/2001/XMLSchema", "xsd");
         soapXml = fac.createOMNamespace("http://xml.apache.org/xml-soap", "SOAP-XML");
         soapEnc = fac.createOMNamespace("http://schemas.xmlsoap.org/soap/encoding/", "SOAP-ENC");
+    }
+
+    public SoapCallFactory() {
+    	this(new OMLinkedListMetaFactory());
     }
 
     /**

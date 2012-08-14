@@ -11,6 +11,8 @@ import com.google.code.magja.model.customer.CustomerFilter;
 import com.google.code.magja.model.customer.CustomerGroup;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
+
 import org.apache.axis2.AxisFault;
 
 import java.util.ArrayList;
@@ -21,8 +23,12 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer>
         implements CustomerRemoteService {
 
     private static final long serialVersionUID = 2048559265203182037L;
+    
+    public CustomerRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
-    /**
+	/**
      * Create a object customer from the attributes map
      *
      * @param attributes

@@ -27,7 +27,7 @@ public class CategoryAttributeRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getCategoryAttributeRemoteService();
+		service = RemoteServiceFactory.getSingleton().getCategoryAttributeRemoteService();
 	}
 
 	/**

@@ -5,7 +5,6 @@
 package com.google.code.magja.service.category;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +16,9 @@ import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.category.Category;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralServiceImpl;
+import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.service.product.ProductRemoteService;
+import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
@@ -26,22 +26,14 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         implements CategoryRemoteService {
 
 	private transient Logger log = LoggerFactory.getLogger(CategoryRemoteServiceImpl.class);
+	private RemoteServiceFactory serviceFactory;
     private static final long serialVersionUID = 5806879316902937610L;
 
-    private ProductRemoteService productRemoteService;
-
-    /*
-      * (non-Javadoc)
-      *
-      * @seecom.google.code.magja.service.product.CategoryRemoteService#
-      * setProductRemoteService
-      * (com.google.code.magja.service.category.CategoryRemoteService)
-      */
-    @Override
-    public void setProductRemoteService(
-            ProductRemoteService productRemoteService) {
-        this.productRemoteService = productRemoteService;
-    }
+	public CategoryRemoteServiceImpl(MagentoSoapClient soapClient,
+			RemoteServiceFactory serviceFactory) {
+		super(soapClient);
+		this.serviceFactory = serviceFactory;
+	}
 
     /**
      * Load children for the category
@@ -668,10 +660,10 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
 
             if (dependencies) {
                 // buid a full product object if required
-                product = productRemoteService.getBySku(mpp.get("sku").toString(), true);
+                product = serviceFactory.getProductRemoteService().getBySku(mpp.get("sku").toString(), true);
             } else {
                 // get minimal product object
-                product = productRemoteService.getBySku(mpp.get("sku").toString(), false);
+                product = serviceFactory.getProductRemoteService().getBySku(mpp.get("sku").toString(), false);
             }
 
             products.add(product);

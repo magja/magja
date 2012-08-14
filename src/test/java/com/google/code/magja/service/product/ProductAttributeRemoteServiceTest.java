@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.google.code.magja.service.product;
 
 import static org.junit.Assert.assertTrue;
@@ -41,7 +38,7 @@ public class ProductAttributeRemoteServiceTest {
      */
     @Before
     public void setUp() throws Exception {
-        service = RemoteServiceFactory.getProductAttributeRemoteService();
+        service = RemoteServiceFactory.getSingleton().getProductAttributeRemoteService();
         defaultAttributeSet = ProductAttributeSet.getDefaultProductAttributeSet();
     }
 

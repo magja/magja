@@ -16,29 +16,8 @@ import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.service.category.CategoryRemoteService;
 
 public interface ProductRemoteService extends GeneralService<Product> {
-
-    /**
-     * @param categoryRemoteService
-     *            the categoryRemoteService to set
-     */
-    public abstract void setCategoryRemoteService(CategoryRemoteService categoryRemoteService);
-
-    /**
-     * @param productMediaRemoteService
-     *            the productMediaRemoteService to set
-     */
-    public abstract void setProductMediaRemoteService(
-            ProductMediaRemoteService productMediaRemoteService);
-
-    /**
-     * @param productLinkRemoteService
-     *            the productLinkRemoteService to set
-     */
-    public abstract void setProductLinkRemoteService(
-            ProductLinkRemoteService productLinkRemoteService);
 
     /**
      * Get the product from Magento with the specified sku

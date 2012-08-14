@@ -23,14 +23,19 @@ import com.google.code.magja.model.order.OrderForm;
 import com.google.code.magja.model.order.OrderItem;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
 
 public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
         OrderRemoteService {
 
 	private transient Logger log = LoggerFactory.getLogger(OrderRemoteServiceImpl.class);
     private static final long serialVersionUID = 8734041145563577985L;
+    
+    public OrderRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
-    /**
+	/**
      * Build a object Order
      *
      * @param attributes

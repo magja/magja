@@ -37,7 +37,7 @@ public class OrderRemoteServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		service = RemoteServiceFactory.getOrderRemoteService();
+		service = RemoteServiceFactory.getSingleton().getOrderRemoteService();
 		
 	}
 

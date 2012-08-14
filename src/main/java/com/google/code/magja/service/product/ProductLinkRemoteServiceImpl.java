@@ -11,6 +11,8 @@ import com.google.code.magja.model.product.ProductLink.LinkType;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.soap.MagentoSoapClient;
+
 import org.apache.axis2.AxisFault;
 
 import java.util.*;
@@ -19,8 +21,12 @@ public class ProductLinkRemoteServiceImpl extends
         GeneralServiceImpl<ProductLink> implements ProductLinkRemoteService {
 
     private static final long serialVersionUID = 28223743577747311L;
+    
+    public ProductLinkRemoteServiceImpl(MagentoSoapClient soapClient) {
+		super(soapClient);
+	}
 
-    private ProductLink buildProductLink(Map<String, Object> map, LinkType linkType) {
+	private ProductLink buildProductLink(Map<String, Object> map, LinkType linkType) {
         ProductLink link = new ProductLink();
 
         link.setLinkType(linkType);
