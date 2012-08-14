@@ -9,7 +9,8 @@ import java.io.Serializable;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.soap.MagentoSoapClient;
 
-public interface GeneralService<T extends BaseMagentoModel<?>> extends Serializable {
+@SuppressWarnings("rawtypes")
+public interface GeneralService<T extends BaseMagentoModel> extends Serializable {
 
 	public abstract MagentoSoapClient getSoapClient();
 

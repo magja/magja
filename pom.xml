@@ -257,7 +257,13 @@
             <artifactId>axis2-kernel</artifactId>
             <version>${axis2.version}</version>
         </dependency>
-<!--         <dependency> -->
+        <dependency>
+        	<groupId>org.apache.ws.commons.axiom</groupId>
+        	<artifactId>axiom-impl</artifactId>
+        	<version>1.2.13</version>
+        	<scope>compile</scope>
+        </dependency>
+        <!--         <dependency> -->
 <!--         	<groupId>org.apache.httpcomponents</groupId> -->
 <!--         	<artifactId>httpclient</artifactId> -->
 <!--         	<version>4.2.1</version> -->
