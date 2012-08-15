@@ -38,9 +38,11 @@ import com.google.code.magja.soap.SoapConfig;
  */
 public class RemoteServiceFactory {
 	
-	private MagentoSoapClient magentoClient;
+//	private MagentoSoapClient magentoClient;
+	private static MagentoSoapClient magentoClient;
 	private static RemoteServiceFactory singletonInstance;
-	private OrderRemoteService orderRemoteService;
+//	private OrderRemoteService orderRemoteService;
+	private static OrderRemoteService orderRemoteService;
 	private ShipmentRemoteService shipmentRemoteService;
 	private RegistryRemoteService registryRemoteService;
 	private RegionRemoteService regionRemoteService;
@@ -49,9 +51,12 @@ public class RemoteServiceFactory {
 	private static CustomerRemoteService customerRemoteService;
 	private ProductLinkRemoteService productLinkRemoteService;
 	private ProductMediaRemoteService productMediaRemoteService;
-	private ProductAttributeRemoteService productAttributeRemoteService;
-	private ProductRemoteService productRemoteService;
-	private CategoryRemoteService categoryRemoteService;
+//	private ProductAttributeRemoteService productAttributeRemoteService;
+	private static ProductAttributeRemoteService productAttributeRemoteService;
+//	private ProductRemoteService productRemoteService;
+	private static ProductRemoteService productRemoteService;
+//	private CategoryRemoteService categoryRemoteService;
+	private static CategoryRemoteService categoryRemoteService;
 	private CategoryAttributeRemoteService categoryAttributeRemoteService;
 	private CartRemoteService cartRemoteService;
 	
@@ -104,7 +109,7 @@ public class RemoteServiceFactory {
     /**
      * @return the orderRemoteService
      */
-    public OrderRemoteService getOrderRemoteService() {
+    public static OrderRemoteService getOrderRemoteService() {
     	if (orderRemoteService == null) {
     		orderRemoteService = new OrderRemoteServiceImpl(magentoClient);
     	}
@@ -174,7 +179,7 @@ public class RemoteServiceFactory {
     /**
      * @return the productAttributeRemoteService
      */
-    public ProductAttributeRemoteService getProductAttributeRemoteService() {
+    public static ProductAttributeRemoteService getProductAttributeRemoteService() {
     	if (productAttributeRemoteService == null) {
     		productAttributeRemoteService = new ProductAttributeRemoteServiceImpl(magentoClient);
     	}
@@ -184,9 +189,9 @@ public class RemoteServiceFactory {
     /**
      * @return the productRemoteService
      */
-    public ProductRemoteService getProductRemoteService() {
+    public static ProductRemoteService getProductRemoteService() {
     	if (productRemoteService == null) {
-    		productRemoteService = new ProductRemoteServiceImpl(magentoClient, this);
+    		productRemoteService = new ProductRemoteServiceImpl(magentoClient, RemoteServiceFactory.getSingleton());
     	}
         return productRemoteService;
 
@@ -195,9 +200,9 @@ public class RemoteServiceFactory {
     /**
      * @return the categoryRemoteService
      */
-    public CategoryRemoteService getCategoryRemoteService() {
+    public static CategoryRemoteService getCategoryRemoteService() {
     	if (categoryRemoteService == null) {
-    		categoryRemoteService = new CategoryRemoteServiceImpl(magentoClient, this);
+    		categoryRemoteService = new CategoryRemoteServiceImpl(magentoClient, RemoteServiceFactory.getSingleton());
     	}
         return categoryRemoteService;
     }
