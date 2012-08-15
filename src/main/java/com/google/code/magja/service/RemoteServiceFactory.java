@@ -39,14 +39,16 @@ import com.google.code.magja.soap.SoapConfig;
 public class RemoteServiceFactory {
 	
 	private MagentoSoapClient magentoClient;
+	
 	private static RemoteServiceFactory singletonInstance;
+	
 	private OrderRemoteService orderRemoteService;
 	private ShipmentRemoteService shipmentRemoteService;
 	private RegistryRemoteService registryRemoteService;
 	private RegionRemoteService regionRemoteService;
 	private CountryRemoteService countryRemoteService;
 	private CustomerAddressRemoteService customerAddressRemoteService;
-	private static CustomerRemoteService customerRemoteService;
+	private CustomerRemoteService customerRemoteService;
 	private ProductLinkRemoteService productLinkRemoteService;
 	private ProductMediaRemoteService productMediaRemoteService;
 	private ProductAttributeRemoteService productAttributeRemoteService;
