@@ -13,24 +13,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javanet.staxutils.StaxUtilsXMLOutputFactory;
-
+import javax.annotation.PreDestroy;
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLOutputFactory;
 
 import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.OMOutputFormat;
-import org.apache.axiom.om.util.StAXUtils;
-import org.apache.axiom.om.util.StAXWriterConfiguration;
-import org.apache.axiom.util.stax.dialect.StAXDialect;
+import org.apache.axiom.om.OMException;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.Constants;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
-import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.axis2.transport.http.SOAPMessageFormatter;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
@@ -146,6 +139,38 @@ public class MagentoSoapClient implements SoapClient {
     	this(soapConfig, new SoapCallFactory());
     }
     
+    @PreDestroy public void destroy() {
+        // close the connection to magento api
+    	if (callFactory != null && sender != null) {
+            // first, we need to logout the previous session
+    		if (sessionId != null) {
+		        OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
+		        try {
+					sender.sendReceive(logoutMethod);
+				} catch (Exception e) {
+		        	log.warn("Cannot logout Magento SOAP API from session " + sessionId, e);
+				}
+		        sessionId = null;
+    		}
+	        try {
+	            sender.cleanupTransport();
+	        } catch (Exception e) {
+	        	log.warn("Cannot cleanup Axis2 ServiceClient", e);
+	        }
+    	}
+    }
+
+    /*
+      * (non-Javadoc)
+      *
+      * @see java.lang.Object#finalize()
+      */
+    @Override
+    protected void finalize() throws Throwable {
+    	destroy();
+        super.finalize();
+    }
+
     /**
      * @return the config
      */
@@ -356,28 +381,7 @@ public class MagentoSoapClient implements SoapClient {
     protected Boolean isLoggedIn() {
         return sessionId != null;
     }
-
-    /*
-      * (non-Javadoc)
-      *
-      * @see java.lang.Object#finalize()
-      */
-    @Override
-    protected void finalize() throws Throwable {
-        // close the connection to magento api
-        // first, we need to logout the previous session
-        OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
-        OMElement logoutResult = sender.sendReceive(logoutMethod);
-        Boolean logoutSuccess = Boolean.parseBoolean(logoutResult
-                .getFirstChildWithName(LOGOUT_RETURN).getText());
-        try {
-            sender.cleanupTransport();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        super.finalize();
-    }
-
+    
     @Override
 	public <R> R callNoArgs(ResourcePath path) throws AxisFault {
 		return callSingle(path, null);
