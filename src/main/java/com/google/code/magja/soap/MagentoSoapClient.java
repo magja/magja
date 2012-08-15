@@ -154,9 +154,11 @@ public class MagentoSoapClient implements SoapClient {
     		}
 	        try {
 	            sender.cleanupTransport();
+	            sender.cleanup();
 	        } catch (Exception e) {
 	        	log.warn("Cannot cleanup Axis2 ServiceClient", e);
 	        }
+            sender = null;
     	}
     }
 
