@@ -775,8 +775,8 @@ public class Product extends BaseMagentoModel<Object[]> {
 	@Override
 	public String toString() {
 		return String
-				.format("Product #%d %s: %s [price=%s, qty=%s]",
-						id, sku, name, price, qty);
+				.format("Product #%d %s(%s): %s [price=%s, qty=%s]",
+						id, sku, attributeSet, name, price, qty);
 	}
     
 }
