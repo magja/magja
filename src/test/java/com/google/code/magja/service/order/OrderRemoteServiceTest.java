@@ -163,9 +163,9 @@ public class OrderRemoteServiceTest {
 	@Test
 	public void createValidOrderFormShouldSucceed() throws ServiceException {
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
-				new OrderFormItem(167L, 1.0),
-				new OrderFormItem(168L, 1.0));
-		long customerId = 2L;
+				new OrderFormItem(1566L, 1.0),
+				new OrderFormItem(1556L, 1.0));
+		long customerId = 3L;
 		OrderForm orderForm = new OrderForm(customerId, items);
 		Object order = service.create(orderForm);
 		System.out.println("Order Id "+ order);
