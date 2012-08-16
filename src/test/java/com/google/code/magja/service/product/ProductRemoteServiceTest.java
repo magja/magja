@@ -462,4 +462,11 @@ public class ProductRemoteServiceTest {
     	service.updatePrice(products);
     }
     
+    @Test
+    public void getProductBySku() throws ServiceException {
+    	Product product = service.getBySku("zibalabel_letika-bag-37");
+    	log.debug("Product by zibalabel_letika-bag-37: {}.", product);
+    	Assert.assertNotNull(product);
+    }
+    
 }
