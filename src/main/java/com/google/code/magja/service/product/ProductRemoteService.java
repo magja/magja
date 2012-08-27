@@ -18,6 +18,15 @@ import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
 public interface ProductRemoteService extends GeneralService<Product> {
+	
+	public static enum Dependency {
+		CATEGORIES,
+		MEDIAS,
+		LINKS,
+		TYPES,
+		ATTRIBUTE_SET,
+		INVENTORY
+	};
 
     /**
      * Get the product from Magento with the specified sku
@@ -38,6 +47,14 @@ public interface ProductRemoteService extends GeneralService<Product> {
      */
     public abstract Product getBySku(String sku, boolean dependencies) throws ServiceException;
 
+	Product getBySku(String sku, Set<String> attributes, boolean dependencies)
+			throws ServiceException;
+
+	Product getBySku(String sku, Set<String> attributes)
+			throws ServiceException;
+	
+	public abstract Product getBySku(String sku, Set<String> attributes, Set<Dependency> dependencies) throws ServiceException;
+    
     /**
      * Get the product from Magento with the specified id
      * 
@@ -46,6 +63,9 @@ public interface ProductRemoteService extends GeneralService<Product> {
      * @throws ServiceException
      */
     public abstract Product getById(Integer id) throws ServiceException;
+
+    Product getById(Integer id, Set<String> attributes)
+			throws ServiceException;
 
     /**
      * List all products from Magento, just the basic attributes, with their
@@ -223,13 +243,4 @@ public interface ProductRemoteService extends GeneralService<Product> {
 
 	void updatePrice(List<ProductUpdatePrice> products) throws ServiceException;
 
-	Product getById(Integer id, Set<String> attributes)
-			throws ServiceException;
-
-	Product getBySku(String sku, Set<String> attributes, boolean dependencies)
-			throws ServiceException;
-
-	Product getBySku(String sku, Set<String> attributes)
-			throws ServiceException;
-	
-}
+	}

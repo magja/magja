@@ -1,8 +1,9 @@
 package com.google.code.magja.service.product;
 
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Assert;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,6 +38,7 @@ import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.service.product.ProductRemoteService.Dependency;
 import com.google.code.magja.utils.MagjaFileUtils;
 import com.google.code.magja.utils.MagjaStringUtils;
 import com.google.common.collect.ImmutableList;
@@ -273,12 +275,12 @@ public class ProductRemoteServiceTest {
     @Test
     public void testListAllPlus() throws ServiceException {
         List<Product> products = service.listAllPlus(ImmutableSet.of("status"));
-        Assert.assertNotNull(products);
+        assertNotNull(products);
         log.info("Got {} products", products.size());
-        Assert.assertTrue(products.size() > 0);
+        assertTrue(products.size() > 0);
         for (Product product : products) {
-        	Assert.assertNotNull(product.getAttributes());
-        	Assert.assertNotNull(product.getAttributes().get("status"));
+        	assertNotNull(product.getAttributes());
+        	assertNotNull(product.getAttributes().get("status"));
         }
         for (Product product : products)
         	log.info("{}", product);
@@ -440,9 +442,9 @@ public class ProductRemoteServiceTest {
     	Map<String, Map<String, String>> productRefs = service.getRefsMap(ImmutableList.of(
     			"zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"));
     	log.info("Refs: {}", productRefs);
-    	Assert.assertNotNull(productRefs);
-    	Assert.assertEquals(2, productRefs.size());
-    	Assert.assertEquals(ImmutableSet.of("zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"),
+    	assertNotNull(productRefs);
+    	assertEquals(2, productRefs.size());
+    	assertEquals(ImmutableSet.of("zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"),
     			productRefs.keySet());
     }
     
@@ -451,9 +453,9 @@ public class ProductRemoteServiceTest {
     	Map<String, ProductRefMagja> productRefs = service.getRefs(ImmutableList.of(
     			"zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"));
     	log.info("Refs: {}", productRefs);
-    	Assert.assertNotNull(productRefs);
-    	Assert.assertEquals(2, productRefs.size());
-    	Assert.assertEquals(ImmutableSet.of("zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"),
+    	assertNotNull(productRefs);
+    	assertEquals(2, productRefs.size());
+    	assertEquals(ImmutableSet.of("zibalabel_venus-apparel-15", "zibalabel_zulfia-houseware-76"),
     			productRefs.keySet());
     }
     
@@ -469,17 +471,35 @@ public class ProductRemoteServiceTest {
     @Test public void getProductBySku() throws ServiceException {
     	Product product = service.getBySku("zibalabel_letika-bag-37");
     	log.debug("Product by zibalabel_letika-bag-37: {}.", product);
+    	log.debug("Product attrset: {}.", product.getAttributeSet());
     	log.debug("Product attributes: {}.", product.getAttributes());
-    	Assert.assertNotNull(product);
+    	assertNotNull(product);
+    	assertNotNull(product.getAttributeSet());
+    	assertNotNull(product.getAttributeSet().getId());
+    	assertThat(product.getAttributeSet().getId(), greaterThan(0));
     	assertThat(product.getAttributes().values(), empty());
     }
     
+    @Test public void getProductBySkuWithAttributeSet() throws ServiceException {
+    	Product product = service.getBySku("zibalabel_letika-bag-37", ImmutableSet.<String>of(),
+    			ImmutableSet.of(Dependency.ATTRIBUTE_SET));
+    	log.debug("Product by zibalabel_letika-bag-37: {}.", product);
+    	log.debug("Product attrset: {}.", product.getAttributeSet());
+    	log.debug("Product attributes: {}.", product.getAttributes());
+    	assertNotNull(product);
+    	assertNotNull(product.getAttributeSet());
+    	assertNotNull(product.getAttributeSet().getId());
+    	assertThat(product.getAttributeSet().getName(), not(isEmptyOrNullString()));
+    	assertThat(product.getAttributeSet().getId(), greaterThan(0));
+    	assertThat(product.getAttributes().values(), empty());
+    }
+
     @Test public void getProductBySkuWithAttributes() throws ServiceException {
     	Product product = service.getBySku("zibalabel_letika-bag-37",
     			ImmutableSet.of("weight", "item_color"));
     	log.debug("Product by zibalabel_letika-bag-37: {}.", product);
     	log.debug("Product attributes: {}.", product.getAttributes());
-    	Assert.assertNotNull(product);
+    	assertNotNull(product);
     	assertThat(product.getAttributes().values(), hasSize(2));
     }
     
