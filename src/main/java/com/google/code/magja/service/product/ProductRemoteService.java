@@ -222,5 +222,14 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException;
 
 	void updatePrice(List<ProductUpdatePrice> products) throws ServiceException;
+
+	Product getById(Integer id, Set<String> attributes)
+			throws ServiceException;
+
+	Product getBySku(String sku, Set<String> attributes, boolean dependencies)
+			throws ServiceException;
+
+	Product getBySku(String sku, Set<String> attributes)
+			throws ServiceException;
 	
 }

@@ -1,5 +1,9 @@
 package com.google.code.magja.service.product;
 
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
@@ -462,11 +466,21 @@ public class ProductRemoteServiceTest {
     	service.updatePrice(products);
     }
     
-    @Test
-    public void getProductBySku() throws ServiceException {
+    @Test public void getProductBySku() throws ServiceException {
     	Product product = service.getBySku("zibalabel_letika-bag-37");
     	log.debug("Product by zibalabel_letika-bag-37: {}.", product);
+    	log.debug("Product attributes: {}.", product.getAttributes());
     	Assert.assertNotNull(product);
+    	assertThat(product.getAttributes().values(), empty());
+    }
+    
+    @Test public void getProductBySkuWithAttributes() throws ServiceException {
+    	Product product = service.getBySku("zibalabel_letika-bag-37",
+    			ImmutableSet.of("weight", "item_color"));
+    	log.debug("Product by zibalabel_letika-bag-37: {}.", product);
+    	log.debug("Product attributes: {}.", product.getAttributes());
+    	Assert.assertNotNull(product);
+    	assertThat(product.getAttributes().values(), hasSize(2));
     }
     
 }

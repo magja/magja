@@ -17,6 +17,8 @@ import org.apache.axiom.om.impl.llom.factory.OMLinkedListMetaFactory;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.mozilla.javascript.Scriptable;
 
+import com.google.common.collect.Iterables;
+
 public class SoapCallFactory {
 
     private OMFactory fac;
@@ -134,10 +136,10 @@ public class SoapCallFactory {
         method.addChild(resourcePath);
 
         OMElement paramArgs;
-        if (arg instanceof List) {
-            List<Object> args = (List<Object>) arg;
+        if (arg instanceof Iterable) {
+            Iterable<Object> args = (Iterable<Object>) arg;
             paramArgs = fac.createOMElement(ARGUMENTS, noNs);
-            paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + args.size() + "]",
+            paramArgs.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + Iterables.size(args) + "]",
                     soapEnc);
             paramArgs.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
 
@@ -262,10 +264,10 @@ public class SoapCallFactory {
                 arrayArg.addChild(typedElement(elementNs, "item", item));
             }
             return arrayArg;
-        } else if (value instanceof List) {
-            List<Object> list = (List<Object>) value;
+        } else if (value instanceof Iterable) {
+        	Iterable<Object> list = (Iterable<Object>) value;
             OMElement arrayArg = fac.createOMElement(name, elementNs);
-            arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + list.size() + "]",
+            arrayArg.addAttribute("arrayType", xsd.getPrefix() + ":ur-type[" + Iterables.size(list) + "]",
                     soapEnc);
             arrayArg.addAttribute("type", soapEnc.getPrefix() + ":Array", xsi);
             for (Object item : list) {
