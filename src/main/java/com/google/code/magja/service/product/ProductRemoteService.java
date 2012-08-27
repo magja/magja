@@ -16,6 +16,7 @@ import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.model.product.ProductUpdatePrice;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
+import com.google.code.magja.service.product.ProductRemoteService.Dependency;
 
 public interface ProductRemoteService extends GeneralService<Product> {
 	
@@ -242,5 +243,9 @@ public interface ProductRemoteService extends GeneralService<Product> {
 	public Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException;
 
 	void updatePrice(List<ProductUpdatePrice> products) throws ServiceException;
+
+	void update(Product product, Product existingProduct, String storeView,
+			Set<Dependency> dependencies) throws ServiceException,
+			NoSuchAlgorithmException;
 
 	}

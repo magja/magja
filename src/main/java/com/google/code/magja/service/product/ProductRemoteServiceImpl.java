@@ -406,7 +406,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     
     @Override
     public Product getBySku(String sku, Set<String> attributes, boolean dependencies) throws ServiceException {
-    	return getBySku(sku, attributes, dependencies);
+        if (dependencies) {
+            return getBySku(sku, attributes, ImmutableSet.of(
+            		Dependency.CATEGORIES, Dependency.MEDIAS, Dependency.LINKS, Dependency.TYPES, Dependency.ATTRIBUTE_SET,
+            		Dependency.INVENTORY));
+        } else {
+            return getBySku(sku, attributes, ImmutableSet.<Dependency>of());
+        }
     }
 
     private Map<String, Object> loadBaseProduct(String sku, Set<String> attributes) throws ServiceException {
@@ -1136,24 +1142,36 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         doAssignCategories(product, ImmutableList.<Category>of());
 	}
 
+	@Override
 	public void update(Product product, Product existingProduct) throws ServiceException,
 			NoSuchAlgorithmException {
 		update(product, existingProduct, "");
 	}
+	
+	@Override
+	public void update(Product product, Product existingProduct, String storeView) throws ServiceException, NoSuchAlgorithmException {
+		update(product, existingProduct, storeView, ImmutableSet.of(
+				Dependency.INVENTORY, Dependency.MEDIAS, Dependency.LINKS, Dependency.CATEGORIES) );
+	}
+	
 
 	@Override
-	public void update(Product product, Product existingProduct, String storeView) throws ServiceException,
+	public void update(Product product, Product existingProduct, String storeView,
+			Set<Dependency> dependencies) throws ServiceException,
 			NoSuchAlgorithmException {
         try {
-            Map<String, Object> props = product.getAllProperties();
+            Map<String, Object> productData = product.getAllProperties();
             if (product.getVisibility() != null)
-                props.put("visibility", product.getVisibility().getValue());
+                productData.put("visibility", product.getVisibility().getValue());
+            // combine static attributes with custom attributes
+            productData.putAll(product.getAttributes());
+            
             Object[] newProductArgs = new Object[] {
             	product.getId(),
-            	props,
+            	productData,
             	!storeView.isEmpty() ? storeView : null };
 
-            log.info("Updating '" + product.getSku() + "'");
+            log.info("Updating '{}'", product.getSku());
 
             Object callResult = soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
             log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductUpdate,
@@ -1172,14 +1190,21 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 e.printStackTrace();
             throw new ServiceException("Error updating Product " + product.getId(), e);
         }
-        // inventory
-
-        if (product.getQty() != null)
-            updateInventory(product);
-
-        assignProductMedias(product);
-        assignProductLinks(product);
-        assignCategories(product, existingProduct);
-	}
         
+        // inventory
+        if (dependencies.contains(Dependency.INVENTORY)) {
+        	if (product.getQty() != null)
+        		updateInventory(product);
+        }
+        if (dependencies.contains(Dependency.MEDIAS)) {
+        	assignProductMedias(product);
+        }
+        if (dependencies.contains(Dependency.LINKS)) {
+        	assignProductLinks(product);
+        }
+        if (dependencies.contains(Dependency.CATEGORIES)) {
+        	assignCategories(product, existingProduct);
+        }
+	}
+
 }
