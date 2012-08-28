@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.axis2.AxisFault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.product.Product;
@@ -21,6 +23,8 @@ import com.google.code.magja.soap.MagentoSoapClient;
 public class ProductMediaRemoteServiceImpl extends
         GeneralServiceImpl<ProductMedia> implements ProductMediaRemoteService {
 
+	private transient Logger log = LoggerFactory
+			.getLogger(ProductMediaRemoteServiceImpl.class);
     private static final long serialVersionUID = -1848723516561700531L;
 
     public ProductMediaRemoteServiceImpl(MagentoSoapClient soapClient) {
@@ -213,8 +217,9 @@ public class ProductMediaRemoteServiceImpl extends
             productMedia.setFile(result);
 
         } catch (AxisFault e) {
+        	log.error("Cannot create ProductMedia " + productMedia.getLabel(), e);
             if (debug) e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot create ProductMedia " + productMedia.getLabel(), e);
         }
     }
 

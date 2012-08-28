@@ -34,7 +34,6 @@ import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.service.category.CategoryRemoteService;
 import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -83,17 +82,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         return product;
     }
 
-    private Product buildProduct(Map<String, Object> mpp, boolean dependencies)
+    private Product buildProduct(Map<String, Object> mpp, Set<String> attributes, boolean dependencies)
             throws ServiceException {
         if (dependencies) {
-            return buildProduct(mpp, true, true, true, true, true, true);
+            return buildProduct(mpp, attributes, ImmutableSet.of(
+            		Dependency.CATEGORIES, Dependency.MEDIAS, Dependency.LINKS, Dependency.TYPES, Dependency.ATTRIBUTE_SET,
+            		Dependency.INVENTORY));
         } else {
-            return buildProduct(mpp, false, false, false, false, false, false);
+            return buildProduct(mpp, attributes, ImmutableSet.<Dependency>of());
         }
     }
-
+    
     private Product buildProductWithCategories(Map<String, Object> mpp) throws ServiceException {
-        return buildProduct(mpp, true, false, false, false, false, false);
+        return buildProduct(mpp, ImmutableSet.<String>of(),
+        		ImmutableSet.of(Dependency.CATEGORIES));
     }
 
     /**
@@ -103,11 +105,21 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      * @return Product
      * @throws ServiceException
      */
-    private Product buildProduct(Map<String, Object> mpp, boolean loadCategories,
-            boolean loadMedia, boolean loadLinks, boolean loadTypes, boolean loadAttributeSet,
-            boolean loadInventory) throws ServiceException {
+    //boolean loadCategories,
+    //boolean loadMedia, boolean loadLinks, boolean loadTypes, boolean loadAttributeSet,
+    //boolean loadInventory
+    private Product buildProduct(Map<String, Object> mpp, Set<String> attributes,
+    		Set<Dependency> dependencies) throws ServiceException {
 
         Product product = buildProductBasic(mpp);
+        
+        // attribute values
+		Map<String, Object> attributeValues = new HashMap<String, Object>();
+		for (String attrCode : attributes) {
+			Object attrValue = mpp.get(attrCode);
+			attributeValues.put(attrCode, attrValue);
+		}
+		product.setAttributes(attributeValues);
 
         // product visibility
         if (mpp.get("visibility") != null) {
@@ -136,7 +148,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
             ProductType type = ProductType.getType((String) mpp.get("type"));
 
-            if (type == null && loadTypes) {
+            if (type == null && dependencies.contains(Dependency.TYPES)) {
                 /*
                  * means its a type not covered by the enum, so we have to look
                  * in magento api to get this type
@@ -152,23 +164,20 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 product.setType(type);
         }
 
-        // set the attributeSet
-        if (mpp.get("set") != null && loadAttributeSet)
-            product.setAttributeSet(
-
-            getAttributeSet((String) mpp
-
-            .
-
-            get("set")
-
-            ));
+        // set full attributeSet if loadAttributeSet is requested
+        if (mpp.get("set") != null && dependencies.contains(Dependency.ATTRIBUTE_SET)) {
+            product.setAttributeSet( getAttributeSet((String) mpp.get("set")) );
+        } else {
+        	// if loadAttributeSet is not requested, only provide the attribute set ID
+        	final ProductAttributeSet attributeSet = new ProductAttributeSet(Integer.valueOf((String) mpp.get("set")), null);
+			product.setAttributeSet( attributeSet );
+        }
 
         // categories - dont get the full tree, only basic info of categories
         if (mpp.get("categories") != null)
 
         {
-            if (loadCategories) {
+            if (dependencies.contains(Dependency.CATEGORIES)) {
                 product.getCategories().addAll(
                         getCategoriesBasicInfo((List<Object>) mpp.get("categories")));
             } else {
@@ -182,20 +191,18 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         }
 
         // Inventory
-        if (loadInventory)
-
-        {
+        if (dependencies.contains(Dependency.INVENTORY)) {
             Set<Product> products = new HashSet<Product>();
             products.add(product);
             getInventoryInfo(products);
         }
 
         // medias
-        if (loadMedia)
+        if (dependencies.contains(Dependency.MEDIAS))
             product.setMedias(serviceFactory.getProductMediaRemoteService().listByProduct(product));
 
         // product links
-        if (loadLinks)
+        if (dependencies.contains(Dependency.LINKS))
             product.setLinks(serviceFactory.getProductLinkRemoteService().list(product));
 
         return product;
@@ -349,7 +356,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             return products;
 
         for (Map<String, Object> mpp : productList)
-            products.add(buildProduct(mpp, dependencies));
+            products.add(buildProduct(mpp, ImmutableSet.<String>of(), dependencies));
 
         return products;
     }
@@ -367,8 +374,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     }
 
     @Override
+    public Product getBySku(String sku, Set<String> attributes) throws ServiceException {
+        return getBySku(sku, attributes, false);
+    }
+    
+    @Override
     public Product getBySkuWithCategories(String sku) throws ServiceException {
-        Map<String, Object> mpp = loadBaseProduct(sku);
+        Map<String, Object> mpp = loadBaseProduct(sku, ImmutableSet.<String>of());
 
         if (mpp == null) {
             return null;
@@ -379,27 +391,42 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
     @Override
     public Product getBySku(String sku, boolean dependencies) throws ServiceException {
-
-        Map<String, Object> mpp = loadBaseProduct(sku);
+    	return getBySku(sku, ImmutableSet.<String>of(), dependencies);
+    }
+    
+    public Product getBySku(String sku, Set<String> attributes, Set<Dependency> dependencies) throws ServiceException {
+        Map<String, Object> mpp = loadBaseProduct(sku, attributes);
 
         if (mpp == null) {
             return null;
         } else {
-            return buildProduct(mpp, dependencies);
+            return buildProduct(mpp, attributes, dependencies);
+        }
+    }
+    
+    @Override
+    public Product getBySku(String sku, Set<String> attributes, boolean dependencies) throws ServiceException {
+        if (dependencies) {
+            return getBySku(sku, attributes, ImmutableSet.of(
+            		Dependency.CATEGORIES, Dependency.MEDIAS, Dependency.LINKS, Dependency.TYPES, Dependency.ATTRIBUTE_SET,
+            		Dependency.INVENTORY));
+        } else {
+            return getBySku(sku, attributes, ImmutableSet.<Dependency>of());
         }
     }
 
-    private Map<String, Object> loadBaseProduct(String sku) throws ServiceException {
+    private Map<String, Object> loadBaseProduct(String sku, Set<String> attributes) throws ServiceException {
         Map<String, Object> mpp;
         try {
-            mpp = soapClient.callSingle(ResourcePath.ProductInfo, sku);
+            mpp = soapClient.callArgs(ResourcePath.ProductInfo, new Object[] { sku, null, attributes });
         } catch (AxisFault e) {
+        	log.error("Error calling product.info with sku=" + sku + ", attributes=" + attributes, e);
             if (e.getMessage().indexOf("Product not exists") >= 0) {
                 mpp = null;
             } else {
                 if (debug)
                     e.printStackTrace();
-                throw new ServiceException("Cannot loadBaseProduct", e);
+                throw new ServiceException("Error calling product.info with sku=" + sku + ", attributes=" + attributes, e);
             }
         }
 
@@ -448,6 +475,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     	});
         return refs;
     }
+    
+    @Override
+    public Product getById(Integer id) throws ServiceException {
+    	return getById(id, ImmutableSet.<String>of());
+    }
 
     /*
      * (non-Javadoc)
@@ -457,21 +489,21 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      * .lang .Integer)
      */
     @Override
-    public Product getById(Integer id) throws ServiceException {
-
+    public Product getById(Integer id, Set<String> attributes) throws ServiceException {
         Map<String, Object> mpp;
         try {
-            mpp = soapClient.callSingle(ResourcePath.ProductInfo, id);
+            mpp = soapClient.callArgs(ResourcePath.ProductInfo, new Object[] { id, null, attributes });
         } catch (AxisFault e) {
+        	log.error("Error calling product.info with id=" + id + ", attributes=" + attributes, e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Error calling product.info with id=" + id + ", attributes=" + attributes, e);
         }
 
         if (mpp == null)
             return null;
         else
-            return buildProduct(mpp, true);
+            return buildProduct(mpp, attributes, true);
     }
 
     /*
@@ -505,15 +537,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             	@Override
             	public Product apply(Map<String, Object> mpp) {
                 	try {
-						Product product = buildProduct(mpp, false);
-						Map<String, Object> attributes = new HashMap<String, Object>();
-						for (String attrCode : attributesToSelect) {
-							Object attrValue = mpp.get(attrCode);
-							attributes.put(attrCode, attrValue);
-						}
-						product.setAttributes(attributes);
+						Product product = buildProduct(mpp, attributesToSelect, false);
 						return product;
 					} catch (ServiceException e) {
+						log.error("Cannot map to Product: " + mpp, e);
 						throw new RuntimeException("Cannot map to Product: " + mpp, e);
 					}
             	}
@@ -1059,7 +1086,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                     ResourcePath.ProductList, param);
             if (productList != null) {
                 for (Map<String, Object> mpp : productList)
-                    products.add(buildProduct(mpp, false));
+                    products.add(buildProduct(mpp, ImmutableSet.<String>of(), false));
             }
         } catch (AxisFault e) {
             if (debug)
@@ -1115,24 +1142,36 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
         doAssignCategories(product, ImmutableList.<Category>of());
 	}
 
+	@Override
 	public void update(Product product, Product existingProduct) throws ServiceException,
-	NoSuchAlgorithmException {
+			NoSuchAlgorithmException {
 		update(product, existingProduct, "");
 	}
+	
+	@Override
+	public void update(Product product, Product existingProduct, String storeView) throws ServiceException, NoSuchAlgorithmException {
+		update(product, existingProduct, storeView, ImmutableSet.of(
+				Dependency.INVENTORY, Dependency.MEDIAS, Dependency.LINKS, Dependency.CATEGORIES) );
+	}
+	
 
 	@Override
-	public void update(Product product, Product existingProduct, String storeView) throws ServiceException,
+	public void update(Product product, Product existingProduct, String storeView,
+			Set<Dependency> dependencies) throws ServiceException,
 			NoSuchAlgorithmException {
         try {
-            Map<String, Object> props = product.getAllProperties();
+            Map<String, Object> productData = product.getAllProperties();
             if (product.getVisibility() != null)
-                props.put("visibility", product.getVisibility().getValue());
+                productData.put("visibility", product.getVisibility().getValue());
+            // combine static attributes with custom attributes
+            productData.putAll(product.getAttributes());
+            
             Object[] newProductArgs = new Object[] {
             	product.getId(),
-            	props,
+            	productData,
             	!storeView.isEmpty() ? storeView : null };
 
-            log.info("Updating '" + product.getSku() + "'");
+            log.info("Updating '{}'", product.getSku());
 
             Object callResult = soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
             log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductUpdate,
@@ -1151,14 +1190,21 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 e.printStackTrace();
             throw new ServiceException("Error updating Product " + product.getId(), e);
         }
-        // inventory
-
-        if (product.getQty() != null)
-            updateInventory(product);
-
-        assignProductMedias(product);
-        assignProductLinks(product);
-        assignCategories(product, existingProduct);
-	}
         
+        // inventory
+        if (dependencies.contains(Dependency.INVENTORY)) {
+        	if (product.getQty() != null)
+        		updateInventory(product);
+        }
+        if (dependencies.contains(Dependency.MEDIAS)) {
+        	assignProductMedias(product);
+        }
+        if (dependencies.contains(Dependency.LINKS)) {
+        	assignProductLinks(product);
+        }
+        if (dependencies.contains(Dependency.CATEGORIES)) {
+        	assignCategories(product, existingProduct);
+        }
+	}
+
 }
