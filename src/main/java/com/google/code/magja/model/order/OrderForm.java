@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.address.BasicAddress;
+import com.google.code.magja.service.order.OrderRemoteService;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -19,6 +20,7 @@ import com.google.common.collect.Lists;
 public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 
 	private Long customerId;
+	private String currencyCode;
 	private List<OrderFormItem> items;
 	private BasicAddress billingAddress;
 	private BasicAddress shippingAddress;
@@ -28,22 +30,26 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 	}
 	
 	/**
+	 * Used by {@link OrderRemoteService#createEx(OrderForm)} (basic version).
 	 * @param customerId
+	 * @param currencyCode
 	 * @param items
 	 */
-	public OrderForm(Long customerId, List<OrderFormItem> items) {
+	public OrderForm(Long customerId, String currencyCode, List<OrderFormItem> items) {
 		super();
 		this.customerId = customerId;
 		this.items = items;
 	}
 	
 	/**
+	 * Used by {@link OrderRemoteService#createEx(OrderForm)} (extended version).
 	 * @param customerId
 	 * @param items
 	 */
-	public OrderForm(Long customerId, List<OrderFormItem> items, BasicAddress billingAddress, BasicAddress shippingAddress) {
+	public OrderForm(Long customerId, String currencyCode, List<OrderFormItem> items, BasicAddress billingAddress, BasicAddress shippingAddress) {
 		super();
 		this.customerId = customerId;
+		this.currencyCode = currencyCode;
 		this.items = items;
 		this.billingAddress = billingAddress;
 		this.shippingAddress = shippingAddress;
@@ -53,8 +59,9 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 	protected void loadMappings() {
 		mapping = new Properties();
 		mapping.putAll( ImmutableMap.of("customer_id", (Object)"customerId") );
-		mapping.putAll( ImmutableMap.of("billingAddress", (Object)"billingAddress"));
-		mapping.putAll( ImmutableMap.of("shippingAddress", (Object)"shippingAddress") );
+		mapping.putAll( ImmutableMap.of("currency_code", (Object)"currencyCode") );
+		//mapping.putAll( ImmutableMap.of("billingAddress", (Object)"billingAddress"));
+		//mapping.putAll( ImmutableMap.of("shippingAddress", (Object)"shippingAddress") );
 	}
 
 	/* (non-Javadoc)
@@ -73,19 +80,14 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 		});
 		
 		props.put("items", itemsApi);
-		props.put("billingAddress", billingAddress.serializeToApi());
-		props.put("shippingAddress", shippingAddress.serializeToApi());
+		if (billingAddress != null) {
+			props.put("billingAddress", billingAddress.serializeToApi());
+		}
+		if (shippingAddress != null) {
+			props.put("shippingAddress", shippingAddress.serializeToApi());
+		}
 		return props;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "OrderForm [customerId=" + customerId + ", items=" + items + ", shippingAddress="+ shippingAddress + ", billingAddress="+ billingAddress + "]";
-	}
-	
 
 	/**
 	 * @return the customerId
@@ -143,4 +145,20 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 		this.shippingAddress = shippingAddress;
 	}
 
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "OrderForm [customerId=" + customerId + ", items=" + items + ", shippingAddress="+ shippingAddress + ", billingAddress="+ billingAddress + "]";
+	}
+	
 }

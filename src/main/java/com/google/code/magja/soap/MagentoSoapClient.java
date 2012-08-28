@@ -17,7 +17,6 @@ import javax.annotation.PreDestroy;
 import javax.xml.namespace.QName;
 
 import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.OMException;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.Constants;
 import org.apache.axis2.addressing.EndpointReference;
@@ -31,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.magento.ResourcePath;
+import com.google.common.base.Preconditions;
 
 public class MagentoSoapClient implements SoapClient {
 
@@ -75,14 +75,14 @@ public class MagentoSoapClient implements SoapClient {
      *
      * @return the already created instance or a new one
      */
-    public static MagentoSoapClient getInstance(SoapConfig soapConfig) {
-
+    public static MagentoSoapClient getInstance(final SoapConfig soapConfig) {
         // if has default instance and soapConfig is null
         if (INSTANCES.size() > 0 && soapConfig == null)
             return INSTANCES.values().iterator().next();
 
         synchronized (INSTANCES) {
 
+        	SoapConfig loadedSoapConfig = null;
             if (soapConfig == null) {
             	InputStream configStream = MagentoSoapClient.class.getResourceAsStream("/magento-api.properties");
 	        	if (configStream != null) {
@@ -90,22 +90,28 @@ public class MagentoSoapClient implements SoapClient {
 	        		Properties props = new Properties();
 	        		try {
 						props.load(configStream);
+		                loadedSoapConfig = new SoapConfig(
+		                		props.getProperty("magento-api-username"), 
+		                		props.getProperty("magento-api-password"),
+		                		props.getProperty("magento-api-url") );
 					} catch (IOException e) {
 						log.error("Cannot load /magento-api.properties from classpath", e);
 					}
-	                soapConfig = new SoapConfig(
-	                		props.getProperty("magento-api-username"), 
-	                		props.getProperty("magento-api-password"),
-	                		props.getProperty("magento-api-url") );
 	        	} else {
-	        		log.info("/magento-api.properties not found in classpath, not loading using Spring");
+	        		log.error("/magento-api.properties not found in classpath");
 	        	}
+	        	
+	        	if (loadedSoapConfig == null) { // still null?
+	        		throw new RuntimeException("Cannot create soapConfig, make sure /magento-api.properties is in classpath, or provide your own SoapConfig instance");
+	        	}
+            } else {
+            	loadedSoapConfig = soapConfig;
             }
             
-            MagentoSoapClient instance = INSTANCES.get(soapConfig);
+            MagentoSoapClient instance = INSTANCES.get(loadedSoapConfig);
             if (instance == null) {
-                instance = new MagentoSoapClient(soapConfig);
-                INSTANCES.put(soapConfig, instance);
+                instance = new MagentoSoapClient(loadedSoapConfig);
+                INSTANCES.put(loadedSoapConfig, instance);
             }
             return instance;
         }
@@ -118,6 +124,8 @@ public class MagentoSoapClient implements SoapClient {
      */
     public MagentoSoapClient(SoapConfig soapConfig, SoapCallFactory callFactory) {
     	super();
+    	Preconditions.checkNotNull(soapConfig, "soapConfig cannot be null");
+    	Preconditions.checkNotNull(callFactory, "callFactory cannot be null");
         this.config = soapConfig;
         this.callFactory = callFactory;
         this.returnParser = new SoapReturnParser();

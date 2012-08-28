@@ -166,7 +166,7 @@ public class OrderRemoteServiceTest {
 				new OrderFormItem(1566L, 1.0),
 				new OrderFormItem(1556L, 1.0));
 		long customerId = 3L;
-		OrderForm orderForm = new OrderForm(customerId, items);
+		OrderForm orderForm = new OrderForm(customerId, "IDR", items);
 		Object order = service.create(orderForm);
 		System.out.println("Order Id "+ order);
 		assertNotNull(order);
@@ -177,7 +177,7 @@ public class OrderRemoteServiceTest {
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
 				new OrderFormItem(194L, 1.0),
 				new OrderFormItem(195L, 3.0));
-		OrderForm orderForm = new OrderForm(null, items);
+		OrderForm orderForm = new OrderForm(null, "IDR", items);
 		Object order = service.create(orderForm);
 		assertNull(order);
 	}
@@ -185,7 +185,7 @@ public class OrderRemoteServiceTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void createWithNoItemsShouldFail() throws ServiceException {
 		List<OrderFormItem> items = new ArrayList<OrderFormItem>();
-		OrderForm orderForm = new OrderForm(3L, items);
+		OrderForm orderForm = new OrderForm(3L, "IDR", items);
 		Object order = service.create(orderForm);
 		assertNull(order);
 	}
@@ -208,9 +208,9 @@ public class OrderRemoteServiceTest {
 		
 		log.info("customer address {}", customerAddress);
 		ImmutableList<OrderFormItem> items = ImmutableList.of(
-				new OrderFormItem(999L, 1.0),
-				new OrderFormItem(998L, 1.0));
-		OrderForm orderForm = new OrderForm(4L, items, customerAddress, customerAddress);
+				new OrderFormItem(1220L, 1.0),
+				new OrderFormItem(1221L, 1.0));
+		OrderForm orderForm = new OrderForm(2L, "IDR", items, customerAddress, customerAddress);
 		
 		log.info("orderform {}", orderForm);
 		log.info("shippingAddress {}", orderForm.getShippingAddress());
