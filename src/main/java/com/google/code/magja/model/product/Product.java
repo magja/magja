@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.category.Category;
+import com.google.code.magja.service.product.ProductRemoteService;
 
 public class Product extends BaseMagentoModel<Object[]> {
 
@@ -47,8 +48,9 @@ public class Product extends BaseMagentoModel<Object[]> {
     private List<Category> categories = new ArrayList<Category>();
 
     private Double qty;
-
     private Boolean inStock;
+    private Boolean manageStock;
+    private Boolean useConfigManageStock;
 
     private List<ProductMedia> medias;
 
@@ -536,8 +538,38 @@ public class Product extends BaseMagentoModel<Object[]> {
     public void setVisibility(Visibility visibility) {
         this.visibility = visibility;
     }
+    
+    /**
+	 * @return the manageStock
+	 */
+	public Boolean getManageStock() {
+		return manageStock;
+	}
 
-    /*
+	/**
+	 * @param manageStock if not null, the manageStock to set.
+	 * 		if null, will be ignored during {@link ProductRemoteService#updateInventory(Product)}.
+	 */
+	public void setManageStock(Boolean manageStock) {
+		this.manageStock = manageStock;
+	}
+
+	/**
+	 * @return the useConfigManageStock
+	 */
+	public Boolean getUseConfigManageStock() {
+		return useConfigManageStock;
+	}
+
+	/**
+	 * @param useConfigManageStock if not null, the useConfigManageStock to set.
+	 * 		if null, will be ignored during {@link ProductRemoteService#updateInventory(Product)}.
+	 */
+	public void setUseConfigManageStock(Boolean useConfigManageStock) {
+		this.useConfigManageStock = useConfigManageStock;
+	}
+
+	/*
       * (non-Javadoc)
       *
       * @see java.lang.Object#hashCode()

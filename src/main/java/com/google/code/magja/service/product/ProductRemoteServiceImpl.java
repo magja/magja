@@ -966,6 +966,14 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                         else
                             product.setInStock(true);
                     }
+                    if (iv.get("manage_stock") != null)
+                    	product.setManageStock(iv.get("manage_stock").toString().equals("1"));
+                    else
+                    	product.setManageStock(null);
+                    if (iv.get("use_config_manage_stock") != null)
+                    	product.setUseConfigManageStock(iv.get("use_config_manage_stock").toString().equals("1"));
+                    else
+                    	product.setUseConfigManageStock(null);
                 }
             }
         }
@@ -980,30 +988,35 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
      */
     @Override
     public void updateInventory(Product product) throws ServiceException {
-
         if (product.getId() == null && product.getSku() == null)
             throw new ServiceException(
                     "The product must have the id or the sku seted for update inventory");
 
         if (product.getInStock() == null)
             product.setInStock(product.getQty() > 0);
-        ImmutableMap<String, ? extends Object> properties = ImmutableMap.of(
-        		"qty", product.getQty(),
-        		"is_in_stock", (product.getInStock() ? "1" : "0"));
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("qty", product.getQty());
+        properties.put("is_in_stock", (product.getInStock() ? "1" : "0"));
+        if (product.getManageStock() != null) {
+        	properties.put("manage_stock", product.getManageStock() ? "1" : 0);
+        }
+        if (product.getUseConfigManageStock() != null) {
+        	properties.put("use_config_manage_stock", product.getUseConfigManageStock() ? "1" : 0);
+        }
         try {
             soapClient.callArgs(ResourcePath.ProductStockUpdate, new Object[] {
         		product.getId() != null ? product.getId() : product.getSku(),
 				properties });
         } catch (AxisFault e) {
+        	log.error("Cannot update inventory for product " + product.getId(), e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot update inventory for product " + product.getId(), e);
         }
     }
 
     @Override
     public void setManageStock(Product product) throws ServiceException {
-
         if (product.getId() == null && product.getSku() == null)
             throw new ServiceException(
                     "The product must have the id or the sku seted for update inventory");
@@ -1016,15 +1029,15 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             		product.getId() != null ? product.getId() : product.getSku(),
             				properties });
         } catch (AxisFault e) {
+        	log.error("Cannot set 'Manage Stock' for product " + product.getId(), e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot set 'Manage Stock' for product " + product.getId(), e);
         }
     }
 
     @Override
     public void setManageStock(Product product, boolean manageStock) throws ServiceException {
-
         if (product.getId() == null && product.getSku() == null)
             throw new ServiceException(
                     "The product must have the id or the sku seted for update inventory");
@@ -1044,9 +1057,10 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
             		product.getId() != null ? product.getId() : product.getSku(),
     				properties });
         } catch (AxisFault e) {
+        	log.error("Cannot set 'Manage Stock' for product " + product.getId(), e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException("Cannot set 'Manage Stock' for product " + product.getId(), e);
         }
     }
 
