@@ -38,14 +38,12 @@ public class OrderRemoteServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		service = RemoteServiceFactory.getSingleton().getOrderRemoteService();
-		
 	}
 
 	/**
 	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#addComment(com.google.code.magja.model.order.Order, java.lang.String, java.lang.String, java.lang.Boolean)}.
 	 */
-	@Test
-	public void testAddComment() {
+	@Test public void addCommentToOrder() {
 
 		Order order = new Order();
 		order.setId(100000017);
@@ -61,8 +59,7 @@ public class OrderRemoteServiceTest {
 	/**
 	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#cancel(com.google.code.magja.model.order.Order)}.
 	 */
-	@Test
-	public void testCancel() {
+	@Test public void cancelOrder() {
 
 		Order order = new Order();
 		order.setId(100000001);
@@ -78,8 +75,7 @@ public class OrderRemoteServiceTest {
 	/**
 	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#getById(java.lang.Integer)}.
 	 */
-	@Test
-	public void testGetById() {
+	@Test public void getById() {
 
 		try {
 			Order order = service.getById(100000001);
@@ -102,8 +98,7 @@ public class OrderRemoteServiceTest {
 	/**
 	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#hold(com.google.code.magja.model.order.Order)}.
 	 */
-	@Test
-	public void testHold() {
+	@Test public void holdOrder() {
 		
 		Order order = new Order();
 		order.setId(100000003);
@@ -119,8 +114,7 @@ public class OrderRemoteServiceTest {
 	/**
 	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#unhold(com.google.code.magja.model.order.Order)}.
 	 */
-	@Test
-	public void testUnhold() {
+	@Test public void unholdOrder() {
 		/*
 		Order order = new Order();
 		order.setId(100000003);
@@ -190,8 +184,7 @@ public class OrderRemoteServiceTest {
 		assertNull(order);
 	}
 	
-	@Test
-	public void createNewOrderWithCustomAddress() throws ServiceException {
+	@Test public void createNewOrderWithCustomAddress() throws ServiceException {
 		/*
 		 * set address
 		 */
@@ -207,9 +200,10 @@ public class OrderRemoteServiceTest {
 		customerAddress.setCompany("Rachmart Family");
 		
 		log.info("customer address {}", customerAddress);
-		ImmutableList<OrderFormItem> items = ImmutableList.of(
-				new OrderFormItem(1220L, 1.0),
-				new OrderFormItem(1221L, 1.0));
+		List<OrderFormItem> items = ImmutableList.of(
+				new OrderFormItem(1223L, 1.0) //,
+				//new OrderFormItem(1221L, 1.0)
+				);
 		OrderForm orderForm = new OrderForm(2L, "IDR", items, customerAddress, customerAddress);
 		
 		log.info("orderform {}", orderForm);

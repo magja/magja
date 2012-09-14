@@ -1135,16 +1135,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
                 product.setId(id);
             else
                 throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName() +", returned Product ID is empty");
-        } catch (NumberFormatException e) {
-        	log.error("Error adding Product " + product.getSku() + ": " + product.getName(), e);
+        } catch (Exception e) {
+        	log.error("Error adding Product " + product.getSku() + ": " + product.getName() + " cause: " + e.getCause(), e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName(), e);
-        } catch (AxisFault e) {
-        	log.error("Error adding Product " + product.getSku() + ": " + product.getName(), e);
-            if (debug)
-                e.printStackTrace();
-            throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName(), e);
+            throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName() + " cause: " + e.getCause(), e);
         }
 
         // inventory
@@ -1193,16 +1188,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
             if (product.getType().equals(ProductType.CONFIGURABLE))
                 handleConfigurableForNewProducts(product);
-        } catch (NumberFormatException e) {
-        	log.error("Error updating Product " + product.getId(), e);
+        } catch (Exception e) {
+        	log.error("Error updating Product " + product.getId() + " cause: " + e.getCause(), e);
             if (debug)
                 e.printStackTrace();
-            throw new ServiceException("Error updating Product " + product.getId(), e);
-        } catch (AxisFault e) {
-        	log.error("Error updating Product " + product.getId(), e);
-            if (debug)
-                e.printStackTrace();
-            throw new ServiceException("Error updating Product " + product.getId(), e);
+            throw new ServiceException("Error updating Product " + product.getId() + " cause: " + e.getCause(), e);
         }
         
         // inventory
