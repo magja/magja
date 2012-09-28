@@ -204,7 +204,7 @@ public class ProductMediaRemoteServiceTest {
 
 //            testSave();
         	product = new Product();
-        	product.setSku("zibalabel_t09");
+        	product.setSku("lennor_sita-houseware-50");
             List<ProductMedia> medias = service.listByProduct(product);
             for (ProductMedia media : medias)
                 log.info("Media: {}", media);
