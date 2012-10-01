@@ -213,5 +213,38 @@ public class OrderRemoteServiceTest {
 		assertNotNull(order);
 	}
 
+	@Test public void createNewOrderWithCustomAddressAndShippingAmount() throws ServiceException {
+		/*
+		 * set address
+		 */
+		BasicAddress customerAddress = new BasicAddress();
+		customerAddress.setFirstName("Atang");
+		customerAddress.setLastName("Sutisna");
+		customerAddress.setStreet("Jl. Setiabudi Bandung No.6c");
+		customerAddress.setCity("Bandung");
+		customerAddress.setRegion("Jawa Barat");
+		customerAddress.setPostCode("41123");
+		customerAddress.setCountryCode("ID");
+		customerAddress.setTelephone("022-09898989898");
+		customerAddress.setCompany("Rachmart Family");
+		
+		log.info("customer address {}", customerAddress);
+		List<OrderFormItem> items = ImmutableList.of(
+				new OrderFormItem(1222L, 1.0) //,
+				//new OrderFormItem(1221L, 1.0)
+				);
+		OrderForm orderForm = new OrderForm(2L, "IDR", items, customerAddress, customerAddress);
+		orderForm.setPaymentMethod("banktransfer");
+		orderForm.setShippingMethod("flatrate_flatrate");
+		orderForm.setShippingDescription("JNE Reguler");
+		orderForm.setShippingAmount(15000.0);
+		
+		log.info("orderform {}", orderForm);
+		log.info("shippingAddress {}", orderForm.getShippingAddress());
+		log.info("billingAddress {}", orderForm.getBillingAddress());
+		Object order = service.createEx(orderForm);
+		log.info("Created order {}", order);
+		assertNotNull(order);
+	}
 
 }
