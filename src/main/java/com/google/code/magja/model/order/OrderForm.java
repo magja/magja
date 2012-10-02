@@ -25,6 +25,11 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 	private BasicAddress billingAddress;
 	private BasicAddress shippingAddress;
 	
+	private String paymentMethod = "banktransfer";
+	private String shippingMethod = "flatrate_flatrate";
+	private Double shippingAmount;
+	private String shippingDescription = "Flat Rate - Fixed";
+	
 	public OrderForm() {
 		super();
 	}
@@ -60,6 +65,10 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 		mapping = new Properties();
 		mapping.putAll( ImmutableMap.of("customer_id", (Object)"customerId") );
 		mapping.putAll( ImmutableMap.of("currency_code", (Object)"currencyCode") );
+		mapping.putAll( ImmutableMap.of("payment_method", (Object)"paymentMethod") );
+		mapping.putAll( ImmutableMap.of("shipping_method", (Object)"shippingMethod") );
+		mapping.putAll( ImmutableMap.of("shipping_amount", (Object)"shippingAmount") );
+		mapping.putAll( ImmutableMap.of("shipping_description", (Object)"shippingDescription") );
 		//mapping.putAll( ImmutableMap.of("billingAddress", (Object)"billingAddress"));
 		//mapping.putAll( ImmutableMap.of("shippingAddress", (Object)"shippingAddress") );
 	}
@@ -153,6 +162,62 @@ public class OrderForm extends BaseMagentoModel<Map<String, Object>> {
 		this.currencyCode = currencyCode;
 	}
 	
+	/**
+	 * @return the paymentMethod
+	 */
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	/**
+	 * @param paymentMethod the paymentMethod to set
+	 */
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	/**
+	 * @return the shippingMethod
+	 */
+	public String getShippingMethod() {
+		return shippingMethod;
+	}
+
+	/**
+	 * @param shippingMethod the shippingMethod to set
+	 */
+	public void setShippingMethod(String shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
+	/**
+	 * @return the shippingAmount
+	 */
+	public Double getShippingAmount() {
+		return shippingAmount;
+	}
+
+	/**
+	 * @param shippingAmount the shippingAmount to set
+	 */
+	public void setShippingAmount(Double shippingAmount) {
+		this.shippingAmount = shippingAmount;
+	}
+
+	/**
+	 * @return the shippingDescription
+	 */
+	public String getShippingDescription() {
+		return shippingDescription;
+	}
+
+	/**
+	 * @param shippingDescription the shippingDescription to set
+	 */
+	public void setShippingDescription(String shippingDescription) {
+		this.shippingDescription = shippingDescription;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
