@@ -1163,17 +1163,18 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 				Dependency.INVENTORY, Dependency.MEDIAS, Dependency.LINKS, Dependency.CATEGORIES) );
 	}
 	
-
 	@Override
 	public void update(Product product, Product existingProduct, String storeView,
 			Set<Dependency> dependencies) throws ServiceException,
 			NoSuchAlgorithmException {
         try {
-            Map<String, Object> productData = product.getAllProperties();
+            Map<String, Object> productData = new HashMap<String, Object>();
+            // add custom attributes
+            productData.putAll(product.getAttributes());
+            // add/override static attribute values
+            productData.putAll(product.getAllProperties());
             if (product.getVisibility() != null)
                 productData.put("visibility", product.getVisibility().getValue());
-            // combine static attributes with custom attributes
-            productData.putAll(product.getAttributes());
             
             Object[] newProductArgs = new Object[] {
             	product.getId(),
