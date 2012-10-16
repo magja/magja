@@ -15,6 +15,7 @@ public class ProductRefMagja implements Serializable {
 	private String name;
 	private String photoId;
 	private String shopId;
+	private String price;
 	
 	public ProductRefMagja() {
 		super();
@@ -29,6 +30,18 @@ public class ProductRefMagja implements Serializable {
 		this.name = name;
 		this.photoId = photoId;
 		this.shopId = shopId;
+	}
+	
+	public ProductRefMagja(String id, String slug, String name,
+			String photoId, String shopId, String price) {
+		super();
+		this.id = id;
+		this.kind = "Product";
+		this.slug = slug;
+		this.name = name;
+		this.photoId = photoId;
+		this.shopId = shopId;
+		this.price = price;
 	}
 	
 	public String getKind() {
@@ -77,6 +90,20 @@ public class ProductRefMagja implements Serializable {
 
 	public void setShopId(String shopId) {
 		this.shopId = shopId;
+	}
+
+	/**
+	 * @return the price
+	 */
+	public String getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 	@Override
