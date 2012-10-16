@@ -475,20 +475,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     	});
         return refs;
     }
-    
-    public Map<String, ProductRefMagja> getRefsWithPrice(List<String> skus) throws ServiceException {
-    	Map<String, Map<String, String>> refsMap = getRefsMap(skus);
-    	Map<String, ProductRefMagja> refs = Maps.transformEntries(refsMap, new Maps.EntryTransformer<String, Map<String, String>, ProductRefMagja>() {
-    		@Override
-    		public ProductRefMagja transformEntry(String key,
-    				Map<String, String> value) {
-    			return new ProductRefMagja(key, value.get("url_path"), value.get("name"),
-    					value.get("image_50x50"), value.get("shop_id"), value.get("price"));
-    		}
-    	});
-        return refs;
-    }
-    
+      
     @Override
     public Product getById(Integer id) throws ServiceException {
     	return getById(id, ImmutableSet.<String>of());
