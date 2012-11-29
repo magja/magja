@@ -86,17 +86,17 @@ public class ShipmentRemoteServiceTest {
 	 * @throws ServiceException 
 	 */
 	@Test
-	public void testSave() throws ServiceException {
+	public void save() throws ServiceException {
 		Shipment shipment = new Shipment();
 		shipment.setCustomerId(3);
 //		shipment.setId(1);
 		
-		List<ShipmentItem> shipmentItems = new ArrayList<ShipmentItem>();
-		shipmentItems.add(new ShipmentItem("parang_kencana_anggun-houseware-56", "Anggun Houseware 56", 104, 199, 10.0, 11000.0, 1.0));
-		shipmentItems.add(new ShipmentItem("zibalabel_t14", "Bag T14", 105, 200, 3.0, 1650000.0, 1.0));
+		final List<ShipmentItem> shipmentItems = new ArrayList<ShipmentItem>();
+		shipmentItems.add(new ShipmentItem("obatiks_sharmani-apparel-69", "Sharmani Apparel 69", 21, 1087, 10.0, 11000.0, 1.0));
+//		shipmentItems.add(new ShipmentItem("zibalabel_t14", "Bag T14", 105, 200, 3.0, 1650000.0, 1.0));
 		
 		shipment.setItems(shipmentItems);
-		shipment.setOrderNumber("100000115");
+		shipment.setOrderNumber("100000084");
 //		shipment.setShipmentId(1);
 		shipment.setTotalQty(2.0);
 		

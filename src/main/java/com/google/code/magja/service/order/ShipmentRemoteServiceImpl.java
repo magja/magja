@@ -4,19 +4,21 @@
  */
 package com.google.code.magja.service.order;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.axis2.AxisFault;
+
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.order.Shipment;
+import com.google.code.magja.model.order.ShipmentItem;
 import com.google.code.magja.model.order.ShipmentTrack;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.soap.MagentoSoapClient;
-
-import org.apache.axis2.AxisFault;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.ImmutableSet;
 
 public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> implements ShipmentRemoteService {
 
@@ -147,8 +149,12 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
                      Boolean includeComment) throws ServiceException {
         Integer id = null;
         try {
+        	HashMap<Integer, Double> shipmentItems = new HashMap<Integer, Double>();
+        	for (ShipmentItem shipmentItem : shipment.getItems()) {
+				shipmentItems.put(shipmentItem.getOrderItemId(), shipmentItem.getQty());
+			}
             id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderShipmentCreate, new Object[] {
-            		comment != null ? comment : "", email ? 1 : 0, includeComment ? 1 : 0 }));
+            		shipment.getOrderNumber(), shipmentItems, comment != null ? comment : "", email ? 1 : 0, includeComment ? 1 : 0 }));
         } catch (NumberFormatException e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());

@@ -19,6 +19,7 @@ import com.google.code.magja.model.order.OrderFilter;
 import com.google.code.magja.model.order.OrderFilterItem;
 import com.google.code.magja.model.order.OrderForm;
 import com.google.code.magja.model.order.OrderFormItem;
+import com.google.code.magja.model.order.OrderItem;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +30,7 @@ import com.google.common.collect.ImmutableList;
  *
  */
 public class OrderRemoteServiceTest {
-	private transient Logger log = LoggerFactory.getLogger(OrderRemoteService.class);
+	private static Logger log = LoggerFactory.getLogger(OrderRemoteService.class);
 	private OrderRemoteService service;
 
 	/**
@@ -74,25 +75,19 @@ public class OrderRemoteServiceTest {
 
 	/**
 	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#getById(java.lang.Integer)}.
+	 * @throws ServiceException 
 	 */
-	@Test public void getById() {
+	@Test public void getById() throws ServiceException {
+		final Order order = service.getById(100000084);
+		log.info("Order {}: {}", order);
+		assertNotNull(order);
 
-		try {
-			Order order = service.getById(100000001);
-			//System.out.println(order.toString());
+		//System.out.println(order.getCustomer().toString());
+		//System.out.println(order.getShippingAddress().toString());
+		//System.out.println(order.getBillingAddress().toString());
 
-			//System.out.println(order.getCustomer().toString());
-			//System.out.println(order.getShippingAddress().toString());
-			//System.out.println(order.getBillingAddress().toString());
-
-			//for (OrderItem item : order.getItems())
-			//	System.out.println(item.toString());
-
-			assertTrue(order != null);
-
-		} catch (ServiceException e) {
-			fail(e.getMessage());
-		}
+		for (final OrderItem item : order.getItems())
+			log.info("Item #{}: {}", item.getId(), item);
 	}
 
 	/**
