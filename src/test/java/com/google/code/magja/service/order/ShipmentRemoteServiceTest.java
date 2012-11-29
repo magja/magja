@@ -92,11 +92,11 @@ public class ShipmentRemoteServiceTest {
 //		shipment.setId(1);
 		
 		final List<ShipmentItem> shipmentItems = new ArrayList<ShipmentItem>();
-		shipmentItems.add(new ShipmentItem("obatiks_sharmani-apparel-69", "Sharmani Apparel 69", 21, 1087, 10.0, 11000.0, 1.0));
+		shipmentItems.add(new ShipmentItem("obatiks_isabella-accessory-42", "Isabella Accessory 42", 18, 1070, 10.0, 11000.0, 1.0));
 //		shipmentItems.add(new ShipmentItem("zibalabel_t14", "Bag T14", 105, 200, 3.0, 1650000.0, 1.0));
 		
 		shipment.setItems(shipmentItems);
-		shipment.setOrderNumber("100000084");
+		shipment.setOrderNumber("100000081");
 //		shipment.setShipmentId(1);
 		shipment.setTotalQty(2.0);
 		
