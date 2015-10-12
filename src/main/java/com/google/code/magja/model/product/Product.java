@@ -33,6 +33,8 @@ public class Product extends BaseMagentoModel<Object[]> {
 
     private Double cost;
 
+    private Double msrp;
+    
     private String shortDescription;
 
     private String description;
@@ -114,6 +116,7 @@ public class Product extends BaseMagentoModel<Object[]> {
         mapping.setProperty("cost", "cost");
         mapping.setProperty("status", "enabled");
         mapping.setProperty("price", "price");
+        mapping.setProperty("msrp", "msrp");
         mapping.setProperty("short_description", "shortDescription");
         mapping.setProperty("description", "description");
         mapping.setProperty("weight", "weight");
@@ -231,11 +234,27 @@ public class Product extends BaseMagentoModel<Object[]> {
     }
 
     /**
+     * @param msrp the msrp (Manufacturer's Suggested Retail Price) to set
+     */
+    public void setMsrp(Double msrp) {
+        this.msrp = msrp;
+    }
+    
+
+    /**
+     * @return the msrp (Manufacturer's Suggested Retail Price)
+     */
+    public Double getMsrp() {
+        return msrp;
+    }
+
+    /**
      * @param price the price to set
      */
     public void setPrice(Double price) {
         this.price = price;
     }
+
 
     /**
      * @return the shortDescription
@@ -467,15 +486,23 @@ public class Product extends BaseMagentoModel<Object[]> {
     }
 
     /**
+     * This is not a standard Magento field. 
+     * Use instead the "attributes" Map to get or set custom field values.
+     * 
      * @return the googleCheckout
      */
+    @Deprecated
     public Boolean getGoogleCheckout() {
         return googleCheckout;
     }
 
     /**
+     * This is not a standard Magento field. 
+     * Use instead the "attributes" Map to get or set custom field values.
+     * 
      * @param googleCheckout the googleCheckout to set
      */
+    @Deprecated
     public void setGoogleCheckout(Boolean googleCheckout) {
         this.googleCheckout = googleCheckout;
     }
