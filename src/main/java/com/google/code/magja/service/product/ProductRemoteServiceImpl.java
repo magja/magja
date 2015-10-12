@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -418,6 +419,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     private Map<String, Object> loadBaseProduct(String sku, Set<String> attributes) throws ServiceException {
         Map<String, Object> mpp;
         try {
+            // There's a bug in Magento not interpreting properly numeric SKUs.
+            // Implementing proposed workaround on:
+            // http://stackoverflow.com/questions/6748142/magento-1-5-numeric-skus-and-productidentifiertype/10915276#10915276
+            // Consisting on adding a whitespace at the end that will be finally trimmed with Magento.
+            if (NumberUtils.isNumber(sku)) sku = sku + " ";
             mpp = soapClient.callArgs(ResourcePath.ProductInfo, new Object[] { sku, null, attributes });
         } catch (AxisFault e) {
         	log.error("Error calling product.info with sku=" + sku + ", attributes=" + attributes, e);
