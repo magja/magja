@@ -167,7 +167,7 @@ public class RemoteServiceFactory {
      * @return the productMediaRemoteService
      */
     public ProductMediaRemoteService getProductMediaRemoteService() {
-    	if (productLinkRemoteService == null) {
+    	if (productMediaRemoteService == null) {
     		productMediaRemoteService = new ProductMediaRemoteServiceImpl(magentoClient);
     	}
         return productMediaRemoteService;
