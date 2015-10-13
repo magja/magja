@@ -475,6 +475,19 @@ public class ProductRemoteServiceTest {
     	log.debug("Product attributes: {}.", product.getAttributes());
     }
     
+    @Test public void getProductBySku_NumericSkusCanBeUsed() throws ServiceException, NoSuchAlgorithmException {
+        
+        final String numericSku = "12782178";
+        Product newProduct = generateProductWithoutImage();
+        newProduct.setSku(numericSku);
+        service.save(newProduct, null);
+        Product productFound = service.getBySku(numericSku);
+        assertNotNull(productFound.getId());
+        log.debug("Product by zibalabel_letika-bag-37: {}.", productFound);
+        log.debug("Product attrset: {}.", productFound.getAttributeSet());
+        log.debug("Product attributes: {}.", productFound.getAttributes());
+    }
+    
     @Test public void getProductBySkuWithAttributeSet() throws ServiceException {
     	Product product = service.getBySku("zibalabel_letika-bag-37", ImmutableSet.<String>of(),
     			ImmutableSet.of(Dependency.ATTRIBUTE_SET));

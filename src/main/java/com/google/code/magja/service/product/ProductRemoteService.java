@@ -132,9 +132,12 @@ public interface ProductRemoteService extends GeneralService<Product> {
 
     /**
      * Save a product to the Magento, if the id attribute is null, then will
-     * create a new product, otherwise will update the product with that id
+     * create a new product, otherwise will update the product with that id.
+     * If an "existingProduct" is assigned, its categories will be copied to
+     * the upserted "product".
      * 
      * @param product
+     * @param existingProduct
      * @throws ServiceException
      * @deprecated Use either {@link ProductRemoteService#add(Product)} or {@link ProductRemoteService#update(Product)}.
      */
