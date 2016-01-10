@@ -68,6 +68,8 @@ public class Order extends BaseMagentoModel {
 
 	private OrderAddress shippingAddress = new OrderAddress();
 
+	private OrderPayment orderPayment = new OrderPayment();
+
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 
 	/*
@@ -456,6 +458,21 @@ public class Order extends BaseMagentoModel {
 	}
 
 	/**
+	 * @return the orderPayment
+	 */
+	public OrderPayment getOrderPayment() {
+		return orderPayment;
+	}
+
+	/**
+	 * @param orderPayment
+	 *            the orderPayment to set
+	 */
+	public void setOrderPayment(OrderPayment orderPayment) {
+		this.orderPayment = orderPayment;
+	}
+
+	/**
 	 * @return the items
 	 */
 	public List<OrderItem> getItems() {
@@ -504,6 +521,8 @@ public class Order extends BaseMagentoModel {
 
         if (billingAddress != null ? !billingAddress.equals(order.billingAddress) : order.billingAddress != null)
             return false;
+		if (orderPayment != null ? !orderPayment.equals(order.orderPayment) : order.orderPayment != null)
+			return false;
         if (customer != null ? !customer.equals(order.customer) : order.customer != null) return false;
         if (customerIsGuest != null ? !customerIsGuest.equals(order.customerIsGuest) : order.customerIsGuest != null)
             return false;
@@ -579,6 +598,7 @@ public class Order extends BaseMagentoModel {
             ", customerIsGuest=" + customerIsGuest +
             ", customer=" + customer +
             ", billingAddress=" + billingAddress +
+			", orderPayment=" + orderPayment +
             ", shippingAddress=" + shippingAddress +
             ", items=" + items +
             '}';

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.code.magja.model.order.*;
 import org.apache.axis2.AxisFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +17,6 @@ import org.slf4j.LoggerFactory;
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.customer.Customer;
 import com.google.code.magja.model.customer.Customer.Gender;
-import com.google.code.magja.model.order.Order;
-import com.google.code.magja.model.order.OrderAddress;
-import com.google.code.magja.model.order.OrderFilter;
-import com.google.code.magja.model.order.OrderForm;
-import com.google.code.magja.model.order.OrderItem;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.soap.MagentoSoapClient;
@@ -105,6 +101,18 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
                 billingAddress.set(att.getKey(), att.getValue());
 
             order.setBillingAddress(billingAddress);
+        }
+
+        // payment
+        if (attributes.get("payment") != null) {
+            OrderPayment orderPayment = new OrderPayment();
+
+            Map<String, Object> atts = (Map<String, Object>) attributes
+                    .get("payment");
+            for (Map.Entry<String, Object> att : atts.entrySet())
+                orderPayment.set(att.getKey(), att.getValue());
+
+            order.setOrderPayment(orderPayment);
         }
 
         // items
