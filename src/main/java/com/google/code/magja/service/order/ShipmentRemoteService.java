@@ -28,4 +28,6 @@ public interface ShipmentRemoteService extends GeneralService<Shipment> {
 
 	public abstract Map<String, String> getCarriers(Integer orderId) throws ServiceException;
 
+	public abstract void sendInfo(com.google.code.magja.model.order.Shipment shipment, String comment) throws ServiceException;
+
 }

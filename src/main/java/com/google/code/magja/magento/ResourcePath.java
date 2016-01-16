@@ -99,6 +99,7 @@ public enum ResourcePath {
     SalesOrderShipmentAddTrack("sales_order_shipment.addTrack"),
     SalesOrderShipmentRemoveTrack("sales_order_shipment.removeTrack"),
     SalesOrderShipmentGetCarriers("sales_order_shipment.getCarriers"),
+    SalesOrderShipmentSendInfo("sales_order_shipment.sendInfo"),
 
     SalesOrderInvoiceList("sales_order_invoice.list"),
     SalesOrderInvoiceInfo("sales_order_invoice.info"),

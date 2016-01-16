@@ -183,4 +183,22 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
         }
 
     }
+
+    /* (non-Javadoc)
+      * @see ShipmentRemoteService#sendInfo(Shipment, java.lang.String)
+      */
+    @Override
+    public void sendInfo(Shipment shipment, String comment) throws ServiceException {
+
+        Object[] params = new Object[] {
+                shipment.getId(),
+                (comment != null ? comment : "") };
+
+        try {
+            soapClient.callArgs(ResourcePath.SalesOrderShipmentSendInfo, params);
+        } catch (AxisFault e) {
+            if (debug) e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        }
+    }
 }

@@ -121,4 +121,12 @@ public class ShipmentRemoteServiceTest {
 		//fail("Not yet implemented"); // TODO
 	}
 
+	/**
+	 * Test method for {@link com.google.code.magja.service.order.ShipmentRemoteServiceImpl#sendInfo(com.google.code.magja.model.order.Shipment, java.lang.String)}.
+	 */
+	@Test
+	public void testSendInfo() {
+		//fail("Not yet implemented"); // TODO
+	}
+
 }
