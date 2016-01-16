@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.code.magja.model.order.Filter;
 import org.apache.axis2.AxisFault;
 
 import com.google.code.magja.magento.ResourcePath;
@@ -104,16 +105,26 @@ public class ShipmentRemoteServiceImpl extends GeneralServiceImpl<Shipment> impl
     }
 
     /* (non-Javadoc)
-      * @see com.google.code.magja.service.order.ShipmentRemoteService#list(java.lang.String)
+      * @see ShipmentRemoteService#list(com.google.code.magja
+      * .model.order.Filter)
       */
     @Override
-    public List<Shipment> list(String filter) throws ServiceException {
+    public List<Shipment> list(Filter filter) throws ServiceException {
 
         List<Shipment> shipments = new ArrayList<Shipment>();
 
+        if (filter != null) {
+            if (filter.getItems() != null) {
+                if (filter.getItems().isEmpty())
+                    filter = null;
+            } else
+                filter = null;
+        }
+
         List<Map<String, Object>> results = null;
         try {
-            results = soapClient.callSingle(ResourcePath.SalesOrderShipmentList, filter);
+            results = soapClient.callSingle(ResourcePath.SalesOrderShipmentList, (filter != null ? filter
+                    .serializeToApi() : ""));
         } catch (AxisFault e) {
             if (debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());

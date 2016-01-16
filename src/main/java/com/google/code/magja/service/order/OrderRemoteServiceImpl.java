@@ -5,7 +5,6 @@
 package com.google.code.magja.service.order;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -242,10 +241,10 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
       *
       * @see
       * com.google.code.magja.service.order.OrderRemoteService#list(com.google.code.magja
-      * .model.order.OrderFilter)
+      * .model.order.Filter)
       */
     @Override
-    public List<Order> list(OrderFilter filter) throws ServiceException {
+    public List<Order> list(Filter filter) throws ServiceException {
 
         List<Order> results = new ArrayList<Order>();
 
