@@ -8,18 +8,13 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.code.magja.model.order.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.model.address.BasicAddress;
-import com.google.code.magja.model.order.Order;
-import com.google.code.magja.model.order.OrderFilter;
-import com.google.code.magja.model.order.OrderFilterItem;
-import com.google.code.magja.model.order.OrderForm;
-import com.google.code.magja.model.order.OrderFormItem;
-import com.google.code.magja.model.order.OrderItem;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.common.collect.ImmutableList;
@@ -123,7 +118,7 @@ public class OrderRemoteServiceTest {
 	}
 
 	/**
-	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#list(com.google.code.magja.model.order.OrderFilter)}.
+	 * Test method for {@link com.google.code.magja.service.order.OrderRemoteServiceImpl#list(com.google.code.magja.model.order.Filter)}.
 	 */
 	@Test
 	public void testList() {
@@ -135,9 +130,9 @@ public class OrderRemoteServiceTest {
 
 			// TODO: is not working tha find with filter
 			// make sure to have a order with billing_name = Joao da Silva
-			OrderFilter filter = new OrderFilter();
-			filter.getItems().add(new OrderFilterItem("billing_name", "like", "%Silva%"));
-			//filter.getItems().add(new OrderFilterItem("billing_lastname", "=", "Martins"));
+			Filter filter = new Filter();
+			filter.getItems().add(new FilterItem("billing_name", "like", "%Silva%"));
+			//filter.getItems().add(new FilterItem("billing_lastname", "=", "Martins"));
 
 			List<Order> filtered = service.list(filter);
 			for (Order order : filtered)

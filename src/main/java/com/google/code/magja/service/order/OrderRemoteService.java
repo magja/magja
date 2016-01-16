@@ -4,8 +4,8 @@
  */
 package com.google.code.magja.service.order;
 
+import com.google.code.magja.model.order.Filter;
 import com.google.code.magja.model.order.Order;
-import com.google.code.magja.model.order.OrderFilter;
 import com.google.code.magja.model.order.OrderForm;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface OrderRemoteService extends GeneralService<Order> {
 
-    public abstract List<Order> list(OrderFilter filter) throws ServiceException;
+    public abstract List<Order> list(Filter filter) throws ServiceException;
 
     public abstract Order getById(Integer id) throws ServiceException;
 

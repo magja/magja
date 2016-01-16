@@ -7,6 +7,7 @@ package com.google.code.magja.service.order;
 import java.util.List;
 import java.util.Map;
 
+import com.google.code.magja.model.order.Filter;
 import com.google.code.magja.model.order.Shipment;
 import com.google.code.magja.model.order.ShipmentTrack;
 import com.google.code.magja.service.GeneralService;
@@ -14,7 +15,7 @@ import com.google.code.magja.service.ServiceException;
 
 public interface ShipmentRemoteService extends GeneralService<Shipment> {
 
-	public abstract List<Shipment> list(String filter) throws ServiceException;
+	public abstract List<Shipment> list(Filter filter) throws ServiceException;
 
 	public abstract Shipment getById(Integer id) throws ServiceException;
 
