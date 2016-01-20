@@ -19,7 +19,7 @@ public class Filter implements Serializable {
 	public Object serializeToApi() {
 
 		// Map each property to it's parameter map
-		Map<String, Map<String, String>> propertyMaps = new HashMap<String, Map<String, String>>();
+		Map<String, Map<String, Object>> propertyMaps = new HashMap<String, Map<String, Object>>();
 
 		for (FilterItem item : getItems()) {
 
@@ -29,7 +29,7 @@ public class Filter implements Serializable {
 			if (propertyMaps.get(property) != null) {
 				propertyMaps.get(property).put(item.getOperator(), item.getValue());
 			} else { // new property, new paramMap
-				Map<String, String> params = new HashMap<String, String>();
+				Map<String, Object> params = new HashMap<String, Object>();
 				params.put(item.getOperator(), item.getValue());
 				propertyMaps.put(property, params);
 			}

@@ -14,9 +14,15 @@ public class FilterItem implements Serializable {
 
 	private String operator; // example: like
 
-	private String value;
+	private Object value;
 
 	public FilterItem(String property, String operator, String value) {
+		this.property = property;
+		this.operator = operator;
+		this.value = value;
+	}
+
+	public FilterItem(String property, String operator, String[] value) {
 		this.property = property;
 		this.operator = operator;
 		this.value = value;
@@ -53,7 +59,7 @@ public class FilterItem implements Serializable {
 	/**
 	 * @return the value
 	 */
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 
@@ -61,6 +67,13 @@ public class FilterItem implements Serializable {
 	 * @param value the value to set
 	 */
 	public void setValue(String value) {
+		this.value = value;
+	}
+
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(String[] value) {
 		this.value = value;
 	}
 
