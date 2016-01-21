@@ -1,9 +1,12 @@
 package com.google.code.magja.service.order;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.code.magja.model.order.InvoiceItem;
+import com.google.code.magja.model.order.ShipmentItem;
 import org.apache.axis2.AxisFault;
 
 import com.google.code.magja.magento.ResourcePath;
@@ -45,9 +48,12 @@ public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implem
                      Boolean includeComment) throws ServiceException {
         Integer id = null;
         try {
-            id = Integer.parseInt((String)soapClient.callArgs(ResourcePath.SalesOrderInvoiceCreate,
-            		new Object[] { comment != null ? comment : "",
-            				email ? "1" : "0", includeComment ? "1" : "0" }));
+            HashMap<Integer, Double> invoiceItems = new HashMap<Integer, Double>();
+            for (InvoiceItem invoiceItem : invoice.getItems()) {
+                invoiceItems.put(invoiceItem.getOrderItemId(), invoiceItem.getQty());
+            }
+            id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.SalesOrderInvoiceCreate, new Object[] {
+                    invoice.getOrderNumber(), invoiceItems, comment != null ? comment : "", email ? 1 : 0, includeComment ? 1 : 0 }));
         } catch (NumberFormatException e) {
             if(debug) e.printStackTrace();
             throw new ServiceException(e.getMessage());
