@@ -45,7 +45,6 @@ public class CartAddress extends Address {
 			attrs.put("company", getCompany());
 		}
 
-		System.err.println(attrs);
 		return attrs;
 	}
 
