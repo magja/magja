@@ -239,7 +239,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
                 s += " ";
             }
 
-            System.out.println(s + category.getName());
+            log.debug(s + category.getName());
 
             for (Category child : category.getChildren()) {
                 print(child);
@@ -333,7 +333,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
                     e.printStackTrace();
 
                 if (e.getMessage().indexOf("available_sort_by") > 0) {
-                    System.out.println("Broken Magento API? Run this SQL code first\n" +
+                    log.debug("Broken Magento API? Run this SQL code first\n" +
                             "update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';");
                 }
 
@@ -375,7 +375,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
         try {
             success = soapClient.callSingle(ResourcePath.CategoryDelete, id);
         } catch (AxisFault e) {
-            System.out.println(e.getMessage());
+            log.debug(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         if (!success) {
@@ -551,7 +551,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
                     		category.getId(), product.getId()
                     });
         } catch (AxisFault e) {
-            System.out.println(e.getMessage());
+            log.debug(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         if (!success) {
@@ -578,7 +578,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
                     		category.getId(), product.getId()
                     });
         } catch (AxisFault e) {
-            System.out.println(e.getMessage());
+            log.debug(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         if (!success) {

@@ -212,7 +212,7 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
             return null;
         else
             for (Map.Entry<String, Object> att : order_remote.entrySet()) {
-                System.out.println("KEY = " + att.getKey() + " VALUE = " + att.getValue());
+                log.debug("KEY = " + att.getKey() + " VALUE = " + att.getValue());
             }
 
 
