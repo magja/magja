@@ -8,9 +8,9 @@
  */
 package com.google.code.magja.magento;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Utils {
+	private static Logger log = LoggerFactory.getLogger(Utils.class);
 
 	public static String dump(List<Map<String, Object>> datas) {
 		StringBuilder builder = new StringBuilder();
@@ -96,24 +97,10 @@ public class Utils {
 
 			return hashtext;
 		} catch (final NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			log.error("Error in generating hash: ", e);
 		}
 
 		return "";
 	}
 
-	public static byte[] readFile(String imageName) {
-		byte[] buf = null;
-		try {
-			File file = new File(imageName);
-			buf = new byte[(int) file.length()];
-			FileInputStream fis = new FileInputStream(file);
-			fis.read(buf);
-			fis.close();
-		} catch (IOException e) {
-			System.err.println(e);
-		}
-
-		return buf;
-	}
 }

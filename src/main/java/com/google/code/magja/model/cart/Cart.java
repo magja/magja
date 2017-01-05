@@ -78,8 +78,6 @@ public class Cart extends BaseMagentoModel {
 						.get("billing_address"));
 		c.setBillingaddress(billingAddress);
 
-		System.out.println(billingAddress);
-
 		// TODO: payment
 
 		return c;

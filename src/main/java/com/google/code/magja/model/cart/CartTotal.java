@@ -55,10 +55,6 @@ public class CartTotal extends BaseMagentoModel {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
-		System.err.println(amount);
-	}
-
 	public void setAmount(Integer amount) {
 		this.amount = new Double(amount.doubleValue());
 	}
