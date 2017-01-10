@@ -4,12 +4,12 @@
  */
 package com.google.code.magja.model.product;
 
-import com.google.code.magja.model.BaseMagentoModel;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.code.magja.model.BaseMagentoModel;
 
 public class ConfigurableProductData extends BaseMagentoModel {
 

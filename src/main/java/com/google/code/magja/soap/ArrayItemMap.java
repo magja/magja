@@ -5,26 +5,23 @@ import java.util.Map;
 
 public class ArrayItemMap {
 
-    Map<Object, Object> items = new HashMap<Object, Object>();
+  Map<Object, Object> items = new HashMap<Object, Object>();
 
-    public void add(Object key, Object value) {
-        this.items.put(key, value);
-    }
+  public void add(Object key, Object value) {
+    this.items.put(key, value);
+  }
 
-    public Map<Object, Object> getItems() {
-        return items;
-    }
+  public Map<Object, Object> getItems() {
+    return items;
+  }
 
-    public void setItems(Map<Object, Object> items) {
-        this.items = items;
-    }
+  public void setItems(Map<Object, Object> items) {
+    this.items = items;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return String.format("ArrayItemMap %s", items);
-	}
-    
+  @Override
+  public String toString() {
+    return String.format("ArrayItemMap %s", items);
+  }
+
 }

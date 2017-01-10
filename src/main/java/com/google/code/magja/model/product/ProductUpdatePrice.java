@@ -2,13 +2,6 @@ package com.google.code.magja.model.product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
-import com.google.code.magja.model.order.OrderFormItem;
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 
 /**
  * @author atang

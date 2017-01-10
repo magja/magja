@@ -6,9 +6,9 @@ The goal its build a java interface to access the Magento API and exchange data.
 
 h2. Getting Started
 
-* "Installation for Use":http://code.google.com/p/magja/wiki/Installation
-* "Setup Project for Development":http://code.google.com/p/magja/wiki/SetupProject
-* "Wiki Pages":http://code.google.com/p/magja/w/list 
+* "Installation for Use": http://code.google.com/p/magja/wiki/Installation
+* "Setup Project for Development": http://code.google.com/p/magja/wiki/SetupProject
+* "Wiki Pages": http://code.google.com/p/magja/w/list 
 
 h2. RSS Feed
 

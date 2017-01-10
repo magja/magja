@@ -1,7 +1,6 @@
 package com.google.code.magja.soap;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.axis2.AxisFault;
 

@@ -12,7 +12,6 @@ import java.util.Set;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.media.Media;
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 

@@ -16,70 +16,74 @@ import javax.imageio.ImageIO;
 
 public class MagjaFileUtils {
 
-	/**
-	 * Get the bytes of a File from a specified URL, for use in a
-	 * FileOutputStream, for example.
-	 * 
-	 * @param url
-	 * @return byte[]
-	 * @throws IOException
-	 */
-	public static byte[] getBytesFromFileURL(String url) throws IOException {
-		URL u = new URL(url);
+  /**
+   * Get the bytes of a File from a specified URL, for use in a
+   * FileOutputStream, for example.
+   * 
+   * @param url
+   *          url to the file.
+   * @return byte[] content read from the URL.
+   * @throws IOException
+   *           on errors.
+   */
+  public static byte[] getBytesFromFileURL(final URL url) throws IOException {
+    URLConnection uc = url.openConnection();
+    String contentType = uc.getContentType();
+    int contentLength = uc.getContentLength();
 
-		URLConnection uc = u.openConnection();
-		String contentType = uc.getContentType();
-		int contentLength = uc.getContentLength();
+    if (contentType.startsWith("text/") || contentLength == -1) {
+      throw new IOException("This is not a binary file.");
+    }
 
-		if(contentType.startsWith("text/") || contentLength == -1){
-			throw new IOException("This is not a binary file.");
-		}
+    InputStream raw = uc.getInputStream();
+    InputStream in = new BufferedInputStream(raw);
+    byte[] data = new byte[contentLength];
+    int bytesRead = 0;
+    int offset = 0;
+    while (offset < contentLength) {
+      bytesRead = in.read(data, offset, data.length - offset);
+      if (bytesRead == -1)
+        break;
+      offset += bytesRead;
+    }
+    in.close();
 
-		InputStream raw = uc.getInputStream();
-		InputStream in = new BufferedInputStream(raw);
-		byte[] data = new byte[contentLength];
-		int bytesRead = 0;
-		int offset = 0;
-		while (offset < contentLength){
-			bytesRead = in.read(data, offset, data.length - offset);
-			if(bytesRead == -1)
-				break;
-			offset += bytesRead;
-		}
-		in.close();
+    if (offset != contentLength) {
+      throw new IOException("Only read " + offset + " bytes; Expected " + contentLength + " bytes");
+    }
 
-		if(offset != contentLength){
-			throw new IOException("Only read " + offset + " bytes; Expected " + contentLength + " bytes");
-		}
+    return data;
+  }
 
-		return data;
-	}
+  public static byte[] getBytesFromFileURL(final String url) throws IOException {
+    return getBytesFromFileURL(new URL(url));
+  }
 
-	/**
-	 * Get bytes from a specified BufferedImage, with the specified format
-	 * 
-	 * @param bi
-	 *            - the buffered image
-	 * @param format
-	 *            - "JPG", "PNG" or "GIF"
-	 * @return
-	 */
-	public static byte[] getBytesFromBufferedImage(BufferedImage bi, String format) {
+  /**
+   * Get bytes from a specified BufferedImage, with the specified format
+   * 
+   * @param bi
+   *          - the buffered image
+   * @param format
+   *          - "JPG", "PNG" or "GIF"
+   * @return
+   */
+  public static byte[] getBytesFromBufferedImage(BufferedImage bi, String format) {
 
-		ByteArrayOutputStream buff = new ByteArrayOutputStream();
-		try{
+    ByteArrayOutputStream buff = new ByteArrayOutputStream();
+    try {
 
-			ImageIO.write(bi, format, buff);
-			byte[] bytes = buff.toByteArray();
-			buff.close();
+      ImageIO.write(bi, format, buff);
+      byte[] bytes = buff.toByteArray();
+      buff.close();
 
-			return bytes;
+      return bytes;
 
-		}catch(IOException ex){
-			ex.printStackTrace();
-		}
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
 
-		return null;
-	}
+    return null;
+  }
 
 }

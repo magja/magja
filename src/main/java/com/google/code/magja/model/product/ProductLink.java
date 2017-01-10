@@ -4,9 +4,9 @@
  */
 package com.google.code.magja.model.product;
 
-import com.google.code.magja.model.BaseMagentoModel;
-
 import java.util.Properties;
+
+import com.google.code.magja.model.BaseMagentoModel;
 
 public class ProductLink extends BaseMagentoModel {
 

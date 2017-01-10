@@ -4,12 +4,12 @@
  */
 package com.google.code.magja.model.product;
 
+import java.util.Properties;
+
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.code.magja.soap.SoapConfig;
 import com.google.code.magja.utils.PropertyLoader;
-
-import java.util.Properties;
 
 public class ProductAttributeSet extends BaseMagentoModel {
 
