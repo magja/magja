@@ -12,7 +12,7 @@ import com.google.code.magja.soap.MagentoSoapClient;
 @SuppressWarnings("rawtypes")
 public interface GeneralService<T extends BaseMagentoModel> extends Serializable {
 
-	public abstract MagentoSoapClient getSoapClient();
+  public abstract MagentoSoapClient getSoapClient();
 
-	public abstract void setDebug(Boolean b);
+  public abstract void setDebug(Boolean b);
 }

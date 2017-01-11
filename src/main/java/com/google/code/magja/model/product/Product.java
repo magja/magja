@@ -13,6 +13,7 @@ import java.util.Set;
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.model.category.Category;
 import com.google.code.magja.service.product.ProductRemoteService;
+import com.google.common.collect.Lists;
 
 public class Product extends BaseMagentoModel<Object[]> {
 
@@ -41,7 +42,7 @@ public class Product extends BaseMagentoModel<Object[]> {
   private Boolean useConfigManageStock;
   private List<ProductMedia> medias;
   private Set<ProductLink> links;
-  private ProductTierPrice[] tierPrices;
+  private List<ProductTierPrice> tierPrices = new ArrayList<ProductTierPrice>();
   private String metaTitle;
   private String metaKeyword;
   private String metaDescription;
@@ -104,7 +105,7 @@ public class Product extends BaseMagentoModel<Object[]> {
     mapping.setProperty("cost", "cost");
     mapping.setProperty("status", "enabled");
     mapping.setProperty("price", "price");
-    mapping.setProperty("tier_price", "tierPrices");
+    // mapping.setProperty("tier_price", "tierPrices");
     mapping.setProperty("msrp", "msrp");
     mapping.setProperty("short_description", "shortDescription");
     mapping.setProperty("description", "description");
@@ -362,7 +363,7 @@ public class Product extends BaseMagentoModel<Object[]> {
    * 
    * @return set of tier prices.
    */
-  public ProductTierPrice[] getTierPrices() {
+  public List<ProductTierPrice> getTierPrices() {
     return tierPrices;
   }
 
@@ -372,8 +373,14 @@ public class Product extends BaseMagentoModel<Object[]> {
    * @param tierPrices
    *          set of tier prices.
    */
-  public void setTierPrices(final ProductTierPrice[] tierPrices) {
+  public void setTierPrices(final List<ProductTierPrice> tierPrices) {
     this.tierPrices = tierPrices;
+
+    List<Map<String, Object>> serializedPrices = Lists.newArrayList();
+    for (ProductTierPrice tierPrice : tierPrices) {
+      serializedPrices.add(tierPrice.serializeToApi());
+    }
+    set("tier_price", serializedPrices);
   }
 
   /**
@@ -709,7 +716,6 @@ public class Product extends BaseMagentoModel<Object[]> {
     this.local_sku = local_sku;
   }
 
-
   @Override
   public String toString() {
     return String.format("Product [sku=%s, name=%s, attributes=%s, set=%s]", sku, name, attributes, attributeSet);
@@ -1001,5 +1007,4 @@ public class Product extends BaseMagentoModel<Object[]> {
     return true;
   }
 
-  
 }

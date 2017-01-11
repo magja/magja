@@ -8,25 +8,26 @@ import com.google.code.magja.soap.MagentoSoapClient;
  */
 public class RegistryRemoteServiceImpl implements RegistryRemoteService {
 
-	private MagentoSoapClient soapClient;
+  private MagentoSoapClient soapClient;
 
-	public RegistryRemoteServiceImpl(MagentoSoapClient soapClient) {
-		super();
-		this.soapClient = soapClient;
-	}
+  public RegistryRemoteServiceImpl(MagentoSoapClient soapClient) {
+    super();
+    this.soapClient = soapClient;
+  }
 
-	/**
-	 * @return the soapClient
-	 */
-	public MagentoSoapClient getSoapClient() {
-		return soapClient;
-	}
+  /**
+   * @return the soapClient
+   */
+  public MagentoSoapClient getSoapClient() {
+    return soapClient;
+  }
 
-	/**
-	 * @param soapClient the soapClient to set
-	 */
-	public void setSoapClient(MagentoSoapClient soapClient) {
-		this.soapClient = soapClient;
-	}
-	
+  /**
+   * @param soapClient
+   *          the soapClient to set
+   */
+  public void setSoapClient(MagentoSoapClient soapClient) {
+    this.soapClient = soapClient;
+  }
+
 }

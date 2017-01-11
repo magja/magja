@@ -14,14 +14,14 @@ public class ProductTierPrice extends BaseMagentoModel<Map<String, Object>> {
 
   private static final long serialVersionUID = 1L;
 
-  private String customerGroupId;
-  private String website;
-  private String quantity;
-  private String price;
+  private String customerGroupId = CUSTOMER_GROUP_ALL;
+  private String website = WEBSITE_ALL;
+  private Double quantity;
+  private Double price;
 
   @Override
   public Map<String, Object> serializeToApi() {
-    final Map<String, Object> props = getAllProperties();
+    Map<String, Object> props = getAllProperties();
     return props;
   }
 
@@ -40,7 +40,22 @@ public class ProductTierPrice extends BaseMagentoModel<Map<String, Object>> {
   public void setWebsite(String website) {
     this.website = website;
   }
-  
+
+  public Double getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(Double quantity) {
+    this.quantity = quantity;
+  }
+
+  public Double getPrice() {
+    return price;
+  }
+
+  public void setPrice(Double price) {
+    this.price = price;
+  }
 
   @Override
   public int hashCode() {
@@ -100,22 +115,4 @@ public class ProductTierPrice extends BaseMagentoModel<Map<String, Object>> {
   public String toString() {
     return "ProductTierPrice [customerGroupId=" + customerGroupId + ", website=" + website + ", quantity=" + quantity + ", price=" + price + "]";
   }
-
-  public String getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(String quantity) {
-    this.quantity = quantity;
-  }
-
-  public String getPrice() {
-    return price;
-  }
-
-  public void setPrice(String price) {
-    this.price = price;
-  }
-
-
 }

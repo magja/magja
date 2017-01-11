@@ -16,77 +16,79 @@ import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.soap.MagentoSoapClient;
 
-public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country>
-		implements CountryRemoteService {
+public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country> implements CountryRemoteService {
 
-	private static final long serialVersionUID=1671845484676469453L;
-	
-	public CountryRemoteServiceImpl(MagentoSoapClient soapClient) {
-		super(soapClient);
-	}
+  private static final long serialVersionUID = 1671845484676469453L;
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.google.code.magja.service.country.CountryRemoteService#list()
-	 */
-	@Override
-	public List<Country> list() throws ServiceException {
+  public CountryRemoteServiceImpl(MagentoSoapClient soapClient) {
+    super(soapClient);
+  }
 
-		List<Country> countries = new ArrayList<Country>();
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.code.magja.service.country.CountryRemoteService#list()
+   */
+  @Override
+  public List<Country> list() throws ServiceException {
 
-		List<Map<String, Object>> remote_list = null;
-		try {
-			remote_list = (List<Map<String, Object>>) soapClient.callSingle(
-					ResourcePath.CountryList, "");
-		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
-			throw new ServiceException(e.getMessage());
-		}
+    List<Country> countries = new ArrayList<Country>();
 
-		if (remote_list == null)
-			return countries;
+    List<Map<String, Object>> remote_list = null;
+    try {
+      remote_list = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.CountryList, "");
+    } catch (AxisFault e) {
+      if (debug)
+        e.printStackTrace();
+      throw new ServiceException(e.getMessage());
+    }
 
-		for (Map<String, Object> map : remote_list) {
+    if (remote_list == null)
+      return countries;
 
-			Country country = new Country();
+    for (Map<String, Object> map : remote_list) {
 
-			for (Map.Entry<String, Object> attr : map.entrySet())
-				country.set(attr.getKey(), attr.getValue());
+      Country country = new Country();
 
-			countries.add(country);
-		}
+      for (Map.Entry<String, Object> attr : map.entrySet())
+        country.set(attr.getKey(), attr.getValue());
 
-		return countries;
-	}
+      countries.add(country);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.google.code.magja.service.country.CountryRemoteService#getCountryByName()
-	 */
-	@Override
-	public Country getCountryByName(String countryName) throws ServiceException {
-		List<Country> countries = list();
-		for(Country country : countries) {
-			if(country.getName().equals(countryName)) {
-				return country;
-			}
-		}
+    return countries;
+  }
 
-		// Country not found
-		throw new ServiceException(countryName + " not found");
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see
+   * com.google.code.magja.service.country.CountryRemoteService#getCountryByName
+   * ()
+   */
+  @Override
+  public Country getCountryByName(String countryName) throws ServiceException {
+    List<Country> countries = list();
+    for (Country country : countries) {
+      if (country.getName().equals(countryName)) {
+        return country;
+      }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.google.code.magja.service.country.CountryRemoteService#getCountryIdByName()
-	 */
-	@Override
-	public String getCountryIdByName(String countryName) throws ServiceException {
-		Country country = getCountryByName(countryName);
+    // Country not found
+    throw new ServiceException(countryName + " not found");
+  }
 
-		return country.getCountryId();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.code.magja.service.country.CountryRemoteService#
+   * getCountryIdByName()
+   */
+  @Override
+  public String getCountryIdByName(String countryName) throws ServiceException {
+    Country country = getCountryByName(countryName);
+
+    return country.getCountryId();
+  }
 }

@@ -18,42 +18,46 @@ import com.google.code.magja.soap.MagentoSoapClient;
 
 public class RegionRemoteServiceImpl extends GeneralServiceImpl<Region> implements RegionRemoteService {
 
-	private static final long serialVersionUID=3543094741234701831L;
-	
-	public RegionRemoteServiceImpl(MagentoSoapClient soapClient) {
-		super(soapClient);
-	}
+  private static final long serialVersionUID = 3543094741234701831L;
 
-	/* (non-Javadoc)
-	 * @see com.google.code.magja.service.region.RegionRemoteService#list(java.lang.String)
-	 */
-	@Override
-	public List<Region> list(String countryId) throws ServiceException {
-		List<Region> regions = new ArrayList<Region>();
+  public RegionRemoteServiceImpl(MagentoSoapClient soapClient) {
+    super(soapClient);
+  }
 
-		List<Map<String, Object>> remote_list = null;
-		try {
-			remote_list = soapClient.callSingle(ResourcePath.RegionList, countryId);
-		} catch (AxisFault e) {
-			if(debug) e.printStackTrace();
-			throw new ServiceException(e.getMessage());
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.google.code.magja.service.region.RegionRemoteService#list(java.lang.
+   * String)
+   */
+  @Override
+  public List<Region> list(String countryId) throws ServiceException {
+    List<Region> regions = new ArrayList<Region>();
 
-		if(remote_list == null) return regions;
+    List<Map<String, Object>> remote_list = null;
+    try {
+      remote_list = soapClient.callSingle(ResourcePath.RegionList, countryId);
+    } catch (AxisFault e) {
+      if (debug)
+        e.printStackTrace();
+      throw new ServiceException(e.getMessage());
+    }
 
-		for (Map<String, Object> map : remote_list) {
+    if (remote_list == null)
+      return regions;
 
-			Region region = new Region();
+    for (Map<String, Object> map : remote_list) {
 
-			for (Map.Entry<String, Object> attr : map.entrySet())
-				region.set(attr.getKey(), attr.getValue());
+      Region region = new Region();
 
-			regions.add(region);
-		}
+      for (Map.Entry<String, Object> attr : map.entrySet())
+        region.set(attr.getKey(), attr.getValue());
 
-		return regions;
-	}
+      regions.add(region);
+    }
 
-
+    return regions;
+  }
 
 }

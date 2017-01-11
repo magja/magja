@@ -109,7 +109,7 @@ public class ProductMediaRemoteServiceITest {
   }
 
   @Test
-  @Ignore("Throws an error")
+  @Ignore("Throws an error, the additional extension needs to be installed in Magento.")
   public void testGetMd5() throws ServiceException, NoSuchAlgorithmException {
     testSave();
 

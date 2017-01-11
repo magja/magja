@@ -12,21 +12,21 @@ import com.google.code.magja.service.ServiceException;
 
 public interface CountryRemoteService extends GeneralService<Country> {
 
-	/**
-	 * @return list of all countries
-	 * @throws ServiceException
-	 */
-	public abstract List<Country> list() throws ServiceException;
+  /**
+   * @return list of all countries
+   * @throws ServiceException
+   */
+  public abstract List<Country> list() throws ServiceException;
 
-	/**
-	 * @return get country by name
-	 * @throws ServiceException
-	 */
-	public abstract Country getCountryByName(String countryName) throws ServiceException;
+  /**
+   * @return get country by name
+   * @throws ServiceException
+   */
+  public abstract Country getCountryByName(String countryName) throws ServiceException;
 
-	/**
-	 * @return get country id by name
-	 * @throws ServiceException
-	 */
-	public abstract String getCountryIdByName(String countryName) throws ServiceException;
+  /**
+   * @return get country id by name
+   * @throws ServiceException
+   */
+  public abstract String getCountryIdByName(String countryName) throws ServiceException;
 }

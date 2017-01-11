@@ -42,6 +42,7 @@ import com.google.code.magja.utils.MagjaStringUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
 /**
  * Basic integration test of product remote service.
@@ -155,19 +156,18 @@ public class ProductRemoteServiceITest {
   @Test
   public void testTierPriceProductCreate() throws ServiceException, NoSuchAlgorithmException {
     final Product product = ObjectFactory.generateProduct();
-    final ProductTierPrice[] tierPrices = new ProductTierPrice[2];
+    final List<ProductTierPrice> tierPrices = Lists.newArrayList();
+
     final ProductTierPrice tierPrice = new ProductTierPrice();
-    tierPrice.setPrice("10.01");
-    tierPrice.setQuantity("12");
-    // tierPrice.setWebsite("0");
-    // tierPrice.setCustomerGroupId("0");
+    tierPrice.setPrice(10.01d);
+    tierPrice.setQuantity(12d);
+    tierPrices.add(tierPrice);
 
     final ProductTierPrice tierPrice2 = new ProductTierPrice();
-    tierPrice2.setPrice("9.01");
-    tierPrice2.setQuantity("24");
+    tierPrice2.setPrice(9.01d);
+    tierPrice2.setQuantity(24d);
+    tierPrices.add(tierPrice2);
 
-    tierPrices[0] = tierPrice;
-    tierPrices[1] = tierPrice2;
     product.setTierPrices(tierPrices);
 
     service.add(product);
