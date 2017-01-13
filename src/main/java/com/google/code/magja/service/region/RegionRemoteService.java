@@ -12,11 +12,11 @@ import com.google.code.magja.service.ServiceException;
 
 public interface RegionRemoteService extends GeneralService<Region> {
 
-	/**
-	 * @param countryId
-	 * @return list of all regions of the specified country id
-	 * @throws ServiceException
-	 */
-	public abstract List<Region> list(String countryId) throws ServiceException;
+  /**
+   * @param countryId
+   * @return list of all regions of the specified country id
+   * @throws ServiceException
+   */
+  public abstract List<Region> list(String countryId) throws ServiceException;
 
 }

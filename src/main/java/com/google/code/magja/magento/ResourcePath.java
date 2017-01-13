@@ -72,6 +72,9 @@ public enum ResourcePath {
     ProductLinkTypes("product_link.types"),
     ProductLinkAttributes("product_link.attributes"),
 
+    ProductAttributeTierPriceInfo("catalog_product_attribute_tier_price.info"),
+    ProductAttributeTierPriceUpdate("catalog_product_attribute_tier_price.update"),
+    
     CustomerList("customer.list"),
     CustomerCreate("customer.create"),
     CustomerInfo("customer.info"),
