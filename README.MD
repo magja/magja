@@ -60,6 +60,18 @@ You can copy an example properties from samples folder. Essentially, the propert
     # the ID of the default root category
     default-root-category-id=2
 
+If you want to use the client behind a HTTP proxy, you can specify the settings in `magento-api.properties`:
+
+    # HTTP proxy settings, default is false
+    # http-proxy-enabled=true
+    # http-proxy-host=localhost
+    # http-proxy-port=8080
+    
+    # HTTP proxy auth settings, default is false
+    # http-proxy-auth-enabled=true
+    # http-proxy-username=user
+    # http-proxy-password=pass
+
 ## Basic usage
 
 Here is a sample usage of the product service:

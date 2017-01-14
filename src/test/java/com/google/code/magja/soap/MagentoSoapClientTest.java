@@ -13,6 +13,8 @@ import java.util.Map;
 import org.apache.axis2.AxisFault;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.magja.magento.ResourcePath;
 
@@ -26,16 +28,19 @@ public class MagentoSoapClientTest {
   private static final String HOST_SERVER_TWO = "http://localhost.blackhawk/rockstore/index.php/api/soap/";
   private static final String HOST_SERVER_THREE = "http://localhost.blackhawk/magento/index.php/api/soap/";
 
+  private static final Logger log = LoggerFactory.getLogger(MagentoSoapClientTest.class);
+
   /**
    * In order to run this test, you have to setup three magento instances, and
-   * fill the api key and user and host as show in soap config This tests if the
-   * magentoSoapClient instances its exactly the same instances as created
-   * before
+   * fill the api key and user and host as show in soap config.
+   * 
+   * This tests if the magentoSoapClient instances its exactly the same
+   * instances as created before
    * 
    * @throws Exception
    */
-  @Test
   @Ignore
+  @Test
   public void testInstances() throws Exception {
 
     SoapConfig soapConfig1 = new SoapConfig("soap", "test123", HOST_SERVER_ONE);
@@ -78,22 +83,15 @@ public class MagentoSoapClientTest {
   @Test
   @Ignore
   public void testTimeOutSession() throws Exception {
-
-    System.out.println("Start - " + System.currentTimeMillis());
-
+    log.info("Start - {}", System.currentTimeMillis());
     MagentoSoapClient soapClient = MagentoSoapClient.getInstance();
-
     List<Map<String, Object>> remote_list = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.CountryList, "");
-
-    System.out.println(remote_list);
-
-    System.out.println("Wait 1 min - " + System.currentTimeMillis());
+    log.info("{}", remote_list);
+    log.info("Wait 1 min - {}", System.currentTimeMillis());
     Thread.sleep(60000);
-
     List<Map<String, Object>> remote_list2 = (List<Map<String, Object>>) soapClient.callSingle(ResourcePath.CountryList, "");
-    System.out.println(remote_list2);
-
-    System.out.println("Finished - " + System.currentTimeMillis());
+    log.info("{}", remote_list2);
+    log.info("Finished - {}", System.currentTimeMillis());
   }
 
   /**
@@ -120,5 +118,5 @@ public class MagentoSoapClientTest {
     // log.info( mapper.writeValueAsString(categories) );
     assertEquals(0, categories.size());
   }
-
+  
 }
