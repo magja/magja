@@ -18,6 +18,7 @@ import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.transport.http.HttpTransportProperties;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
@@ -28,32 +29,27 @@ import com.google.code.magja.magento.ResourcePath;
 import com.google.common.base.Preconditions;
 
 /**
- * 2011-08-27 Multi-instance support - marcolopes@netc.pt
+ * Magento SOAP Client.
  * 
- * @author ???
- *
+ * @author unknown
+ * @author Marco Lopes (marcolopes@netc.pt)
+ * @author Simon Zambrovski
  */
 public class MagentoSoapClient implements SoapClient {
 
   public static final String CONFIG_PROPERTIES_FILE = "magento-api";
 
+  private static final Logger log = LoggerFactory.getLogger(MagentoSoapClient.class);
   private static final QName LOGIN_RETURN = new QName("loginReturn");
-
   private static final QName LOGOUT_RETURN = new QName("endSessionReturn");
-
   private static final QName CALL_RETURN = new QName("callReturn");
 
   private SoapCallFactory callFactory;
-
   private SoapReturnParser returnParser;
-
   private SoapConfig config;
 
   private String sessionId;
-
   private ServiceClient sender;
-
-  private static final Logger log = LoggerFactory.getLogger(MagentoSoapClient.class);
 
   // holds all the created instances by creation order, Multiton Pattern
   private static final Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap<SoapConfig, MagentoSoapClient>();
@@ -90,8 +86,7 @@ public class MagentoSoapClient implements SoapClient {
           Properties props = new Properties();
           try {
             props.load(configStream);
-            loadedSoapConfig = new SoapConfig(props.getProperty("magento-api-username"), props.getProperty("magento-api-password"),
-                props.getProperty("magento-api-url"));
+            loadedSoapConfig = new SoapConfig(props);
           } catch (IOException e) {
             log.error("Cannot load /magento-api.properties from classpath", e);
           }
@@ -120,8 +115,7 @@ public class MagentoSoapClient implements SoapClient {
    *
    * @param soapConfig
    */
-  public MagentoSoapClient(SoapConfig soapConfig, SoapCallFactory callFactory) {
-    super();
+  public MagentoSoapClient(final SoapConfig soapConfig, final SoapCallFactory callFactory) {
     Preconditions.checkNotNull(soapConfig, "soapConfig cannot be null");
     Preconditions.checkNotNull(callFactory, "callFactory cannot be null");
     this.config = soapConfig;
@@ -278,15 +272,18 @@ public class MagentoSoapClient implements SoapClient {
     }
 
     OMElement loginMethod = callFactory.createLoginCall(this.config.getApiUser(), this.config.getApiKey());
-    log.info("====================================== Logging in user: " + this.config.getApiUser());
+    log.info("====================================== Logging in user: {}", this.config.getApiUser());
     OMElement loginResult = sender.sendReceive(loginMethod);
 
     sessionId = loginResult.getFirstChildWithName(LOGIN_RETURN).getText();
-    log.info("====================================== Logged in sessionId: " + sessionId);
+    log.info("====================================== Logged in sessionId: {}", sessionId);
   }
 
   /**
+   * Creates and configures the HTTP connection used for Magento calls.
+   * 
    * @throws AxisFault
+   *           on all errors.
    */
   protected void prepareConnection(HttpConnectionManagerParams params) throws AxisFault {
     final Options connectOptions = new Options();
@@ -299,9 +296,10 @@ public class MagentoSoapClient implements SoapClient {
     // to use the same tcp connection for multiple calls
     // workaround:
     // http://amilachinthaka.blogspot.com/2009/05/improving-axis2-client-http-transport.html
-    MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
+    final MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
     httpConnectionManager.setParams(params);
-    HttpClient httpClient = new HttpClient(httpConnectionManager);
+
+    final HttpClient httpClient = new HttpClient(httpConnectionManager);
     // prepare for Axis2 1.7+ / HttpClient 4.2+
     // ClientConnectionManager httpConnectionManager = new
     // PoolingClientConnectionManager();
@@ -310,14 +308,18 @@ public class MagentoSoapClient implements SoapClient {
     connectOptions.setProperty(HTTPConstants.CACHED_HTTP_CLIENT, httpClient);
     connectOptions.setProperty(HTTPConstants.HTTP_PROTOCOL_VERSION, HTTPConstants.HEADER_PROTOCOL_10);
 
-    // Useful during HTTP debugging
-    // HttpTransportProperties.ProxyProperties proxyProps = new
-    // HttpTransportProperties.ProxyProperties();
-    // proxyProps.setProxyName("localhost");
-    // proxyProps.setProxyPort(8008);
-    // proxyProps.setUserName("guest");
-    // proxyProps.setPassWord("guest");
-    // connectOptions.setProperty(HTTPConstants.PROXY, proxyProps);
+    if (config.isHttpProxyEnabled()) {
+      // Useful during HTTP debugging
+      final HttpTransportProperties.ProxyProperties proxyProps = new HttpTransportProperties.ProxyProperties();
+      proxyProps.setProxyName(config.getHttpProxyHost());
+      proxyProps.setProxyPort(config.getHttpProxyPort());
+      if (config.isHttpProxyAuthEnabled()) {
+        proxyProps.setUserName(config.getHttpProxyUsername());
+        proxyProps.setPassWord(config.getHttpProxyPassword());
+      }
+
+      connectOptions.setProperty(HTTPConstants.PROXY, proxyProps);
+    }
 
     sender = new ServiceClient();
     sender.setOptions(connectOptions);
@@ -360,12 +362,12 @@ public class MagentoSoapClient implements SoapClient {
    */
   protected void logout() throws AxisFault {
 
-    log.info("====================================== Log out sessionId: " + sessionId);
+    log.info("====================================== Log out sessionId:  {}", sessionId);
     // first, we need to logout the previous session
     try {
-      OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
-      OMElement logoutResult = sender.sendReceive(logoutMethod);
-      Boolean logoutSuccess = Boolean.parseBoolean(logoutResult.getFirstChildWithName(LOGOUT_RETURN).getText());
+      final OMElement logoutMethod = callFactory.createLogoutCall(sessionId);
+      final OMElement logoutResult = sender.sendReceive(logoutMethod);
+      final Boolean logoutSuccess = Boolean.parseBoolean(logoutResult.getFirstChildWithName(LOGOUT_RETURN).getText());
       if (!logoutSuccess) {
         throw new RuntimeException("Error logging out");
       }
@@ -375,7 +377,7 @@ public class MagentoSoapClient implements SoapClient {
       }
       log.info("logout session expired: ", axisFault);
     }
-    log.info("====================================== Logging out user: " + this.config.getApiUser());
+    log.info("====================================== Logging out user: {}", this.config.getApiUser());
     sessionId = null;
   }
 
@@ -387,7 +389,7 @@ public class MagentoSoapClient implements SoapClient {
   }
 
   @Override
-  public <R> R callNoArgs(ResourcePath path) throws AxisFault {
+  public <R> R callNoArgs(final ResourcePath path) throws AxisFault {
     return callSingle(path, null);
   }
 }

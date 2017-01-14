@@ -226,6 +226,7 @@ public class CategoryRemoteServiceITest {
     }
   }
 
+  // FIXME: check why does it happen
   @Ignore("Invalid path error")
   @Test
   public void testListPaths() throws Exception {
