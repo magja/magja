@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.product;
 
 import java.security.NoSuchAlgorithmException;
@@ -35,7 +31,7 @@ import com.google.code.magja.model.product.Visibility;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
@@ -47,6 +43,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * Product service implementation.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implements ProductRemoteService {
 
   private static final long serialVersionUID = -3943518467672208326L;
@@ -54,7 +55,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
   private RemoteServiceFactory serviceFactory;
 
-  public ProductRemoteServiceImpl(MagentoSoapClient soapClient, RemoteServiceFactory serviceFactory) {
+  public ProductRemoteServiceImpl(SoapClient soapClient, RemoteServiceFactory serviceFactory) {
     super(soapClient);
     this.serviceFactory = serviceFactory;
   }
@@ -357,13 +358,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     return products;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.google.code.magja.service.product.ProductRemoteService#getBySku(java.
-   * lang.String)
-   */
   @Override
   public Product getBySku(String sku) throws ServiceException {
     return getBySku(sku, false);
@@ -481,13 +475,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     return getById(id, ImmutableSet.<String> of());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.google.code.magja.service.product.ProductRemoteService#getById(java
-   * .lang .Integer)
-   */
   @Override
   public Product getById(Integer id, Set<String> attributes) throws ServiceException {
     Map<String, Object> mpp;
@@ -506,22 +493,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
       return buildProduct(mpp, attributes, true);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.code.magja.service.product.ProductRemoteService#listAll()
-   */
   @Override
   public List<Product> listAll() throws ServiceException {
     return list(true);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.google.code.magja.service.product.ProductRemoteService#listAllNoDep()
-   */
   @Override
   public List<Product> listAllNoDep() throws ServiceException {
     return list(false);
@@ -553,13 +529,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.google.code.magja.service.product.ProductRemoteService#create(code.
-   * google .magja.model.product.Product)
-   */
   @Override
   @Deprecated
   public void save(Product product, Product existingProduct) throws ServiceException, NoSuchAlgorithmException {
@@ -834,12 +803,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.code.magja.service.product.ProductRemoteService#
-   * listAllProductTypes ()
-   */
   @Override
   public List<ProductType> listAllProductTypes() throws ServiceException {
 
@@ -868,33 +831,16 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     return resultList;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.code.magja.service.product.ProductRemoteService#delete(java
-   * .lang .Integer)
-   */
   @Override
   public void delete(Integer id) throws ServiceException {
     delete(id, null);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.code.magja.service.product.ProductRemoteService#delete(java
-   * .lang .String)
-   */
   @Override
   public void delete(String sku) throws ServiceException {
     delete(null, sku);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.code.magja.service.product.ProductRemoteService#deleteAll()
-   */
   @Override
   public void deleteAll() throws ServiceException {
     List<Product> products = listAllNoDep();
@@ -903,13 +849,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.google.code.magja.service.product.ProductRemoteService#getInventoryInfo
-   * (java.util.Set)
-   */
   @Override
   public void getInventoryInfo(Set<Product> products) throws ServiceException {
     List<Integer> productIds = ImmutableList.copyOf(Iterables.transform(products, new Function<Product, Integer>() {
@@ -952,13 +891,6 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.google.code.magja.service.product.ProductRemoteService#updateInventory
-   * (com.google.code.magja.model.product.Product)
-   */
   @Override
   public void updateInventory(Product product) throws ServiceException {
     if (product.getId() == null && product.getSku() == null)

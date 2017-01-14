@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.customer;
 
 import java.util.List;
@@ -12,6 +8,11 @@ import com.google.code.magja.model.customer.CustomerGroup;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
+/**
+ * Customer service.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public interface CustomerRemoteService extends GeneralService<Customer> {
 
   /**
@@ -20,7 +21,7 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
    * @param customer
    * @throws ServiceException
    */
-  public abstract void save(Customer customer) throws ServiceException;
+  void save(Customer customer) throws ServiceException;
 
   /**
    * Get a Customer by your id
@@ -29,7 +30,7 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
    * @return Customer
    * @throws ServiceException
    */
-  public abstract Customer getById(Integer id) throws ServiceException;
+  Customer getById(Integer id) throws ServiceException;
 
   /**
    * List customers based of the filter specified
@@ -38,7 +39,7 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
    * @return List<Customer>
    * @throws ServiceException
    */
-  public abstract List<Customer> list(Customer filter) throws ServiceException;
+  List<Customer> list(Customer filter) throws ServiceException;
 
   /**
    * List customers based of the filter specified
@@ -47,7 +48,7 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
    * @return List<Customer>
    * @throws ServiceException
    */
-  public abstract List<Customer> list2(CustomerFilter filter) throws ServiceException;
+  List<Customer> list2(CustomerFilter filter) throws ServiceException;
 
   /**
    * List all customers on magento
@@ -55,7 +56,7 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
    * @return List<Customer>
    * @throws ServiceException
    */
-  public abstract List<Customer> list() throws ServiceException;
+  List<Customer> list() throws ServiceException;
 
   /**
    * Delete a customer with the specified id
@@ -63,7 +64,7 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
    * @param id
    * @throws ServiceException
    */
-  public abstract void delete(Integer id) throws ServiceException;
+  void delete(Integer id) throws ServiceException;
 
   /**
    * Delete all customer
@@ -76,6 +77,6 @@ public interface CustomerRemoteService extends GeneralService<Customer> {
    * @return list of all customer groups on magento
    * @throws ServiceException
    */
-  public abstract List<CustomerGroup> listGroups() throws ServiceException;
+  List<CustomerGroup> listGroups() throws ServiceException;
 
 }

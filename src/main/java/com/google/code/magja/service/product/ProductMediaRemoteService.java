@@ -8,8 +8,9 @@ import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
 /**
+ * Product media service.
  * @author andre
- *
+ * @author Simon Zambrovski
  */
 public interface ProductMediaRemoteService extends GeneralService<ProductMedia> {
 

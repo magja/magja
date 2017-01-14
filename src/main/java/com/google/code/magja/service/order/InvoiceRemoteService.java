@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.order;
 
 import com.google.code.magja.model.order.Invoice;
@@ -10,6 +6,11 @@ import com.google.code.magja.service.ServiceException;
 
 import java.util.List;
 
+/**
+ * Invoice service.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public interface InvoiceRemoteService extends GeneralService<Invoice> {
 
   void save(Invoice shipment, String comment, Boolean email, Boolean includeComment) throws ServiceException;

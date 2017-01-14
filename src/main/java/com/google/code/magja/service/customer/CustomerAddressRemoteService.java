@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.customer;
 
 import java.util.List;
@@ -10,6 +6,11 @@ import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
+/**
+ * Customer address service.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public interface CustomerAddressRemoteService extends GeneralService<CustomerAddress> {
 
   /**
@@ -19,7 +20,7 @@ public interface CustomerAddressRemoteService extends GeneralService<CustomerAdd
    * @return List<CustomerAddress>
    * @throws ServiceException
    */
-  public abstract List<CustomerAddress> list(Integer customerId) throws ServiceException;
+  List<CustomerAddress> list(Integer customerId) throws ServiceException;
 
   /**
    * Save (id == null) or Update (id != null) a Customer Address
@@ -27,7 +28,7 @@ public interface CustomerAddressRemoteService extends GeneralService<CustomerAdd
    * @param customerAddress
    * @throws ServiceException
    */
-  public abstract void save(CustomerAddress customerAddress) throws ServiceException;
+  void save(CustomerAddress customerAddress) throws ServiceException;
 
   /**
    * Get a Customer Address by your id
@@ -36,7 +37,7 @@ public interface CustomerAddressRemoteService extends GeneralService<CustomerAdd
    * @return CustomerAddress
    * @throws ServiceException
    */
-  public abstract CustomerAddress getById(Integer id) throws ServiceException;
+  CustomerAddress getById(Integer id) throws ServiceException;
 
   /**
    * Delete a customer address by its id
@@ -44,7 +45,7 @@ public interface CustomerAddressRemoteService extends GeneralService<CustomerAdd
    * @param id
    * @throws ServiceException
    */
-  public abstract void delete(Integer id) throws ServiceException;
+  void delete(Integer id) throws ServiceException;
 
   /**
    * Delete all customer address by its id

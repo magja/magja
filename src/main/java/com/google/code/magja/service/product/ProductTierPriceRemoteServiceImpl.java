@@ -12,7 +12,7 @@ import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductTierPrice;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 import com.google.common.collect.Lists;
 
 /**
@@ -25,7 +25,7 @@ public class ProductTierPriceRemoteServiceImpl extends GeneralServiceImpl<Produc
   private transient final static Logger log = LoggerFactory.getLogger(ProductTierPriceRemoteServiceImpl.class);
   private static final long serialVersionUID = -1L;
 
-  public ProductTierPriceRemoteServiceImpl(final MagentoSoapClient soapClient) {
+  public ProductTierPriceRemoteServiceImpl(final SoapClient soapClient) {
     super(soapClient);
   }
 

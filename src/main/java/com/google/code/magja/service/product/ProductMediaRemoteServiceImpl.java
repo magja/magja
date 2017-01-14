@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.product;
 
 import java.util.ArrayList;
@@ -18,14 +14,19 @@ import com.google.code.magja.model.product.Product;
 import com.google.code.magja.model.product.ProductMedia;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
+/**
+ * Product media service implementation.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class ProductMediaRemoteServiceImpl extends GeneralServiceImpl<ProductMedia> implements ProductMediaRemoteService {
 
   private transient Logger log = LoggerFactory.getLogger(ProductMediaRemoteServiceImpl.class);
   private static final long serialVersionUID = -1848723516561700531L;
 
-  public ProductMediaRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public ProductMediaRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 

@@ -5,20 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.code.magja.model.order.InvoiceItem;
-import com.google.code.magja.model.order.ShipmentItem;
 import org.apache.axis2.AxisFault;
 
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.order.Invoice;
+import com.google.code.magja.model.order.InvoiceItem;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
+/**
+ * Invoice service implementation.
+ * @author Simon Zambrovski
+ *
+ */
 @SuppressWarnings("serial")
 public class InvoiceRemoteServiceImpl extends GeneralServiceImpl<Invoice> implements InvoiceRemoteService {
 
-  public InvoiceRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public InvoiceRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 

@@ -3,7 +3,7 @@
  */
 package com.google.code.magja.service;
 
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 /**
  * Responsible for creating Remote Service instances.
@@ -12,6 +12,6 @@ import com.google.code.magja.soap.MagentoSoapClient;
  */
 public interface RegistryRemoteService {
 
-  void setSoapClient(MagentoSoapClient instance);
+  void setSoapClient(SoapClient instance);
 
 }

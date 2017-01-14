@@ -20,37 +20,23 @@ import com.google.common.collect.Iterables;
 
 public class SoapCallFactory {
 
-  private OMFactory fac;
-
-  private OMNamespace noNs;
-
-  private OMNamespace mag;
-
-  private OMNamespace soapEnc;
-
-  private OMNamespace soapXml;
-
-  private OMNamespace xsi;
-
-  private OMNamespace xsd;
-
   private static final String CORE_LOGIN = "login";
-
   private static final String CORE_CALL = "call";
-
   private static final String CORE_MULTI_CALL = "multiCall";
-
   private static final String CORE_LOGOUT = "endSession";
-
   private static final String SESSION_ID = "sessionId";
-
   private static final String RESOURCE_PATH = "resourcePath";
-
   private static final String ARGUMENTS = "args";
-
   private static final String MULTI_CALLS = "calls";
-
   private static final String MULTI_CALL_OPTIONS = "options";
+  
+  private OMFactory fac;
+  private OMNamespace noNs;
+  private OMNamespace mag;
+  private OMNamespace soapEnc;
+  private OMNamespace soapXml;
+  private OMNamespace xsi;
+  private OMNamespace xsd;
 
   /**
    * 

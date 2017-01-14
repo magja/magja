@@ -4,12 +4,9 @@
  */
 package com.google.code.magja.model.product;
 
-import java.util.Properties;
-
 import com.google.code.magja.model.BaseMagentoModel;
 import com.google.code.magja.soap.MagentoSoapClient;
-import com.google.code.magja.soap.SoapConfig;
-import com.google.code.magja.utils.PropertyLoader;
+import com.google.code.magja.soap.SoapClient;
 
 public class ProductAttributeSet extends BaseMagentoModel {
 
@@ -19,18 +16,18 @@ public class ProductAttributeSet extends BaseMagentoModel {
 
   public ProductAttributeSet(Integer id, String name) {
     super();
+    super.setId(id);
+    ;
     this.name = name;
-    this.id = id;
   }
 
   public ProductAttributeSet() {
     super();
   }
 
-  public static ProductAttributeSet getDefaultProductAttributeSet() {
-    Properties magentoapi = PropertyLoader.loadProperties(MagentoSoapClient.CONFIG_PROPERTIES_FILE);
-    Integer defaultId = Integer.parseInt(magentoapi.getProperty(SoapConfig.DEFAULT_ATTRIBUTE_SET_ID));
-    return new ProductAttributeSet(defaultId, "Default");
+  @Override
+  public Object serializeToApi() {
+    return null;
   }
 
   /**
@@ -48,11 +45,6 @@ public class ProductAttributeSet extends BaseMagentoModel {
     this.name = name;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -61,11 +53,6 @@ public class ProductAttributeSet extends BaseMagentoModel {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -83,25 +70,20 @@ public class ProductAttributeSet extends BaseMagentoModel {
     return true;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     return "ProductAttributeSet [name=" + name + ", id=" + id + "]";
   }
 
-  /*
-   * (non-Javadoc) Its ready only, we never will create a attributeSet to
-   * magento
+  /**
+   * Retrieves a default product attribute set.
    * 
-   * @see com.google.code.magja.model.BaseMagentoModel#serializeToApi()
+   * @return attribute set.
    */
-  @Override
-  public Object serializeToApi() {
-    return null;
+  public static ProductAttributeSet getDefaultProductAttributeSet() {
+    final SoapClient soapClient = MagentoSoapClient.getInstance();
+    Integer defaultId = soapClient.getConfig().getDefaultAttributeSetId();
+    return new ProductAttributeSet(defaultId, "Default");
   }
 
 }

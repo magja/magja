@@ -31,6 +31,7 @@ import com.google.code.magja.service.product.ProductTierPriceRemoteServiceImpl;
 import com.google.code.magja.service.region.RegionRemoteService;
 import com.google.code.magja.service.region.RegionRemoteServiceImpl;
 import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 import com.google.code.magja.soap.SoapConfig;
 
 /**
@@ -40,7 +41,7 @@ import com.google.code.magja.soap.SoapConfig;
  */
 public class RemoteServiceFactory {
 
-  private MagentoSoapClient magentoClient;
+  private SoapClient magentoClient;
 
   private static RemoteServiceFactory singletonInstance;
 
@@ -60,8 +61,7 @@ public class RemoteServiceFactory {
   private CartRemoteService cartRemoteService;
   private ProductTierPriceRemoteService productTierPriceRemoteService;
 
-  public RemoteServiceFactory(MagentoSoapClient magentoClient) {
-    super();
+  public RemoteServiceFactory(final SoapClient magentoClient) {
     this.magentoClient = magentoClient;
   }
 
