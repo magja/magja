@@ -9,8 +9,9 @@ import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
 /**
+ * Product attribute service.
  * @author andre
- *
+ * @author Simon Zambrovski
  */
 public interface ProductAttributeRemoteService extends GeneralService<ProductAttribute> {
 
@@ -92,7 +93,7 @@ public interface ProductAttributeRemoteService extends GeneralService<ProductAtt
    */
   boolean exists(String attributeName) throws ServiceException;
 
-  Integer AddOptions(String code, String option) throws ServiceException;
+  Integer addOptions(String code, String option) throws ServiceException;
 
   /**
    * get Product Attribute by code

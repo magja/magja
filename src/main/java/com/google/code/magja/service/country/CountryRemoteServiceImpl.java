@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.country;
 
 import java.util.ArrayList;
@@ -14,21 +10,21 @@ import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.country.Country;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
+/**
+ * Country service implementation.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country> implements CountryRemoteService {
 
   private static final long serialVersionUID = 1671845484676469453L;
 
-  public CountryRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public CountryRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see com.google.code.magja.service.country.CountryRemoteService#list()
-   */
   @Override
   public List<Country> list() throws ServiceException {
 
@@ -59,13 +55,6 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country> implem
     return countries;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.country.CountryRemoteService#getCountryByName
-   * ()
-   */
   @Override
   public Country getCountryByName(String countryName) throws ServiceException {
     List<Country> countries = list();
@@ -79,12 +68,6 @@ public class CountryRemoteServiceImpl extends GeneralServiceImpl<Country> implem
     throw new ServiceException(countryName + " not found");
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see com.google.code.magja.service.country.CountryRemoteService#
-   * getCountryIdByName()
-   */
   @Override
   public String getCountryIdByName(String countryName) throws ServiceException {
     Country country = getCountryByName(countryName);

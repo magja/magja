@@ -31,7 +31,7 @@ import com.google.code.magja.model.cart.CartTotal;
 import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 /**
  * @author schneider
@@ -41,7 +41,7 @@ public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements C
 
   private static final long serialVersionUID = -7418788716423153907L;
 
-  public CartRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public CartRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 

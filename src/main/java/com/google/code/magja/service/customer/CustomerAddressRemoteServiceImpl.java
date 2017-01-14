@@ -1,14 +1,10 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.customer;
 
 import com.google.code.magja.magento.ResourcePath;
 import com.google.code.magja.model.customer.CustomerAddress;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 import org.apache.axis2.AxisFault;
 
@@ -16,11 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Customer service implementation.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class CustomerAddressRemoteServiceImpl extends GeneralServiceImpl<CustomerAddress> implements CustomerAddressRemoteService {
 
   private static final long serialVersionUID = 2269696861048421719L;
 
-  public CustomerAddressRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public CustomerAddressRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 
@@ -39,13 +40,6 @@ public class CustomerAddressRemoteServiceImpl extends GeneralServiceImpl<Custome
     return address;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerAddressRemoteService#delete
-   * (java.lang.Integer)
-   */
   @Override
   public void delete(Integer id) throws ServiceException {
 
@@ -61,12 +55,6 @@ public class CustomerAddressRemoteServiceImpl extends GeneralServiceImpl<Custome
 
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#deleteAll()
-   */
   @Override
   public void deleteAll(Integer customerId) throws ServiceException {
     List<CustomerAddress> addresses = list(customerId);
@@ -75,13 +63,6 @@ public class CustomerAddressRemoteServiceImpl extends GeneralServiceImpl<Custome
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerAddressRemoteService#getById
-   * (java.lang.Integer)
-   */
   @Override
   public CustomerAddress getById(Integer id) throws ServiceException {
 
@@ -131,13 +112,6 @@ public class CustomerAddressRemoteServiceImpl extends GeneralServiceImpl<Custome
     return addresses;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerAddressRemoteService#create(
-   * com.google.code.magja.model.customer.CustomerAddress)
-   */
   @Override
   public void save(CustomerAddress customerAddress) throws ServiceException {
 
@@ -166,7 +140,6 @@ public class CustomerAddressRemoteServiceImpl extends GeneralServiceImpl<Custome
         throw new ServiceException(e.getMessage());
       }
     }
-
   }
 
 }

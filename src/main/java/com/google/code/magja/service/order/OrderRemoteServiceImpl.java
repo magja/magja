@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.order;
 
 import java.util.ArrayList;
@@ -18,14 +14,20 @@ import com.google.code.magja.model.customer.Customer;
 import com.google.code.magja.model.customer.Customer.Gender;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
+/**
+ * Order service implementation.
+ * 
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements OrderRemoteService {
 
   private transient Logger log = LoggerFactory.getLogger(OrderRemoteServiceImpl.class);
   private static final long serialVersionUID = 8734041145563577985L;
 
-  public OrderRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public OrderRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 
@@ -75,9 +77,9 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
       OrderAddress shippingAddress = new OrderAddress();
 
       Map<String, Object> atts = (Map<String, Object>) saObject;
-      for (Map.Entry<String, Object> att : atts.entrySet())
+      for (Map.Entry<String, Object> att : atts.entrySet()) {
         shippingAddress.set(att.getKey(), att.getValue());
-
+      }
       order.setShippingAddress(shippingAddress);
     }
 
@@ -86,9 +88,9 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
       OrderAddress billingAddress = new OrderAddress();
 
       Map<String, Object> atts = (Map<String, Object>) attributes.get("billing_address");
-      for (Map.Entry<String, Object> att : atts.entrySet())
+      for (Map.Entry<String, Object> att : atts.entrySet()) {
         billingAddress.set(att.getKey(), att.getValue());
-
+      }
       order.setBillingAddress(billingAddress);
     }
 
@@ -97,9 +99,9 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
       OrderPayment orderPayment = new OrderPayment();
 
       Map<String, Object> atts = (Map<String, Object>) attributes.get("payment");
-      for (Map.Entry<String, Object> att : atts.entrySet())
+      for (Map.Entry<String, Object> att : atts.entrySet()) {
         orderPayment.set(att.getKey(), att.getValue());
-
+      }
       order.setOrderPayment(orderPayment);
     }
 
@@ -119,14 +121,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
     return order;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.order.OrderRemoteService#addComment(code.
-   * google .magja.model.order.Order, java.lang.String, java.lang.String,
-   * java.lang.Boolean)
-   */
   @Override
   public void addComment(Order order, String status, String comment, Boolean notify) throws ServiceException {
     try {
@@ -138,13 +132,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.order.OrderRemoteService#cancel(code.google
-   * .magja.model.order.Order)
-   */
   @Override
   public void cancel(Order order) throws ServiceException {
 
@@ -158,13 +145,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.order.OrderRemoteService#getById(java.lang.
-   * Integer)
-   */
   @Override
   public Order getById(Integer id) throws ServiceException {
 
@@ -205,13 +185,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
     return buildOrderObject(order_remote);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.order.OrderRemoteService#hold(com.google.code
-   * .magja .model.order.Order)
-   */
   @Override
   public void hold(Order order) throws ServiceException {
     try {
@@ -223,13 +196,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.order.OrderRemoteService#list(com.google.code
-   * .magja .model.order.Filter)
-   */
   @Override
   public List<Order> list(Filter filter) throws ServiceException {
 
@@ -258,13 +224,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
     return results;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.order.OrderRemoteService#unhold(code.google
-   * .magja.model.order.Order)
-   */
   @Override
   public void unhold(Order order) throws ServiceException {
 
@@ -278,9 +237,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
 
   }
 
-  /**
-   * Create an {@link Order} from an {@link OrderForm}.
-   */
   @Override
   public String create(OrderForm orderForm) throws ServiceException {
     try {
@@ -292,9 +248,6 @@ public class OrderRemoteServiceImpl extends GeneralServiceImpl<Order> implements
     }
   }
 
-  /**
-   * Create an {@link Order} from an {@link OrderForm}, with custom addresses.
-   */
   @Override
   public String createEx(OrderForm orderForm) throws ServiceException {
     try {

@@ -32,4 +32,11 @@ public interface SoapClient {
 
   Object multiCall(List<ResourcePath> path, List<Object> args) throws AxisFault;
 
+  /**
+   * Retrieves the configuration.
+   * 
+   * @return the configuration object.
+   */
+  SoapConfig getConfig();
+
 }

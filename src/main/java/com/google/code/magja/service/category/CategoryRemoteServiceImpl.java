@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.category;
 
 import java.util.ArrayList;
@@ -18,768 +14,720 @@ import com.google.code.magja.model.product.Product;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
+/**
+ * Category service implementation.
+ * @author andre
+ * @author Simon Zambrovski
+ */
+public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> implements CategoryRemoteService {
 
-public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category>
-        implements CategoryRemoteService {
+  private transient Logger log = LoggerFactory.getLogger(CategoryRemoteServiceImpl.class);
+  private RemoteServiceFactory serviceFactory;
+  private static final long serialVersionUID = 5806879316902937610L;
 
-	private transient Logger log = LoggerFactory.getLogger(CategoryRemoteServiceImpl.class);
-	private RemoteServiceFactory serviceFactory;
-    private static final long serialVersionUID = 5806879316902937610L;
+  public CategoryRemoteServiceImpl(SoapClient soapClient, RemoteServiceFactory serviceFactory) {
+    super(soapClient);
+    this.serviceFactory = serviceFactory;
+  }
 
-	public CategoryRemoteServiceImpl(MagentoSoapClient soapClient,
-			RemoteServiceFactory serviceFactory) {
-		super(soapClient);
-		this.serviceFactory = serviceFactory;
-	}
-
-    /**
-     * Load children for the category
-     *
-     * @param category
-     * @throws ServiceException
-     */
-    private void loadChildren(Category category) throws ServiceException {
-        if (category.get("children") != null) {
-            if (category.get("children").toString().length() > 0) {
-                String str_children = (String) category.get("children");
-                String[] arr_children = str_children.split(",");
-                for (String str_child : arr_children) {
-                    Category child = getByIdClean(new Integer(str_child));
-                    if (child != null)
-                        category.addChild(child);
-                }
-            }
+  /**
+   * Load children for the category
+   *
+   * @param category
+   * @throws ServiceException
+   */
+  private void loadChildren(Category category) throws ServiceException {
+    if (category.get("children") != null) {
+      if (category.get("children").toString().length() > 0) {
+        String str_children = (String) category.get("children");
+        String[] arr_children = str_children.split(",");
+        for (String str_child : arr_children) {
+          Category child = getByIdClean(new Integer(str_child));
+          if (child != null)
+            category.addChild(child);
         }
+      }
+    }
+  }
+
+  /**
+   * load parent for the category
+   *
+   * @param category
+   * @throws ServiceException
+   */
+  private void loadParent(Category category) throws ServiceException {
+    if (category.get("parent_id") != null) {
+      Category parent = getByIdClean((Integer) category.get("parent_id"));
+      category.setParent(parent);
+    }
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see
+   * com.google.code.magja.service.category.CategoryRemoteService#getByIdClean
+   * (java.lang.Integer)
+   */
+  @Override
+  public Category getByIdClean(Integer id) throws ServiceException {
+    log.info("getIdByClean {}", id);
+    Category category = new Category();
+
+    if (id == null)
+      return null;
+
+    Map<String, Object> cat;
+
+    try {
+      cat = (Map<String, Object>) soapClient.callSingle(ResourcePath.CategoryInfo, id);
+    } catch (AxisFault e) {
+      if (debug)
+        e.printStackTrace();
+      throw new ServiceException(e.getMessage());
     }
 
-    /**
-     * load parent for the category
-     *
-     * @param category
-     * @throws ServiceException
-     */
-    private void loadParent(Category category) throws ServiceException {
-        if (category.get("parent_id") != null) {
-            Category parent = getByIdClean((Integer) category.get("parent_id"));
-            category.setParent(parent);
-        }
+    if (cat == null)
+      return null;
+
+    log.debug("Mappping to Category #{} from {}", id, cat);
+    for (Map.Entry<String, Object> attribute : cat.entrySet()) {
+      if (attribute.getKey().equals("available_sort_by")) {
+        // category.set(attribute.getKey(), attribute.getValue());
+        category.set(attribute.getKey(), (String) attribute.getValue());
+      } else {
+        category.set(attribute.getKey(), attribute.getValue());
+      }
     }
 
-    /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.category.CategoryRemoteService#getByIdClean
-      * (java.lang.Integer)
-      */
-    @Override
-    public Category getByIdClean(Integer id) throws ServiceException {
-    	log.info("getIdByClean {}", id);
-        Category category = new Category();
+    return category;
+  }
 
-        if (id == null)
-            return null;
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.code.magja.service.category.CategoryRemoteService#
+   * getByIdWithChildren(java.lang.Integer)
+   */
+  @Override
+  public Category getByIdWithChildren(Integer id) throws ServiceException {
 
-        Map<String, Object> cat;
+    Category category = getByIdClean(id);
 
-        try {
-            cat = (Map<String, Object>) soapClient.callSingle(
-                    ResourcePath.CategoryInfo, id);
-        } catch (AxisFault e) {
-            if (debug)
-                e.printStackTrace();
-            throw new ServiceException(e.getMessage());
-        }
+    // load category children
+    loadChildren(category);
 
-        if (cat == null)
-            return null;
+    return category;
+  }
 
-        log.debug("Mappping to Category #{} from {}", id, cat);
-        for (Map.Entry<String, Object> attribute : cat.entrySet()) {
-            if (attribute.getKey().equals("available_sort_by")) {
-//                category.set(attribute.getKey(), attribute.getValue());
-            	category.set(attribute.getKey(), (String)attribute.getValue());
-            } else {
-                category.set(attribute.getKey(), attribute.getValue());
-            }
-        }
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.code.magja.service.category.CategoryRemoteService#
+   * getByIdWithParent(java.lang.Integer)
+   */
+  @Override
+  public Category getByIdWithParent(Integer id) throws ServiceException {
 
-        return category;
+    Category category = getByIdClean(id);
+
+    // load category parent
+    loadParent(category);
+
+    return category;
+  }
+
+  @Override
+  public Category getByIdWithParentAndChildren(Integer id) throws ServiceException {
+
+    Category category = getByIdClean(id);
+
+    // load category parent and children
+    loadChildren(category);
+    loadParent(category);
+
+    return category;
+  }
+
+  @SuppressWarnings("unchecked")
+  public Category getTree(Integer id) throws ServiceException {
+
+    Category category = new Category();
+
+    if (id == null)
+      return null;
+
+    Map<String, Object> cat;
+
+    try {
+      cat = (Map<String, Object>) soapClient.callSingle(ResourcePath.CategoryTree, id);
+    } catch (AxisFault e) {
+      log.error("Error calling CategoryRemoteServiceImpl.getTree()", e);
+      if (debug)
+        e.printStackTrace();
+      throw new ServiceException("Error calling CategoryRemoteServiceImpl.getTree()", e);
     }
 
-    /*
-      * (non-Javadoc)
-      *
-      * @see com.google.code.magja.service.category.CategoryRemoteService#
-      * getByIdWithChildren(java.lang.Integer)
-      */
-    @Override
-    public Category getByIdWithChildren(Integer id) throws ServiceException {
+    if (cat == null)
+      return null;
 
-        Category category = getByIdClean(id);
+    category = getCategoryFromMap(cat);
 
-        // load category children
-        loadChildren(category);
+    return category;
+  }
 
-        return category;
-    }
+  /**
+   * build category from Map
+   *
+   * @param Map
+   *          <String, Object>
+   */
+  @SuppressWarnings("unchecked")
+  private Category getCategoryFromMap(Map<String, Object> cat) {
+    Category category = new Category();
 
-    /*
-      * (non-Javadoc)
-      *
-      * @see com.google.code.magja.service.category.CategoryRemoteService#
-      * getByIdWithParent(java.lang.Integer)
-      */
-    @Override
-    public Category getByIdWithParent(Integer id) throws ServiceException {
+    for (Map.Entry<String, Object> attribute : cat.entrySet()) {
+      if (attribute.getKey().equals("children")) {
+        List<Category> children = new ArrayList<Category>();
 
-        Category category = getByIdClean(id);
+        List<Map<String, Object>> childrenList = (List<Map<String, Object>>) attribute.getValue();
 
-        // load category parent
-        loadParent(category);
-
-        return category;
-    }
-
-    /*
-      * (non-Javadoc)
-      *
-      * @see com.google.code.magja.service.category.CategoryRemoteService#
-      * getByIdWithParentAndChildren(java.lang.Integer)
-      */
-    @Override
-    public Category getByIdWithParentAndChildren(Integer id)
-            throws ServiceException {
-
-        Category category = getByIdClean(id);
-
-        // load category parent and children
-        loadChildren(category);
-        loadParent(category);
-
-        return category;
-    }
-
-    /**
-     * get all category with subcategory by id
-     *
-     * @param id
-     * @throws ServiceException
-     */
-    @SuppressWarnings("unchecked")
-    public Category getTree(Integer id) throws ServiceException {
-
-        Category category = new Category();
-
-        if (id == null)
-            return null;
-
-        Map<String, Object> cat;
-
-        try {
-            cat = (Map<String, Object>) soapClient.callSingle(
-                    ResourcePath.CategoryTree, id);
-        } catch (AxisFault e) {
-        	log.error("Error calling CategoryRemoteServiceImpl.getTree()", e);
-            if (debug)
-                e.printStackTrace();
-            throw new ServiceException("Error calling CategoryRemoteServiceImpl.getTree()", e);
-        }
-
-        if (cat == null)
-            return null;
-
-        category = getCategoryFromMap(cat);
-
-        return category;
-    }
-
-    /**
-     * build category from Map
-     *
-     * @param Map <String, Object>
-     */
-    @SuppressWarnings("unchecked")
-    private Category getCategoryFromMap(Map<String, Object> cat) {
-        Category category = new Category();
-
-        for (Map.Entry<String, Object> attribute : cat.entrySet()) {
-            if (attribute.getKey().equals("children")) {
-                List<Category> children = new ArrayList<Category>();
-
-                List<Map<String, Object>> childrenList = (List<Map<String, Object>>) attribute
-                        .getValue();
-
-                for (Map<String, Object> child : childrenList) {
-                    Category c = getCategoryFromMap(child);
-                    children.add(c);
-                }
-
-                category.setChildren(children);
-            } else {
-                category.set(attribute.getKey(), attribute.getValue());
-            }
+        for (Map<String, Object> child : childrenList) {
+          Category c = getCategoryFromMap(child);
+          children.add(c);
         }
 
-        return category;
+        category.setChildren(children);
+      } else {
+        category.set(attribute.getKey(), attribute.getValue());
+      }
     }
 
-    /**
-     * print all categories
-     *
-     * @param id
-     */
-    public void print(Category category) {
-        if (category != null) {
-            String s = "";
-            for (int i = 1; i < category.getLevel(); i++) {
-                s += " ";
-            }
+    return category;
+  }
 
-            log.debug(s + category.getName());
+  /**
+   * print all categories
+   *
+   * @param id
+   */
+  public void print(Category category) {
+    if (category != null) {
+      String s = "";
+      for (int i = 1; i < category.getLevel(); i++) {
+        s += " ";
+      }
 
-            for (Category child : category.getChildren()) {
-                print(child);
-            }
+      log.debug(s + category.getName());
+
+      for (Category child : category.getChildren()) {
+        print(child);
+      }
+    }
+  }
+
+  /**
+   * search categories
+   *
+   * @param id
+   */
+  public List<Category> search(Category category, List<String> categoryNames) throws ServiceException {
+    List<Category> categories = new ArrayList<Category>();
+
+    for (String name : categoryNames) {
+      boolean found = false;
+      for (Category child : category.getChildren()) {
+        if (child.getName().equals(name)) {
+          found = true;
+          categories.add(child);
+
+          // override parent with child
+          category = child;
+          break;
         }
+      }
+
+      if (!found) {
+        throw new ServiceException("Category \"" + name + "\" not found.");
+      }
     }
 
-    /**
-     * search categories
-     *
-     * @param id
-     */
-    public List<Category> search(Category category, List<String> categoryNames)
-            throws ServiceException {
-        List<Category> categories = new ArrayList<Category>();
+    return categories;
+  }
 
-        for (String name : categoryNames) {
-            boolean found = false;
-            for (Category child : category.getChildren()) {
-                if (child.getName().equals(name)) {
-                    found = true;
-                    categories.add(child);
-
-                    // override parent with child
-                    category = child;
-                    break;
-                }
-            }
-
-            if (!found) {
-                throw new ServiceException("Category \"" + name
-                        + "\" not found.");
-            }
+  /**
+   * search for equal child
+   */
+  public Category searchChild(Category category, Category search) throws ServiceException {
+    if (category != null) {
+      for (Category child : category.getChildren()) {
+        if (child.getName().equals(search.getName())) {
+          return child;
         }
-
-        return categories;
+      }
     }
 
-    /**
-     * search for equal child
-     */
-    public Category searchChild(Category category, Category search) throws ServiceException {
-        if (category != null) {
-            for (Category child : category.getChildren()) {
-                if (child.getName().equals(search.getName())) {
-                    return child;
-                }
-            }
-        }
+    throw new ServiceException("Child not found");
+  }
 
-        throw new ServiceException("Child not found");
-    }
+  /*
+   * (non-Javadoc)
+   *
+   * @see
+   * com.google.code.magja.service.category.CategoryRemoteService#create(code
+   * .google .magja.model.product.Category)
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public int save(Category category) throws ServiceException {
+    return save(category, "");
+  }
 
-    /*
-      * (non-Javadoc)
-      *
-      * @see
-      * com.google.code.magja.service.category.CategoryRemoteService#create(code
-      * .google .magja.model.product.Category)
-      */
-    @SuppressWarnings("unchecked")
-    @Override
-    public int save(Category category) throws ServiceException {
-        return save(category, "");
-    }
+  public int save(Category category, String storeView) throws ServiceException {
+    if (category.getId() == null) {
+      // List<Object> newCategory = new LinkedList<Object>();
+      // newCategory.add(category.getParent().getId());
+      // newCategory.add(category.getAllProperties());
 
-    public int save(Category category, String storeView) throws ServiceException {
-        if (category.getId() == null) {
-//            List<Object> newCategory = new LinkedList<Object>();
-//            newCategory.add(category.getParent().getId());
-//            newCategory.add(category.getAllProperties());
-
-            // means its a new category
-            try {
-                Integer id = Integer.parseInt((String) soapClient.callArgs(
-                        ResourcePath.CategoryCreate, new Object[] {
-                        		category.getParent().getId(), category.getAllProperties()
-                        }));
-                if (id > -1) {
-                    category.setId(id);
-                    return id;
-                } else {
-                    throw new ServiceException("Error inserting new Category");
-                }
-            } catch (NumberFormatException e) {
-                if (debug)
-                    e.printStackTrace();
-                throw new ServiceException(e.getMessage());
-            } catch (AxisFault e) {
-                if (debug)
-                    e.printStackTrace();
-
-                if (e.getMessage().indexOf("available_sort_by") > 0) {
-                    log.debug("Broken Magento API? Run this SQL code first\n" +
-                            "update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';");
-                }
-
-                throw new ServiceException(e.getMessage());
-            }
+      // means its a new category
+      try {
+        Integer id = Integer
+            .parseInt((String) soapClient.callArgs(ResourcePath.CategoryCreate, new Object[] { category.getParent().getId(), category.getAllProperties() }));
+        if (id > -1) {
+          category.setId(id);
+          return id;
         } else {
-            // update existing category
-//            List<Object> newCategory = new LinkedList<Object>();
-//            newCategory.add(category.getId());
-//            newCategory.add(category.getAllProperties());
-            if (!storeView.isEmpty()) {
-//                newCategory.add(storeView);
-            }
-            try {
-                Boolean sucessed = (Boolean) soapClient.callArgs(
-                        ResourcePath.CategoryUpdate, new Object[] {
-                        		category.getId(), category.getAllProperties(), !storeView.isEmpty() ? storeView : null
-                        });
-                if (!sucessed) {
-                    throw new ServiceException("Error on update Category");
-                }
-            } catch (AxisFault e) {
-                if (debug)
-                    e.printStackTrace();
-                throw new ServiceException(e.getMessage());
-            }
-            return category.getId();
+          throw new ServiceException("Error inserting new Category");
         }
+      } catch (NumberFormatException e) {
+        if (debug)
+          e.printStackTrace();
+        throw new ServiceException(e.getMessage());
+      } catch (AxisFault e) {
+        if (debug)
+          e.printStackTrace();
+
+        if (e.getMessage().indexOf("available_sort_by") > 0) {
+          log.debug("Broken Magento API? Run this SQL code first\n" + "update eav_attribute set is_required = 0 where attribute_code = 'available_sort_by';");
+        }
+
+        throw new ServiceException(e.getMessage());
+      }
+    } else {
+      // update existing category
+      // List<Object> newCategory = new LinkedList<Object>();
+      // newCategory.add(category.getId());
+      // newCategory.add(category.getAllProperties());
+      if (!storeView.isEmpty()) {
+        // newCategory.add(storeView);
+      }
+      try {
+        Boolean sucessed = (Boolean) soapClient.callArgs(ResourcePath.CategoryUpdate,
+            new Object[] { category.getId(), category.getAllProperties(), !storeView.isEmpty() ? storeView : null });
+        if (!sucessed) {
+          throw new ServiceException("Error on update Category");
+        }
+      } catch (AxisFault e) {
+        if (debug)
+          e.printStackTrace();
+        throw new ServiceException(e.getMessage());
+      }
+      return category.getId();
+    }
+  }
+
+  /**
+   * Delete a category by id
+   *
+   * @param id
+   * @throws ServiceException
+   */
+  public void delete(Integer id) throws ServiceException {
+    Boolean success = false;
+    try {
+      success = soapClient.callSingle(ResourcePath.CategoryDelete, id);
+    } catch (AxisFault e) {
+      log.debug(e.getMessage());
+      throw new ServiceException(e.getMessage());
+    }
+    if (!success) {
+      throw new ServiceException("Not success deleting category.");
+    }
+  }
+
+  /**
+   * Delete a delete all children in a category
+   *
+   * @param parent
+   *          category id
+   * @throws ServiceException
+   */
+  public void deleteAllChildren(Integer id) throws ServiceException {
+    Category parent = getByIdWithChildren(id);
+    List<Category> children = parent.getChildren();
+
+    for (Category category : children) {
+      delete(category.getId());
+    }
+  }
+
+  /**
+   * get default root category
+   *
+   * @param id
+   * @throws ServiceException
+   */
+  public Category getDefaultParent() throws ServiceException {
+    return getByIdClean(soapClient.getConfig().getDefaultRootCategoryId());
+  }
+
+  /**
+   * create category from minimal parameter
+   * <p/>
+   * Settings: availableSortBy = name defaultSortBy = name active = true anchor
+   * = true
+   */
+  public Category getMinimalCategory(Integer parentId, String categoryName) {
+    return getRequiredCategory(parentId, categoryName, "name", "name", true, true);
+  }
+
+  /**
+   * create category with required parameter (this parameter are required by
+   * Magento)
+   */
+  public Category getRequiredCategory(Integer parentId, String categoryName, String availableSortBy, String defaultSortBy, Boolean active, Boolean anchor) {
+    Category parent = new Category(parentId);
+
+    Category category = new Category(categoryName);
+    category.setParent(parent);
+    category.setAvailableSortBy(availableSortBy);
+    category.setDefaultSortBy(defaultSortBy);
+    category.setActive(active);
+    category.setAnchor(anchor);
+
+    return category;
+  }
+
+  /**
+   * create category tree from String
+   */
+  public Category create(Integer parentId, String categoryName) throws ServiceException {
+    List<String> categoryNames = new ArrayList<String>();
+    categoryNames.add(categoryName);
+
+    List<Category> categories = create(parentId, categoryNames);
+
+    return categories.get(0);
+  }
+
+  /**
+   * create category from category list
+   */
+  public Category linkCategory(List<Category> categories) throws ServiceException {
+    if (categories.size() > 0) {
+      for (int i = 0; i < categories.size(); i++) {
+        // set parent
+        if (i > 0) {
+          Category parent = categories.get(i - 1);
+          categories.get(i).setParent(parent);
+        }
+
+        // set children
+        if (i < categories.size() - 1) {
+          List<Category> children = new ArrayList<Category>();
+          children.add(categories.get(i + 1));
+          categories.get(i).setChildren(children);
+        }
+      }
+
+      return categories.get(0);
     }
 
-    /**
-     * Delete a category by id
-     *
-     * @param id
-     * @throws ServiceException
-     */
-    public void delete(Integer id) throws ServiceException {
-        Boolean success = false;
+    throw new ServiceException("Category list is empty");
+  }
+
+  /**
+   * create category tree from String array
+   */
+  public List<Category> create(Integer parentId, List<String> categoryNames) throws ServiceException {
+
+    List<Category> categories = new ArrayList<Category>();
+    for (String categoryName : categoryNames) {
+      categories.add(getMinimalCategory(0, categoryName));
+    }
+
+    return create(parentId, linkCategory(categories));
+  }
+
+  /**
+   * create category if not exists already
+   */
+  public List<Category> create(Integer parentId, Category category) throws ServiceException {
+    if (parentId > 0 && category != null) {
+      List<Category> categories = new ArrayList<Category>();
+
+      Category parent = getTree(parentId);
+
+      while (category != null) {
         try {
-            success = soapClient.callSingle(ResourcePath.CategoryDelete, id);
-        } catch (AxisFault e) {
-            log.debug(e.getMessage());
-            throw new ServiceException(e.getMessage());
-        }
-        if (!success) {
-            throw new ServiceException("Not success deleting category.");
-        }
-    }
+          // search for category
+          Category child = searchChild(parent, category);
 
-    /**
-     * Delete a delete all children in a category
-     *
-     * @param parent category id
-     * @throws ServiceException
-     */
-    public void deleteAllChildren(Integer id) throws ServiceException {
-        Category parent = getByIdWithChildren(id);
-        List<Category> children = parent.getChildren();
+          // category exists already, set id from existing one
+          category.setId(child.getId());
 
-        for (Category category : children) {
-            delete(category.getId());
-        }
-    }
-
-    /**
-     * get default root category
-     *
-     * @param id
-     * @throws ServiceException
-     */
-    public Category getDefaultParent() throws ServiceException {
-        return getByIdClean(soapClient.getConfig().getDefaultRootCategoryId());
-    }
-
-    /**
-     * create category from minimal parameter
-     * <p/>
-     * Settings: availableSortBy = name defaultSortBy = name active = true
-     * anchor = true
-     */
-    public Category getMinimalCategory(Integer parentId, String categoryName) {
-        return getRequiredCategory(parentId, categoryName, "name", "name", true, true);
-    }
-
-    /**
-     * create category with required parameter (this parameter are required by
-     * Magento)
-     */
-    public Category getRequiredCategory(Integer parentId, String categoryName,
-                                        String availableSortBy, String defaultSortBy, Boolean active,
-                                        Boolean anchor) {
-        Category parent = new Category(parentId);
-
-        Category category = new Category(categoryName);
-        category.setParent(parent);
-        category.setAvailableSortBy(availableSortBy);
-        category.setDefaultSortBy(defaultSortBy);
-        category.setActive(active);
-        category.setAnchor(anchor);
-
-        return category;
-    }
-
-    /**
-     * create category tree from String
-     */
-    public Category create(Integer parentId, String categoryName)
-            throws ServiceException {
-        List<String> categoryNames = new ArrayList<String>();
-        categoryNames.add(categoryName);
-
-        List<Category> categories = create(parentId, categoryNames);
-
-        return categories.get(0);
-    }
-
-    /**
-     * create category from category list
-     */
-    public Category linkCategory(List<Category> categories) throws ServiceException {
-        if (categories.size() > 0) {
-            for (int i = 0; i < categories.size(); i++) {
-                // set parent
-                if (i > 0) {
-                    Category parent = categories.get(i - 1);
-                    categories.get(i).setParent(parent);
-                }
-
-                // set children
-                if (i < categories.size() - 1) {
-                    List<Category> children = new ArrayList<Category>();
-                    children.add(categories.get(i + 1));
-                    categories.get(i).setChildren(children);
-                }
-            }
-
-            return categories.get(0);
+          // set values for next loop
+          parent = child;
+          parentId = parent.getId();
+        } catch (Exception e) {
+          parent = null;
         }
 
-        throw new ServiceException("Category list is empty");
-    }
+        // create / update category
+        category.setParent(new Category(parentId));
+        parentId = save(category);
 
-    /**
-     * create category tree from String array
-     */
-    public List<Category> create(Integer parentId, List<String> categoryNames)
-            throws ServiceException {
+        // add category to return list
+        categories.add(category);
 
-        List<Category> categories = new ArrayList<Category>();
-        for (String categoryName : categoryNames) {
-            categories.add(getMinimalCategory(0, categoryName));
-        }
-
-        return create(parentId, linkCategory(categories));
-    }
-
-    /**
-     * create category if not exists already
-     */
-    public List<Category> create(Integer parentId, Category category) throws ServiceException {
-        if (parentId > 0 && category != null) {
-            List<Category> categories = new ArrayList<Category>();
-
-            Category parent = getTree(parentId);
-
-            while (category != null) {
-                try {
-                    // search for category
-                    Category child = searchChild(parent, category);
-
-                    // category exists already, set id from existing one
-                    category.setId(child.getId());
-
-                    // set values for next loop
-                    parent = child;
-                    parentId = parent.getId();
-                } catch (Exception e) {
-                    parent = null;
-                }
-
-                // create / update category
-                category.setParent(new Category(parentId));
-                parentId = save(category);
-
-                // add category to return list
-                categories.add(category);
-
-                // set values for next loop
-                if (category.getChildren().size() > 0) {
-                    // set values for next loop
-                    // FIXME: set more then one child
-                    category = category.getChildren().get(0);
-                } else {
-                    return categories;
-                }
-            }
-        }
-
-        throw new ServiceException("Fail to create a new category");
-    }
-
-    /**
-     * Assign product to category
-     */
-    public void assignProduct(Category category, Product product)
-            throws ServiceException {
-//        List<Object> list = new LinkedList<Object>();
-//        list.add(category.getId());
-//        list.add(product.getId());
-
-        Boolean success = false;
-        try {
-            success = (Boolean) soapClient.callArgs(
-                    ResourcePath.CategoryAssignProduct, new Object[] {
-                    		category.getId(), product.getId()
-                    });
-        } catch (AxisFault e) {
-            log.debug(e.getMessage());
-            throw new ServiceException(e.getMessage());
-        }
-        if (!success) {
-            throw new ServiceException(
-                    "Not success assign product to category.");
-        }
-    }
-
-
-    /**
-     * Assign product to category
-     */
-    @Override
-    public void removeProduct(Category category, Product product)
-            throws ServiceException {
-//        List<Object> list = new LinkedList<Object>();
-//        list.add(category.getId());
-//        list.add(product.getId());
-
-        Boolean success = false;
-        try {
-            success = (Boolean) soapClient.callArgs(
-                    ResourcePath.CategoryRemoveProduct, new Object[] {
-                    		category.getId(), product.getId()
-                    });
-        } catch (AxisFault e) {
-            log.debug(e.getMessage());
-            throw new ServiceException(e.getMessage());
-        }
-        if (!success) {
-            throw new ServiceException(
-                    "No success assign product to category.");
-        }
-    }
-
-
-    /**
-     * Assign product to category
-     */
-    @Override
-    public void assignProductWithPosition(Category category, Product product, Integer position)
-            throws ServiceException {
-//        List<Object> list = new LinkedList<Object>();
-//        list.add(category.getId());
-//        list.add(product.getId());
-//        list.add(position);
-
-        Boolean success = false;
-        try {
-            success = (Boolean) soapClient.callArgs(
-                    ResourcePath.CategoryAssignProduct, new Object[] {
-                    		category.getId(), product.getId(), position
-                    });
-        } catch (AxisFault e) {
-            throw new ServiceException(e.getMessage());
-        }
-        if (!success) {
-            throw new ServiceException(
-                    "No success assign product to category.");
-        }
-    }
-
-    /**
-     * Get list of assigned products in default store
-     */
-    public List<Product> getProducts(Category category) throws ServiceException {
-        return getProducts(category, 1, false);
-    }
-
-    /**
-     * Get list of assigned products If dependencies are disabled, the Product
-     * will contain only following attributes: product_id, type, set, sku. All
-     * other attributes will be null.
-     */
-    public List<Product> getProducts(Category category, Integer storeID,
-                                     boolean dependencies) throws ServiceException {
-
-        if (category == null)
-            return null;
-
-//        List<Object> list = new LinkedList<Object>();
-//        list.add(category.getId());
-//        list.add(storeID);
-
-        List<Product> products = new ArrayList<Product>();
-
-        List<Map<String, Object>> productList;
-
-        try {
-            productList = soapClient.callArgs(
-                    ResourcePath.CategoryAssignedProducts, new Object[] {
-                    		category.getId(), storeID
-                    });
-        } catch (AxisFault e) {
-            if (debug)
-                e.printStackTrace();
-            throw new ServiceException(e.getMessage());
-        }
-
-        if (productList == null)
-            return products;
-
-        for (Map<String, Object> mpp : productList) {
-
-            Product product = new Product();
-
-            if (dependencies) {
-                // buid a full product object if required
-                product = serviceFactory.getProductRemoteService().getBySku(mpp.get("sku").toString(), true);
-            } else {
-                // get minimal product object
-                product = serviceFactory.getProductRemoteService().getBySku(mpp.get("sku").toString(), false);
-            }
-
-            products.add(product);
-        }
-
-        return products;
-    }
-
-    /**
-     * get list of last categories in a category tree
-     */
-    public List<Category> getLastCategories(Category categoryTree) {
-        List<Category> categoryList = new ArrayList<Category>();
-
-        for (Category child : categoryTree.getChildren()) {
-            if (child.getChildren().isEmpty()) {
-                categoryList.add(child);
-            } else {
-                List<Category> categorys = getLastCategories(child);
-
-                for (Category c : categorys) {
-                    categoryList.add(c);
-                }
-            }
-        }
-
-        return categoryList;
-    }
-
-    /**
-     * get list of last categories without products
-     */
-    public List<Category> findEmpty(Integer id) throws ServiceException {
-        Category startCategory = getTree(id);
-
-        List<Category> lastCategories = getLastCategories(startCategory);
-
-        List<Category> emptyCategories = new ArrayList<Category>();
-        for (Category category : lastCategories) {
-            if (getProducts(category).isEmpty()) {
-                emptyCategories.add(category);
-            }
-        }
-
-        return emptyCategories;
-    }
-
-    /**
-     * delete last categories without products
-     */
-    public Integer deleteEmpty(Integer id) throws ServiceException {
-        List<Category> emptyCategories = findEmpty(id);
-        for (Category category : emptyCategories) {
-            delete(category.getId());
-        }
-
-        // FIXME: delete empty parent
-
-        return emptyCategories.size();
-    }
-
-    /**
-     * delete delete recursive if empty
-     */
-    public void deleteEmptyRecursive(Category category) throws ServiceException {
-        if (isEmpty(category)) {
-            // get parent category
-            Category parent = getByIdWithParent(category.getId()).getParent();
-
-            // delete current empty category
-            delete(category.getId());
-
-            // delete parent category if empty
-            deleteEmptyRecursive(parent);
-        }
-    }
-
-    /**
-     * Check if category is empty
-     *
-     * @param cagegory
-     * @throws ServiceException
-     */
-    public Boolean isEmpty(Category category) throws ServiceException {
-        if (category.getChildren().isEmpty() && getProducts(category).isEmpty()) {
-            return true;
+        // set values for next loop
+        if (category.getChildren().size() > 0) {
+          // set values for next loop
+          // FIXME: set more then one child
+          category = category.getChildren().get(0);
         } else {
-            return false;
+          return categories;
         }
+      }
     }
 
-    /**
-	 * Return map of categories where the key
-	 * is category URL path (e.g. "accessories/bb-pouch")
-	 * and the value is a map of [id, name]. 
-     */
-    @Override
-	public Map<String, Category> listPaths()
-            throws ServiceException {
-    	try {
-			Map<String, Map<String, Object>> soapResult = (Map<String, Map<String, Object>>) soapClient.callSingle(
-			        ResourcePath.CategoryListPaths, "");
-			log.debug("{} returned {} categories", ResourcePath.CategoryListPaths, soapResult.size());
-			
-			Map<String, Category> result = Maps.transformValues(soapResult, new Function<Map<String, Object>, Category>() {
-				@Override
-				public Category apply(Map<String, Object> input) {
-					return new Category(Integer.valueOf((String) input.get("id")),
-							(String) input.get("name"));
-				}
-			});
-			return result;
-		} catch (AxisFault e) {
-			log.error("CategoryListPaths error", e);
-			throw new ServiceException("CategoryListPaths error", e);
-		}
+    throw new ServiceException("Fail to create a new category");
+  }
+
+  /**
+   * Assign product to category
+   */
+  public void assignProduct(Category category, Product product) throws ServiceException {
+    // List<Object> list = new LinkedList<Object>();
+    // list.add(category.getId());
+    // list.add(product.getId());
+
+    Boolean success = false;
+    try {
+      success = (Boolean) soapClient.callArgs(ResourcePath.CategoryAssignProduct, new Object[] { category.getId(), product.getId() });
+    } catch (AxisFault e) {
+      log.debug(e.getMessage());
+      throw new ServiceException(e.getMessage());
     }
+    if (!success) {
+      throw new ServiceException("Not success assign product to category.");
+    }
+  }
+
+  /**
+   * Assign product to category
+   */
+  @Override
+  public void removeProduct(Category category, Product product) throws ServiceException {
+    // List<Object> list = new LinkedList<Object>();
+    // list.add(category.getId());
+    // list.add(product.getId());
+
+    Boolean success = false;
+    try {
+      success = (Boolean) soapClient.callArgs(ResourcePath.CategoryRemoveProduct, new Object[] { category.getId(), product.getId() });
+    } catch (AxisFault e) {
+      log.debug(e.getMessage());
+      throw new ServiceException(e.getMessage());
+    }
+    if (!success) {
+      throw new ServiceException("No success assign product to category.");
+    }
+  }
+
+  /**
+   * Assign product to category
+   */
+  @Override
+  public void assignProductWithPosition(Category category, Product product, Integer position) throws ServiceException {
+    // List<Object> list = new LinkedList<Object>();
+    // list.add(category.getId());
+    // list.add(product.getId());
+    // list.add(position);
+
+    Boolean success = false;
+    try {
+      success = (Boolean) soapClient.callArgs(ResourcePath.CategoryAssignProduct, new Object[] { category.getId(), product.getId(), position });
+    } catch (AxisFault e) {
+      throw new ServiceException(e.getMessage());
+    }
+    if (!success) {
+      throw new ServiceException("No success assign product to category.");
+    }
+  }
+
+  /**
+   * Get list of assigned products in default store
+   */
+  public List<Product> getProducts(Category category) throws ServiceException {
+    return getProducts(category, 1, false);
+  }
+
+  /**
+   * Get list of assigned products If dependencies are disabled, the Product
+   * will contain only following attributes: product_id, type, set, sku. All
+   * other attributes will be null.
+   */
+  public List<Product> getProducts(Category category, Integer storeID, boolean dependencies) throws ServiceException {
+
+    if (category == null)
+      return null;
+
+    // List<Object> list = new LinkedList<Object>();
+    // list.add(category.getId());
+    // list.add(storeID);
+
+    List<Product> products = new ArrayList<Product>();
+
+    List<Map<String, Object>> productList;
+
+    try {
+      productList = soapClient.callArgs(ResourcePath.CategoryAssignedProducts, new Object[] { category.getId(), storeID });
+    } catch (AxisFault e) {
+      if (debug)
+        e.printStackTrace();
+      throw new ServiceException(e.getMessage());
+    }
+
+    if (productList == null)
+      return products;
+
+    for (Map<String, Object> mpp : productList) {
+
+      Product product = new Product();
+
+      if (dependencies) {
+        // buid a full product object if required
+        product = serviceFactory.getProductRemoteService().getBySku(mpp.get("sku").toString(), true);
+      } else {
+        // get minimal product object
+        product = serviceFactory.getProductRemoteService().getBySku(mpp.get("sku").toString(), false);
+      }
+
+      products.add(product);
+    }
+
+    return products;
+  }
+
+  /**
+   * get list of last categories in a category tree
+   */
+  public List<Category> getLastCategories(Category categoryTree) {
+    List<Category> categoryList = new ArrayList<Category>();
+
+    for (Category child : categoryTree.getChildren()) {
+      if (child.getChildren().isEmpty()) {
+        categoryList.add(child);
+      } else {
+        List<Category> categorys = getLastCategories(child);
+
+        for (Category c : categorys) {
+          categoryList.add(c);
+        }
+      }
+    }
+
+    return categoryList;
+  }
+
+  /**
+   * get list of last categories without products
+   */
+  public List<Category> findEmpty(Integer id) throws ServiceException {
+    Category startCategory = getTree(id);
+
+    List<Category> lastCategories = getLastCategories(startCategory);
+
+    List<Category> emptyCategories = new ArrayList<Category>();
+    for (Category category : lastCategories) {
+      if (getProducts(category).isEmpty()) {
+        emptyCategories.add(category);
+      }
+    }
+
+    return emptyCategories;
+  }
+
+  /**
+   * delete last categories without products
+   */
+  public Integer deleteEmpty(Integer id) throws ServiceException {
+    List<Category> emptyCategories = findEmpty(id);
+    for (Category category : emptyCategories) {
+      delete(category.getId());
+    }
+
+    // FIXME: delete empty parent
+
+    return emptyCategories.size();
+  }
+
+  /**
+   * delete delete recursive if empty
+   */
+  public void deleteEmptyRecursive(Category category) throws ServiceException {
+    if (isEmpty(category)) {
+      // get parent category
+      Category parent = getByIdWithParent(category.getId()).getParent();
+
+      // delete current empty category
+      delete(category.getId());
+
+      // delete parent category if empty
+      deleteEmptyRecursive(parent);
+    }
+  }
+
+  /**
+   * Check if category is empty
+   *
+   * @param cagegory
+   * @throws ServiceException
+   */
+  public Boolean isEmpty(Category category) throws ServiceException {
+    if (category.getChildren().isEmpty() && getProducts(category).isEmpty()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Return map of categories where the key is category URL path (e.g.
+   * "accessories/bb-pouch") and the value is a map of [id, name].
+   */
+  @Override
+  public Map<String, Category> listPaths() throws ServiceException {
+    try {
+      Map<String, Map<String, Object>> soapResult = (Map<String, Map<String, Object>>) soapClient.callSingle(ResourcePath.CategoryListPaths, "");
+      log.debug("{} returned {} categories", ResourcePath.CategoryListPaths, soapResult.size());
+
+      Map<String, Category> result = Maps.transformValues(soapResult, new Function<Map<String, Object>, Category>() {
+        @Override
+        public Category apply(Map<String, Object> input) {
+          return new Category(Integer.valueOf((String) input.get("id")), (String) input.get("name"));
+        }
+      });
+      return result;
+    } catch (AxisFault e) {
+      log.error("CategoryListPaths error", e);
+      throw new ServiceException("CategoryListPaths error", e);
+    }
+  }
 
 }

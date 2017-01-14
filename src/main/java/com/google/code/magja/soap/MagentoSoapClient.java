@@ -52,7 +52,7 @@ public class MagentoSoapClient implements SoapClient {
   private ServiceClient sender;
 
   // holds all the created instances by creation order, Multiton Pattern
-  private static final Map<SoapConfig, MagentoSoapClient> INSTANCES = new LinkedHashMap<SoapConfig, MagentoSoapClient>();
+  private static final Map<SoapConfig, SoapClient> INSTANCES = new LinkedHashMap<SoapConfig, SoapClient>();
 
   /**
    * Returns the default instance, or a newly created one from the
@@ -61,7 +61,7 @@ public class MagentoSoapClient implements SoapClient {
    *
    * @return the default instance or a newly created one
    */
-  public static MagentoSoapClient getInstance() {
+  public static SoapClient getInstance() {
     return (INSTANCES.size() == 0) ? getInstance(null) : INSTANCES.values().iterator().next();
   }
 
@@ -71,7 +71,7 @@ public class MagentoSoapClient implements SoapClient {
    *
    * @return the already created instance or a new one
    */
-  public static MagentoSoapClient getInstance(final SoapConfig soapConfig) {
+  public static SoapClient getInstance(final SoapConfig soapConfig) {
     // if has default instance and soapConfig is null
     if (INSTANCES.size() > 0 && soapConfig == null)
       return INSTANCES.values().iterator().next();
@@ -80,7 +80,7 @@ public class MagentoSoapClient implements SoapClient {
 
       SoapConfig loadedSoapConfig = null;
       if (soapConfig == null) {
-        InputStream configStream = MagentoSoapClient.class.getResourceAsStream("/magento-api.properties");
+        InputStream configStream = SoapClient.class.getResourceAsStream("/magento-api.properties");
         if (configStream != null) {
           log.info("/magento-api.properties found in classpath, trying to load using java.util.Properties");
           Properties props = new Properties();
@@ -101,7 +101,7 @@ public class MagentoSoapClient implements SoapClient {
         loadedSoapConfig = soapConfig;
       }
 
-      MagentoSoapClient instance = INSTANCES.get(loadedSoapConfig);
+      SoapClient instance = INSTANCES.get(loadedSoapConfig);
       if (instance == null) {
         instance = new MagentoSoapClient(loadedSoapConfig);
         INSTANCES.put(loadedSoapConfig, instance);
@@ -169,10 +169,7 @@ public class MagentoSoapClient implements SoapClient {
     super.finalize();
   }
 
-  /**
-   * Retrieves the configuration.
-   * @return the configuration object.
-   */
+  @Override
   public SoapConfig getConfig() {
     return config;
   }
@@ -182,6 +179,7 @@ public class MagentoSoapClient implements SoapClient {
    * remoteHost)
    *
    * @deprecated, please create a new magento soap client instead.
+   * 
    * @param config
    *          the config to set
    */

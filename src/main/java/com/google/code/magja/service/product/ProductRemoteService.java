@@ -14,8 +14,9 @@ import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
 /**
+ * Product service.
  * @author andre
- *
+ * @author Simon Zambrovski
  */
 public interface ProductRemoteService extends GeneralService<Product> {
 

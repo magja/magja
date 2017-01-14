@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.customer;
 
 import com.google.code.magja.magento.ResourcePath;
@@ -11,7 +7,7 @@ import com.google.code.magja.model.customer.CustomerFilter;
 import com.google.code.magja.model.customer.CustomerGroup;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 import org.apache.axis2.AxisFault;
 
@@ -19,11 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Customer service implementation.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> implements CustomerRemoteService {
 
   private static final long serialVersionUID = 2048559265203182037L;
 
-  public CustomerRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public CustomerRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 
@@ -60,13 +61,6 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> impl
     return group;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#delete(java.
-   * lang.Integer)
-   */
   @Override
   public void delete(Integer id) throws ServiceException {
 
@@ -82,12 +76,6 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> impl
 
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#deleteAll()
-   */
   @Override
   public void deleteAll() throws ServiceException {
     List<Customer> customers = list();
@@ -96,13 +84,6 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> impl
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#getById(java
-   * .lang.Integer)
-   */
   @Override
   public Customer getById(Integer id) throws ServiceException {
 
@@ -121,13 +102,6 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> impl
       return buildCustomer(remote_result);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#list(code.
-   * google .magja.model.customer.Customer)
-   */
   @Override
   public List<Customer> list(Customer filter) throws ServiceException {
 
@@ -163,13 +137,6 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> impl
     return customers;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#list(code.
-   * google.magja .model.customer.CustomerFilter)
-   */
   @Override
   public List<Customer> list2(CustomerFilter filter) throws ServiceException {
 
@@ -201,23 +168,11 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> impl
     return customers;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see com.google.code.magja.service.customer.CustomerRemoteService#list()
-   */
   @Override
   public List<Customer> list() throws ServiceException {
     return list(null);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#create(code.
-   * google .magja.model.customer.Customer)
-   */
   @Override
   public void save(Customer customer) throws ServiceException {
 
@@ -247,12 +202,6 @@ public class CustomerRemoteServiceImpl extends GeneralServiceImpl<Customer> impl
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * com.google.code.magja.service.customer.CustomerRemoteService#listGroups()
-   */
   @Override
   public List<CustomerGroup> listGroups() throws ServiceException {
 

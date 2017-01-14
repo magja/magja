@@ -9,8 +9,9 @@ import com.google.code.magja.service.GeneralService;
 import com.google.code.magja.service.ServiceException;
 
 /**
+ * Product link service.
  * @author andre
- *
+ * @author Simon Zambrovski
  */
 public interface ProductLinkRemoteService extends GeneralService<ProductLink> {
 

@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package com.google.code.magja.service.product;
 
 import java.util.HashSet;
@@ -18,13 +14,18 @@ import com.google.code.magja.model.product.ProductLink.LinkType;
 import com.google.code.magja.model.product.ProductType;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
+/**
+ * Product link service implementation.
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class ProductLinkRemoteServiceImpl extends GeneralServiceImpl<ProductLink> implements ProductLinkRemoteService {
 
   private static final long serialVersionUID = 28223743577747312L;
 
-  public ProductLinkRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public ProductLinkRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 

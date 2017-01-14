@@ -13,17 +13,18 @@ import com.google.code.magja.model.product.ProductAttribute;
 import com.google.code.magja.model.product.ProductAttributeSet;
 import com.google.code.magja.service.GeneralServiceImpl;
 import com.google.code.magja.service.ServiceException;
-import com.google.code.magja.soap.MagentoSoapClient;
+import com.google.code.magja.soap.SoapClient;
 
 /**
+ * Product attribute service implementation.
  * @author andre
- *
+ * @author Simon Zambrovski
  */
 public class ProductAttributeRemoteServiceImpl extends GeneralServiceImpl<ProductAttribute> implements ProductAttributeRemoteService {
 
   private static final long serialVersionUID = -1575503087022556608L;
 
-  public ProductAttributeRemoteServiceImpl(MagentoSoapClient soapClient) {
+  public ProductAttributeRemoteServiceImpl(SoapClient soapClient) {
     super(soapClient);
   }
 
@@ -235,7 +236,7 @@ public class ProductAttributeRemoteServiceImpl extends GeneralServiceImpl<Produc
   }
 
   @Override
-  public Integer AddOptions(String code, String option) throws ServiceException {
+  public Integer addOptions(String code, String option) throws ServiceException {
     // if has options, include this too
 
     // List<Object> params = new LinkedList<Object>();
