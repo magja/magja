@@ -141,7 +141,7 @@ public class MagentoSoapClient implements SoapClient {
 
   @PreDestroy
   public void destroy() {
-    // close the connection to magento api
+    // close the connection to Magento API
     if (callFactory != null && sender != null) {
       // first, we need to logout the previous session
       if (sessionId != null) {
@@ -163,11 +163,6 @@ public class MagentoSoapClient implements SoapClient {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#finalize()
-   */
   @Override
   protected void finalize() throws Throwable {
     destroy();
@@ -175,7 +170,8 @@ public class MagentoSoapClient implements SoapClient {
   }
 
   /**
-   * @return the config
+   * Retrieves the configuration.
+   * @return the configuration object.
    */
   public SoapConfig getConfig() {
     return config;
@@ -185,6 +181,7 @@ public class MagentoSoapClient implements SoapClient {
    * Use to change the connection parameters to API (apiUser, apiKey,
    * remoteHost)
    *
+   * @deprecated, please create a new magento soap client instead.
    * @param config
    *          the config to set
    */
@@ -201,13 +198,13 @@ public class MagentoSoapClient implements SoapClient {
    *      .ResourcePath, Object[])
    */
   @Override
-  public <R> R callArgs(ResourcePath path, Object[] args) throws AxisFault {
+  public <R> R callArgs(final ResourcePath path, Object[] args) throws AxisFault {
     final String pathString = path.getPath();
     return call(pathString, args);
   }
 
   @Override
-  public <T, R> R callSingle(ResourcePath path, T arg) throws AxisFault {
+  public <T, R> R callSingle(final ResourcePath path, T arg) throws AxisFault {
     if (arg != null && arg.getClass().isArray())
       log.warn("Passing array argument to callSingle {}, probably you want to call callArgs?", path);
     final String pathString = path.getPath();
@@ -222,12 +219,12 @@ public class MagentoSoapClient implements SoapClient {
    * @return
    * @throws AxisFault
    */
+  @SuppressWarnings("unchecked")
   public <R> R call(final String pathString, Object args) throws AxisFault {
     // Convert array input to List<Object>
     if (args != null && args.getClass().isArray()) {
       args = Arrays.asList((Object[]) args);
     }
-
     log.info("Calling {} {} at {}@{} with session {}", new Object[] { pathString, args, config.getApiUser(), config.getRemoteHost(), sessionId });
     OMElement method = callFactory.createCall(sessionId, pathString, args);
 
@@ -253,13 +250,17 @@ public class MagentoSoapClient implements SoapClient {
         throw axisFault;
       }
     }
-
     return (R) returnParser.parse(result.getFirstChildWithName(CALL_RETURN));
   }
 
   @Override
+  public <R> R callNoArgs(final ResourcePath path) throws AxisFault {
+    return callSingle(path, null);
+  }
+
+  @Override
   public Object multiCall(List<ResourcePath> path, List<Object> args) throws AxisFault {
-    throw new UnsupportedOperationException("not implemented");
+    throw new UnsupportedOperationException("not implemented yet");
   }
 
   /**
@@ -268,6 +269,7 @@ public class MagentoSoapClient implements SoapClient {
   protected void login() throws AxisFault {
 
     if (isLoggedIn()) {
+      // relogin
       logout();
     }
 
@@ -285,13 +287,21 @@ public class MagentoSoapClient implements SoapClient {
    * @throws AxisFault
    *           on all errors.
    */
-  protected void prepareConnection(HttpConnectionManagerParams params) throws AxisFault {
+  protected void prepareConnection(final HttpConnectionManagerParams params) throws AxisFault {
     final Options connectOptions = new Options();
     connectOptions.setTo(new EndpointReference(config.getRemoteHost()));
     connectOptions.setTransportInProtocol(Constants.TRANSPORT_HTTP);
     connectOptions.setTimeOutInMilliSeconds(60000);
     connectOptions.setProperty(HTTPConstants.MC_GZIP_REQUEST, true);
     connectOptions.setProperty(HTTPConstants.MC_ACCEPT_GZIP, true);
+
+    // add auth information, if enabled,
+    if (config.isHttpAuthEnabled()) {
+      final HttpTransportProperties.Authenticator auth = new HttpTransportProperties.Authenticator();
+      auth.setUsername(config.getHttpUsername());
+      auth.setPassword(config.getHttpPassword());
+      connectOptions.setProperty(HTTPConstants.AUTHENTICATE, auth);
+    }
 
     // to use the same tcp connection for multiple calls
     // workaround:
@@ -308,8 +318,8 @@ public class MagentoSoapClient implements SoapClient {
     connectOptions.setProperty(HTTPConstants.CACHED_HTTP_CLIENT, httpClient);
     connectOptions.setProperty(HTTPConstants.HTTP_PROTOCOL_VERSION, HTTPConstants.HEADER_PROTOCOL_10);
 
+    // activate HTTP proxy if enabled
     if (config.isHttpProxyEnabled()) {
-      // Useful during HTTP debugging
       final HttpTransportProperties.ProxyProperties proxyProps = new HttpTransportProperties.ProxyProperties();
       proxyProps.setProxyName(config.getHttpProxyHost());
       proxyProps.setProxyPort(config.getHttpProxyPort());
@@ -317,7 +327,6 @@ public class MagentoSoapClient implements SoapClient {
         proxyProps.setUserName(config.getHttpProxyUsername());
         proxyProps.setPassWord(config.getHttpProxyPassword());
       }
-
       connectOptions.setProperty(HTTPConstants.PROXY, proxyProps);
     }
 
@@ -386,10 +395,5 @@ public class MagentoSoapClient implements SoapClient {
    */
   protected Boolean isLoggedIn() {
     return sessionId != null;
-  }
-
-  @Override
-  public <R> R callNoArgs(final ResourcePath path) throws AxisFault {
-    return callSingle(path, null);
   }
 }

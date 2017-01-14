@@ -1,20 +1,41 @@
+# ############################################################################
 # Connection parameters
+# ############################################################################
 #magento-api-username=soap
 #magento-api-password=test123
 #magento-api-url=http://localhost.blackhawk/magento/index.php/api/soap/
+############################################################################
 
+# ############################################################################
+# General shop settings
+# ############################################################################
 # The ID of the default attribute set
 default-attribute-set-id=4
-
 # The ID of the default root category
 default-root-category-id=2
+# ############################################################################
 
-# HTTP proxy settings
-# http-proxy-enabled=true
-# http-proxy-host=localhost
-# http-proxy-port=8080
+# ############################################################################
+# HTTP Basic Auth settings
+# ############################################################################
+#http-auth-enabled=true
+#http-username=user
+#http-password=pass
+# ############################################################################
 
+
+# ############################################################################
+# HTTP Proxy settings
+# ############################################################################
+#http-proxy-enabled=true
+#http-proxy-host=localhost
+#http-proxy-port=8080
+# ############################################################################
+
+# ############################################################################
 # HTTP proxy auth settings
-# http-proxy-auth-enabled=true
-# http-proxy-username=user
-# http-proxy-password=pass
+# ############################################################################
+#http-proxy-auth-enabled=true
+#http-proxy-username=user
+#http-proxy-password=pass
+# ############################################################################

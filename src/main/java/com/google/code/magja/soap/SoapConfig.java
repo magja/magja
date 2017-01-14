@@ -19,13 +19,19 @@ public class SoapConfig implements Serializable {
   public static final String DEFAULT_ATTRIBUTE_SET_ID = "default-attribute-set-id";
   public static final String DEFAULT_ROOT_CATEGORY_ID = "default-root-category-id";
 
+  public static final String HTTP_PROXY_ENABLED = "http-proxy-enabled";
   public static final String HTTP_PROXY_HOST = "http-proxy-host";
   public static final String HTTP_PROXY_PORT = "http-proxy-port";
+
+  public static final String HTTP_PROXY_AUTH_ENABLED = "http-proxy-auth-enabled";
   public static final String HTTP_PROXY_USERNAME = "http-proxy-username";
   public static final String HTTP_PROXY_PASSWORD = "http-proxy-password";
-  public static final String HTTP_PROXY_ENABLED = "http-proxy-enabled";
-  public static final String HTTP_PROXY_AUTH_ENABLED = "http-proxy-auth-enabled";
 
+  public static final String HTTP_AUTH_ENABLED = "http-auth-enabled";
+  public static final String HTTP_USERNAME = "http-username";
+  public static final String HTTP_PASSWORD = "http-password";
+  
+  
   private static final long serialVersionUID = 1L;
 
   private String apiUser;
@@ -39,6 +45,9 @@ public class SoapConfig implements Serializable {
   private boolean httpProxyAuthEnabled;
   private String httpProxyPassword;
   private String httpProxyUsername;
+  private boolean httpAuthEnabled;
+  private String httpUsername;
+  private String httpPassword;
 
   private HttpConnectionManagerParams httpConnectionManagerParams = new HttpConnectionManagerParams();
 
@@ -58,7 +67,11 @@ public class SoapConfig implements Serializable {
     this.apiUser = properties.getProperty(MAGENTO_API_USERNAME);
     this.apiKey = properties.getProperty(MAGENTO_API_PASSWORD);
     this.remoteHost = properties.getProperty(MAGENTO_API_URL);
-
+    
+    this.httpAuthEnabled = BooleanUtils.toBoolean(properties.getProperty(HTTP_AUTH_ENABLED, "false"));
+    this.httpUsername = properties.getProperty(HTTP_USERNAME);
+    this.httpPassword = properties.getProperty(HTTP_PASSWORD);
+    
     this.defaultAttributeSetId = Integer.parseInt(properties.getProperty(DEFAULT_ATTRIBUTE_SET_ID, "4"));
     this.defaultRootCategoryId = Integer.parseInt(properties.getProperty(DEFAULT_ROOT_CATEGORY_ID, "2"));
 
@@ -179,11 +192,13 @@ public class SoapConfig implements Serializable {
     result = prime * result + ((apiUser == null) ? 0 : apiUser.hashCode());
     result = prime * result + ((defaultAttributeSetId == null) ? 0 : defaultAttributeSetId.hashCode());
     result = prime * result + ((defaultRootCategoryId == null) ? 0 : defaultRootCategoryId.hashCode());
+    result = prime * result + (httpAuthEnabled ? 1231 : 1237);
     result = prime * result + (httpProxyAuthEnabled ? 1231 : 1237);
     result = prime * result + (httpProxyEnabled ? 1231 : 1237);
     result = prime * result + ((httpProxyHost == null) ? 0 : httpProxyHost.hashCode());
     result = prime * result + ((httpProxyPort == null) ? 0 : httpProxyPort.hashCode());
     result = prime * result + ((httpProxyUsername == null) ? 0 : httpProxyUsername.hashCode());
+    result = prime * result + ((httpUsername == null) ? 0 : httpUsername.hashCode());
     result = prime * result + ((remoteHost == null) ? 0 : remoteHost.hashCode());
     return result;
   }
@@ -221,6 +236,9 @@ public class SoapConfig implements Serializable {
     } else if (!defaultRootCategoryId.equals(other.defaultRootCategoryId)) {
       return false;
     }
+    if (httpAuthEnabled != other.httpAuthEnabled) {
+      return false;
+    }
     if (httpProxyAuthEnabled != other.httpProxyAuthEnabled) {
       return false;
     }
@@ -248,6 +266,13 @@ public class SoapConfig implements Serializable {
     } else if (!httpProxyUsername.equals(other.httpProxyUsername)) {
       return false;
     }
+    if (httpUsername == null) {
+      if (other.httpUsername != null) {
+        return false;
+      }
+    } else if (!httpUsername.equals(other.httpUsername)) {
+      return false;
+    }
     if (remoteHost == null) {
       if (other.remoteHost != null) {
         return false;
@@ -260,9 +285,34 @@ public class SoapConfig implements Serializable {
 
   @Override
   public String toString() {
-    return "SoapConfig [apiUser=" + apiUser + ", remoteHost=" + remoteHost + ", defaultAttributeSetId=" + defaultAttributeSetId + ", defaultRootCategoryId="
+    return "SoapConfig [remoteHost=" + remoteHost + ", apiUser=" + apiUser + ", defaultAttributeSetId=" + defaultAttributeSetId + ", defaultRootCategoryId="
         + defaultRootCategoryId + ", httpProxyEnabled=" + httpProxyEnabled + ", httpProxyHost=" + httpProxyHost + ", httpProxyPort=" + httpProxyPort
-        + ", httpProxyAuthEnabled=" + httpProxyAuthEnabled + ", httpProxyUsername=" + httpProxyUsername + "]";
+        + ", httpProxyAuthEnabled=" + httpProxyAuthEnabled + ", httpProxyUsername=" + httpProxyUsername + ", httpAuthEnabled=" + httpAuthEnabled
+        + ", httpUsername=" + httpUsername + "]";
+  }
+
+  public boolean isHttpAuthEnabled() {
+    return httpAuthEnabled;
+  }
+
+  public void setHttpAuthEnabled(boolean httpAuthEnabled) {
+    this.httpAuthEnabled = httpAuthEnabled;
+  }
+
+  public String getHttpUsername() {
+    return httpUsername;
+  }
+
+  public void setHttpUsername(String httpUsername) {
+    this.httpUsername = httpUsername;
+  }
+
+  public String getHttpPassword() {
+    return httpPassword;
+  }
+
+  public void setHttpPassword(String httpPassword) {
+    this.httpPassword = httpPassword;
   }
 
 }

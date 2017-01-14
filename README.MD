@@ -63,14 +63,22 @@ You can copy an example properties from samples folder. Essentially, the propert
 If you want to use the client behind a HTTP proxy, you can specify the settings in `magento-api.properties`:
 
     # HTTP proxy settings, default is false
-    # http-proxy-enabled=true
-    # http-proxy-host=localhost
-    # http-proxy-port=8080
+    http-proxy-enabled=true
+    http-proxy-host=localhost
+    http-proxy-port=8080
     
     # HTTP proxy auth settings, default is false
-    # http-proxy-auth-enabled=true
-    # http-proxy-username=user
-    # http-proxy-password=pass
+    http-proxy-auth-enabled=true
+    http-proxy-username=user
+    http-proxy-password=pass
+
+If your shop is protected with HTTP Basic Authentication, you can pass a username and password using the following properties:
+
+    # HTTP auth settings, default is false
+    http-auth-enabled=true
+    http-username=user
+    http-password=pass
+
 
 ## Basic usage
 
