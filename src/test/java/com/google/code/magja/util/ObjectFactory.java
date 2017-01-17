@@ -237,7 +237,6 @@ public class ObjectFactory {
     // this include the date of birth on the customer, and it's works,
     // but, that attribute isn't listed when getting a customer from magento
     cust.set("dob", "1980-08-17 20:53:04");
-
     return cust;
   }
 
