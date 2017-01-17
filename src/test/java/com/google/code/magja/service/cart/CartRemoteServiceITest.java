@@ -2,6 +2,7 @@ package com.google.code.magja.service.cart;
 
 import static org.junit.Assert.fail;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import com.google.code.magja.service.RemoteServiceFactory;
 import com.google.code.magja.service.ServiceException;
 import com.google.code.magja.service.customer.CustomerAddressRemoteService;
 import com.google.code.magja.service.customer.CustomerRemoteService;
-import com.google.code.magja.service.region.RegionRemoteServiceITest;
+import com.google.code.magja.service.product.ProductRemoteService;
 import com.google.code.magja.soap.MagentoSoapClient;
 import com.google.code.magja.util.ObjectFactory;
 
@@ -31,17 +32,31 @@ import com.google.code.magja.util.ObjectFactory;
  */
 public class CartRemoteServiceITest {
 
-  private final static Logger log = LoggerFactory.getLogger(RegionRemoteServiceITest.class);
+  private final static Logger log = LoggerFactory.getLogger(CartRemoteServiceITest.class);
   private CartRemoteService service;
   private CustomerRemoteService customerService;
   private CustomerAddressRemoteService customerAddressService;
-
+  private Product product;
+  private ProductRemoteService productService;
+  
   @Before
   public void setUp() throws Exception {
     final RemoteServiceFactory remoteServiceFactory = new RemoteServiceFactory(MagentoSoapClient.getInstance());
     service = remoteServiceFactory.getCartRemoteService();
     customerService = remoteServiceFactory.getCustomerRemoteService();
     customerAddressService = remoteServiceFactory.getCustomerAddressRemoteService();
+    productService = remoteServiceFactory.getProductRemoteService();
+    
+    // create product to buy
+    product = ObjectFactory.generateProduct();
+    productService.add(product);
+  }
+  
+  @After
+  public void cleanUp() throws ServiceException {
+    if (product != null) {
+      productService.delete(product.getSku());
+    }
   }
 
   @Test
@@ -80,9 +95,9 @@ public class CartRemoteServiceITest {
     Cart cart = service.create(0);
     log.info("Created cart {}", cart);
     service.getTotals(cart);
-    System.out.println("Received totals: " + cart.getLicenseAgreements().size());
+    log.info("Received totals: " + cart.getLicenseAgreements().size());
     for (CartTotal item : cart.getTotals()) {
-      System.out.println("    total " + item);
+      log.info("    total " + item);
     }
   }
 
@@ -103,7 +118,7 @@ public class CartRemoteServiceITest {
 
   @Test
   public void testCreateOrderFromCart() throws ServiceException {
-    System.out.println("Creating customer");
+    log.info("Creating customer");
     Customer customer = ObjectFactory.generateCustomer();
     customerService.save(customer);
 
@@ -116,34 +131,30 @@ public class CartRemoteServiceITest {
     billAddr.setDefaultBilling(true);
     billAddr.setDefaultShipping(false);
 
-    System.out.println("Creating default ship addr");
+    log.info("Creating default ship addr");
     customerAddressService.save(shipAddr);
-    System.out.println("Creating default bill addr");
+    log.info("Creating default bill addr");
     customerAddressService.save(billAddr);
 
-    System.out.println("Creating cart");
+    log.info("Creating cart");
     Cart cart = service.create(0);
     log.info("Created cart {}", cart);
 
-    System.out.println("Setting customer");
+    log.info("Setting customer");
     cart.setCustomer(customer);
     service.setCustomer(cart);
 
-    System.out.println("Adding product");
-    Product p = new Product();
-    p.setSku("NI3TP"); // FIXME
-    p.setId(53); // FIXME
-    service.addProduct(cart, p, 1);
+    log.info("Adding product");
+    service.addProduct(cart, product, 1);
 
-    System.out.println("Setting cart addresses");
-    System.err.println(shipAddr.getAllProperties());
+    log.info("Setting cart addresses {}", shipAddr.getAllProperties());
     CartAddress cartShipAddr = CartAddress.fromAttributes(shipAddr.getAllProperties());
     CartAddress cartBillAddr = CartAddress.fromAttributes(billAddr.getAllProperties());
     cart.setBillingaddress(cartBillAddr);
     cart.setShippingAddress(cartShipAddr);
     service.setAddresses(cart);
 
-    System.out.println("Creating order");
+    log.info("Creating order");
     service.order(cart);
   }
 

@@ -208,8 +208,29 @@ public interface ProductRemoteService extends GeneralService<Product> {
 
   void setAssociatedProducts(String productSku, Map<String, String> childProducts) throws ServiceException;
 
+  /**
+   * Activates the store default manage stock property
+   * @param product product with SKU or ID set.
+   * @throws ServiceException on any error.
+   */
+  void unsetManageStock(Product product) throws ServiceException;
+
+  /**
+   * Sets manage stock value of a given product to true.
+   * <p>This call is a shortcut for ProductRemoteService.setManageStock(product, true)</p>
+   * @param product product with SKU or ID set.
+   * @throws ServiceException on any error.
+   */
   void setManageStock(Product product) throws ServiceException;
 
+  /**
+   * Sets manage stock value of a given product to desired value.
+   * <p>Please note that this method will disable the usage of store default for this property.
+   * If you want to use the default, please use {@link ProductRemoteService#unsetManageStock(Product)}</p>
+   * @param product product with SKU or ID set.
+   * @param manageStock desired value.
+   * @throws ServiceException on any error.
+   */
   void setManageStock(Product product, boolean manageStock) throws ServiceException;
 
   Product getBySkuWithCategories(String sku) throws ServiceException;
@@ -243,8 +264,15 @@ public interface ProductRemoteService extends GeneralService<Product> {
    */
   Map<String, Map<String, String>> getRefsMap(List<String> skus) throws ServiceException;
 
+  /**
+   * Updates prices for a list of products.
+   * @param products list of products.
+   * @throws ServiceException on any error.
+   */
   void updatePrice(List<ProductUpdatePrice> products) throws ServiceException;
 
   void update(Product product, Product existingProduct, String storeView, Set<Dependency> dependencies) throws ServiceException, NoSuchAlgorithmException;
+
+  void updateInventory(Product product, Map<String, Object> properties) throws ServiceException;
 
 }

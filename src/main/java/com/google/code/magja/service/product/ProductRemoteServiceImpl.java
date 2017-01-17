@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,6 @@ import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -45,6 +45,7 @@ import com.google.common.collect.Maps;
 
 /**
  * Product service implementation.
+ * 
  * @author andre
  * @author Simon Zambrovski
  */
@@ -893,67 +894,83 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
   @Override
   public void updateInventory(Product product) throws ServiceException {
-    if (product.getId() == null && product.getSku() == null)
-      throw new ServiceException("The product must have the id or the sku seted for update inventory");
+    updateInventory(product, new HashMap<String, Object>());
+  }
 
-    if (product.getInStock() == null)
+  @Override
+  public void updateInventory(final Product product, final Map<String, Object> properties) throws ServiceException {
+    if (product.getId() == null && product.getSku() == null) {
+      throw new ServiceException("The product must have the id or the sku seted for update inventory");
+    }
+
+    if (product.getInStock() == null && product.getQty() != null) {
       product.setInStock(product.getQty() > 0);
-    Map<String, Object> properties = new HashMap<String, Object>();
-    properties.put("qty", product.getQty());
-    properties.put("is_in_stock", (product.getInStock() ? "1" : "0"));
+      properties.put("qty", product.getQty());
+    }
+    properties.put("is_in_stock", BooleanUtils.toBoolean(product.getInStock()) ? "1" : "0");
     if (product.getManageStock() != null) {
-      properties.put("manage_stock", product.getManageStock() ? "1" : 0);
+      properties.put("manage_stock", BooleanUtils.toBoolean(product.getManageStock()) ? "1" : "0");
     }
     if (product.getUseConfigManageStock() != null) {
-      properties.put("use_config_manage_stock", product.getUseConfigManageStock() ? "1" : 0);
+      properties.put("use_config_manage_stock", BooleanUtils.toBoolean(product.getUseConfigManageStock()) ? "1" : "0");
     }
     try {
       soapClient.callArgs(ResourcePath.ProductStockUpdate, new Object[] { product.getId() != null ? product.getId() : product.getSku(), properties });
-    } catch (AxisFault e) {
+    } catch (final AxisFault e) {
       log.error("Cannot update inventory for product " + product.getId(), e);
-      if (debug)
+      if (debug) {
         e.printStackTrace();
+      }
       throw new ServiceException("Cannot update inventory for product " + product.getId(), e);
     }
   }
 
   @Override
   public void setManageStock(Product product) throws ServiceException {
-    if (product.getId() == null && product.getSku() == null)
-      throw new ServiceException("The product must have the id or the sku seted for update inventory");
-
-    Map<String, String> properties = ImmutableMap.of("use_config_manage_stock", "1", "manage_stock", "1");
-    try {
-      soapClient.callArgs(ResourcePath.ProductStockUpdate, new Object[] { product.getId() != null ? product.getId() : product.getSku(), properties });
-    } catch (AxisFault e) {
-      log.error("Cannot set 'Manage Stock' for product " + product.getId(), e);
-      if (debug)
-        e.printStackTrace();
-      throw new ServiceException("Cannot set 'Manage Stock' for product " + product.getId(), e);
-    }
+    setManageStock(product, false, true);
   }
 
   @Override
-  public void setManageStock(Product product, boolean manageStock) throws ServiceException {
-    if (product.getId() == null && product.getSku() == null)
+  public void unsetManageStock(Product product) throws ServiceException {
+    setManageStock(product, true, true);
+  }
+
+  @Override
+  public void setManageStock(final Product product, final boolean manageStock) throws ServiceException {
+    setManageStock(product, false, manageStock);
+  }
+
+  /**
+   * Controls the parameter manage stock for given product.
+   * @param product product with SKU or ID set.
+   * @param useDefaultManageStock controls if the store default is used or not.
+   * @param manageStock if store default is not used, controls the value of the property manage stock. 
+   * @throws ServiceException on any error.
+   */
+  public void setManageStock(final Product product, final boolean useDefaultManageStock, final boolean manageStock) throws ServiceException {
+    if (product.getId() == null && product.getSku() == null) {
       throw new ServiceException("The product must have the id or the sku seted for update inventory");
-
-    Map<String, Object> properties = new HashMap<String, Object>();
-
-    if (manageStock) {
+    }
+    final Map<String, Object> properties = new HashMap<String, Object>();
+    
+    if (useDefaultManageStock) {
       properties.put("use_config_manage_stock", "1");
-      properties.put("manage_stock", "1");
     } else {
       properties.put("use_config_manage_stock", "0");
-      properties.put("manage_stock", "0");
+      if (manageStock) {
+        properties.put("manage_stock", "1");
+      } else {
+        properties.put("manage_stock", "0");
+      }
     }
 
     try {
       soapClient.callArgs(ResourcePath.ProductStockUpdate, new Object[] { product.getId() != null ? product.getId() : product.getSku(), properties });
     } catch (AxisFault e) {
       log.error("Cannot set 'Manage Stock' for product " + product.getId(), e);
-      if (debug)
+      if (debug) {
         e.printStackTrace();
+      }
       throw new ServiceException("Cannot set 'Manage Stock' for product " + product.getId(), e);
     }
   }
@@ -1059,22 +1076,25 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
       productData.putAll(product.getAttributes());
       // add/override static attribute values
       productData.putAll(product.getAllProperties());
-      if (product.getVisibility() != null)
+      if (product.getVisibility() != null) {
         productData.put("visibility", product.getVisibility().getValue());
+      }
 
       Object[] newProductArgs = new Object[] { product.getId(), productData, !storeView.isEmpty() ? storeView : null };
 
-      log.info("Updating '{}'", product.getSku());
+      log.info("Updating '{}' with data {}", product.getSku(), productData);
 
       Object callResult = soapClient.callArgs(ResourcePath.ProductUpdate, newProductArgs);
       log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductUpdate, product.getId(), callResult });
 
-      if (product.getType().equals(ProductType.CONFIGURABLE))
+      if (product.getType().equals(ProductType.CONFIGURABLE)) {
         handleConfigurableForNewProducts(product);
+      }
     } catch (Exception e) {
       log.error("Error updating Product " + product.getId() + " cause: " + e.getCause(), e);
-      if (debug)
+      if (debug) {
         e.printStackTrace();
+      }
       throw new ServiceException("Error updating Product " + product.getId() + " cause: " + e.getCause(), e);
     }
 

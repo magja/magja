@@ -223,8 +223,9 @@ public abstract class BaseMagentoModel<S> implements Serializable {
 
     // put the basic properties
     for (Map.Entry<String, Object> prop : properties.entrySet()) {
-      if (prop.getValue() != null)
+      if (prop.getValue() != null) {
         props.put(prop.getKey(), prop.getValue());
+      }
     }
 
     // put the mapped attributes
