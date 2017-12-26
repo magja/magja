@@ -8,7 +8,7 @@ cache:
     - $HOME/.m2
 addons:
   sonarcloud:
-    organization: "magja-github"
+    organization: "magja"
     token:
       secure: "NNX64+2ZQr3jVIOKZfUXINTE8AqphvYYOMZL5zFoAxaAnUdLvwqHQ2Ai8lFBeJgHsjG4VvbMQ50ZK8h4EIZ7UTgaCEqDkdhXzyWkAgIYwW/P+6YYF+eU4BIXOzaKgpI1CNYbU7haE05o0Dhcz5qPMVGUPG0lhXAt8v50gyAw7WE="
 cache:
