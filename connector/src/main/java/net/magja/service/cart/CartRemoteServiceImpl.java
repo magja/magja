@@ -1,0 +1,253 @@
+/*
+ * Copyright 2011 Panticz.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package net.magja.service.cart;
+
+import net.magja.magento.ResourcePath;
+import net.magja.model.cart.Cart;
+import net.magja.model.cart.CartAddress.Type;
+import net.magja.model.cart.CartLicense;
+import net.magja.model.cart.CartTotal;
+import net.magja.model.product.Product;
+import net.magja.service.GeneralServiceImpl;
+import net.magja.service.ServiceException;
+import net.magja.soap.SoapClient;
+import org.apache.axis2.AxisFault;
+
+import java.util.*;
+
+/**
+ * @author schneider
+ *
+ */
+public class CartRemoteServiceImpl extends GeneralServiceImpl<Cart> implements CartRemoteService {
+
+  private static final long serialVersionUID = -7418788716423153907L;
+
+  public CartRemoteServiceImpl(SoapClient soapClient) {
+    super(soapClient);
+  }
+
+  @Override
+  public Cart create(Integer storeId) throws ServiceException {
+    try {
+      Integer id = soapClient.callSingle(ResourcePath.ShoppingCartCreate, storeId);
+      Cart cart = new Cart();
+      cart.setId(id);
+      cart.setStoreId(storeId);
+      return cart;
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+  }
+
+  @Override
+  public void setCustomer(Cart cart) throws ServiceException {
+    try {
+      Map<String, Object> callParams = new HashMap<String, Object>();
+      Map<String, Object> customerProps = new HashMap<String, Object>();
+
+      Integer customerId = cart.getCustomer().getId();
+
+      // select mode depeding on existence of customer
+      if (customerId != null) {
+        customerProps.put("mode", "customer");
+        customerProps.put("customer_id", customerId);
+      } else {
+        // TODO: mode=guest, register
+        throw new ServiceException("Customer must exist; modes [guest|register] not supported yet");
+      }
+
+      callParams.put("quoteId", cart.getId());
+      callParams.put("customer", customerProps);
+      callParams.put("storeId", cart.getStoreId());
+
+      Boolean success = (Boolean) soapClient.callSingle(ResourcePath.ShoppingCartCustomerSet, callParams);
+      if (!success) {
+        throw new ServiceException("Could not set customer");
+      }
+
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+  }
+
+  @Override
+  public void getLicenseAgreements(Cart cart) throws ServiceException {
+    List<Object> result = null;
+
+    try {
+      Map<String, Object> callParams = new HashMap<String, Object>();
+      callParams.put("quoteId", cart.getId());
+      callParams.put("storeId", cart.getStoreId());
+      result = (LinkedList<Object>) soapClient.callSingle(ResourcePath.ShoppingCartLicenseAgreement, callParams);
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+
+    if (result != null) {
+      cart.setLicenseAgreements(buildLicenseAgreements(result));
+    }
+  }
+
+  @Override
+  public void getTotals(Cart cart) throws ServiceException {
+    List<Object> result = null;
+
+    try {
+      Map<String, Object> callParams = new HashMap<String, Object>();
+      callParams.put("quoteId", cart.getId());
+      callParams.put("storeId", cart.getStoreId());
+      result = (LinkedList<Object>) soapClient.callSingle(ResourcePath.ShoppingCartTotals, callParams);
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+
+    if (result != null) {
+      cart.setTotals(buildTotals(result));
+    }
+  }
+
+  @Override
+  public Cart getById(Integer id, Integer storeId) throws ServiceException {
+    Map<String, Object> result = null;
+
+    try {
+      Map<String, Object> callParams = new HashMap<String, Object>();
+      callParams.put("quoteId", id);
+      callParams.put("storeId", storeId.toString());
+      result = (Map<String, Object>) soapClient.callSingle(ResourcePath.ShoppingCartInfo, callParams);
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+    if (result != null) {
+      return Cart.fromAttributes(result);
+    }
+
+    return null;
+  }
+
+  @Override
+  public void order(Cart cart) throws ServiceException {
+    try {
+      Map<String, Object> callParams = new HashMap<String, Object>();
+      callParams.put("quoteId", cart.getId());
+      callParams.put("storeId", cart.getStoreId());
+
+      Boolean success = (Boolean) soapClient.callSingle(ResourcePath.ShoppingCartOrder, callParams);
+      // FIXME: getOrder...
+      if (!success) {
+        throw new ServiceException("Could not create order from cart");
+      }
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+  }
+
+  @Override
+  public void setAddresses(Cart cart) throws ServiceException {
+    try {
+      List<Object> list = new LinkedList<Object>();
+      cart.getShippingAddress().setType(Type.Shipping);
+      cart.getBillingAddress().setType(Type.Billing);
+      list.add(cart.getShippingAddress().serializeToApi());
+      list.add(cart.getBillingAddress().serializeToApi());
+
+      // List<Object> params = new LinkedList<Object>();
+      // params.add(cart.getId());
+      // params.add(list);
+      // params.add(cart.getStoreId());
+
+      Boolean success = (Boolean) soapClient.callArgs(ResourcePath.ShoppingCartCustomerAddresses, new Object[] { cart.getId(), list, cart.getStoreId() });
+      if (!success) {
+        throw new ServiceException("Could not set cart address information");
+      }
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+  }
+
+  @Override
+  public void addProduct(Cart cart, Product product, double quantity) throws ServiceException {
+    // FIXME: product options
+    try {
+      // List<Object> params = new LinkedList<Object>();
+      //
+      // params.add(cart.getId());
+      //
+      Map<String, Object> props = new HashMap<String, Object>();
+      props.put("product_id", product.getId());
+      props.put("qty", quantity);
+      // params.add(props);
+      //
+      // params.add(cart.getStoreId());
+
+      Boolean success = (Boolean) soapClient.callArgs(ResourcePath.ShoppingCartProductAdd, new Object[] { cart.getId(), props, cart.getStoreId() });
+      if (!success) {
+        throw new ServiceException("Could not add product");
+      }
+    } catch (AxisFault e) {
+      if (debug) {
+        e.printStackTrace();
+      }
+      throw new ServiceException(e.getMessage());
+    }
+  }
+
+  private List<CartLicense> buildLicenseAgreements(List<Object> result) {
+    List<CartLicense> licenses = new ArrayList<CartLicense>();
+
+    for (Object o : result) {
+      Map<String, Object> licenseAttributes = (Map<String, Object>) o;
+      licenses.add(CartLicense.fromAttributes(licenseAttributes));
+    }
+
+    return licenses;
+  }
+
+  private List<CartTotal> buildTotals(List<Object> result) {
+    List<CartTotal> totals = new ArrayList<CartTotal>();
+
+    for (Object o : result) {
+      Map<String, Object> totalAttributes = (Map<String, Object>) o;
+
+      totals.add(CartTotal.fromAttributes(totalAttributes));
+    }
+
+    return totals;
+  }
+
+}

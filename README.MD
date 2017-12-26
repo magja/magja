@@ -35,7 +35,7 @@ Magja artifacts are available in the Sonatype Maven repository. Pleas put the fo
 and add the dependency to your project:
 
     <dependency>
-      <groupId>com.google.code.magja</groupId>
+      <groupId>net.magja.magja</groupId>
       <artifactId>magja</artifactId>
       <version>1.0.3-SNAPSHOT</version>
     </dependency>
@@ -186,15 +186,20 @@ Reading the Customers
 
 ## Development notes
 
-Development snapshots will be deployed periodically from Jenkins CI provided by [Bippo](http://www.bippo.co.id/) & [Soluvas](http://www.soluvas.com/) and get deployed into the Sonatype repository: https://oss.sonatype.org/content/groups/public/ You can use the search UI from https://oss.sonatype.org/
+We use Travis CI to ensure that builds are passing. CodeCov is used to measure test coverage and SonarQube to find bugs.  
 
 Magja is build using Apache Maven. Please run:
      
     mvn clean package 
     
-to build the software. There is a Maven profile included, running the entire integration-test suite against a Magento Shop. Please make sure to place your `magento-api.properties` file in `src/test/resources` and run the following command to execute the integration tests:
+to build the software. There is a Maven profile included, running the entire integration-test suite against a Magento Shop. 
+Please make sure to place your `magento-api.properties` file in `src/test/resources` and run the following command to execute the integration tests:
 
     mvn clean install -P itest
+    
+Fo producing a release, the following command is used:
+    
+    mvn -Dmaven.test.skip=true -Dresume=false clean javadoc:jar source:jar release:prepare release:perform
     
 
 ## References and History

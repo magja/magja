@@ -11,7 +11,7 @@
     </bean>
 
 
-    <bean id="soapConfig" class="com.google.code.magja.soap.SoapConfig">
+    <bean id="soapConfig" class="net.magja.magja.soap.SoapConfig">
         <property name="apiUser" value="${magento-api-username}"/>
         <property name="apiKey" value="${magento-api-password}"/>
         <property name="remoteHost" value="${magento-api-url}"/>
