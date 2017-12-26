@@ -2,6 +2,12 @@
 [![Build Status](https://travis-ci.org/magja/magja.svg?branch=master)](https://travis-ci.org/magja/magja)
 [![codecov](https://codecov.io/gh/magja/magja/branch/master/graph/badge.svg)](https://codecov.io/gh/magja/magja)
 
+[![Quality Gate](https://sonarqube.com/api/badges/gate?key=net.magja:magja)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
+[![Sonar Rating](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
+[![Sonar Debt Ration](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
+[![Sonar Reliability](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
+
+
 
 Magja is a Java Connector for Magento's SOAP API that allows easy integration with the popular shop system 
 and allows to exchange all data available by the Magento API.
