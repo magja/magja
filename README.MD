@@ -1,5 +1,7 @@
-# Magja
+# Magja | Magento Java Connector
 [![Build Status](https://travis-ci.org/magja/magja.svg?branch=master)](https://travis-ci.org/magja/magja)
+[![codecov](https://codecov.io/gh/magja/magja/branch/master/graph/badge.svg)](https://codecov.io/gh/magja/magja)
+
 
 Magja is a Java Connector for Magento's SOAP API that allows easy integration with the popular shop system 
 and allows to exchange all data available by the Magento API.
