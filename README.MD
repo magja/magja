@@ -22,22 +22,12 @@ and allows to exchange all data available by the Magento API.
 
 ## Installation and configuration
  
-Magja artifacts are available in the Sonatype Maven repository. Pleas put the following repository definition into your `pom.xml`:
-
-    <repositories>
-      <repository>
-        <id>sonatype</id>
-        <name>Sonatype Repository</name>
-        <url>http://oss.sonatype.org/content/groups/public</url>
-      </repository>
-    </repositories>
-    
-and add the dependency to your project:
+Magja artifacts are available in the Maven Central repository. Pleas put the following repository definition into your `pom.xml`:
 
     <dependency>
       <groupId>net.magja.magja</groupId>
       <artifactId>magja</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
+      <version>1.1.0-SNAPSHOT</version>
     </dependency>
     
 to get started. In order to connect to your Magento Shop installation, you need to put `magento-api.properties` on your classpath.
