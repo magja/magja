@@ -77,8 +77,9 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
     log.info("getIdByClean {}", id);
     Category category = new Category();
 
-    if (id == null)
+    if (id == null) {
       return null;
+    }
 
     Map<String, Object> cat;
 
@@ -90,8 +91,9 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
       throw new ServiceException(e.getMessage());
     }
 
-    if (cat == null)
+    if (cat == null) {
       return null;
+    }
 
     log.debug("Mappping to Category #{} from {}", id, cat);
     for (Map.Entry<String, Object> attribute : cat.entrySet()) {
@@ -157,8 +159,9 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
 
     Category category = new Category();
 
-    if (id == null)
+    if (id == null) {
       return null;
+    }
 
     Map<String, Object> cat;
 
@@ -182,8 +185,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
   /**
    * build category from Map
    *
-   * @param Map
-   *          <String, Object>
+   * @param cat
    */
   @SuppressWarnings("unchecked")
   private Category getCategoryFromMap(Map<String, Object> cat) {
@@ -212,7 +214,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
   /**
    * print all categories
    *
-   * @param id
+   * @param category
    */
   public void print(Category category) {
     if (category != null) {
@@ -232,7 +234,7 @@ public class CategoryRemoteServiceImpl extends GeneralServiceImpl<Category> impl
   /**
    * search categories
    *
-   * @param id
+   * @param category
    */
   public List<Category> search(Category category, List<String> categoryNames) throws ServiceException {
     List<Category> categories = new ArrayList<Category>();

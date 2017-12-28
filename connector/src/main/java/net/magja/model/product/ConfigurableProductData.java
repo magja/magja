@@ -1,7 +1,3 @@
-/**
- * @author andre
- *
- */
 package net.magja.model.product;
 
 import net.magja.model.BaseMagentoModel;
@@ -11,14 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Configuration data holding information of which configuration objects are selected on a child products
+ * as selected option to become a variant of a configurable product.
+ *
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class ConfigurableProductData extends BaseMagentoModel {
 
   private static final long serialVersionUID = -4140349719003168632L;
 
   private Product product;
-
   private Product existingProduct;
-
   private List<ConfigurableData> data = new ArrayList<ConfigurableData>();
 
   @Override
@@ -27,8 +28,8 @@ public class ConfigurableProductData extends BaseMagentoModel {
     if (data != null) {
       Integer i = 0;
       Map<String, Object> result = new HashMap<String, Object>();
-      for (ConfigurableData conf : data) {
-        result.put(i.toString(), conf.serializeToApi());
+      for (ConfigurableData configurableData : data) {
+        result.put(i.toString(), configurableData.serializeToApi());
         i++;
       }
       return result;
@@ -39,70 +40,101 @@ public class ConfigurableProductData extends BaseMagentoModel {
 
   /**
    * Create a simple product with default properties from super product and add
-   * the specified options
+   * the specified options.
    *
-   * @param superprd
+   * @param parentProduct
    * @param qty
    * @param weight
    * @throws ConfigurableDataException
    */
-  public void configurateProduct(Product superprd, Double qty, Double weight, String sku) throws ConfigurableDataException {
+  public void createNewSubProduct(Product parentProduct, Double qty, Double weight, String sku) throws ConfigurableDataException {
 
-    if (data == null)
+    if (data == null) {
       throw new ConfigurableDataException("You have to put some ConfigurableData first");
-    if (data.isEmpty())
+    }
+    if (data.isEmpty()) {
       throw new ConfigurableDataException("You have to put some ConfigurableData first");
-    if (superprd.getConfigurableAttributesData() == null)
+    }
+    if (parentProduct.getConfigurableAttributesData() == null) {
       throw new ConfigurableDataException("You have to put some ConfigurableAttributesData in your super product first");
+    }
 
     StringBuffer sufix = new StringBuffer("");
 
-    // get the options to use on sku and product name
-    for (ConfigurableData cnfdata : data)
+    // get the options to use on SKU and product name
+    for (ConfigurableData cnfdata : data) {
       sufix.append("-" + cnfdata.getLabel());
+    }
 
     product = new Product();
-    product.setAttributeSet(superprd.getAttributeSet());
-    product.setName(superprd.getName() + sufix.toString());
-    product.setShortDescription(superprd.getShortDescription());
-    product.setDescription(superprd.getDescription());
-    product.setPrice(superprd.getPrice());
-    product.setCost(superprd.getCost());
-    product.setEnabled(superprd.getEnabled());
+    product.setAttributeSet(parentProduct.getAttributeSet());
+    product.setName(parentProduct.getName() + sufix.toString());
+    product.setShortDescription(parentProduct.getShortDescription());
+    product.setDescription(parentProduct.getDescription());
+    product.setPrice(parentProduct.getPrice());
+    product.setCost(parentProduct.getCost());
+    product.setEnabled(parentProduct.getEnabled());
     product.setWeight(weight);
     product.setSku(sku);
-    product.setTaxClassId(superprd.getTaxClassId());
+    product.setTaxClassId(parentProduct.getTaxClassId());
 
-    // defaul visibility for subproduct its not visible individually
+    // default visibility for sub-product its not visible individually
     product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
 
     // inventory
     product.setQty(qty);
-    if (qty > 0)
+    if (qty > 0) {
       product.setInStock(true);
-    else
+    } else {
       product.setInStock(false);
+    }
 
     // only simple products
     product.setType(ProductType.SIMPLE);
 
-    // set the attributes to the product
-    for (ConfigurableData cnfdata : data) {
+    applyConfigurationAttributesToProduct(parentProduct);
+  }
 
-      ConfigurableAttributeData cnfAttData = null;
+  /**
+   * Applies the configurable attributes from the parent product and provides the selected option in the child product.
+   *
+   * @param parent parent product with configured configurable attribute data.
+   * @throws ConfigurableDataException on configuration errors.
+   */
+  public Product applyConfigurationAttributesToProduct(final Product parent) throws ConfigurableDataException {
+    if (parent.getConfigurableAttributesData() == null || parent.getConfigurableAttributesData().isEmpty()) {
+      throw new ConfigurableDataException("Parent product should have configurable data.");
+    }
 
-      // find the attribute code on the ConfigurableAttributeData from
-      // super product
-      for (ConfigurableAttributeData attrData : superprd.getConfigurableAttributesData()) {
-        if (attrData.getAttributeId().equals(cnfdata.getAttributeId())) {
-          cnfAttData = attrData;
+    // iterate over configuration data of the child (selected option)
+    // required attributes are attribute id, attribute code and value index.
+    for (final ConfigurableData childData : data) {
+
+      ConfigurableAttributeData configurationAttributeData = null;
+
+      // find the attribute code on the ConfigurableAttributeData from parent product
+      for (ConfigurableAttributeData parentAttributeData : parent.getConfigurableAttributesData()) {
+        if (parentAttributeData.getAttributeId().equals(childData.getAttributeId())) {
+          // attribute found, assign the configuration data.
+          configurationAttributeData = parentAttributeData;
           break;
         }
       }
 
-      if (cnfAttData != null)
-        product.set(cnfAttData.getAttributeCode(), cnfdata.getValueIndex());
+      if (configurationAttributeData != null) {
+        product.set(configurationAttributeData.getAttributeCode(), childData.getValueIndex());
+      }
     }
+
+    return product;
+  }
+
+  public Product getExistingProduct() {
+    return existingProduct;
+  }
+
+  public void setExistingProduct(Product existingProduct) {
+    this.existingProduct = existingProduct;
   }
 
   /**
@@ -113,8 +145,7 @@ public class ConfigurableProductData extends BaseMagentoModel {
   }
 
   /**
-   * @param product
-   *          the product to set
+   * @param product the product to set
    */
   public void setProduct(Product product) {
     this.product = product;
@@ -128,18 +159,12 @@ public class ConfigurableProductData extends BaseMagentoModel {
   }
 
   /**
-   * @param data
-   *          the data to set
+   * @param data the data to set
    */
   public void setData(List<ConfigurableData> data) {
     this.data = data;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -149,11 +174,6 @@ public class ConfigurableProductData extends BaseMagentoModel {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -176,21 +196,9 @@ public class ConfigurableProductData extends BaseMagentoModel {
     return true;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     return "ConfigurableProductsData [product=" + product + ", data=" + data + "]";
   }
 
-  public Product getExistingProduct() {
-    return existingProduct;
-  }
-
-  public void setExistingProduct(Product existingProduct) {
-    this.existingProduct = existingProduct;
-  }
 }

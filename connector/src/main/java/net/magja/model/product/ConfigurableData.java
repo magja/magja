@@ -1,23 +1,20 @@
-/**
- * @author andre
- *
- */
 package net.magja.model.product;
 
 import net.magja.model.BaseMagentoModel;
 
+/**
+ * Holder for configurable product linking.
+ *
+ * @author andre
+ * @author Simon Zambrovski
+ */
 public class ConfigurableData extends BaseMagentoModel {
 
   private static final long serialVersionUID = -6615350392582486229L;
-
   private Integer attributeId;
-
   private String label;
-
   private Integer valueIndex;
-
   private Boolean isPercent;
-
   private Double pricingValue;
 
   @Override
@@ -33,8 +30,7 @@ public class ConfigurableData extends BaseMagentoModel {
   }
 
   /**
-   * @param attributeId
-   *          the attributeId to set
+   * @param attributeId the attributeId to set
    */
   public void setAttributeId(Integer attributeId) {
     this.attributeId = attributeId;
@@ -48,8 +44,7 @@ public class ConfigurableData extends BaseMagentoModel {
   }
 
   /**
-   * @param label
-   *          the label to set
+   * @param label the label to set
    */
   public void setLabel(String label) {
     this.label = label;
@@ -63,8 +58,7 @@ public class ConfigurableData extends BaseMagentoModel {
   }
 
   /**
-   * @param valueIndex
-   *          the valueIndex to set
+   * @param valueIndex the valueIndex to set
    */
   public void setValueIndex(Integer valueIndex) {
     this.valueIndex = valueIndex;
@@ -78,8 +72,7 @@ public class ConfigurableData extends BaseMagentoModel {
   }
 
   /**
-   * @param isPercent
-   *          the isPercent to set
+   * @param isPercent the isPercent to set
    */
   public void setIsPercent(Boolean isPercent) {
     this.isPercent = isPercent;
@@ -93,18 +86,12 @@ public class ConfigurableData extends BaseMagentoModel {
   }
 
   /**
-   * @param pricingValue
-   *          the pricingValue to set
+   * @param pricingValue the pricingValue to set
    */
   public void setPricingValue(Double pricingValue) {
     this.pricingValue = pricingValue;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -117,11 +104,6 @@ public class ConfigurableData extends BaseMagentoModel {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -159,15 +141,10 @@ public class ConfigurableData extends BaseMagentoModel {
     return true;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     return "ConfigurableData [attributeId=" + attributeId + ", label=" + label + ", valueIndex=" + valueIndex + ", isPercent=" + isPercent + ", pricingValue="
-        + pricingValue + "]";
+      + pricingValue + "]";
   }
 
 }

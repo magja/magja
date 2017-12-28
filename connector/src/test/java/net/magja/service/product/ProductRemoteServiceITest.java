@@ -413,7 +413,7 @@ public class ProductRemoteServiceITest {
     prdData1.getData().add(confgDataColorOne);
 
     try {
-      prdData1.configurateProduct(product, new Double(10), new Double(100), "euirowruio");
+      prdData1.createNewSubProduct(product, new Double(10), new Double(100), "euirowruio");
     } catch (ConfigurableDataException e) {
       log.error("Error during product configuration", e);
       fail(e.getMessage());
@@ -435,7 +435,7 @@ public class ProductRemoteServiceITest {
     prdData2.getData().add(confgDataColorTwo);
 
     try {
-      prdData2.configurateProduct(product, new Double(15), new Double(130), "eurieowreu");
+      prdData2.createNewSubProduct(product, new Double(15), new Double(130), "eurieowreu");
     } catch (ConfigurableDataException e) {
       e.printStackTrace();
       fail(e.getMessage());

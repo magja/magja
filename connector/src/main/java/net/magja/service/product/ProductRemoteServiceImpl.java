@@ -1,16 +1,16 @@
 package net.magja.service.product;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.*;
 import net.magja.magento.ResourcePath;
 import net.magja.model.category.Category;
 import net.magja.model.product.*;
 import net.magja.service.GeneralServiceImpl;
 import net.magja.service.RemoteServiceFactory;
 import net.magja.service.ServiceException;
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.*;
 import net.magja.soap.SoapClient;
 import org.apache.axis2.AxisFault;
 import org.apache.commons.lang3.BooleanUtils;
@@ -66,7 +66,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
   private Product buildProduct(Map<String, Object> mpp, Set<String> attributes, boolean dependencies) throws ServiceException {
     if (dependencies) {
       return buildProduct(mpp, attributes,
-          ImmutableSet.of(Dependency.CATEGORIES, Dependency.MEDIAS, Dependency.LINKS, Dependency.TYPES, Dependency.ATTRIBUTE_SET, Dependency.INVENTORY));
+        ImmutableSet.of(Dependency.CATEGORIES, Dependency.MEDIAS, Dependency.LINKS, Dependency.TYPES, Dependency.ATTRIBUTE_SET, Dependency.INVENTORY));
     } else {
       return buildProduct(mpp, attributes, ImmutableSet.<Dependency> of());
     }
@@ -103,21 +103,21 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     if (mpp.get("visibility") != null) {
       Integer visi = new Integer(mpp.get("visibility").toString());
       switch (visi) {
-      case 1:
-        product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
-        break;
-      case 2:
-        product.setVisibility(Visibility.CATALOG);
-        break;
-      case 3:
-        product.setVisibility(Visibility.SEARCH);
-        break;
-      case 4:
-        product.setVisibility(Visibility.CATALOG_SEARCH);
-        break;
-      default:
-        product.setVisibility(Visibility.CATALOG_SEARCH);
-        break;
+        case 1:
+          product.setVisibility(Visibility.NOT_VISIBLE_INDIVIDUALLY);
+          break;
+        case 2:
+          product.setVisibility(Visibility.CATALOG);
+          break;
+        case 3:
+          product.setVisibility(Visibility.SEARCH);
+          break;
+        case 4:
+          product.setVisibility(Visibility.CATALOG_SEARCH);
+          break;
+        default:
+          product.setVisibility(Visibility.CATALOG_SEARCH);
+          break;
       }
     }
 
@@ -131,6 +131,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
          * means its a type not covered by the enum, so we have to look in
          * magento api to get this type
          */
+        // FIXME: this is a potential bug.
         List<ProductType> types = listAllProductTypes();
         for (ProductType productType : types) {
           type = productType.getType((String) mpp.get("type"));
@@ -330,12 +331,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
       throw new ServiceException(e.getMessage());
     }
 
-    if (productList == null)
+    if (productList == null) {
       return products;
+    }
 
-    for (Map<String, Object> mpp : productList)
+    for (Map<String, Object> mpp : productList) {
       products.add(buildProduct(mpp, ImmutableSet.<String> of(), dependencies));
-
+    }
     return products;
   }
 
@@ -379,7 +381,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
   public Product getBySku(String sku, Set<String> attributes, boolean dependencies) throws ServiceException {
     if (dependencies) {
       return getBySku(sku, attributes,
-          ImmutableSet.of(Dependency.CATEGORIES, Dependency.MEDIAS, Dependency.LINKS, Dependency.TYPES, Dependency.ATTRIBUTE_SET, Dependency.INVENTORY));
+        ImmutableSet.of(Dependency.CATEGORIES, Dependency.MEDIAS, Dependency.LINKS, Dependency.TYPES, Dependency.ATTRIBUTE_SET, Dependency.INVENTORY));
     } else {
       return getBySku(sku, attributes, ImmutableSet.<Dependency> of());
     }
@@ -468,10 +470,11 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
       throw new ServiceException("Error calling product.info with id=" + id + ", attributes=" + attributes, e);
     }
 
-    if (mpp == null)
+    if (mpp == null) {
       return null;
-    else
+    } else {
       return buildProduct(mpp, attributes, true);
+    }
   }
 
   @Override
@@ -487,7 +490,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
   public List<Product> listAllPlus(final Set<String> attributesToSelect) throws ServiceException {
     try {
       final List<Map<String, Object>> productListPlusResult = soapClient.callArgs(ResourcePath.ProductListPlus,
-          new Object[] { null, null, attributesToSelect.toArray(new String[] {}) });
+        new Object[] { null, null, attributesToSelect.toArray(new String[] {}) });
       List<Map<String, Object>> productMapList = Optional.fromNullable(productListPlusResult).or(new ArrayList<Map<String, Object>>());
       List<Product> products = Lists.transform(productMapList, new Function<Map<String, Object>, Product>() {
         @Override
@@ -503,8 +506,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
       });
       return products;
     } catch (AxisFault e) {
-      if (debug)
+      if (debug) {
         e.printStackTrace();
+      }
       log.error("listAllPlus error " + attributesToSelect, e);
       throw new ServiceException("listAllPlus error " + attributesToSelect, e);
     }
@@ -712,6 +716,13 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
     }
   }
 
+  /**
+   * Method using Magja extension.
+   *
+   * @param productSku
+   * @param attributeNames
+   * @throws ServiceException
+   */
   @Override
   public void setConfigurableAttributes(String productSku, Map<String, String> attributeNames) throws ServiceException {
 
@@ -744,42 +755,48 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
   private void handleConfigurableForNewProducts(Product product) throws ServiceException, NoSuchAlgorithmException {
 
     // if isn't a configurable product, stop the execution
-    if (!product.getType().equals(ProductType.CONFIGURABLE))
+    if (!product.getType().equals(ProductType.CONFIGURABLE)) {
       return;
+    }
 
     if (product.getConfigurableAttributesData() != null) {
-      Map<String, Object> confAttrDataMap = new HashMap<String, Object>();
+      final Map<String, Object> confAttrDataMap = new HashMap<String, Object>();
 
       Integer i = 0;
       for (ConfigurableAttributeData configAttr : product.getConfigurableAttributesData()) {
         confAttrDataMap.put(i.toString(), configAttr.serializeToApi());
         i++;
       }
-
       product.set("configurable_attributes_data", confAttrDataMap);
     }
 
     if (product.getConfigurableSubProducts() != null) {
 
-      if (product.getConfigurableProductsData() == null)
+      if (product.getConfigurableProductsData() == null) {
         product.setConfigurableProductsData(new HashMap<String, Map<String, Object>>());
+      }
 
-      for (ConfigurableProductData prdData : product.getConfigurableSubProducts()) {
+      for (ConfigurableProductData childProductData : product.getConfigurableSubProducts()) {
+        final Product child = childProductData.getProduct();
+        if (child.getType().equals(ProductType.SIMPLE)) {
 
-        Product subprd = prdData.getProduct();
-
-        if (subprd.getType().equals(ProductType.SIMPLE)) {
-
-          Product existingProduct = getBySku(subprd.getSku(), false);
-          if (existingProduct != null) {
-            subprd.setId(existingProduct.getId());
-            prdData.setExistingProduct(existingProduct);
+          if (child.getSku() != null && child.getId() != null) {
+            // product is already pre-loaded, skip loading it.
+          } else {
+            Product existingProduct = getBySku(child.getSku(), false);
+            if (existingProduct != null) {
+              child.setId(existingProduct.getId());
+              childProductData.setExistingProduct(existingProduct);
+            }
+            // update the child. this is required if the child has been created
+            // on the fly.
+            this.update(child, existingProduct);
           }
-
-          this.save(subprd, existingProduct);
+        } else {
+          log.info("Bogus configuraion, a subproduct point to a configurable product instead of a simple.");
         }
 
-        product.getConfigurableProductsData().put(subprd.getId().toString(), prdData.serializeToApi());
+        product.getConfigurableProductsData().put(child.getId().toString(), childProductData.serializeToApi());
       }
     }
   }
@@ -885,8 +902,12 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
     if (product.getInStock() == null && product.getQty() != null) {
       product.setInStock(product.getQty() > 0);
+    }
+
+    if (product.getQty() != null) {
       properties.put("qty", product.getQty());
     }
+
     properties.put("is_in_stock", BooleanUtils.toBoolean(product.getInStock()) ? "1" : "0");
     if (product.getManageStock() != null) {
       properties.put("manage_stock", BooleanUtils.toBoolean(product.getManageStock()) ? "1" : "0");
@@ -922,10 +943,16 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
   /**
    * Controls the parameter manage stock for given product.
-   * @param product product with SKU or ID set.
-   * @param useDefaultManageStock controls if the store default is used or not.
-   * @param manageStock if store default is not used, controls the value of the property manage stock.
-   * @throws ServiceException on any error.
+   *
+   * @param product
+   *          product with SKU or ID set.
+   * @param useDefaultManageStock
+   *          controls if the store default is used or not.
+   * @param manageStock
+   *          if store default is not used, controls the value of the property
+   *          manage stock.
+   * @throws ServiceException
+   *           on any error.
    */
   public void setManageStock(final Product product, final boolean useDefaultManageStock, final boolean manageStock) throws ServiceException {
     if (product.getId() == null && product.getSku() == null) {
@@ -1008,8 +1035,9 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
   @Override
   public void add(Product product, String storeView) throws ServiceException, NoSuchAlgorithmException {
     // if is a configurable product, call the proper handle
-    if (product.getType().equals(ProductType.CONFIGURABLE))
+    if (product.getType().equals(ProductType.CONFIGURABLE)) {
       handleConfigurableForNewProducts(product);
+    }
 
     try {
       Object[] newProductArgs = product.serializeToApi();
@@ -1017,20 +1045,23 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
       log.info("Creating '" + product.getSku() + "'");
       int id = Integer.parseInt((String) soapClient.callArgs(ResourcePath.ProductCreate, newProductArgs));
       log.debug("{} {} returned {}", new Object[] { ResourcePath.ProductCreate, product.getSku(), id });
-      if (id > 0)
+      if (id > 0) {
         product.setId(id);
-      else
+      } else {
         throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName() + ", returned Product ID is empty");
+      }
     } catch (Exception e) {
       log.error("Error adding Product " + product.getSku() + ": " + product.getName() + " cause: " + e.getCause(), e);
-      if (debug)
+      if (debug) {
         e.printStackTrace();
+      }
       throw new ServiceException("Error adding Product " + product.getSku() + ": " + product.getName() + " cause: " + e.getCause(), e);
     }
 
     // inventory
-    if (product.getQty() != null)
+    if (product.getQty() != null) {
       updateInventory(product);
+    }
 
     doAssignProductMedias(product, ImmutableList.<ProductMedia> of());
     doAssignProductLinks(product, ImmutableSet.<ProductLink> of());
@@ -1049,7 +1080,7 @@ public class ProductRemoteServiceImpl extends GeneralServiceImpl<Product> implem
 
   @Override
   public void update(Product product, Product existingProduct, String storeView, Set<Dependency> dependencies)
-      throws ServiceException, NoSuchAlgorithmException {
+    throws ServiceException, NoSuchAlgorithmException {
     try {
       Map<String, Object> productData = new HashMap<String, Object>();
       // add custom attributes
