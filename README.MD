@@ -2,17 +2,11 @@
 [![Build Status](https://travis-ci.org/magja/magja.svg?branch=master)](https://travis-ci.org/magja/magja)
 [![codecov](https://codecov.io/gh/magja/magja/branch/master/graph/badge.svg)](https://codecov.io/gh/magja/magja)
 
-[![Quality Gate](https://sonarqube.com/api/badges/gate?key=net.magja:magja)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
-[![Sonar Rating](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
-[![Sonar Debt Ration](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
-[![Sonar Reliability](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
-
-
 Magja is a Java Connector for Magento's SOAP API that allows easy integration with the popular shop system
 and allows to exchange all data available by the Magento API.
 
 ## Core Features
-* Basic support for Magento 1.x SOAP API V1
+* Basic support for **Magento 1.x SOAP API V1**
 * Allows access to:
   * Product
   * Product Media
@@ -46,8 +40,14 @@ Please make sure to place your `magento-api.properties` file in `src/test/resour
 
 Fo producing a release, the following command is used (only if you have enough permissions to do so):
 
-     mvn --batch-mode -Dmaven.test.skip=true -Dresume=false clean release:prepare release:perform
+    mvn --batch-mode -Dmaven.test.skip=true -Dresume=false clean release:prepare release:perform
 
+### Sonar metrics
+
+[![Quality Gate](https://sonarqube.com/api/badges/gate?key=net.magja:magja)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
+[![Sonar Rating](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
+[![Sonar Debt Ration](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
+[![Sonar Reliability](https://sonarqube.com/api/badges/measure?key=net.magja:magja&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=net.magja%3Amagja)
 
 ## References and History
 
