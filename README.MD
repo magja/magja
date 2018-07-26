@@ -209,6 +209,3 @@ Magja has been developed on Google Code, so old resources are still available at
 * Setup Project for Development: http://code.google.com/p/magja/wiki/SetupProject
 * Wiki Pages: http://code.google.com/p/magja/w/list 
 
-## Acknowledgments
-
-Bandung Everlasting Beauty logo downloaded from Info Bandung (http://infobandung.codeplex.com/) CodePlex project designed by Achmad Sutarjono.
