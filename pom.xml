@@ -213,6 +213,7 @@
         <role>developer</role>
       </roles>
     </developer>
+
     <developer>
       <id>fabbro</id>
       <name>Andre Fabbro</name>
@@ -224,6 +225,7 @@
         <role>developer</role>
       </roles>
     </developer>
+
     <developer>
       <id>kdavey</id>
       <name>Keith Davey</name>
@@ -231,6 +233,7 @@
         <role>developer</role>
       </roles>
     </developer>
+
     <developer>
       <id>ceefour</id>
       <name>Hendy Irawan</name>
@@ -241,6 +244,7 @@
         <role>developer</role>
       </roles>
     </developer>
+
     <developer>
       <id>rudi</id>
       <name>Rudi Wijaya</name>

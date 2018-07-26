@@ -24,8 +24,7 @@ import net.magja.utils.MagjaFileUtils;
  */
 public class ProductMediaTest {
 
-  private String imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/"
-      + "Magento_2_Admin_Panel_screenshot.png/1280px-Magento_2_Admin_Panel_screenshot.png";
+  private String imageUrl = "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ambox_important.svg/40px-Ambox_important.svg.png";
   private final static Logger log = LoggerFactory.getLogger(ProductMediaTest.class);
 
   @Test
@@ -36,11 +35,14 @@ public class ProductMediaTest {
 
   @Test
   public void testImageFileTwo() throws Exception {
+    // given
     BufferedImage image = ImageIO.read(new URL(imageUrl));
-    log.info("{}", image);
-    assertTrue(image.getHeight() != 0);
-    assertTrue(image.getWidth() != 0);
+    assertTrue("Image is readable and has a size.", image != null && image.getHeight() != 0 && image.getWidth() != 0);
+
+    // when
     byte[] data = MagjaFileUtils.getBytesFromBufferedImage(image, "PNG");
+
+    // then
     assertNotNull(data);
   }
 
