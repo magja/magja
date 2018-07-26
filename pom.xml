@@ -4,7 +4,7 @@
 
   <groupId>net.magja</groupId>
   <artifactId>magja-parent</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -69,7 +69,6 @@
     </dependencies>
   </dependencyManagement>
 
-
   <build>
     <plugins>
       <plugin>
@@ -101,22 +100,12 @@
           </excludes>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.0.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.0</version>
-      </plugin>
     </plugins>
   </build>
 
   <profiles>
     <profile>
-      <id>release-sign-artifacts</id>
+      <id>release</id>
       <activation>
         <property>
           <name>performRelease</name>
@@ -125,6 +114,32 @@
       </activation>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.0.1</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -142,6 +157,7 @@
         </plugins>
       </build>
     </profile>
+
     <profile>
       <id>itest</id>
       <build>
@@ -169,8 +185,14 @@
         </plugins>
       </build>
     </profile>
-
   </profiles>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
 
   <issueManagement>
     <system>GitHub</system>
@@ -189,6 +211,7 @@
   </organization>
 
   <developers>
+
     <developer>
       <id>zambrovski</id>
       <name>Simon Zambrovski</name>
@@ -255,6 +278,7 @@
         <role>developer</role>
       </roles>
     </developer>
+
     <developer>
       <id>atang</id>
       <name>Atang Sutisna</name>
@@ -266,12 +290,16 @@
       </roles>
     </developer>
   </developers>
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
 </project>
