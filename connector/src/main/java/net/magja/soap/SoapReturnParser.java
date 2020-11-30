@@ -86,22 +86,27 @@ public class SoapReturnParser {
   }
 
   private Object getValue(OMElement value) {
-    switch (getType(value)) {
-    case StringType:
-      return value.getText();
-    case IntegerType:
-      return Integer.parseInt(value.getText());
-    case FloatType:
-      return Double.parseDouble(value.getText());
-    case BooleanType:
-      return getBoolean(value);
-    case ArrayType:
-      return getList(value);
-    case MapType:
-      return getMap(value);
-    default:
-      throw new RuntimeException("Unsupported type for element: " + value.getLocalName());
-    }
+	  try {
+		switch (getType(value)) {
+	    case StringType:
+	      return value.getText();
+	    case IntegerType:
+	      return Integer.parseInt(value.getText());
+	    case FloatType:
+	      return Double.parseDouble(value.getText());
+	    case BooleanType:
+	      return getBoolean(value);
+	    case ArrayType:
+	      return getList(value);
+	    case MapType:
+	      return getMap(value);
+	    default:
+	      throw new RuntimeException("Unsupported type for element: " + value.getLocalName());
+	    }
+	  } catch (NumberFormatException e) {
+		System.out.println("NumberFormatException: " + value.getText());
+		return value.getText();
+	  }
   }
 
   /**
