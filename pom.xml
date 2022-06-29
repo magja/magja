@@ -8,7 +8,7 @@
 
   <properties>
     <axis2.version>1.6.2</axis2.version>
-    <slf4j.version>1.7.21</slf4j.version>
+    <slf4j.version>1.7.26</slf4j.version>
     <logback.version>1.0.6</logback.version>
     <guava.version>12.0</guava.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
